@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
     return 
     Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Home', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
       ),
       // drawer: Drawer(),
       drawer: AppDrawer(),
