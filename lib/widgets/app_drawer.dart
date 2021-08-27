@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/screens/account_screen.dart';
+import 'package:haushaltsbuch/screens/categories_screen.dart';
 
 class AppDrawer extends StatelessWidget {
 
@@ -61,10 +62,7 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.category, size: 36),
             title: Text('Kategorien', style: TextStyle(fontSize: 18)),
-            onTap: () async {
-              // await _auth.signOut();
-              Navigator.pop(context);
-            },
+            onTap: () => selectedItem(context, 1), 
           ),
           ListTile(
             leading: Icon(Icons.price_change, size: 36),
@@ -105,10 +103,17 @@ class AppDrawer extends StatelessWidget {
 
   // function for navigating through the menu items
   void selectedItem(BuildContext context, int index) {
+    Navigator.of(context).pop(); //closes the Drawer when navigation to another screen
+
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => AccountScreen(),
+          ));
+        break;
+      case 1:
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => CategoriesScreen(),
           ));
         break;
     }
