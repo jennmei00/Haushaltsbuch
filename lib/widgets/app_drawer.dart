@@ -1,9 +1,14 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    // bool isIOS = false;
+
     return Drawer(
       child: 
       ListView(
@@ -37,7 +42,7 @@ class AppDrawer extends StatelessWidget {
       //       },
       //     ),
           ListTile(
-            leading: Icon(Icons.home),
+            leading: isIOS ? Icon(CupertinoIcons.home) : Icon(Icons.home),
             title: Text('Home'),
             onTap: () async {
               // await _auth.signOut();
@@ -69,7 +74,7 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings),
+            leading:  isIOS ? Icon(CupertinoIcons.settings) :  Icon(Icons.settings),
             title: Text('Einstellungen'),
             onTap: () async {
               // await _auth.signOut();

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
@@ -6,7 +7,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return 
+    Scaffold(
       appBar: AppBar(
         title: Text('Home'),
       ),
@@ -14,5 +16,7 @@ class HomeScreen extends StatelessWidget {
       drawer: AppDrawer(),
       body: Container(child: Text("Das ist die Homeseite"),),
     );
+
+    //TODO: Cupertino Design
   }
 }
