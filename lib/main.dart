@@ -13,6 +13,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.cyan[700],
       ),
+      themeMode: ThemeMode.system,
+      // darkTheme: MyThemes.darkTheme,
       home: HomeScreen(),
     );
   }

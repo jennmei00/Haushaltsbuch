@@ -8,5 +8,19 @@ class SettingsScreen extends StatelessWidget {
       centerTitle: true,
       backgroundColor: Colors.green,
     ),
+    body: ListView(
+      physics: BouncingScrollPhysics(),
+      children: <Widget>[
+        // SwitchListTile(
+        //     secondary: Icon(Icons.lightbulb_outline),
+        //     title: Text('Darkmode'),
+        //     subtitle: Text(''),
+        //     //value: _darkTheme,
+        //     onChanged: (val) {
+        //       // onThemeChanged(val, themeNotifier);
+        //     },
+        //   ), 
+      ],
+    )
   );
 }
