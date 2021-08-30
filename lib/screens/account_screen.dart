@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class AccountScreen extends StatelessWidget {
   @override
@@ -8,5 +9,6 @@ class AccountScreen extends StatelessWidget {
       centerTitle: true,
       backgroundColor: Colors.green,
     ),
+    drawer: AppDrawer(),
   );
 }

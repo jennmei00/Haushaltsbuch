@@ -62,6 +62,7 @@ class AppDrawer extends StatelessWidget {
             //   // await _auth.signOut();
             //   Navigator.pop(context);
             // },
+
           ),
           ListTile(
             leading: Icon(Icons.category, size: 36),
@@ -105,7 +106,7 @@ class AppDrawer extends StatelessWidget {
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => CategoriesScreen(),
+            builder: (context) => CategoriesScreen(), 
           ));
         break;
       case 2:
