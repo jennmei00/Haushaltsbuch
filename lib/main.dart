@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:haushaltsbuch/screens/account_screen.dart';
+import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/categories_screen.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
