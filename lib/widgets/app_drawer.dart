@@ -6,7 +6,7 @@ import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/statistics_screen.dart';
-import 'package:haushaltsbuch/screens/transfer/transfer_screen.dart';
+import 'package:haushaltsbuch/screens/transfer/posting_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -104,7 +104,7 @@ class AppDrawer extends StatelessWidget {
         Navigator.of(context).pushReplacementNamed(CategoriesScreen.routeName);
         break;
       case 2:
-        Navigator.of(context).pushReplacementNamed(TransferScreen.routeName);
+        Navigator.of(context).pushReplacementNamed(PostingScreen.routeName);
         break;
       case 3:
         Navigator.of(context)
