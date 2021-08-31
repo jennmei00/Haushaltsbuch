@@ -5,7 +5,7 @@ import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/statistics_screen.dart';
-import 'package:haushaltsbuch/screens/transfer_screen.dart';
+import 'package:haushaltsbuch/screens/transfer/transfer_screen.dart';
 
 void main() {
   runApp(MyApp());
