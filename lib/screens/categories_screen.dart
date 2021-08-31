@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class CategoriesScreen extends StatelessWidget {
+  static final routeName = '/categories_screen';
+
+
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
@@ -8,5 +12,6 @@ class CategoriesScreen extends StatelessWidget {
       centerTitle: true,
       backgroundColor: Colors.green,
     ),
+    drawer: AppDrawer(),
   );
 }

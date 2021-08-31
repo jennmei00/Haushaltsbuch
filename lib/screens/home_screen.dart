@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+    static final routeName = '/home_screen';
+
+  // const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

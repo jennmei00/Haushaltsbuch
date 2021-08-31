@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class SettingsScreen extends StatelessWidget {
+  static final routeName = '/settings_screen';
+
+
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
@@ -21,6 +25,7 @@ class SettingsScreen extends StatelessWidget {
         //     },
         //   ), 
       ],
-    )
+    ),
+    drawer: AppDrawer(),
   );
 }
