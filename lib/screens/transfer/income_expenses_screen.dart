@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/widgets/popup.dart';
 
 class IncomeExpenseScreen extends StatefulWidget {
   static final routeName = '/income_expense_screen';
@@ -11,13 +12,24 @@ class IncomeExpenseScreen extends StatefulWidget {
 }
 
 class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
-  DateTime _dateTime = DateTime.now();
+  DateTime _incomeDateTime = DateTime.now();
+  DateTime _beginSO = DateTime.now();
+  bool _standingorderSwitch = false;
+  String _repeatValue = 'monatlich';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.type}'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(Icons.save),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -32,17 +44,18 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                   Row(
                     children: [
                       Text(
-                          '${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
+                          '${_incomeDateTime.day}. ${_incomeDateTime.month}. ${_incomeDateTime.year}'),
                       IconButton(
                         icon: Icon(Icons.date_range),
                         onPressed: () {
                           showDatePicker(
                             context: context,
-                            initialDate: _dateTime,
+                            initialDate: _incomeDateTime,
                             firstDate:
                                 DateTime.now().subtract(Duration(days: 365)),
                             lastDate: DateTime.now().add(Duration(days: 365)),
-                          ).then((value) => setState(() => _dateTime = value!));
+                          ).then((value) =>
+                              setState(() => _incomeDateTime = value!));
                         },
                       ),
                     ],
@@ -123,23 +136,124 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               SizedBox(
                 height: 20,
               ),
-              ExpansionTile(
-                title: Text('Dauerauftrag'),
-                
-                onExpansionChanged: (value) {
-                  print(value);
-                },
-                // trailing: Switch(value: false, onChanged: (value) {}),
-              )
-              // SwitchListTile(
-              //   value: false,
-              //   title: Text('Dauerauftrag'),
-              //   onChanged: (value) {},
-              // ),
+              Stack(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: 10),
+                    alignment: Alignment.centerRight,
+                    child: Switch(
+                        value: _standingorderSwitch,
+                        onChanged: (value) {
+                          setState(() {
+                            _standingorderSwitch = value;
+                          });
+                        }),
+                  ),
+                  ExpansionTile(
+                    childrenPadding: EdgeInsets.only(left: 40),
+                    title: Text('Dauerauftrag'),
+                    initiallyExpanded: _standingorderSwitch,
+                    trailing: Text(''),
+                    onExpansionChanged: (value) {
+                      setState(() {
+                        _standingorderSwitch = value;
+                      });
+                    },
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Beginn:'),
+                          Row(
+                            children: [
+                              Text(
+                                  '${_beginSO.day}. ${_beginSO.month}. ${_beginSO.year}'),
+                              IconButton(
+                                icon: Icon(Icons.date_range),
+                                onPressed: () {
+                                  showDatePicker(
+                                    context: context,
+                                    initialDate: _beginSO,
+                                    firstDate: DateTime.now()
+                                        .subtract(Duration(days: 365)),
+                                    lastDate:
+                                        DateTime.now().add(Duration(days: 365)),
+                                  ).then((value) =>
+                                      setState(() => _beginSO = value!));
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Wiederholung'),
+                          TextButton(
+                            onPressed: () => _repeatStandingorder(),
+                            child: Text('$_repeatValue'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _repeatStandingorder() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Popup(
+              'Wiederholung',
+              Column(children: [
+                TextButton(
+                  onPressed: () => _repeatValuePressed(0),
+                  child: Text('wöchentlich'),
+                  style: TextButton.styleFrom(
+                    primary: Colors.black,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => _repeatValuePressed(1),
+                  child: Text('monatlich'),
+                  style: TextButton.styleFrom(
+                    primary: Colors.black,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => _repeatValuePressed(2),
+                  child: Text('jährlich'),
+                  style: TextButton.styleFrom(
+                    primary: Colors.black,
+                  ),
+                ),
+              ]));
+        });
+  }
+
+  void _repeatValuePressed(int value) {
+    switch (value) {
+      case 0:
+        _repeatValue = 'wöchentlich';
+        break;
+      case 1:
+        _repeatValue = 'monatlich';
+        break;
+      case 2:
+        _repeatValue = 'jährlich';
+        break;
+      default:
+        return;
+    }
+    this.setState(() {});
+    Navigator.pop(context, true);
   }
 }
