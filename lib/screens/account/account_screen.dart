@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -11,7 +12,9 @@ class AccountScreen extends StatelessWidget {
     floatingActionButton: FloatingActionButton(
       backgroundColor: Colors.blue[200],
       child: Icon(Icons.add),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).pushNamed(NewAccountScreen.routeName);
+      },
       ),
     appBar: AppBar(
       title: Text('Konten'),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
+import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/screens/categories_screen.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
@@ -40,6 +41,8 @@ class MyApp extends StatelessWidget {
         //               ModalRoute.of(context)== null ? '':ModalRoute.of(context).settings.arguments.toString()
         //                                     // ModalRoute.of(context).settings.arguments[0].toString()
         //               ),
+        //Account
+        NewAccountScreen.routeName: (context) => NewAccountScreen(),
       },
       onGenerateRoute: (settings) {
         if(settings.name == IncomeExpenseScreen.routeName){
