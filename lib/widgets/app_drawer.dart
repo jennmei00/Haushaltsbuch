@@ -4,9 +4,9 @@ import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/categories_screen.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
-import 'package:haushaltsbuch/screens/standingorders_screen.dart';
+import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/statistics_screen.dart';
-import 'package:haushaltsbuch/screens/transfer/posting_screen.dart';
+import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   @override

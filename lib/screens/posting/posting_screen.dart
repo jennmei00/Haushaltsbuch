@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:haushaltsbuch/screens/transfer/income_expenses_screen.dart';
-import 'package:haushaltsbuch/screens/transfer/transfer_screen.dart';
+import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
+import 'package:haushaltsbuch/screens/posting/transfer_screen.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class PostingScreen extends StatelessWidget {

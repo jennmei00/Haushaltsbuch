@@ -4,11 +4,12 @@ import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/screens/categories_screen.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
-import 'package:haushaltsbuch/screens/standingorders_screen.dart';
+import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
+import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/statistics_screen.dart';
-import 'package:haushaltsbuch/screens/transfer/income_expenses_screen.dart';
-import 'package:haushaltsbuch/screens/transfer/posting_screen.dart';
-import 'package:haushaltsbuch/screens/transfer/transfer_screen.dart';
+import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
+import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
+import 'package:haushaltsbuch/screens/posting/transfer_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,39 +31,44 @@ class MyApp extends StatelessWidget {
         CategoriesScreen.routeName: (context) => CategoriesScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         SettingsScreen.routeName: (context) => SettingsScreen(),
-        StandingOrdersScreen.routeName: (context) => StandingOrdersScreen(),
         StatisticsScreen.routeName: (context) => StatisticsScreen(),
-        //Transfer
+        //standingorders
+        StandingOrdersScreen.routeName: (context) => StandingOrdersScreen(),
+        // AddEditStandingOrder.routeName: (context) => AddEditStandingOrder(),
+        //posting
         PostingScreen.routeName: (context) => PostingScreen(),
         // IncomeScreen.routeName: (context) => IncomeScreen(),
         TransferScreen.routeName: (context) => TransferScreen(),
-        // IncomeScreen.routeName: (BuildContext context) =>
-        //             IncomeScreen( 
-        //               ModalRoute.of(context)== null ? '':ModalRoute.of(context).settings.arguments.toString()
-        //                                     // ModalRoute.of(context).settings.arguments[0].toString()
-        //               ),
         //Account
         NewAccountScreen.routeName: (context) => NewAccountScreen(),
       },
       onGenerateRoute: (settings) {
-        if(settings.name == IncomeExpenseScreen.routeName){
+        if (settings.name == IncomeExpenseScreen.routeName) {
+          final args = settings.arguments as String;
 
-        final args = settings.arguments as String;
-
-      // Then, extract the required data from
-      // the arguments and pass the data to the
-      // correct screen.
-      return MaterialPageRoute(
-        builder: (context) {
-          print(args);
-          return IncomeExpenseScreen(
-            type: args,
+          // Then, extract the required data from
+          // the arguments and pass the data to the
+          // correct screen.
+          return MaterialPageRoute(
+            builder: (context) {
+              return IncomeExpenseScreen(
+                type: args,
+              );
+            },
           );
-        },
-      );
-    }
-    assert(false, 'Need to implement ${settings.name}');
-    return null;
+        } else if (settings.name == AddEditStandingOrder.routeName) {
+          final args = settings.arguments as String;
+
+          return MaterialPageRoute(
+            builder: (context) {
+              return AddEditStandingOrder(
+                type: args,
+              );
+            },
+          );
+        }
+        assert(false, 'Need to implement ${settings.name}');
+        return null;
       },
     );
   }

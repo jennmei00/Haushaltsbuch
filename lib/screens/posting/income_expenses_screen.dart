@@ -79,17 +79,18 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               SizedBox(
                 height: 20,
               ),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: 'Kategorie',
-                    labelStyle: TextStyle(fontSize: 20),
-                    hintText: '',
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-              ),
+              Text('Kategorie - DorpDown noch in arbeit'),
+              // TextField(
+              //   decoration: InputDecoration(
+              //       labelText: 'Kategorie',
+              //       labelStyle: TextStyle(fontSize: 20),
+              //       hintText: '',
+              //       filled: true,
+              //       border: OutlineInputBorder(
+              //         borderSide: BorderSide(),
+              //         borderRadius: BorderRadius.circular(30),
+              //       )),
+              // ),
               SizedBox(
                 height: 20,
               ),
