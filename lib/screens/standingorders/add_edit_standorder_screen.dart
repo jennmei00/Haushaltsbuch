@@ -23,6 +23,16 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         title: Text(widget.type == 'add'
             ? 'Dauerauftrag hinzufügen'
             : 'Dauerauftrag bearbeiten'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: () {
+              Navigator.pop(
+                context,
+              );
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),

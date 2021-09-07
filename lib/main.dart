@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
-import 'package:haushaltsbuch/screens/categories_screen.dart';
+import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
+import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
@@ -28,10 +29,12 @@ class MyApp extends StatelessWidget {
       home: HomeScreen(),
       routes: {
         AccountScreen.routeName: (context) => AccountScreen(),
-        CategoriesScreen.routeName: (context) => CategoriesScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         SettingsScreen.routeName: (context) => SettingsScreen(),
         StatisticsScreen.routeName: (context) => StatisticsScreen(),
+        //categories
+        CategoriesScreen.routeName: (context) => CategoriesScreen(),
+        NewCategorieScreen.routeName: (context) => NewCategorieScreen(),
         //standingorders
         StandingOrdersScreen.routeName: (context) => StandingOrdersScreen(),
         // AddEditStandingOrder.routeName: (context) => AddEditStandingOrder(),
