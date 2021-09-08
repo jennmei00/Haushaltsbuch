@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final String labelText;
   final String hintText;
-  final TextInputType textInputType;
+  final TextInputType keyboardType;
 
   CustomTextField(
       {this.labelText: '',
       this.hintText: '',
-      this.textInputType: TextInputType.text});
+      this.keyboardType: TextInputType.text});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      keyboardType: textInputType,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
           labelText: labelText,
           labelStyle: TextStyle(fontSize: 20),

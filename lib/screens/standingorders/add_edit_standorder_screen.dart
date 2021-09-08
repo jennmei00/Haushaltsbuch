@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
 
 class AddEditStandingOrder extends StatefulWidget {
@@ -74,7 +75,6 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                   ),
                 ],
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -101,66 +101,27 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ],
               ),
               SizedBox(height: 20),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: 'Konto',
-                    labelStyle: TextStyle(fontSize: 20),
-                    hintText: 'Kontoname',
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(30),
-                    )),
+              CustomTextField(
+                labelText: 'Konto',
+                hintText: 'Kontoname',
               ),
               SizedBox(height: 20),
               Text('Kategorie - DorpDown noch in arbeit'),
-              // TextField(
-              //   decoration: InputDecoration(
-              //       labelText: 'Kategorie',
-              //       labelStyle: TextStyle(fontSize: 20),
-              //       hintText: '',
-              //       filled: true,
-              //       border: OutlineInputBorder(
-              //         borderSide: BorderSide(),
-              //         borderRadius: BorderRadius.circular(30),
-              //       )),
-              // ),
               SizedBox(height: 20),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: 'Betrag',
-                    labelStyle: TextStyle(fontSize: 20),
-                    hintText: 'in €',
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(30),
-                    )),
+              CustomTextField(
+                labelText: 'Betrag',
+                hintText: 'in €',
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 20),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: 'Bezeichnung',
-                    labelStyle: TextStyle(fontSize: 20),
-                    hintText: '',
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(30),
-                    )),
+              CustomTextField(
+                labelText: 'Bezeichnung',
+                hintText: '',
               ),
               SizedBox(height: 20),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: 'Beschreibung',
-                    labelStyle: TextStyle(fontSize: 20),
-                    hintText: '',
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(30),
-                    )),
+              CustomTextField(
+                labelText: 'Beschreibung',
+                hintText: '',
               ),
               SizedBox(height: 20),
             ],

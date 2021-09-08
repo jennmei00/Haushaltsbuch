@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:haushaltsbuch/widgets/popup.dart';
+import 'package:haushaltsbuch/services/custom_dialog.dart';
+import 'package:haushaltsbuch/widgets/custom_textField.dart';
 
 class IncomeExpenseScreen extends StatefulWidget {
   static final routeName = '/income_expense_screen';
@@ -65,74 +66,26 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               SizedBox(
                 height: 20,
               ),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: 'Konto',
-                    labelStyle: TextStyle(fontSize: 20),
-                    hintText: 'Kontoname',
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(30),
-                    )),
+              CustomTextField(
+                labelText: 'Konto',
+                hintText: 'Kontoname',
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               Text('Kategorie - DorpDown noch in arbeit'),
-              // TextField(
-              //   decoration: InputDecoration(
-              //       labelText: 'Kategorie',
-              //       labelStyle: TextStyle(fontSize: 20),
-              //       hintText: '',
-              //       filled: true,
-              //       border: OutlineInputBorder(
-              //         borderSide: BorderSide(),
-              //         borderRadius: BorderRadius.circular(30),
-              //       )),
-              // ),
-              SizedBox(
-                height: 20,
+              SizedBox(height: 20),
+              CustomTextField(
+                  labelText: 'Betrag',
+                  hintText: 'in €',
+                  keyboardType: TextInputType.number),
+              SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Bezeichnung',
+                hintText: '',
               ),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: 'Betrag',
-                    labelStyle: TextStyle(fontSize: 20),
-                    hintText: 'in €',
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: 'Bezeichnung',
-                    labelStyle: TextStyle(fontSize: 20),
-                    hintText: '',
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: 'Beschreibung',
-                    labelStyle: TextStyle(fontSize: 20),
-                    hintText: '',
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(30),
-                    )),
+              SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Beschreibung',
+                hintText: '',
               ),
               SizedBox(
                 height: 20,
@@ -209,35 +162,32 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   }
 
   void _repeatStandingorder() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Popup(
-              title: 'Wiederholung',
-              body: Column(children: [
-                TextButton(
-                  onPressed: () => _repeatValuePressed(0),
-                  child: Text('wöchentlich'),
-                  style: TextButton.styleFrom(
-                    primary: Colors.black,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () => _repeatValuePressed(1),
-                  child: Text('monatlich'),
-                  style: TextButton.styleFrom(
-                    primary: Colors.black,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () => _repeatValuePressed(2),
-                  child: Text('jährlich'),
-                  style: TextButton.styleFrom(
-                    primary: Colors.black,
-                  ),
-                ),
-              ]));
-        });
+    CustomDialog().customShowDialog(
+        context,
+        'Wiederholung',
+        Column(children: [
+          TextButton(
+            onPressed: () => _repeatValuePressed(0),
+            child: Text('wöchentlich'),
+            style: TextButton.styleFrom(
+              primary: Colors.black,
+            ),
+          ),
+          TextButton(
+            onPressed: () => _repeatValuePressed(1),
+            child: Text('monatlich'),
+            style: TextButton.styleFrom(
+              primary: Colors.black,
+            ),
+          ),
+          TextButton(
+            onPressed: () => _repeatValuePressed(2),
+            child: Text('jährlich'),
+            style: TextButton.styleFrom(
+              primary: Colors.black,
+            ),
+          ),
+        ]));
   }
 
   void _repeatValuePressed(int value) {
