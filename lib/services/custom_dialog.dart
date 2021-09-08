@@ -6,7 +6,7 @@ class CustomDialog {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Popup(title, body);
+          return Popup(title: title, body: body);
         });
   }
 }

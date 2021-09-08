@@ -213,8 +213,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
         context: context,
         builder: (BuildContext context) {
           return Popup(
-              'Wiederholung',
-              Column(children: [
+              title: 'Wiederholung',
+              body: Column(children: [
                 TextButton(
                   onPressed: () => _repeatValuePressed(0),
                   child: Text('wöchentlich'),

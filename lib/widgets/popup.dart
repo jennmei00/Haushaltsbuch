@@ -4,7 +4,7 @@ class Popup extends StatelessWidget {
   final String title;
   final Widget body;
 
-  Popup(this.title, this.body);
+  Popup({this.title: '', this.body: const Text('')});
 
   @override
   Widget build(BuildContext context) {

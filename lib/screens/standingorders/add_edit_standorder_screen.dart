@@ -175,8 +175,8 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         context: context,
         builder: (BuildContext context) {
           return Popup(
-              'Wiederholung',
-              Column(children: [
+              title: 'Wiederholung',
+              body: Column(children: [
                 TextButton(
                   onPressed: () => _repeatValuePressed(0),
                   child: Text('wöchentlich'),
