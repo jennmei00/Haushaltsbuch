@@ -23,7 +23,6 @@ class NewCategorieScreen extends StatelessWidget {
           SizedBox(height: 20),
           Text('Farbe:'),
           Row(
-            
             children: [
               CircleAvatar(backgroundColor: Colors.red),
               CircleAvatar(backgroundColor: Colors.orange),
@@ -33,6 +32,12 @@ class NewCategorieScreen extends StatelessWidget {
               CircleAvatar(backgroundColor: Colors.blue),
               CircleAvatar(backgroundColor: Colors.lightBlue),
               CircleAvatar(backgroundColor: Colors.black),
+              FloatingActionButton(
+                onPressed: () {
+                },
+                child: Icon(Icons.add),
+                mini: true,
+              ),
             ],
           ),
           SizedBox(height: 20),
