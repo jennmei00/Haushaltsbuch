@@ -88,7 +88,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    color: Colors.cyan,
+                    //color: Colors.cyan,
                     border: Border.all()),
                 padding: EdgeInsets.only(left: 12.0, right: 12.0),
                 height: 60,
@@ -96,24 +96,13 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                   child: DropdownButton(
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.black,
+                      color: Colors.grey[600],
                     ),
-                    icon: Icon(Icons.arrow_downward_rounded),
-                    iconEnabledColor: Colors.black,
+                    icon: Icon(Icons.arrow_drop_down_circle_outlined),
+                    iconEnabledColor: Colors.grey[600],
                     iconSize: 30,
                     value: _selectedItem,
                     items: _dropdownMenuItems,
-                    // items: <String>[
-                    //   'Kategorie 1',
-                    //   'Kategorie 2',
-                    //   'Kategorie 3',
-                    //   'Kategorie 4'
-                    // ].map<DropdownMenuItem<String>>((String value) {
-                    //   return DropdownMenuItem<String>(
-                    //     value: value,
-                    //     child: Text(value),
-                    //   );
-                    // }).toList(),
                     onChanged: (newValue) {
                       setState(() {
                         _selectedItem = newValue as ListItem;
