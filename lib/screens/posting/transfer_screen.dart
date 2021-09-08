@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/widgets/custom_textField.dart';
 
 class TransferScreen extends StatefulWidget {
   static final routeName = '/transfer_screen';
@@ -59,29 +60,15 @@ class _TransferScreenState extends State<TransferScreen> {
             SizedBox(height: 20),
             Text('Konto 2 \nDropDownbutton \nWird von Jessi noch erstellt'),
             SizedBox(height: 20),
-            TextField(
-              decoration: InputDecoration(
-                  labelText: 'Betrag',
-                  labelStyle: TextStyle(fontSize: 20),
-                  hintText: 'in €',
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(),
-                    borderRadius: BorderRadius.circular(30),
-                  )),
+            CustomTextField(
+              labelText: 'Betrag',
+              hintText: 'in €',
               keyboardType: TextInputType.number,
             ),
             SizedBox(height: 20),
-            TextField(
-              decoration: InputDecoration(
-                  labelText: 'Beschreibung',
-                  labelStyle: TextStyle(fontSize: 20),
-                  hintText: '',
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(),
-                    borderRadius: BorderRadius.circular(30),
-                  )),
+            CustomTextField(
+              labelText: 'BetBeschreibungrag',
+              hintText: '',
             ),
           ],
         ),
