@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:haushaltsbuch/services/custom_dialog.dart';
+import 'package:haushaltsbuch/widgets/popup.dart';
 
 class NewAccountScreen extends StatefulWidget {
   static final routeName = '/new_account_screen';
@@ -9,7 +12,6 @@ class NewAccountScreen extends StatefulWidget {
 }
 
 class _NewAccountScreenState extends State<NewAccountScreen> {
-
   String dropdownValCategory = 'Kategorie 1';
 
   List<ListItem> _dropdownItems = [
@@ -19,14 +21,13 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     ListItem(4, "Fourth Item")
   ];
 
-   List<DropdownMenuItem<ListItem>> _dropdownMenuItems = [];
-   ListItem _selectedItem = ListItem(0, '');
+  List<DropdownMenuItem<ListItem>> _dropdownMenuItems = [];
+  ListItem _selectedItem = ListItem(0, '');
 
   void initState() {
     super.initState();
     _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
     _selectedItem = _dropdownMenuItems[0].value!;
-
   }
 
   List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
@@ -114,10 +115,52 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
               SizedBox(
                 height: 20,
               ),
+              TextButton(
+                onPressed: () => _selectColorFromPicker(),
+                child: Text('Farbe'),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _selectColorFromPicker() {
+    CustomDialog().customShowDialog(
+      context,
+      'Color Picker',
+      Container(
+        child: ColorPicker(
+          onColorChanged: (value) => _colorChange(value),
+          pickersEnabled: const <ColorPickerType, bool>{
+            ColorPickerType.both: false,
+            ColorPickerType.primary: true,
+            ColorPickerType.accent: false,
+            ColorPickerType.bw: false,
+            ColorPickerType.custom: false,
+            ColorPickerType.wheel: true,
+          },
+          heading: Text('Wähle eine Farbe'),
+          subheading: Text('Wähle eine Farbschattierung'),
+          wheelSubheading: Text('Schattierungen der gewählten Farbe'),
+          wheelWidth: 16,
+          columnSpacing: 10,
+          actionButtons: ColorPickerActionButtons(
+            dialogActionButtons: false, 
+            dialogActionIcons: false, 
+            // dialogOkButtonType: ColorPickerActionButtonType.outlined,
+            // dialogCancelButtonType: ColorPickerActionButtonType.outlined,
+            // dialogCancelButtonLabel: 'Cancel',
+          ),
+          enableOpacity: true,
+          opacityTrackHeight: 14,
+        ),
+      ),
+    );
+  }
+
+  void _colorChange(Color color) {
+    print(color);
   }
 }
