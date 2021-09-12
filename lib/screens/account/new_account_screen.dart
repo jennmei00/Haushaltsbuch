@@ -115,9 +115,18 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
               SizedBox(
                 height: 20,
               ),
-              TextButton(
-                onPressed: () => _selectColorFromPicker(),
-                child: Text('Farbe'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Iconfarbe auswählen: ',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  IconButton(
+                    onPressed: () => _selectColorFromPicker(),
+                    icon: Icon(Icons.color_lens),
+                  ),
+                ],
               ),
             ],
           ),
@@ -147,8 +156,12 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
           wheelWidth: 16,
           columnSpacing: 10,
           actionButtons: ColorPickerActionButtons(
-            dialogActionButtons: false, 
-            dialogActionIcons: false, 
+            okButton: true,
+            okIcon: Icons.save,
+            closeButton: true,
+            // -- glaube die Button unten gehn nicht, weil das kein dialog ist, also kein vorgefertigter von dem package
+            // dialogActionButtons: false,
+            // dialogActionIcons: false,
             // dialogOkButtonType: ColorPickerActionButtonType.outlined,
             // dialogCancelButtonType: ColorPickerActionButtonType.outlined,
             // dialogCancelButtonLabel: 'Cancel',
