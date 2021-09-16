@@ -23,6 +23,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: Colors.cyan[700],
+        textTheme: TextTheme(),
+        buttonTheme: ButtonThemeData()
       ),
       themeMode: ThemeMode.system,
       // darkTheme: MyThemes.darkTheme,
