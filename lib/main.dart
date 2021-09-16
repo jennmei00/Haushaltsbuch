@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
@@ -11,22 +12,41 @@ import 'package:haushaltsbuch/screens/statistics_screen.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/screens/posting/transfer_screen.dart';
+import 'package:haushaltsbuch/services/theme.dart';
+import 'package:haushaltsbuch/services/theme_notifier.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  SharedPreferences.getInstance().then((prefs) {
+    var darkModeOn = prefs.getBool('darkMode') ?? true;
+    runApp(ChangeNotifierProvider(
+      create: (_) => ThemeNotifier(darkModeOn ? darkTheme : lightTheme),
+      child: MyApp(),
+    ));
+  });
+  // runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primaryColor: Colors.cyan[700],
-        textTheme: TextTheme(),
-        buttonTheme: ButtonThemeData()
-      ),
-      themeMode: ThemeMode.system,
+      title: 'Haushaltsapp',
+      theme: themeNotifier.getTheme(),
+      // ThemeData(
+      //   primaryColor: Colors.cyan[700],
+      //   textTheme: TextTheme(),
+      //   buttonTheme: ButtonThemeData()
+      // ),
+      // themeMode: ThemeMode.system,
       // darkTheme: MyThemes.darkTheme,
       home: HomeScreen(),
       routes: {
