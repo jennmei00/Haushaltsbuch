@@ -155,17 +155,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
           wheelSubheading: Text('Schattierungen der gewählten Farbe'),
           wheelWidth: 16,
           columnSpacing: 10,
-          actionButtons: ColorPickerActionButtons(
-            okButton: true,
-            okIcon: Icons.save,
-            closeButton: true,
-            // -- glaube die Button unten gehn nicht, weil das kein dialog ist, also kein vorgefertigter von dem package
-            // dialogActionButtons: false,
-            // dialogActionIcons: false,
-            // dialogOkButtonType: ColorPickerActionButtonType.outlined,
-            // dialogCancelButtonType: ColorPickerActionButtonType.outlined,
-            // dialogCancelButtonLabel: 'Cancel',
-          ),
           enableOpacity: true,
           opacityTrackHeight: 14,
         ),
