@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:haushaltsbuch/services/custom_dialog.dart';
+import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
 
@@ -87,7 +88,11 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                     style: TextStyle(fontSize: 20),
                   ),
                   IconButton(
-                    onPressed: () => _selectColorFromPicker(),
+                    onPressed: () => CustomDialog().customShowDialog(
+                      context,
+                      'ColorPicker',
+                      ColorPickerClass(_colorChanged),
+                    ),
                     icon: Icon(
                       Icons.color_lens,
                       // color: _iconfarbe,
@@ -102,34 +107,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     );
   }
 
-  void _selectColorFromPicker() {
-    CustomDialog().customShowDialog(
-      context,
-      'Color Picker',
-      Container(
-        child: ColorPicker(
-          onColorChanged: (value) => _colorChange(value),
-          pickersEnabled: const <ColorPickerType, bool>{
-            ColorPickerType.both: false,
-            ColorPickerType.primary: true,
-            ColorPickerType.accent: false,
-            ColorPickerType.bw: false,
-            ColorPickerType.custom: false,
-            ColorPickerType.wheel: true,
-          },
-          heading: Text('Wähle eine Farbe'),
-          subheading: Text('Wähle eine Farbschattierung'),
-          wheelSubheading: Text('Schattierungen der gewählten Farbe'),
-          wheelWidth: 16,
-          columnSpacing: 10,
-          enableOpacity: true,
-          opacityTrackHeight: 14,
-        ),
-      ),
-    );
-  }
-
-  void _colorChange(Color color) {
+  void _colorChanged(Color color) {
     print(color);
     // _iconfarbe = color;
     // setState(() {});
