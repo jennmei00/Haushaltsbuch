@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
   static final routeName = '/home_screen';
 
-  // const HomeScreen({Key? key}) : super(key: key);
+  // void _openDatabase() {
+  //   DBHelper.openDatabase();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    // _openDatabase();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
