@@ -72,15 +72,14 @@ class DBHelper {
     await batch.commit();
   }
 
-  static Future<void> insert(
-      int kndNr, String table, Map<String, dynamic> data) async {
+  static Future<void> insert(String table, Map<String, dynamic> data) async {
     final db = await DBHelper.openDatabase();
     sql.Batch batch = db.batch();
     batch.insert(table, data);
     await batch.commit();
   }
 
-  static Future<void> update(int kndNr, String table, Map<String, dynamic> data,
+  static Future<void> update(String table, Map<String, dynamic> data,
       {String? where}) async {
     final db = await DBHelper.openDatabase();
     sql.Batch batch = db.batch();
@@ -89,7 +88,7 @@ class DBHelper {
   }
 
   //DELETE
-  static Future<void> delete(int kndNr, String table, {String? where}) async {
+  static Future<void> delete(String table, {String? where}) async {
     final db = await DBHelper.openDatabase();
     sql.Batch batch = db.batch();
     batch.delete(table, where: where);

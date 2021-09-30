@@ -23,6 +23,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   ListItem _selectedItem = ListItem(1, "First Value");
   // Color _iconfarbe = Colors.black;
 
+  //TODO: Beschreibung und Symbol fehlt
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

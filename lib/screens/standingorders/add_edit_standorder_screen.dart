@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
@@ -16,6 +17,7 @@ class AddEditStandingOrder extends StatefulWidget {
 class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   DateTime _dateTime = DateTime.now();
   String _repeatValue = 'monatlich';
+  int _groupValue_buchungsart = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,19 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
+              //TODO: SlidingControl verschönern
+              CupertinoSlidingSegmentedControl(
+                children: <Object, Widget>{
+                  0: Text('Einnahme'),
+                  1: Text('Ausgabe')
+                },
+                onValueChanged: (val) {
+                  setState(() {
+                    _groupValue_buchungsart = val as int;
+                  });
+                },
+                groupValue: _groupValue_buchungsart,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -106,7 +121,8 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 hintText: 'Kontoname',
               ),
               SizedBox(height: 20),
-              Text('Kategorie - DorpDown noch in arbeit'),
+              //TODO: Kategorie als PopUp bzw. Seite
+              Text('Kategorie - PopUp/Seite noch in arbeit'),
               SizedBox(height: 20),
               CustomTextField(
                 labelText: 'Betrag',
