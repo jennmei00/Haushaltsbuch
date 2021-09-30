@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/services/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
+import 'package:haushaltsbuch/widgets/dropdown.dart';
 
 class IncomeExpenseScreen extends StatefulWidget {
   static final routeName = '/income_expense_screen';
@@ -66,12 +68,18 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               SizedBox(
                 height: 20,
               ),
-              CustomTextField(
-                labelText: 'Konto',
-                hintText: 'Kontoname',
-              ),
+              // CustomTextField(
+              //   labelText: 'Konto',
+              //   hintText: 'Kontoname',
+              // ),
+              DropDown(
+                  dropdownItems: [ListItem(1, 'Konto1'), ListItem(1, 'Konto2')],
+                  //TODO: onChanged und richtige Items einlesen
+                  onChanged: () {}),
               SizedBox(height: 20),
-              Text('Kategorie - DorpDown noch in arbeit'),
+              // Text('Kategorie - DorpDown noch in arbeit'),
+              //TODO: Kategorie PopUp bzw. Seite
+              TextButton(onPressed: () {}, child: Text('Kategorie wählen: ')),
               SizedBox(height: 20),
               CustomTextField(
                   labelText: 'Betrag',
@@ -103,55 +111,56 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                           });
                         }),
                   ),
-                  ExpansionTile(
-                    childrenPadding: EdgeInsets.only(left: 40),
-                    title: Text('Dauerauftrag'),
-                    initiallyExpanded: _standingorderSwitch,
-                    trailing: Text(''),
-                    onExpansionChanged: (value) {
-                      setState(() {
-                        _standingorderSwitch = value;
-                      });
-                    },
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Beginn:'),
-                          Row(
-                            children: [
-                              Text(
-                                  '${_beginSO.day}. ${_beginSO.month}. ${_beginSO.year}'),
-                              IconButton(
-                                icon: Icon(Icons.date_range),
-                                onPressed: () {
-                                  showDatePicker(
-                                    context: context,
-                                    initialDate: _beginSO,
-                                    firstDate: DateTime.now()
-                                        .subtract(Duration(days: 365)),
-                                    lastDate:
-                                        DateTime.now().add(Duration(days: 365)),
-                                  ).then((value) =>
-                                      setState(() => _beginSO = value!));
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Wiederholung'),
-                          TextButton(
-                            onPressed: () => _repeatStandingorder(),
-                            child: Text('$_repeatValue'),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  //Buchung ohne Dauerauftragoption, da man Dauerauftrag extra anlegen kann!
+                  // ExpansionTile(
+                  //   childrenPadding: EdgeInsets.only(left: 40),
+                  //   title: Text('Dauerauftrag'),
+                  //   initiallyExpanded: _standingorderSwitch,
+                  //   trailing: Text(''),
+                  //   onExpansionChanged: (value) {
+                  //     setState(() {
+                  //       _standingorderSwitch = value;
+                  //     });
+                  //   },
+                  //   children: [
+                  //     Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Text('Beginn:'),
+                  //         Row(
+                  //           children: [
+                  //             Text(
+                  //                 '${_beginSO.day}. ${_beginSO.month}. ${_beginSO.year}'),
+                  //             IconButton(
+                  //               icon: Icon(Icons.date_range),
+                  //               onPressed: () {
+                  //                 showDatePicker(
+                  //                   context: context,
+                  //                   initialDate: _beginSO,
+                  //                   firstDate: DateTime.now()
+                  //                       .subtract(Duration(days: 365)),
+                  //                   lastDate:
+                  //                       DateTime.now().add(Duration(days: 365)),
+                  //                 ).then((value) =>
+                  //                     setState(() => _beginSO = value!));
+                  //               },
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Text('Wiederholung'),
+                  //         TextButton(
+                  //           onPressed: () => _repeatStandingorder(),
+                  //           child: Text('$_repeatValue'),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ],
