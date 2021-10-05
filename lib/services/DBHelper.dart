@@ -156,6 +156,44 @@ class DBHelper {
     //Beispieltabelle
     await db.execute(
         'CREATE TABLE Tabelle1(Tabelle1GUID TEXT PRIMARY KEY, Variable1 TEXT, Variable2 INTEGER)');
+
+    //Kategorie
+    await db.execute(
+        'CREATE TABLE Kategorie(KategorieID TEXT PRIAMRY KEY, Bezeichnung TEXT, Symbol BLOB, Farbe TEXT)');
+
+    //..._id TEXT, FOREIGN KEY(..._id) REFERENCES tabelle(id)
+
+    //Kontokategorie
+    await db.execute(
+        'CREATE TABLE Kontokategorie(KontokategorieID TEXT PRIAMRY KEY, Bezeichnung TEXT)');
+
+    //Konto
+    await db.execute(
+        'CREATE TABLE Konto(KontoID TEXT PRIMARY KEY, Bezeichnung TEXT, Beschreibung TEXT, Kontostand REAL,' +
+            'Farbe TEXT, Symbol BLOB, KontokategorieID TEXT, FOREIGN KEY(KontokategorieID) REFERENCES Kontokategorie(KontokategorieID))');
+
+    //Buchung
+    await db.execute(
+        'CREATE TABLE Buchung(BuchungID TEXT, Buchungsart INTEGER, Datum TEXT, Betrag REAL, ' +
+            'Bezeichnung TEXT, Beschreibung TEXT, KontoID TEXT, KategorieID TEXT, FOREIGN KEY(KontoID) REFERENCES Konto(KontoID), ' +
+            'FOREIGN KEY(KategorieID) REFERENCES Kategorie(KategorieID))');
+
+    //Umbuchung
+    await db.execute(
+        'CREATE TABLE Umbuchung(UmbuchungID TEXT, Datum TEXT, Betrag REAL, Beschreibung TEXT, ' +
+            'Konto1ID TEXT, Konto2ID TEXT, FOREIGN KEY(Konto1ID) REFERENCES Konto(KontoID), ' +
+            'FOREIGN KEY(Konto2ID) REFERENCES Konto(Konto2ID))');
+
+    //Dauerauftrag
+    await db.execute(
+        'CREATE TABLE Dauerauftrag(DauerauftragID TEXT, Buchungsart INTEGER, Beginn TEXT, Wiederholung INTEGER, ' +
+            'Betrag REAL, Bezeichnung TEXT, Beschreibung TEXT, KontoID TEXT, KategorieID TEXT, ' +
+            'FOREIGN KEY(KontoID) REFERENCES Konto(KontoID), FOREIGN KEY(KategorieID) REFERENCES Kategorie(KategorieID))');
+
+    //Dauerauftragsbuchung
+    await db.execute(
+        'CREATE TABLE Dauerauftragsbuchung(DauerauftragsbuchungID TEXT, Datum TEXT, DauerauftragID TEXT, ' +
+            'FOREIGN KEY(DauerauftragID) REFERENCES Dauerauftrag(DauerauftragID))');
   }
 
   /////////////COPY - PASTE ---- Verstehe ich nicht ganz (wenn ich Tabelle Upgrade, Lösche ich Database und create Tabellen neu 'O')
