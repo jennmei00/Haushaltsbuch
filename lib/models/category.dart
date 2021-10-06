@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 
 class Category {
   String? id;
-  String? bezeichnung;
+  String? title;
   String? symbol; //Datentyp???
   Color? color;
 
   Category({
     this.id,
-    this.bezeichnung,
+    this.title,
     this.symbol,
     this.color,
   });
+
+  
 }

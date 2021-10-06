@@ -1,9 +1,9 @@
 class AccountCategory {
   String? id;
-  String? bezeichnung;
+  String? title;
 
   AccountCategory({
     this.id,
-    this.bezeichnung,
+    this.title,
   });
 }

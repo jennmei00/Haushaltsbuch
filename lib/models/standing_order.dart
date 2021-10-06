@@ -4,25 +4,25 @@ import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 
-class Standingorder {
+class StandingOrder {
   String? id;
-  Buchungsart? buchungsart;
-  DateTime? beginn;
+  PostingType? postingType;
+  DateTime? begin;
   Repetition? repetition;
-  Float? betrag;
-  String? bezeichnung;
-  String? beschreibung;
+  Float? amount;
+  String? title;
+  String? description;
   Category? category;
   Account? account;
 
-  Standingorder({
+  StandingOrder({
     this.id,
-    this.buchungsart,
-    this.beginn,
+    this.postingType,
+    this.begin,
     this.repetition,
-    this.betrag,
-    this.bezeichnung,
-    this.beschreibung,
+    this.amount,
+    this.title,
+    this.description,
     this.category,
     this.account,
   });

@@ -1,11 +1,11 @@
-enum Buchungsart {
-  einnahme,
-  ausgabe,
+enum PostingType {
+  income,
+  expense,
 }
 
 enum Repetition {
-  taeglich,
-  woechentlich,
-  monatlich,
-  jaehrlich,
+  daily,
+  weekly,
+  monthly,
+  yearly,
 }

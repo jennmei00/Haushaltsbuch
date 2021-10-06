@@ -6,21 +6,21 @@ import 'package:haushaltsbuch/models/enums.dart';
 
 class Posting {
   String? id;
-  Buchungsart? buchungsart;
+  PostingType? postingType;
   DateTime? date;
-  Float? betrag;
-  String? bezeichnung;
-  String? beschreibung;
+  Float? amount;
+  String? title;
+  String? description;
   Account? account;
   Category? category;
 
   Posting({
     this.id,
-    this.buchungsart,
+    this.postingType,
     this.date,
-    this.betrag,
-    this.bezeichnung,
-    this.beschreibung,
+    this.amount,
+    this.title,
+    this.description,
     this.account,
     this.category,
   });

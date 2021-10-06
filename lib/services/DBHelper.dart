@@ -152,48 +152,43 @@ class DBHelper {
   static Future<void> _createTables(sql.Database db, int version) async {
     // //Tabellenname
     // await db.execute(
-    //     'CREATE TABLE ...(...TEXT PRIMARY KEY, ... TEXT/INTEGER/BOOLEAN/BLOB)');
-    //Beispieltabelle
-    await db.execute(
-        'CREATE TABLE Tabelle1(Tabelle1GUID TEXT PRIMARY KEY, Variable1 TEXT, Variable2 INTEGER)');
+    //     'CREATE TABLE ...(...TEXT PRIMARY KEY, ... TEXT/INTEGER/BOOLEAN/BLOB, FOREIGN KEY(CategoryID) REFERENCES Category(CategoryID))');
 
-    //Kategorie
+    //Category
     await db.execute(
-        'CREATE TABLE Kategorie(KategorieID TEXT PRIAMRY KEY, Bezeichnung TEXT, Symbol BLOB, Farbe TEXT)');
+        'CREATE TABLE Category(ID TEXT PRIAMRY KEY, Title TEXT, Symbol BLOB, Color TEXT)');
 
-    //..._id TEXT, FOREIGN KEY(..._id) REFERENCES tabelle(id)
-
-    //Kontokategorie
+    //AccountCategory
     await db.execute(
-        'CREATE TABLE Kontokategorie(KontokategorieID TEXT PRIAMRY KEY, Bezeichnung TEXT)');
+        'CREATE TABLE AccountCategory(ID TEXT PRIAMRY KEY, Title TEXT)');
 
-    //Konto
+    //Account
     await db.execute(
-        'CREATE TABLE Konto(KontoID TEXT PRIMARY KEY, Bezeichnung TEXT, Beschreibung TEXT, Kontostand REAL,' +
-            'Farbe TEXT, Symbol BLOB, KontokategorieID TEXT, FOREIGN KEY(KontokategorieID) REFERENCES Kontokategorie(KontokategorieID))');
+        'CREATE TABLE Account(ID TEXT PRIMARY KEY, Title TEXT, Description TEXT, BankBalance REAL,' +
+            'Color TEXT, Symbol BLOB, AccountCategoryID TEXT, FOREIGN KEY(AccountCategoryID) REFERENCES AccountCategory(ID))');
 
-    //Buchung
+    //Posting
     await db.execute(
-        'CREATE TABLE Buchung(BuchungID TEXT, Buchungsart INTEGER, Datum TEXT, Betrag REAL, ' +
-            'Bezeichnung TEXT, Beschreibung TEXT, KontoID TEXT, KategorieID TEXT, FOREIGN KEY(KontoID) REFERENCES Konto(KontoID), ' +
-            'FOREIGN KEY(KategorieID) REFERENCES Kategorie(KategorieID))');
+        'CREATE TABLE Posting(ID TEXT, PostingType INTEGER, Date TEXT, Amount REAL, ' +
+            'Title TEXT, Description TEXT, AccountID TEXT, CategoryID TEXT, FOREIGN KEY(AccountID) REFERENCES Account(ID), ' +
+            'FOREIGN KEY(CategoryID) REFERENCES Category(ID))');
 
-    //Umbuchung
+    //Transfer
     await db.execute(
-        'CREATE TABLE Umbuchung(UmbuchungID TEXT, Datum TEXT, Betrag REAL, Beschreibung TEXT, ' +
-            'Konto1ID TEXT, Konto2ID TEXT, FOREIGN KEY(Konto1ID) REFERENCES Konto(KontoID), ' +
-            'FOREIGN KEY(Konto2ID) REFERENCES Konto(Konto2ID))');
+        'CREATE TABLE Transfer(ID TEXT, Date TEXT, Amount REAL, Description TEXT, ' +
+            'AccountFromID TEXT, AccountToID TEXT, FOREIGN KEY(AccountFromID) REFERENCES Account(ID), ' +
+            'FOREIGN KEY(AccountToID) REFERENCES Account(ID))');
 
-    //Dauerauftrag
+    //StandingOrder
     await db.execute(
-        'CREATE TABLE Dauerauftrag(DauerauftragID TEXT, Buchungsart INTEGER, Beginn TEXT, Wiederholung INTEGER, ' +
-            'Betrag REAL, Bezeichnung TEXT, Beschreibung TEXT, KontoID TEXT, KategorieID TEXT, ' +
-            'FOREIGN KEY(KontoID) REFERENCES Konto(KontoID), FOREIGN KEY(KategorieID) REFERENCES Kategorie(KategorieID))');
+        'CREATE TABLE StandingOrder(ID TEXT, PostingsType INTEGER, Begin TEXT, Repetition INTEGER, ' +
+            'Amount REAL, Title TEXT, Description TEXT, AccountID TEXT, CategoryID TEXT, ' +
+            'FOREIGN KEY(AccountID) REFERENCES Account(ID), FOREIGN KEY(CategoryID) REFERENCES Category(ID))');
 
-    //Dauerauftragsbuchung
+    //StandingOrderPosting
     await db.execute(
-        'CREATE TABLE Dauerauftragsbuchung(DauerauftragsbuchungID TEXT, Datum TEXT, DauerauftragID TEXT, ' +
-            'FOREIGN KEY(DauerauftragID) REFERENCES Dauerauftrag(DauerauftragID))');
+        'CREATE TABLE StandingOrderPosting(ID TEXT, Date TEXT, StandingOrderID TEXT, ' +
+            'FOREIGN KEY(StandingOrderID) REFERENCES StandingOrder(ID))');
   }
 
   /////////////COPY - PASTE ---- Verstehe ich nicht ganz (wenn ich Tabelle Upgrade, Lösche ich Database und create Tabellen neu 'O')

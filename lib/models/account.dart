@@ -5,18 +5,18 @@ import 'package:haushaltsbuch/models/account_category.dart';
 
 class Account {
   String? id;
-  String? bezeichnung;
-  String? beschreibung;
-  Float? kontostand;
+  String? title;
+  String? description;
+  Float? bankBalance;
   Color? color;
   String? symbol; //Datentyp??
   AccountCategory? accountCategory;
 
   Account({
     this.id,
-    this.bezeichnung,
-    this.beschreibung,
-    this.kontostand,
+    this.title,
+    this.description,
+    this.bankBalance,
     this.color,
     this.symbol,
     this.accountCategory,
