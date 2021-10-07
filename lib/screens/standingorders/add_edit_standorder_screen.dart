@@ -18,6 +18,9 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   DateTime _dateTime = DateTime.now();
   String _repeatValue = 'monatlich';
   int _groupValue_buchungsart = 0;
+  TextEditingController _amountController = TextEditingController(text: '');
+  TextEditingController _titleController = TextEditingController(text: '');
+  TextEditingController _descriptionController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -116,10 +119,12 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ],
               ),
               SizedBox(height: 20),
-              CustomTextField(
-                labelText: 'Konto',
-                hintText: 'Kontoname',
-              ),
+              //TODO: Konto als DropDown
+              Text('Kontoauswahl als DropDown'),
+              // CustomTextField(
+              //   labelText: 'Konto',
+              //   hintText: 'Kontoname',
+              // ),
               SizedBox(height: 20),
               //TODO: Kategorie als PopUp bzw. Seite
               Text('Kategorie - PopUp/Seite noch in arbeit'),
@@ -128,16 +133,19 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 labelText: 'Betrag',
                 hintText: 'in €',
                 keyboardType: TextInputType.number,
+                controller: _amountController,
               ),
               SizedBox(height: 20),
               CustomTextField(
                 labelText: 'Bezeichnung',
                 hintText: '',
+                controller: _titleController,
               ),
               SizedBox(height: 20),
               CustomTextField(
                 labelText: 'Beschreibung',
                 hintText: '',
+                controller: _descriptionController,
               ),
               SizedBox(height: 20),
             ],

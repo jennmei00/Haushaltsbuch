@@ -3,6 +3,7 @@ import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:haushaltsbuch/services/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
+import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
 
@@ -32,6 +33,15 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
         title: Text('Neues Konto'),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: () {
+              
+              // Navigator.pop(context);
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -54,6 +64,12 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
               SizedBox(
                 height: 20,
               ),
+              //TODO: TextFields zu CustomTextField umändern
+              // CustomTextField(
+              //   labelText: 'Kontostand',
+              //   hintText: 'Aktueller Kontostand',
+              //   controller: _,
+              // ),
               TextField(
                 decoration: InputDecoration(
                     labelText: 'Kontostand',

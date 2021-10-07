@@ -19,6 +19,10 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   DateTime _beginSO = DateTime.now();
   bool _standingorderSwitch = false;
   String _repeatValue = 'monatlich';
+  TextEditingController _amountController = TextEditingController(text: '');
+  TextEditingController _titleController = TextEditingController(text: '');
+  TextEditingController _descriptionController =
+      TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -82,18 +86,22 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               TextButton(onPressed: () {}, child: Text('Kategorie wählen: ')),
               SizedBox(height: 20),
               CustomTextField(
-                  labelText: 'Betrag',
-                  hintText: 'in €',
-                  keyboardType: TextInputType.number),
+                labelText: 'Betrag',
+                hintText: 'in €',
+                keyboardType: TextInputType.number,
+                controller: _amountController,
+              ),
               SizedBox(height: 20),
               CustomTextField(
                 labelText: 'Bezeichnung',
                 hintText: '',
+                controller: _titleController,
               ),
               SizedBox(height: 20),
               CustomTextField(
                 labelText: 'Beschreibung',
                 hintText: '',
+                controller: _descriptionController,
               ),
               SizedBox(
                 height: 20,

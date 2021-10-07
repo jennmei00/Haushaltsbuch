@@ -1,16 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/category.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
+import 'package:uuid/uuid.dart';
 
 class NewCategorieScreen extends StatelessWidget {
   static final routeName = '/new_categories_screen';
+  TextEditingController _titleController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Neue Kategorie'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: () async {
+              // Navigator.pop(context);
+              Category cat = Category(
+                id: Uuid().v1(),
+                title: _titleController.text,
+              );
+              DBHelper.insert('Category', cat.toMap());
+              // Map<String, dynamic> map = await DBHelper.getData('Category').then((value) => value.first);
+              // Category cat = Category().fromDB(map);
+              // print(cat.title);
+            },
+          )
+        ],
       ),
       //Kategoriename
       //Farbe Farbbabbel +
@@ -21,6 +41,7 @@ class NewCategorieScreen extends StatelessWidget {
           CustomTextField(
             labelText: 'Kategoriename',
             hintText: '',
+            controller: _titleController,
           ),
           SizedBox(height: 20),
           Text('Farbe wählen:'),

@@ -10,6 +10,8 @@ class TransferScreen extends StatefulWidget {
 
 class _TransferScreenState extends State<TransferScreen> {
   DateTime _dateTime = DateTime.now();
+  TextEditingController _amountController = TextEditingController(text: '');
+  TextEditingController _descriptionController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +66,13 @@ class _TransferScreenState extends State<TransferScreen> {
               labelText: 'Betrag',
               hintText: 'in €',
               keyboardType: TextInputType.number,
+              controller: _amountController,
             ),
             SizedBox(height: 20),
             CustomTextField(
-              labelText: 'BetBeschreibungrag',
+              labelText: 'Beschreibung',
               hintText: '',
+              controller: _descriptionController,
             ),
           ],
         ),

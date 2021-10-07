@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   static final routeName = '/home_screen';
 
   void _openDatabase() {
-    DBHelper.deleteDatabse();
+    // DBHelper.deleteDatabse();
     DBHelper.openDatabase();
   }
 
