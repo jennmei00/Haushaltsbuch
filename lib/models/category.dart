@@ -13,5 +13,31 @@ class Category {
     this.color,
   });
 
-  
+  Map<String, dynamic> toMap() {
+    var map = Map<String, dynamic>();
+    map['ID'] = this.id;
+    map['Title'] = this.title;
+    map['Color'] = this.color;
+    map['Symbol'] = this.symbol;
+    return map;
+  }
+
+  List<Category> listFromDB(List<Map<String, dynamic>> mapList) {
+    List<Category> list = [];
+    mapList.forEach((element) {
+      Category category = fromDB(element);
+      list.add(category);
+    });
+    return list;
+  }
+
+  Category fromDB(Map<String, dynamic> data) {
+    Category category = Category(
+      id: data['ID'],
+      title: data['Title'],
+      color: data['Color'],
+      symbol: data['Symbol'],
+    );
+    return category;
+  }
 }
