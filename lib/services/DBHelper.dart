@@ -73,9 +73,7 @@ class DBHelper {
   }
 
   static Future<void> insert(String table, Map<String, dynamic> data) async {
-    print('DBHelper.insert');
     final db = await DBHelper.openDatabase();
-    print('DBHelper.insert after openDatabase');
     sql.Batch batch = db.batch();
     batch.insert(table, data);
     await batch.commit();

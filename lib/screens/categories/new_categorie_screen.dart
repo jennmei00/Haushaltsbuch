@@ -6,9 +6,16 @@ import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:uuid/uuid.dart';
 
-class NewCategorieScreen extends StatelessWidget {
+class NewCategorieScreen extends StatefulWidget {
   static final routeName = '/new_categories_screen';
+
+  @override
+  State<NewCategorieScreen> createState() => _NewCategorieScreenState();
+}
+
+class _NewCategorieScreenState extends State<NewCategorieScreen> {
   TextEditingController _titleController = TextEditingController(text: '');
+  Color _color = Colors.black;
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +26,14 @@ class NewCategorieScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () async {
-              // Navigator.pop(context);
               Category cat = Category(
                 id: Uuid().v1(),
                 title: _titleController.text,
+                color: _color,
               );
-              DBHelper.insert('Category', cat.toMap());
+              DBHelper.insert('Category', cat.toMap())
+                  .then((value) => Navigator.pop(context));
+
               // Map<String, dynamic> map = await DBHelper.getData('Category').then((value) => value.first);
               // Category cat = Category().fromDB(map);
               // print(cat.title);
@@ -34,7 +43,7 @@ class NewCategorieScreen extends StatelessWidget {
       ),
       //Kategoriename
       //Farbe Farbbabbel +
-      //Symbol Symbolbabbel
+      //TODO: Symbol Symbolbabbel
       body: ListView(
         padding: const EdgeInsets.all(10.0),
         children: [
@@ -44,14 +53,29 @@ class NewCategorieScreen extends StatelessWidget {
             controller: _titleController,
           ),
           SizedBox(height: 20),
-          Text('Farbe wählen:'),
-          IconButton(
-              onPressed: () => CustomDialog().customShowDialog(
-                    context,
-                    'ColorPicker',
-                    ColorPickerClass(_colorChanged),
-                  ),
-              icon: Icon(Icons.color_lens)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Farbe wählen:'),
+              // Row(
+              //   children: [
+              // CircleAvatar(
+              //   backgroundColor: _color,
+              //   radius: 10,
+              // ),
+              IconButton(
+                onPressed: () => CustomDialog().customShowDialog(
+                  context,
+                  'ColorPicker',
+                  ColorPickerClass(_colorChanged),
+                ),
+                icon: Icon(Icons.color_lens),
+                color: _color,
+              ),
+              //   ],
+              // )
+            ],
+          ),
           // Row(
           //   children: [
           //     CircleAvatar(backgroundColor: Colors.red),
@@ -79,8 +103,8 @@ class NewCategorieScreen extends StatelessWidget {
   }
 
   void _colorChanged(Color color) {
-    print(color);
-    // _iconfarbe = color;
-    // setState(() {});
+    setState(() {
+      _color = color;
+    });
   }
 }

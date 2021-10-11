@@ -17,7 +17,7 @@ class Category {
     var map = Map<String, dynamic>();
     map['ID'] = this.id;
     map['Title'] = this.title;
-    map['Color'] = this.color;
+    map['Color'] = this.color!.value.toString();
     map['Symbol'] = this.symbol;
     return map;
   }
@@ -32,10 +32,15 @@ class Category {
   }
 
   Category fromDB(Map<String, dynamic> data) {
+    // print(data['Color']);
+    // int colorValue = data['Color'] != null ? int.tryParse 0;
+
     Category category = Category(
       id: data['ID'],
       title: data['Title'],
-      color: data['Color'],
+      color: data['Color'] == null
+          ? Colors.black
+          : Color(int.parse(data['Color'])),
       symbol: data['Symbol'],
     );
     return category;

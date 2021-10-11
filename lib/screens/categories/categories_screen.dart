@@ -1,76 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
-class CategoriesScreen extends StatelessWidget {
+class CategoriesScreen extends StatefulWidget {
   static final routeName = '/categories_screen';
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text('Kategorien'),
-          centerTitle: true,
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
-        drawer: AppDrawer(),
-        body: GridView.count(
-          padding: EdgeInsets.all(20),
-          crossAxisCount: 4,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.red,
-              child: Icon(
-                Icons.money,
-                size: 50,
-              ),
-            ),
-            CircleAvatar(
-              backgroundColor: Colors.pink,
-              child: Icon(
-                Icons.savings_rounded,
-                size: 50,
-              ),
-            ),
-            CircleAvatar(
-              backgroundColor: Colors.orange,
-              foregroundColor: Colors.white,
-              child: Icon(
-                Icons.card_giftcard,
-                size: 50,
-              ),
-            ),
-            CircleAvatar(
-              backgroundColor: Colors.green,
-              child: Icon(
-                Icons.cottage_sharp,
-                size: 50,
-              ),
-            ),
-            CircleAvatar(
-              backgroundColor: Colors.black,
-              child: Icon(
-                Icons.car_repair,
-                size: 50,
-              ),
-            ),
-            CircleAvatar(),
-            CircleAvatar(),
-            CircleAvatar(),
-            CircleAvatar(),
-            CircleAvatar(),
-            CircleAvatar(),
-            CircleAvatar(),
-            CircleAvatar(),
-            CircleAvatar(),
-            FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(NewCategorieScreen.routeName);
-              },
-              child: Icon(Icons.add),
-            ),
-          ],
-        ),
-      );
+  State<CategoriesScreen> createState() => _CategoriesScreenState();
+}
+
+class _CategoriesScreenState extends State<CategoriesScreen> {
+  List<Category> _categoryList = [];
+  bool _isLoading = true;
+
+  Future<void> getCategoryList() async {
+    _categoryList = Category().listFromDB(await DBHelper.getData('Category'));
+    _isLoading = false;
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    getCategoryList().then((value) => null);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Kategorien'),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
+      drawer: AppDrawer(),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : _categoryList.length == 0
+              ? Text('Keine Kategorien vorhanden, erstelle welche!')
+              : GridView.count(
+                  padding: EdgeInsets.all(20),
+                  crossAxisCount: 4,
+                  // crossAxisCount: _categoryList.length,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                  children: _categoryList
+                      .map((item) => new CircleAvatar(
+                            backgroundColor: item.color,
+                            child: Text('${item.title}'),
+                          ))
+                      .toList(),
+                ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).pushNamed(NewCategorieScreen.routeName);
+        },
+      ),
+    );
+  }
 }
