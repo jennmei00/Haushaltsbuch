@@ -22,9 +22,12 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     ListItem(4, "Fourth Item")
   ];
   ListItem _selectedItem = ListItem(1, "First Value");
+  TextEditingController _titleController = TextEditingController(text: '');
+  TextEditingController _bankBalanceController = TextEditingController(text: '');
+  TextEditingController _descriptionController = TextEditingController(text: '');
   // Color _iconfarbe = Colors.black;
 
-  //TODO: Beschreibung und Symbol fehlt
+  //TODO: Symbol fehlt
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () {
-              
               // Navigator.pop(context);
             },
           )
@@ -50,36 +52,26 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextField(
-                decoration: InputDecoration(
-                    labelText: 'Konto',
-                    labelStyle: TextStyle(fontSize: 20),
-                    hintText: 'Kontoname',
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(30),
-                    )),
+              CustomTextField(
+                labelText: 'Konto',
+                hintText: 'Kontoname',
+                controller: _titleController,
               ),
               SizedBox(
                 height: 20,
               ),
-              //TODO: TextFields zu CustomTextField umändern
-              // CustomTextField(
-              //   labelText: 'Kontostand',
-              //   hintText: 'Aktueller Kontostand',
-              //   controller: _,
-              // ),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: 'Kontostand',
-                    labelStyle: TextStyle(fontSize: 20),
-                    hintText: 'Aktueller Kontostand',
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(30),
-                    )),
+              CustomTextField(
+                labelText: 'Kontostand',
+                hintText: 'Aktueller Kontostand',
+                controller: _bankBalanceController,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CustomTextField(
+                labelText: 'Beschreibung',
+                hintText: 'Kontobeschreibung',
+                controller: _descriptionController,
               ),
               SizedBox(
                 height: 20,
