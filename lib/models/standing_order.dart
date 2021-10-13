@@ -10,7 +10,7 @@ class StandingOrder {
   PostingType? postingType;
   DateTime? begin;
   Repetition? repetition;
-  Float? amount;
+  double? amount;
   String? title;
   String? description;
   Category? category;
@@ -31,14 +31,15 @@ class StandingOrder {
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['ID'] = this.id;
-    map['PostingType'] = this.postingType!.index;
-    map['Begin'] = this.begin;
+    //TODO: PostingType not PostingsType
+    map['PostingsType'] = this.postingType!.index;
+    map['Begin'] = this.begin!.toIso8601String();
     map['Repetition'] = this.repetition;
     map['Title'] = this.title;
     map['Description'] = this.description;
     map['Amount'] = this.amount;
-    map['CategoryID'] = this.category!.id;
-    map['AccountID'] = this.account!.id;
+    map['CategoryID'] = this.category == null ? null : this.category!.id;
+    map['AccountID'] = this.account == null ? null : this.account!.id;
     return map;
   }
 
@@ -54,16 +55,22 @@ class StandingOrder {
   Future<StandingOrder> fromDB(Map<String, dynamic> data) async {
     StandingOrder standingOrder = StandingOrder(
       id: data['ID'],
-      postingType: PostingType.values[data['PostingType'] as int],
-      begin: data['Begin'],
+      postingType: data['PostingType'] == null
+          ? null
+          : PostingType.values[data['PostingType'] as int],
+      begin: DateTime.parse(data['Begin']),
       repetition: data['Repetition'],
       title: data['Title'],
       description: data['Description'],
       amount: data['Amount'],
-      category: Category().fromDB(await DBHelper.getOneData('Category',
-          where: 'ID = ${data['CategoryID']}')),
-      account: await Account().fromDB(await DBHelper.getOneData('Account',
-          where: 'ID = ${data['AccountID']}')),
+      category: data['CategoryID'] == null
+          ? null
+          : Category().fromDB(await DBHelper.getOneData('Category',
+              where: 'ID = ${data['CategoryID']}')),
+      account: data['AccountID'] == null
+          ? null
+          : await Account().fromDB(await DBHelper.getOneData('Account',
+              where: 'ID = ${data['AccountID']}')),
     );
     return standingOrder;
   }

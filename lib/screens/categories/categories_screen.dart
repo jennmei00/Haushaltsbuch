@@ -15,15 +15,21 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   List<Category> _categoryList = [];
   bool _isLoading = true;
 
-  Future<void> getCategoryList() async {
+  Future<void> _getCategoryList() async {
     _categoryList = Category().listFromDB(await DBHelper.getData('Category'));
     _isLoading = false;
     setState(() {});
   }
 
   @override
+  void initState() {
+    _getCategoryList();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    getCategoryList().then((value) => null);
+    // _getCategoryList().then((value) => null);
 
     return Scaffold(
       appBar: AppBar(
@@ -39,7 +45,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               : GridView.count(
                   padding: EdgeInsets.all(20),
                   crossAxisCount: 4,
-                  // crossAxisCount: _categoryList.length,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 20,
                   children: _categoryList

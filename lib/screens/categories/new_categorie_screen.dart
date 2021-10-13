@@ -33,10 +33,6 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
               );
               DBHelper.insert('Category', cat.toMap())
                   .then((value) => Navigator.pop(context));
-
-              // Map<String, dynamic> map = await DBHelper.getData('Category').then((value) => value.first);
-              // Category cat = Category().fromDB(map);
-              // print(cat.title);
             },
           )
         ],

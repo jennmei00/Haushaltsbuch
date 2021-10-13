@@ -1,0 +1,6 @@
+------- Datenspeicherung und Datenausgabe -------
+
+//TODO: Transfer Speicherung
+//TODO: Standingorders Speicherung und Ausgabe
+//TODO: Statistic Ausgabe
+

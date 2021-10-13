@@ -1,11 +1,17 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/account.dart';
+import 'package:haushaltsbuch/models/account_category.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
+import 'package:uuid/uuid.dart';
 
 class NewAccountScreen extends StatefulWidget {
   static final routeName = '/new_account_screen';
@@ -23,9 +29,11 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   ];
   ListItem _selectedItem = ListItem(1, "First Value");
   TextEditingController _titleController = TextEditingController(text: '');
-  TextEditingController _bankBalanceController = TextEditingController(text: '');
-  TextEditingController _descriptionController = TextEditingController(text: '');
-  // Color _iconfarbe = Colors.black;
+  TextEditingController _bankBalanceController =
+      TextEditingController(text: '');
+  TextEditingController _descriptionController =
+      TextEditingController(text: '');
+  Color _color = Colors.black;
 
   //TODO: Symbol fehlt
 
@@ -40,7 +48,17 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () {
-              // Navigator.pop(context);
+              Account ac = Account(
+                id: Uuid().v1(),
+                title: _titleController.text,
+                description: _descriptionController.text,
+                bankBalance: double.parse(_bankBalanceController.text),
+                color: _color,
+                // symbol: ,
+                // accountCategory: ,
+              );
+              DBHelper.insert('Account', ac.toMap())
+                  .then((value) => Navigator.pop(context));
             },
           )
         ],

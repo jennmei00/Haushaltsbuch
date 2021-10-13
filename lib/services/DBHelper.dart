@@ -180,6 +180,7 @@ class DBHelper {
             'FOREIGN KEY(AccountToID) REFERENCES Account(ID))');
 
     //StandingOrder
+    //TODO: Change PostingsType to PostingType 
     await db.execute(
         'CREATE TABLE StandingOrder(ID TEXT, PostingsType INTEGER, Begin TEXT, Repetition INTEGER, ' +
             'Amount REAL, Title TEXT, Description TEXT, AccountID TEXT, CategoryID TEXT, ' +

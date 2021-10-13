@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
+import 'package:haushaltsbuch/models/enums.dart';
+import 'package:haushaltsbuch/models/posting.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
+import 'package:uuid/uuid.dart';
 
 class IncomeExpenseScreen extends StatefulWidget {
   static final routeName = '/income_expense_screen';
@@ -16,13 +21,35 @@ class IncomeExpenseScreen extends StatefulWidget {
 
 class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   DateTime _incomeDateTime = DateTime.now();
-  DateTime _beginSO = DateTime.now();
+  // DateTime _beginSO = DateTime.now();
   bool _standingorderSwitch = false;
-  String _repeatValue = 'monatlich';
+  // String _repeatValue = 'monatlich';
   TextEditingController _amountController = TextEditingController(text: '');
   TextEditingController _titleController = TextEditingController(text: '');
   TextEditingController _descriptionController =
       TextEditingController(text: '');
+  List<ListItem> _accountDropDownItems = [
+    ListItem(0, 'name'),
+    ListItem(1, ' ')
+  ];
+
+  Future<void> _getAccountDropDownItems() async {
+    List<Account> accountList = [];
+    accountList = await Account().listFromDB(await DBHelper.getData('Account'));
+    if (accountList.length != 0) {
+      _accountDropDownItems = [];
+      accountList.forEach((element) {
+        _accountDropDownItems.add(ListItem(1, element.title.toString()));
+      });
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    _getAccountDropDownItems();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +59,20 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
         actions: [
           IconButton(
             onPressed: () {
+              Posting posting = Posting(
+                id: Uuid().v1(),
+                title: _titleController.text,
+                description: _descriptionController.text,
+                // account: , //Ausgewähltes Konto
+                amount: double.parse(_amountController.text),
+                // category: , //Ausgewählte Kategorie
+                date: _incomeDateTime,
+                postingType: widget.type == 'Einnahme'
+                    ? PostingType.income
+                    : PostingType.expense,
+              );
+              DBHelper.insert('Posting', posting.toMap())
+                  .then((value) => Navigator.pop(context));
               Navigator.of(context).pop();
             },
             icon: Icon(Icons.save),
@@ -77,11 +118,11 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               //   hintText: 'Kontoname',
               // ),
               DropDown(
-                  dropdownItems: [ListItem(1, 'Konto1'), ListItem(1, 'Konto2')],
-                  //TODO: onChanged und richtige Items einlesen
+                  // dropdownItems: [ListItem(1, 'Konto1'), ListItem(1, 'Konto2')],
+                  dropdownItems: _accountDropDownItems,
+                  //TODO: onChanged
                   onChanged: () {}),
               SizedBox(height: 20),
-              // Text('Kategorie - DorpDown noch in arbeit'),
               //TODO: Kategorie PopUp bzw. Seite
               TextButton(onPressed: () {}, child: Text('Kategorie wählen: ')),
               SizedBox(height: 20),
@@ -178,50 +219,50 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     );
   }
 
-  void _repeatStandingorder() {
-    CustomDialog().customShowDialog(
-        context,
-        'Wiederholung',
-        Column(children: [
-          TextButton(
-            onPressed: () => _repeatValuePressed(0),
-            child: Text('wöchentlich'),
-            style: TextButton.styleFrom(
-              primary: Colors.black,
-            ),
-          ),
-          TextButton(
-            onPressed: () => _repeatValuePressed(1),
-            child: Text('monatlich'),
-            style: TextButton.styleFrom(
-              primary: Colors.black,
-            ),
-          ),
-          TextButton(
-            onPressed: () => _repeatValuePressed(2),
-            child: Text('jährlich'),
-            style: TextButton.styleFrom(
-              primary: Colors.black,
-            ),
-          ),
-        ]));
-  }
+  // void _repeatStandingorder() {
+  //   CustomDialog().customShowDialog(
+  //       context,
+  //       'Wiederholung',
+  //       Column(children: [
+  //         TextButton(
+  //           onPressed: () => _repeatValuePressed(0),
+  //           child: Text('wöchentlich'),
+  //           style: TextButton.styleFrom(
+  //             primary: Colors.black,
+  //           ),
+  //         ),
+  //         TextButton(
+  //           onPressed: () => _repeatValuePressed(1),
+  //           child: Text('monatlich'),
+  //           style: TextButton.styleFrom(
+  //             primary: Colors.black,
+  //           ),
+  //         ),
+  //         TextButton(
+  //           onPressed: () => _repeatValuePressed(2),
+  //           child: Text('jährlich'),
+  //           style: TextButton.styleFrom(
+  //             primary: Colors.black,
+  //           ),
+  //         ),
+  //       ]));
+  // }
 
-  void _repeatValuePressed(int value) {
-    switch (value) {
-      case 0:
-        _repeatValue = 'wöchentlich';
-        break;
-      case 1:
-        _repeatValue = 'monatlich';
-        break;
-      case 2:
-        _repeatValue = 'jährlich';
-        break;
-      default:
-        return;
-    }
-    this.setState(() {});
-    Navigator.pop(context, true);
-  }
+  // void _repeatValuePressed(int value) {
+  //   switch (value) {
+  //     case 0:
+  //       _repeatValue = 'wöchentlich';
+  //       break;
+  //     case 1:
+  //       _repeatValue = 'monatlich';
+  //       break;
+  //     case 2:
+  //       _repeatValue = 'jährlich';
+  //       break;
+  //     default:
+  //       return;
+  //   }
+  //   this.setState(() {});
+  //   Navigator.pop(context, true);
+  // }
 }

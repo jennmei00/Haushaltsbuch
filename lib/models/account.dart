@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account_category.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 
@@ -8,7 +9,7 @@ class Account {
   String? id;
   String? title;
   String? description;
-  Float? bankBalance;
+  double? bankBalance;
   Color? color;
   String? symbol; //Datentyp??
   AccountCategory? accountCategory;
@@ -29,16 +30,18 @@ class Account {
     map['Title'] = this.title;
     map['Description'] = this.description;
     map['BankBalance'] = this.bankBalance;
-    map['Color'] = this.color;
+    map['Color'] = this.color!.value.toString();
     map['Symbol'] = this.symbol;
-    map['AccountCategoryID'] = this.accountCategory!.id;
+    map['AccountCategoryID'] =
+        this.accountCategory == null ? '99' : this.accountCategory!.id;
     return map;
   }
 
-  List<Account> listFromDB(List<Map<String, dynamic>> mapList) {
+  Future<List<Account>> listFromDB(List<Map<String, dynamic>> mapList) async {
     List<Account> list = [];
     mapList.forEach((element) async {
       Account account = await fromDB(element);
+      print(account);
       list.add(account);
     });
     return list;
@@ -50,11 +53,13 @@ class Account {
       title: data['Title'],
       description: data['Description'],
       bankBalance: data['BankBalance'],
-      color: data['Color'],
+      color: data['Color'] == null
+          ? Colors.black
+          : Color(int.parse(data['Color'])),
       symbol: data['Symbol'],
-      accountCategory: AccountCategory().fromDB(await DBHelper.getOneData(
-          'AccountCategory',
-          where: 'ID = ${data['AccountCategoryID']}')),
+      // accountCategory: AccountCategory().fromDB(await DBHelper.getOneData(
+      //     'AccountCategory',
+      //     where: 'ID = ${data['AccountCategoryID']}')),
     );
     return account;
   }

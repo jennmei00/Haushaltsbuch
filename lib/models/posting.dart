@@ -9,7 +9,7 @@ class Posting {
   String? id;
   PostingType? postingType;
   DateTime? date;
-  Float? amount;
+  double? amount;
   String? title;
   String? description;
   Account? account;
@@ -29,13 +29,13 @@ class Posting {
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['ID'] = this.id;
-    map['PostingType'] = this.postingType;
-    map['Date'] = this.date;
+    map['PostingType'] = this.postingType!.index;
+    map['Date'] = this.date!.toIso8601String();
     map['Amount'] = this.amount;
     map['Title'] = this.title;
     map['Description'] = this.description;
-    map['AccountID'] = this.account!.id;
-    map['CategoryID'] = this.category!.id;
+    map['AccountID'] = this.account == null ? null : this.account!.id;
+    map['CategoryID'] = this.category == null ? null : this.category!.id;
     return map;
   }
 
@@ -56,11 +56,9 @@ class Posting {
       amount: data['Amount'],
       title: data['Title'],
       description: data['Description'],
-      account: await Account().fromDB(await DBHelper.getOneData(
-          'Account',
-          where: 'ID = $account')),
-      category: Category().fromDB(await DBHelper.getOneData(
-          'Category',
+      account: await Account()
+          .fromDB(await DBHelper.getOneData('Account', where: 'ID = $account')),
+      category: Category().fromDB(await DBHelper.getOneData('Category',
           where: 'ID = ${data['CategoryID']}')),
     );
     return posting;
