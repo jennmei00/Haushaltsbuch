@@ -53,6 +53,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.type}'),

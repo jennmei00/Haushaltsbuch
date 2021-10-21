@@ -26,18 +26,55 @@ class HomeScreen extends StatelessWidget {
 
     // _openDirectory();
 
+    final _formKey = GlobalKey<FormState>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Home',
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                print('alles in ordnung');
+              }
+            },
+            icon: Icon(Icons.save),
+          )
+        ],
       ),
+
       // drawer: Drawer(),
       drawer: AppDrawer(),
-      body: Container(
-        child: Text("Das ist die Homeseite"),
-      ),
+      body: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+
+                validator: (val) {
+                  print(val);
+                  if (val == '') return 'Textfeld darf nicht null sein';
+
+                  return null;
+                },
+              ),
+              TextFormField(
+                validator: (val) {
+                  print(val);
+                  if (val == '') return 'Textfeld darf nicht nullllllll sein';
+
+                  return null;
+                },
+              )
+            ],
+          )
+          // Container(
+          //   child: Text("Das ist die Homeseite"),
+          // ),
+          ),
     );
 
     //TODO: Cupertino Design

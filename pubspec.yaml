@@ -30,6 +30,7 @@ dependencies:
   path_provider: ^2.0.5
   path: ^1.8.0
   uuid: ^3.0.4
+  validators: ^3.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -4,3 +4,26 @@
 //TODO: Standingorders Speicherung und Ausgabe
 //TODO: Statistic Ausgabe
 
+------- To-Do Jessica -------
+1) ERLEDIGT Hier rein schreiben, was es für Kontokategorien geben soll
+2) beim Color Picker in Neues Konto bei Speicherbutton das machen, 
+    was jetzt beim Picker in Neue Kategorie bei onchange passiert
+3) Custom Text field überall fehlende Parameter mit übergeben
+4) Design von Input Feldern ändern
+5) Buchen -> Design überlegen
+6) Kategorie wählen als Popup bei Buchen Einnahme/Ausgabe
+7) DropDown in Umbuchung hinzufügen
+8) Dauerauftrag Kontoauswahl als DropDown und Kategorie als Popup
+9) Dauerauftrag Wiederholung Popup verschönern
+
+------- Kontokategorien -------
+- Sparkonto
+- Girokonto
+- Tagesgeldkonto
+- Festgeldkonto
+- Kreditkartenkonto
+- Bargeldkonto
+- Sonstiges/Anderes Konto 
+
+----- Ideensammlung -----
++ "Kontokategorie" in "Kontoart" umbenennen

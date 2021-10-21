@@ -5,12 +5,13 @@ class Popup extends StatelessWidget {
   final Widget body;
   final bool saveButton;
   final bool cancelButton;
+  final Function? saveFunction;
 
-  Popup(
+  const Popup(
       {this.title: '',
       this.body: const Text(''),
       this.saveButton = true,
-      this.cancelButton = true});
+      this.cancelButton = true, this.saveFunction,});
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +29,7 @@ class Popup extends StatelessWidget {
                     // style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                     
-                    ),
-              
-                    
+                    ),   
               ),
               body,
               Padding(
@@ -40,7 +39,7 @@ class Popup extends StatelessWidget {
                   children: [
                     if (saveButton)
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () =>  saveFunction!(),
                         child: Text(
                           'Speichern',
                           style: TextStyle(color: Colors.black),

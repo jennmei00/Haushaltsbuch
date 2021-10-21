@@ -34,6 +34,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   TextEditingController _descriptionController =
       TextEditingController(text: '');
   Color _color = Colors.black;
+  Color _iconcolor = Colors.black;
+  final _formKey = GlobalKey<FormState>();
 
   //TODO: Symbol fehlt
 
@@ -48,87 +50,98 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () {
-              Account ac = Account(
-                id: Uuid().v1(),
-                title: _titleController.text,
-                description: _descriptionController.text,
-                bankBalance: double.parse(_bankBalanceController.text),
-                color: _color,
-                // symbol: ,
-                // accountCategory: ,
-              );
-              DBHelper.insert('Account', ac.toMap())
-                  .then((value) => Navigator.pop(context));
+              print(_formKey.currentState);
+              if (_formKey.currentState!.validate()) {
+                print('no validate');
+                // Account ac = Account(
+                //   id: Uuid().v1(),
+                //   title: _titleController.text,
+                //   description: _descriptionController.text,
+                //   bankBalance: double.parse(_bankBalanceController.text),
+                //   color: _color,
+                //   // symbol: ,
+                //   // accountCategory: ,
+                // );
+                // DBHelper.insert('Account', ac.toMap())
+                //     .then((value) => Navigator.pop(context));
+              }
             },
           )
         ],
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CustomTextField(
-                labelText: 'Konto',
-                hintText: 'Kontoname',
-                controller: _titleController,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              CustomTextField(
-                labelText: 'Kontostand',
-                hintText: 'Aktueller Kontostand',
-                controller: _bankBalanceController,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              CustomTextField(
-                labelText: 'Beschreibung',
-                hintText: 'Kontobeschreibung',
-                controller: _descriptionController,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              DropDown(
-                onChanged: (newValue) {
-                  // ListItem value = newValue as ListItem;
-                  // print(value.value);
-
-                  _selectedItem = newValue as ListItem;
-                  setState(() {});
-                },
-                dropdownItems: _dropdownItems,
-                listItemValue: _selectedItem.value,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Iconfarbe auswählen: ',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  IconButton(
-                    onPressed: () => CustomDialog().customShowDialog(
-                      context,
-                      'ColorPicker',
-                      ColorPickerClass(_colorChanged),
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                CustomTextField(
+                  labelText: 'Konto',
+                  hintText: 'Kontoname',
+                  controller: _titleController,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                CustomTextField(
+                  labelText: 'Kontostand',
+                  hintText: 'Aktueller Kontostand',
+                  controller: _bankBalanceController,
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                CustomTextField(
+                  labelText: 'Beschreibung',
+                  hintText: 'Kontobeschreibung',
+                  controller: _descriptionController,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                DropDown(
+                  onChanged: (newValue) {
+                    // ListItem value = newValue as ListItem;
+                    // print(value.value);
+        
+                    _selectedItem = newValue as ListItem;
+                    setState(() {});
+                  },
+                  dropdownItems: _dropdownItems,
+                  listItemValue: _selectedItem.value,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Iconfarbe auswählen: ',
+                      style: TextStyle(fontSize: 20),
                     ),
-                    icon: Icon(
-                      Icons.color_lens,
-                      // color: _iconfarbe,
+                    IconButton(
+                      onPressed: () => CustomDialog().customShowDialog(
+                          context,
+                          'ColorPicker',
+                          ColorPickerClass(_colorChanged),
+                          true,
+                          true, () {
+                        print('test');
+                      }),
+                      icon: Icon(
+                        Icons.color_lens,
+                        color: _iconcolor,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -137,7 +150,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
 
   void _colorChanged(Color color) {
     print(color);
-    // _iconfarbe = color;
-    // setState(() {});
+    setState(() {
+      _iconcolor = color;
+    });
   }
 }

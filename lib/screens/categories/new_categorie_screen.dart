@@ -17,6 +17,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
   TextEditingController _titleController = TextEditingController(text: '');
   Color _color = Colors.black;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +64,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                 onPressed: () => CustomDialog().customShowDialog(
                   context,
                   'ColorPicker',
-                  ColorPickerClass(_colorChanged),
+                  ColorPickerClass(_colorChanged),true, true
                 ),
                 icon: Icon(Icons.color_lens),
                 color: _color,

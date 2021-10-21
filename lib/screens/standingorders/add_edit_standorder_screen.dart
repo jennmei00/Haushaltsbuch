@@ -30,6 +30,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.type == 'add'
@@ -210,7 +211,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                     primary: Colors.black,
                   ),
                 ),
-              ]));
+              ]),saveButton: true, cancelButton: true,);
         });
   }
 
