@@ -29,7 +29,7 @@ class Posting {
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['ID'] = this.id;
-    map['PostingType'] = this.postingType!.index;
+    map['PostingType'] = this.postingType == null ? null : this.postingType!.index;
     map['Date'] = this.date!.toIso8601String();
     map['Amount'] = this.amount;
     map['Title'] = this.title;
@@ -51,15 +51,17 @@ class Posting {
   Future<Posting> fromDB(Map<String, dynamic> data) async {
     Posting posting = Posting(
       id: data['ID'],
-      postingType: data['PostingType'],
-      date: data['Date'],
+      postingType: data['PostingType'] == null
+          ? null
+          : PostingType.values[data['PostingType'] as int],
+      date: DateTime.parse(data['Date']),
       amount: data['Amount'],
       title: data['Title'],
       description: data['Description'],
-      account: await Account()
-          .fromDB(await DBHelper.getOneData('Account', where: 'ID = $account')),
-      category: Category().fromDB(await DBHelper.getOneData('Category',
-          where: 'ID = ${data['CategoryID']}')),
+      // account: await Account()
+      //     .fromDB(await DBHelper.getOneData('Account', where: 'ID = $account')),
+      // category: Category().fromDB(await DBHelper.getOneData('Category',
+      //     where: 'ID = ${data['CategoryID']}')),
     );
     return posting;
   }

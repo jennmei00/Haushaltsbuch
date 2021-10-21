@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
@@ -12,26 +13,9 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  List<Account> _accountList = [];
-
-  bool _isLoading = true;
-
-  Future<void> _getAccountList() async {
-    _accountList =
-        await Account().listFromDB(await DBHelper.getData('Account'));
-    _isLoading = false;
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    _getAccountList();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    // _getAccountList();
 
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -47,9 +31,7 @@ class _AccountScreenState extends State<AccountScreen> {
             centerTitle: true,
             backgroundColor: Theme.of(context).primaryColor),
         drawer: AppDrawer(),
-        body: _isLoading
-            ? Center(child: CircularProgressIndicator())
-            : _accountList.length == 0
+        body: AllData.accounts.length == 0
                 ? Text('Kein Konto vorhanden, erstelle welche!')
                 : Padding(
                     padding: const EdgeInsets.all(30),

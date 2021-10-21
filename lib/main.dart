@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:haushaltsbuch/models/account.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
@@ -8,6 +10,7 @@ import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
+import 'package:haushaltsbuch/screens/start_screen.dart';
 import 'package:haushaltsbuch/screens/statistics_screen.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
@@ -48,7 +51,8 @@ class MyApp extends StatelessWidget {
       // ),
       // themeMode: ThemeMode.system,
       // darkTheme: MyThemes.darkTheme,
-      home: HomeScreen(),
+      home: StartScreen(),
+      // HomeScreen(),
       routes: {
         AccountScreen.routeName: (context) => AccountScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),

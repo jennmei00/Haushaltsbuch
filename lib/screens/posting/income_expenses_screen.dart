@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
@@ -33,12 +34,10 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     ListItem(1, ' ')
   ];
 
-  Future<void> _getAccountDropDownItems() async {
-    List<Account> accountList = [];
-    accountList = await Account().listFromDB(await DBHelper.getData('Account'));
-    if (accountList.length != 0) {
+  void _getAccountDropDownItems() {
+    if (AllData.accounts.length != 0) {
       _accountDropDownItems = [];
-      accountList.forEach((element) {
+      AllData.accounts.forEach((element) {
         _accountDropDownItems.add(ListItem(1, element.title.toString()));
       });
       setState(() {});
@@ -53,8 +52,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.type}'),

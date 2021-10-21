@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
@@ -12,22 +13,6 @@ class StandingOrdersScreen extends StatefulWidget {
 }
 
 class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
-  List<StandingOrder> _soList = [];
-  bool _isLoading = true;
-
-  Future<void> _getStandingorderList() async {
-    _soList =
-        StandingOrder().listFromDB(await DBHelper.getData('Standingorder'));
-    _isLoading = false;
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    _getStandingorderList();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -45,11 +30,9 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
           backgroundColor: Theme.of(context).primaryColor,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: _isLoading
-            ? Center(child: CircularProgressIndicator())
-            : _soList.length == 0
+        body: AllData.standingOrders.length == 0
                 ? Text('Keine Daueraufträge vorhanden, erstelle doch welche!')
-                : 
+                :
                 //TODO: Liste der Daten anpassen (aus _soList)
                 ListView(
                     children: [

@@ -1,8 +1,10 @@
 ------- Datenspeicherung und Datenausgabe -------
 
-//TODO: Transfer Speicherung
-//TODO: Standingorders Speicherung und Ausgabe
-//TODO: Statistic Ausgabe
+- Transfer Speicherung
+- Standingorders Speicherung und Ausgabe
+- Statistic Ausgabe
+
+- FutureBuilder als ersten Build verwenden
 
 ------- To-Do Jessica -------
 1) ERLEDIGT Hier rein schreiben, was es für Kontokategorien geben soll
