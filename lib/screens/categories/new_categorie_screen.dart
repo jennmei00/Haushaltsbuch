@@ -40,6 +40,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
       ),
       //Kategoriename
       //Farbe Farbbabbel +
+      // ignore: todo
       //TODO: Symbol Symbolbabbel
       body: ListView(
         padding: const EdgeInsets.all(10.0),

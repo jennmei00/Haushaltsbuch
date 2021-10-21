@@ -5,9 +5,10 @@ import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ignore: must_be_immutable
 class SettingsScreen extends StatelessWidget {
   static final routeName = '/settings_screen';
-  bool _darkTheme = false;
+   bool _darkTheme = false;
 
   void onThemeChanged(bool value, ThemeNotifier themeNotifier) async {
     (value)

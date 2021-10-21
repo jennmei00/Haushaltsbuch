@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
-import 'package:haushaltsbuch/services/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:uuid/uuid.dart';
@@ -119,9 +117,11 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               DropDown(
                   // dropdownItems: [ListItem(1, 'Konto1'), ListItem(1, 'Konto2')],
                   dropdownItems: _accountDropDownItems,
+                  // ignore: todo
                   //TODO: onChanged
                   onChanged: () {}),
               SizedBox(height: 20),
+              // ignore: todo
               //TODO: Kategorie PopUp bzw. Seite
               TextButton(onPressed: () {}, child: Text('Kategorie wählen: ')),
               SizedBox(height: 20),

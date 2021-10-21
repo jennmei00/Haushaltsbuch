@@ -9,5 +9,5 @@ final lightTheme = ThemeData(
 final darkTheme = ThemeData(
   brightness: Brightness.dark,
   primaryColor: Colors.cyan[900],
-  accentColor: Colors.cyan[900],
+  // accentColor: Colors.cyan[900],
 );

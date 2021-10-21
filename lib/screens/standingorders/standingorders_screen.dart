@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
-import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
-import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class StandingOrdersScreen extends StatefulWidget {
@@ -33,6 +31,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
         body: AllData.standingOrders.length == 0
                 ? Text('Keine Daueraufträge vorhanden, erstelle doch welche!')
                 :
+                // ignore: todo
                 //TODO: Liste der Daten anpassen (aus _soList)
                 ListView(
                     children: [

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
-import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
-import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class CategoriesScreen extends StatefulWidget {

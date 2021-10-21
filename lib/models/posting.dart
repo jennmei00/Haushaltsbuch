@@ -1,9 +1,7 @@
-import 'dart:ffi';
 
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
-import 'package:haushaltsbuch/services/DBHelper.dart';
 
 class Posting {
   String? id;

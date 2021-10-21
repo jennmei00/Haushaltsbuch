@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
-import 'package:haushaltsbuch/models/standing_order_posting.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
@@ -22,6 +21,7 @@ class AddEditStandingOrder extends StatefulWidget {
 class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   DateTime _dateTime = DateTime.now();
   String _repeatValue = 'monatlich';
+  // ignore: non_constant_identifier_names
   int _groupValue_buchungsart = 0;
   TextEditingController _amountController = TextEditingController(text: '');
   TextEditingController _titleController = TextEditingController(text: '');
@@ -54,6 +54,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
 
               DBHelper.insert('Standingorder', so.toMap());
 
+              // ignore: todo
               //TODO: Testen ob Eintrag in StandingorderPosting funktioniert
               // Kontrollieren, ob Erstell- oder Bearbeitungsmodus
 
@@ -147,6 +148,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ],
               ),
               SizedBox(height: 20),
+              // ignore: todo
               //TODO: Konto als DropDown
               Text('Kontoauswahl als DropDown'),
               // CustomTextField(
@@ -154,6 +156,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
               //   hintText: 'Kontoname',
               // ),
               SizedBox(height: 20),
+              // ignore: todo
               //TODO: Kategorie als PopUp bzw. Seite
               Text('Kategorie - PopUp/Seite noch in arbeit'),
               SizedBox(height: 20),

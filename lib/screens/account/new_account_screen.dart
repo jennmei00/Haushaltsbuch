@@ -1,17 +1,10 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:haushaltsbuch/models/account.dart';
-import 'package:haushaltsbuch/models/account_category.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
-import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
-import 'package:haushaltsbuch/widgets/popup.dart';
-import 'package:uuid/uuid.dart';
 
 class NewAccountScreen extends StatefulWidget {
   static final routeName = '/new_account_screen';
@@ -33,10 +26,11 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       TextEditingController(text: '');
   TextEditingController _descriptionController =
       TextEditingController(text: '');
-  Color _color = Colors.black;
+  // Color _color = Colors.black;
   Color _iconcolor = Colors.black;
   final _formKey = GlobalKey<FormState>();
 
+  // ignore: todo
   //TODO: Symbol fehlt
 
   @override

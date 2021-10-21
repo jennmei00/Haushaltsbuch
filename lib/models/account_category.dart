@@ -1,4 +1,3 @@
-import 'package:haushaltsbuch/models/account.dart';
 
 class AccountCategory {
   String? id;

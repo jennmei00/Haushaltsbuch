@@ -1,26 +1,21 @@
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haushaltsbuch/models/account.dart';
-import 'package:haushaltsbuch/models/all_data.dart';
-import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
-import 'package:path_provider/path_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   static final routeName = '/home_screen';
 
-  void _openDatabase() {
-    // DBHelper.deleteDatabse();
-    DBHelper.openDatabase();
-  }
+  // void _openDatabase() {
+  //   // DBHelper.deleteDatabse();
+  //   DBHelper.openDatabase();
+  // }
 
-  void _openDirectory() async {
-    await getApplicationDocumentsDirectory();
-    Directory dir = await getApplicationDocumentsDirectory();
-    print(dir);
-  }
+  // void _openDirectory() async {
+  //   await getApplicationDocumentsDirectory();
+  //   Directory dir = await getApplicationDocumentsDirectory();
+  //   print(dir);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +76,7 @@ class HomeScreen extends StatelessWidget {
           ),
     );
 
+    // ignore: todo
     //TODO: Cupertino Design
   }
 }

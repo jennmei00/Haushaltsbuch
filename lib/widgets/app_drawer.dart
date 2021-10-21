@@ -12,7 +12,7 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    bool isIOS = false;
+    // bool isIOS = false;
 
     return Drawer(
       child: ListView(
@@ -46,8 +46,8 @@ class AppDrawer extends StatelessWidget {
           //       },
           //     ),
           ListTile(
-            leading:
-                isIOS ? Icon(CupertinoIcons.home) : Icon(Icons.home, size: 36),
+            //isIOS ?  Icon(CupertinoIcons.add) :
+            leading: Icon(Icons.home, size: 36),
             title: Text('Home', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 6),
           ),
@@ -77,9 +77,8 @@ class AppDrawer extends StatelessWidget {
             onTap: () => selectedItem(context, 4),
           ),
           ListTile(
-            leading: isIOS
-                ? Icon(CupertinoIcons.settings)
-                : Icon(Icons.settings, size: 36),
+            // isIOS? Icon(CupertinoIcons.settings) :
+            leading: Icon(Icons.settings, size: 36),
             title: Text('Einstellungen', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 5),
           ),
