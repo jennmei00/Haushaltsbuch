@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
+import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
 import 'package:uuid/uuid.dart';
 
@@ -28,9 +31,26 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   TextEditingController _descriptionController =
       TextEditingController(text: '');
 
+  late List<ListItem> _accountDropDownItems;
+
+  void _getAccountDropDownItems() {
+    if (AllData.accounts.length != 0) {
+      _accountDropDownItems = [];
+      AllData.accounts.forEach((element) {
+        _accountDropDownItems.add(ListItem(1, element.title.toString()));
+      });
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    _getAccountDropDownItems();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.type == 'add'
@@ -72,6 +92,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               FractionallySizedBox(
                 widthFactor: 0.9,
@@ -123,7 +144,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Text('Tag der ${widget.type}:'),
                   Row(
@@ -148,17 +169,43 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ],
               ),
               SizedBox(height: 20),
-              // ignore: todo
-              //TODO: Konto als DropDown
-              Text('Kontoauswahl als DropDown'),
-              // CustomTextField(
-              //   labelText: 'Konto',
-              //   hintText: 'Kontoname',
-              // ),
+              Text('Konto auswählen:'),
+              SizedBox(height: 10),
+              DropDown(dropdownItems: _accountDropDownItems, onChanged: () {}),
               SizedBox(height: 20),
-              // ignore: todo
-              //TODO: Kategorie als PopUp bzw. Seite
-              Text('Kategorie - PopUp/Seite noch in arbeit'),
+              Text('Kategorie auswählen:'),
+              SizedBox(height: 10),
+              Container(
+                height: 100,
+                // padding: EdgeInsets.all(20),
+                // color: Colors.grey[400]?.withOpacity(0.5),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(children: [
+                    Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: AllData.categires
+                          .map((item) => new CircleAvatar(
+                                radius: 40,
+                                backgroundColor: item.color,
+                                child: Text('${item.title}'),
+                              ))
+                          .toList(),
+                    ),
+                    Text('data'),
+                    Text('data'),
+                    Text('data'),
+                    Text('data'),
+                    Text('data'),
+                    Text('data'),
+                    Text('data'),
+                    Text('data'),
+                    Text('data'),
+                    Text('data'),
+                    Text('data'),
+                  ]),
+                ),
+              ),
               SizedBox(height: 20),
               CustomTextField(
                 labelText: 'Betrag',
@@ -191,30 +238,33 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         context: context,
         builder: (BuildContext context) {
           return Popup(
-              title: 'Wiederholung',
-              body: Column(children: [
-                TextButton(
-                  onPressed: () => _repeatValuePressed(0),
-                  child: Text('wöchentlich'),
-                  style: TextButton.styleFrom(
-                    primary: Colors.black,
-                  ),
+            title: 'Wiederholung',
+            body: Column(children: [
+              TextButton(
+                onPressed: () => _repeatValuePressed(0),
+                child: Text('wöchentlich'),
+                style: TextButton.styleFrom(
+                  primary: Colors.black,
                 ),
-                TextButton(
-                  onPressed: () => _repeatValuePressed(1),
-                  child: Text('monatlich'),
-                  style: TextButton.styleFrom(
-                    primary: Colors.black,
-                  ),
+              ),
+              TextButton(
+                onPressed: () => _repeatValuePressed(1),
+                child: Text('monatlich'),
+                style: TextButton.styleFrom(
+                  primary: Colors.black,
                 ),
-                TextButton(
-                  onPressed: () => _repeatValuePressed(2),
-                  child: Text('jährlich'),
-                  style: TextButton.styleFrom(
-                    primary: Colors.black,
-                  ),
+              ),
+              TextButton(
+                onPressed: () => _repeatValuePressed(2),
+                child: Text('jährlich'),
+                style: TextButton.styleFrom(
+                  primary: Colors.black,
                 ),
-              ]),saveButton: true, cancelButton: true,);
+              ),
+            ]),
+            saveButton: true,
+            cancelButton: true,
+          );
         });
   }
 

@@ -40,18 +40,22 @@ class DropDown extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          //color: Colors.cyan,
-          border: Border.all()),
+        borderRadius: BorderRadius.circular(5),
+        // color: Colors.cyan,
+        // color: Colors.grey[700]?.withOpacity(0.5),
+        color: Colors.grey[300]?.withOpacity(0.5),
+        // border: Border.all()
+      ),
       padding: EdgeInsets.only(left: 12.0, right: 12.0),
       height: 60,
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
           style: TextStyle(
             fontSize: 20,
-            color: Colors.grey[600],
+            // color: Colors.grey[400],
+            color: Colors.grey[700],
           ),
-          icon: Icon(Icons.arrow_drop_down_circle_outlined),
+          icon: Icon(Icons.arrow_drop_down),
           iconEnabledColor: Colors.grey[600],
           iconSize: 30,
           value: _selectedItem,
@@ -62,7 +66,7 @@ class DropDown extends StatelessWidget {
     );
   }
 
-  int getDropDownValue() {
-    return this._selectedItem.value;
-  }
+  // int getDropDownValue() {
+  //   return this._selectedItem.value;
+  // }
 }

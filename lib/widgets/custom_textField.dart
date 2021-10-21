@@ -21,8 +21,6 @@ class CustomTextField extends StatelessWidget {
         keyboardType: this.keyboardType,
         controller: this.controller,
         validator: (value) {
-          print('in validator');
-          print(value);
           if (value == null || value.isEmpty) {
             return 'Please enter some text';
           } else if (this.keyboardType == TextInputType.number &&
@@ -36,6 +34,7 @@ class CustomTextField extends StatelessWidget {
           labelStyle: TextStyle(fontSize: 20),
           //hintText: hintText,
           filled: true,
+          // fillColor: Colors.grey[700]?.withOpacity(0.5),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.cyan),
           ),

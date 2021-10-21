@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
@@ -25,14 +24,13 @@ class HomeScreen extends StatelessWidget {
 
     final _formKey = GlobalKey<FormState>();
 
-
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Home',
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
+        backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
             onPressed: () {
@@ -52,7 +50,6 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               TextFormField(
-
                 validator: (val) {
                   print(val);
                   if (val == '') return 'Textfeld darf nicht null sein';

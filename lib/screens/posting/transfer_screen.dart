@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
+import 'package:haushaltsbuch/widgets/dropdown.dart';
 
 class TransferScreen extends StatefulWidget {
   static final routeName = '/transfer_screen';
@@ -11,11 +14,29 @@ class TransferScreen extends StatefulWidget {
 class _TransferScreenState extends State<TransferScreen> {
   DateTime _dateTime = DateTime.now();
   TextEditingController _amountController = TextEditingController(text: '');
-  TextEditingController _descriptionController = TextEditingController(text: '');
+  TextEditingController _descriptionController =
+      TextEditingController(text: '');
+  // late List<ListItem> _accountFromDropDownItems;
+  late List<ListItem> _accountDropDownItems;
+
+  void _getAccountDropDownItems() {
+    if (AllData.accounts.length != 0) {
+      _accountDropDownItems = [];
+      AllData.accounts.forEach((element) {
+        _accountDropDownItems.add(ListItem(1, element.title.toString()));
+      });
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    _getAccountDropDownItems();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Umbuchung'),
@@ -31,6 +52,7 @@ class _TransferScreenState extends State<TransferScreen> {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,11 +79,11 @@ class _TransferScreenState extends State<TransferScreen> {
               ],
             ),
             SizedBox(height: 20),
-            Text('Konto 1 \nDropDownbutton \nWird von Jessi noch erstellt'),
+            DropDown(dropdownItems: _accountDropDownItems, onChanged: () {}),
             SizedBox(height: 20),
             Icon(Icons.arrow_downward_rounded, size: 60),
             SizedBox(height: 20),
-            Text('Konto 2 \nDropDownbutton \nWird von Jessi noch erstellt'),
+            DropDown(dropdownItems: _accountDropDownItems, onChanged: () {}),
             SizedBox(height: 20),
             CustomTextField(
               labelText: 'Betrag',
