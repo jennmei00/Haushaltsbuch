@@ -27,6 +27,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       TextEditingController(text: '');
   // Color _color = Colors.black;
   Color _iconcolor = Colors.black;
+  Color _onchangedColor = Colors.black;
   final _formKey = GlobalKey<FormState>();
   List<ListItem> _accountTypeDropDownItems = [
     ListItem('0', 'name'),
@@ -151,13 +152,18 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                     ),
                     IconButton(
                       onPressed: () => CustomDialog().customShowDialog(
-                          context,
-                          'ColorPicker',
-                          ColorPickerClass(_colorChanged),
-                          true,
-                          true, () {
-                        print('test');
-                      }),
+                        context,
+                        'ColorPicker',
+                        ColorPickerClass(_colorChanged),
+                        true,
+                        true,
+                        () {
+                          setState(() {
+                            _iconcolor = _onchangedColor;
+                          });
+                          Navigator.of(context).pop();
+                        },
+                      ),
                       icon: Icon(
                         Icons.color_lens,
                         color: _iconcolor,
@@ -176,7 +182,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   void _colorChanged(Color color) {
     print(color);
     setState(() {
-      _iconcolor = color;
+      _onchangedColor = color;
     });
   }
 }

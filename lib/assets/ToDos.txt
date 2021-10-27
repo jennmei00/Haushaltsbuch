@@ -8,8 +8,9 @@
 
 ------- To-Do Jessica -------
 1) ERLEDIGT Hier rein schreiben, was es für Kontokategorien geben soll
-2) beim Color Picker in Neues Konto bei Speicherbutton das machen, 
+2) ERLEDIGT beim Color Picker in Neues Konto bei Speicherbutton das machen, 
     was jetzt beim Picker in Neue Kategorie bei onchange passiert
+    -> Farbe vom Symbol soll sich ändern
 3) Custom Text field überall fehlende Parameter mit übergeben
 4) Design von Input Feldern ändern
 5) Buchen -> Design überlegen
