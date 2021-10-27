@@ -4,15 +4,15 @@ import 'package:haushaltsbuch/models/dropdown_classes.dart';
 // ignore: must_be_immutable
 class DropDown extends StatelessWidget {
   final List<ListItem> dropdownItems;
-  final int listItemValue;
+  final String listItemValue;
   final Function onChanged;
 
   DropDown(
       {required this.dropdownItems,
-      this.listItemValue = 999,
+      this.listItemValue = '999',
       required this.onChanged});
 
-  ListItem _selectedItem = ListItem(999, '');
+  ListItem _selectedItem = ListItem('999', '');
 
   List<DropdownMenuItem<ListItem>> _dropdownMenuItems = [];
 
@@ -32,12 +32,12 @@ class DropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _dropdownMenuItems = buildDropDownMenuItems(dropdownItems);
-    if (listItemValue == 999)
+    if (listItemValue == '999')
       _selectedItem = _dropdownMenuItems[0].value!;
     else
       _selectedItem =
           dropdownItems.firstWhere((element) => element.value == listItemValue);
-
+          
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),

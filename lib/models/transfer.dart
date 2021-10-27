@@ -6,7 +6,7 @@ import 'package:haushaltsbuch/services/DBHelper.dart';
 class Transfer {
   String? id;
   DateTime? date;
-  Float? amount;
+  double? amount;
   String? description;
   Account? accountFrom;
   Account? accountTo;
@@ -23,7 +23,7 @@ class Transfer {
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['ID'] = this.id;
-    map['Date'] = this.date;
+    map['Date'] = this.date!.toIso8601String();
     map['Amount'] = this.amount;
     map['Description'] = this.description;
     map['AccountFromID'] = this.accountFrom!.id;
@@ -43,7 +43,7 @@ class Transfer {
   Future<Transfer> fromDB(Map<String, dynamic> data) async {
     Transfer transfer = Transfer(
       id: data['ID'],
-      date: data['Date'],
+      date: DateTime.parse(data['Date']),
       description: data['Description'],
       amount: data['Amount'],
       accountFrom: await Account().fromDB(await DBHelper.getOneData('Account',

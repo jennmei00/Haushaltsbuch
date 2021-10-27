@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haushaltsbuch/models/account_category.dart';
+import 'package:haushaltsbuch/models/account_type.dart';
 
 class Account {
   String? id;
@@ -10,7 +10,7 @@ class Account {
   double? bankBalance;
   Color? color;
   String? symbol; //Datentyp??
-  AccountCategory? accountCategory;
+  AccountType? accountType;
 
   Account({
     this.id,
@@ -19,7 +19,7 @@ class Account {
     this.bankBalance,
     this.color,
     this.symbol,
-    this.accountCategory,
+    this.accountType,
   });
 
   Map<String, dynamic> toMap() {
@@ -30,8 +30,8 @@ class Account {
     map['BankBalance'] = this.bankBalance;
     map['Color'] = this.color!.value.toString();
     map['Symbol'] = this.symbol;
-    map['AccountCategoryID'] =
-        this.accountCategory == null ? '99' : this.accountCategory!.id;
+    map['AccountTypeID'] =
+        this.accountType == null ? '99' : this.accountType!.id;
     return map;
   }
 
@@ -55,9 +55,9 @@ class Account {
           ? Colors.black
           : Color(int.parse(data['Color'])),
       symbol: data['Symbol'],
-      // accountCategory: AccountCategory().fromDB(await DBHelper.getOneData(
-      //     'AccountCategory',
-      //     where: 'ID = ${data['AccountCategoryID']}')),
+      // accountType: AccountType().fromDB(await DBHelper.getOneData(
+      //     'AccountType',
+      //     where: 'ID = ${data['AccountTypeID']}')),
     );
     return account;
   }

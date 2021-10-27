@@ -1,5 +1,6 @@
 class ListItem {
-  int value;
+  // int value;
+  String value;
   String name;
   // String? name;
 

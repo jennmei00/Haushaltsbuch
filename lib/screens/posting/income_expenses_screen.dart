@@ -3,10 +3,12 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
+import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:uuid/uuid.dart';
+import 'package:validators/validators.dart';
 
 class IncomeExpenseScreen extends StatefulWidget {
   static final routeName = '/income_expense_screen';
@@ -28,16 +30,20 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   TextEditingController _descriptionController =
       TextEditingController(text: '');
   List<ListItem> _accountDropDownItems = [
-    ListItem(0, 'name'),
-    ListItem(1, ' ')
+    ListItem('0', 'name'),
+    ListItem('1', ' ')
   ];
+  late ListItem _selectedItem;
 
   void _getAccountDropDownItems() {
+    _selectedItem = ListItem('', '');
     if (AllData.accounts.length != 0) {
       _accountDropDownItems = [];
       AllData.accounts.forEach((element) {
-        _accountDropDownItems.add(ListItem(1, element.title.toString()));
+        _accountDropDownItems
+            .add(ListItem(element.id.toString(), element.title.toString()));
       });
+      _selectedItem = _accountDropDownItems.first;
       setState(() {});
     }
   }
@@ -56,33 +62,43 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Posting posting = Posting(
-                id: Uuid().v1(),
-                title: _titleController.text,
-                description: _descriptionController.text,
-                // account: , //Ausgewähltes Konto
-                amount: double.parse(_amountController.text),
-                // category: , //Ausgewählte Kategorie
-                date: _incomeDateTime,
-                postingType: widget.type == 'Einnahme'
-                    ? PostingType.income
-                    : PostingType.expense,
-              );
-              DBHelper.insert('Posting', posting.toMap())
-                  .then((value) => Navigator.pop(context));
-              Navigator.of(context).pop();
+              if (_titleController.text != '' &&
+                  _descriptionController.text != '' &&
+                  isNumeric(_amountController.text))
+              //If Category is selected
+              {
+                Posting posting = Posting(
+                  id: Uuid().v1(),
+                  title: _titleController.text,
+                  description: _descriptionController.text,
+                  account: AllData.accounts.firstWhere((element) =>
+                      element.id == _selectedItem.value), //Ausgewähltes Konto
+                  amount: double.parse(_amountController.text),
+                  // category: , //Ausgewählte Kategorie
+                  date: _incomeDateTime,
+                  postingType: widget.type == 'Einnahme'
+                      ? PostingType.income
+                      : PostingType.expense,
+                );
+                DBHelper.insert('Posting', posting.toMap()).then((value) =>
+                    Navigator.popAndPushNamed(
+                        context, PostingScreen.routeName));
+              } else
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Please enter some text in the TextFields.'),
+                ));
             },
             icon: Icon(Icons.save),
           ),
         ],
       ),
       body:
-          // SingleChildScrollView(
-          //   physics: BouncingScrollPhysics(),
+          SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
           //   FractionallySizedBox(
           // widthFactor: 1,
           // alignment: Alignment.center,
-          // child:
+          child:
           Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -117,11 +133,13 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             Text('Konto wählen:'),
             SizedBox(height: 10),
             DropDown(
-                // dropdownItems: [ListItem(1, 'Konto1'), ListItem(1, 'Konto2')],
-                dropdownItems: _accountDropDownItems,
-                // ignore: todo
-                //TODO: onChanged
-                onChanged: () {}),
+              dropdownItems: _accountDropDownItems,
+              onChanged: (newValue) {
+                _selectedItem = newValue as ListItem;
+                setState(() {});
+              },
+              listItemValue: _selectedItem.value,
+            ),
             SizedBox(height: 20),
             Text('Kategorie wählen:'),
             SizedBox(height: 10),
@@ -253,7 +271,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
         ),
         // ],
         // ),
-        // ),
+        ),
       ),
     );
   }

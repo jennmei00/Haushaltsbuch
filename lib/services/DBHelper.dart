@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
+import 'package:uuid/uuid.dart';
 
 class DBHelper {
   static sql.Database? _database;
@@ -158,14 +159,14 @@ class DBHelper {
     await db.execute(
         'CREATE TABLE Category(ID TEXT PRIAMRY KEY, Title TEXT, Symbol BLOB, Color TEXT)');
 
-    //AccountCategory
-    await db.execute(
-        'CREATE TABLE AccountCategory(ID TEXT PRIAMRY KEY, Title TEXT)');
+    //AccountType
+    await db
+        .execute('CREATE TABLE AccountType(ID TEXT PRIAMRY KEY, Title TEXT)');
 
     //Account
     await db.execute(
         'CREATE TABLE Account(ID TEXT PRIMARY KEY, Title TEXT, Description TEXT, BankBalance REAL,' +
-            'Color TEXT, Symbol BLOB, AccountCategoryID TEXT, FOREIGN KEY(AccountCategoryID) REFERENCES AccountCategory(ID))');
+            'Color TEXT, Symbol BLOB, AccountTypeID TEXT, FOREIGN KEY(AccountTypeID) REFERENCES AccountType(ID))');
 
     //Posting
     await db.execute(
@@ -180,10 +181,8 @@ class DBHelper {
             'FOREIGN KEY(AccountToID) REFERENCES Account(ID))');
 
     //StandingOrder
-    // ignore: todo
-    //TODO: Change PostingsType to PostingType 
     await db.execute(
-        'CREATE TABLE StandingOrder(ID TEXT, PostingsType INTEGER, Begin TEXT, Repetition INTEGER, ' +
+        'CREATE TABLE StandingOrder(ID TEXT, PostingType INTEGER, Begin TEXT, Repetition INTEGER, ' +
             'Amount REAL, Title TEXT, Description TEXT, AccountID TEXT, CategoryID TEXT, ' +
             'FOREIGN KEY(AccountID) REFERENCES Account(ID), FOREIGN KEY(CategoryID) REFERENCES Category(ID))');
 
@@ -191,20 +190,35 @@ class DBHelper {
     await db.execute(
         'CREATE TABLE StandingOrderPosting(ID TEXT, Date TEXT, StandingOrderID TEXT, ' +
             'FOREIGN KEY(StandingOrderID) REFERENCES StandingOrder(ID))');
+
+    await db
+        .execute("INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Sparkonto')");
+    await db
+        .execute("INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Girokonto')");
+    await db.execute(
+        "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Tagesgeldkonto')");
+    await db.execute(
+        "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Festgeldkonto')");
+    await db.execute(
+        "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Kreditkartenkonto')");
+    await db.execute(
+        "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Bargeldkonto')");
+    await db.execute(
+        "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Sonstiges Konto')");
   }
 
   /////////////COPY - PASTE ---- Verstehe ich nicht ganz (wenn ich Tabelle Upgrade, Lösche ich Database und create Tabellen neu 'O')
-  //Upgrade Tables
+  // Upgrade Tables
   // static Future<void> _upgradeTables(
   //     sql.Database db, int oldVersion, int newVersion) async {
   //   // //ab Version 2
-  //   // if(oldVersion < 2 && newVersion == 2) {
-  //   //   try{
-  //   //     db.execute('ALTER TABLE Auftraege ');
-  //   //   }
-  //   //   catch(e) {
-  //   //     print(e);
-  //   //   }
-  //   // }
+  //   if(oldVersion < 2 && newVersion == 2) {
+  //     try{
+  //       db.execute('ALTER TABLE Auftraege ');
+  //     }
+  //     catch(e) {
+  //       print(e);
+  //     }
+  //   }
   // }
 }

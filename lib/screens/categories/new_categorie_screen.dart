@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
+import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
@@ -17,7 +19,6 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
   TextEditingController _titleController = TextEditingController(text: '');
   Color _color = Colors.black;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +28,22 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () async {
-              Category cat = Category(
-                id: Uuid().v1(),
-                title: _titleController.text,
-                color: _color,
-              );
-              DBHelper.insert('Category', cat.toMap())
-                  .then((value) => Navigator.pop(context));
+              if (_titleController.text != '') {
+                Category cat = Category(
+                  id: Uuid().v1(),
+                  title: _titleController.text,
+                  color: _color,
+                );
+                DBHelper.insert('Category', cat.toMap()).then((value) =>
+                    Navigator.popAndPushNamed(
+                        context,
+                        CategoriesScreen
+                            .routeName)); // Navigator.pop(context));
+                AllData.categires.add(cat);
+              } else
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Please enter some text in the TextFields.'),
+                ));
             },
           )
         ],
@@ -62,11 +72,8 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
               //   radius: 10,
               // ),
               IconButton(
-                onPressed: () => CustomDialog().customShowDialog(
-                  context,
-                  'ColorPicker',
-                  ColorPickerClass(_colorChanged),true, true
-                ),
+                onPressed: () => CustomDialog().customShowDialog(context,
+                    'ColorPicker', ColorPickerClass(_colorChanged), true, true),
                 icon: Icon(Icons.color_lens),
                 color: _color,
               ),

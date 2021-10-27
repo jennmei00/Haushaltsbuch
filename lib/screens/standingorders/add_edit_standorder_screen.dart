@@ -37,7 +37,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     if (AllData.accounts.length != 0) {
       _accountDropDownItems = [];
       AllData.accounts.forEach((element) {
-        _accountDropDownItems.add(ListItem(1, element.title.toString()));
+        _accountDropDownItems.add(ListItem(element.id.toString(), element.title.toString()));
       });
       setState(() {});
     }

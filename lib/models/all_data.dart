@@ -1,5 +1,5 @@
 import 'package:haushaltsbuch/models/account.dart';
-import 'package:haushaltsbuch/models/account_category.dart';
+import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
@@ -12,7 +12,7 @@ class AllData {
   //So you don't have to add "?" and the variable cannot be null.
 
   static late List<Category> categires;
-  static late List<AccountCategory> accountCategories;
+  static late List<AccountType> accountTypes;
   static late List<Account> accounts;
   static late List<Posting> postings;
   static late List<Transfer> transfers;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
-import 'package:haushaltsbuch/models/account_category.dart';
+import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/posting.dart';
@@ -30,8 +30,8 @@ class _StartScreenState extends State<StartScreen> {
     AllData.standingOrders =
         StandingOrder().listFromDB(await DBHelper.getData('Standingorder'));
 
-    AllData.accountCategories =
-        AccountCategory().listFromDB(await DBHelper.getData('AccountCategory'));
+    AllData.accountTypes =
+        AccountType().listFromDB(await DBHelper.getData('AccountType'));
 
     AllData.postings = Posting().listFromDB(await DBHelper.getData('Posting'));
 
@@ -43,7 +43,7 @@ class _StartScreenState extends State<StartScreen> {
 
     // await _getAccountList();
     // await _getCategoryList();
-    // await _getAccountCategoryList();
+    // await _getAccountTypeList();
     // await _getPostingList();
     // await _getTransferList();
     // await _getStandingorderList();
@@ -54,6 +54,7 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   void initState() {
+    // DBHelper.deleteDatabse();
     _loadData = _getAllData();
     super.initState();
   }
