@@ -1,4 +1,3 @@
-
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
@@ -30,9 +29,7 @@ class StandingOrder {
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['ID'] = this.id;
-    // ignore: todo
-    //TODO: PostingType not PostingsType
-    map['PostingsType'] = this.postingType!.index;
+    map['PostingType'] = this.postingType!.index;
     map['Begin'] = this.begin!.toIso8601String();
     map['Repetition'] = this.repetition;
     map['Title'] = this.title;

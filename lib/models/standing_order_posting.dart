@@ -15,7 +15,7 @@ class StandingOrderPosting {
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['ID'] = this.id;
-    map['Date'] = this.date;
+    map['Date'] = this.date!.toIso8601String();
     map['StandingOrderID'] = this.standingOrder!.id;
     return map;
   }
@@ -32,7 +32,7 @@ class StandingOrderPosting {
   Future<StandingOrderPosting> fromDB(Map<String, dynamic> data) async {
     StandingOrderPosting standingOrderPosting = StandingOrderPosting(
       id: data['ID'],
-      date: data['Date'],
+      date: DateTime.parse(data['Date']),
       standingOrder: await StandingOrder().fromDB(await DBHelper.getOneData(
           'StandingOrder',
           where: 'ID = ${data['StandingOrderID']}')),
