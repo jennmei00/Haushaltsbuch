@@ -3,7 +3,7 @@
 - ERLEDIGT Transfer Speicherung
 - Standingorders Speicherung und Ausgabe
 - Statistic Ausgabe
-
+- Umbuchung abfangen, wenn beide Konten gleich sind
 - ERLEDIGT FutureBuilder als ersten Build verwenden
 
 ------- To-Do Jessica -------

@@ -39,7 +39,6 @@ class Account {
     List<Account> list = [];
     mapList.forEach((element) async {
       Account account = await fromDB(element);
-      print(account);
       list.add(account);
     });
     return list;

@@ -4,11 +4,14 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
+import 'package:haushaltsbuch/models/standing_order_posting.dart';
+import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
 import 'package:uuid/uuid.dart';
+import 'package:validators/validators.dart';
 
 class AddEditStandingOrder extends StatefulWidget {
   static final routeName = '/edit_standingorder_screen';
@@ -37,7 +40,8 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     if (AllData.accounts.length != 0) {
       _accountDropDownItems = [];
       AllData.accounts.forEach((element) {
-        _accountDropDownItems.add(ListItem(element.id.toString(), element.title.toString()));
+        _accountDropDownItems
+            .add(ListItem(element.id.toString(), element.title.toString()));
       });
       setState(() {});
     }
@@ -60,29 +64,39 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () async {
-              StandingOrder so = StandingOrder(
-                id: Uuid().v1(),
-                title: _titleController.text,
-                description: _descriptionController.text,
-                amount: double.parse(_amountController.text),
-                // account: , //Konto auswahl
-                // category: , //Kategorie auswahl
-                begin: _dateTime,
-                postingType: PostingType.values[_groupValue_buchungsart],
-                // repetition: Repetition.values[], //Repetitionvalue abfragen
-              );
+              if (_titleController.text != '' &&
+                  _descriptionController.text != '' &&
+                  isNumeric(_amountController.text))
+              //If Category is selected
+              {
+                StandingOrder so = StandingOrder(
+                  id: Uuid().v1(),
+                  title: _titleController.text,
+                  description: _descriptionController.text,
+                  amount: double.parse(_amountController.text),
+                  // account: , //Konto auswahl
+                  // category: , //Kategorie auswahl
+                  begin: _dateTime,
+                  postingType: PostingType.values[_groupValue_buchungsart],
+                  // repetition: Repetition.values[], //Repetitionvalue abfragen
+                );
 
-              DBHelper.insert('Standingorder', so.toMap());
+                StandingOrderPosting sop = StandingOrderPosting(
+                    id: Uuid().v1(), date: _dateTime, standingOrder: so);
+
+                await DBHelper.insert('Standingorder', so.toMap());
+                await DBHelper.insert('StandingorderPosting', sop.toMap());
+
+                Navigator.popAndPushNamed(
+                    context, StandingOrdersScreen.routeName);
+              } else
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Please enter some text in the TextFields.'),
+                ));
 
               // ignore: todo
               //TODO: Testen ob Eintrag in StandingorderPosting funktioniert
               // Kontrollieren, ob Erstell- oder Bearbeitungsmodus
-
-              // StandingOrderPosting sop = StandingOrderPosting(
-              //     id: Uuid().v1(), date: _dateTime, standingOrder: so);
-              // DBHelper.insert('StandingorderPosting', sop.toMap());
-
-              Navigator.pop(context);
             },
           )
         ],

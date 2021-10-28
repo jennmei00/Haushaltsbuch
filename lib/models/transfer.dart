@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 

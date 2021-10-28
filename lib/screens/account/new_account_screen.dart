@@ -68,9 +68,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () {
-              print(_formKey.currentState);
               if (_formKey.currentState!.validate()) {
-                print('no validate');
                 if (_titleController.text != '' &&
                     _descriptionController.text != '' &&
                     isNumeric(_bankBalanceController.text)) {
