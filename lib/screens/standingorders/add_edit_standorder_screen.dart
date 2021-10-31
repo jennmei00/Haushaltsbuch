@@ -16,9 +16,9 @@ import 'package:validators/validators.dart';
 class AddEditStandingOrder extends StatefulWidget {
   static final routeName = '/edit_standingorder_screen';
 
-  final String type;
+  final String id;
 
-  AddEditStandingOrder({this.type = ''});
+  AddEditStandingOrder({this.id = ''});
 
   @override
   _AddEditStandingOrderState createState() => _AddEditStandingOrderState();
@@ -35,21 +35,43 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
       TextEditingController(text: '');
 
   late List<ListItem> _accountDropDownItems;
+  late ListItem _selectedItem;
 
   void _getAccountDropDownItems() {
+    _selectedItem = ListItem('', '');
+
     if (AllData.accounts.length != 0) {
       _accountDropDownItems = [];
       AllData.accounts.forEach((element) {
         _accountDropDownItems
             .add(ListItem(element.id.toString(), element.title.toString()));
       });
+      _selectedItem = _accountDropDownItems.first;
+
       setState(() {});
     }
+  }
+
+  void _getStandingOrderData() {
+    StandingOrder so =
+        AllData.standingOrders.firstWhere((element) => element.id == widget.id);
+    // _repeatValue = Repetition.values(so.repetition!.index);
+    _groupValue_buchungsart = so.postingType!.index;
+    _dateTime = so.begin!;
+    _selectedItem =
+        _accountDropDownItems.firstWhere((element) => element.value == so.account!.id);
+    //Category
+    _amountController.text = so.amount!.toString();
+    _titleController.text = so.title!;
+    _descriptionController.text = so.description!;
   }
 
   @override
   void initState() {
     _getAccountDropDownItems();
+    if (widget.id != '') {
+      _getStandingOrderData();
+    }
     super.initState();
   }
 
@@ -57,7 +79,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.type == 'add'
+        title: Text(widget.id == ''
             ? 'Dauerauftrag hinzufügen'
             : 'Dauerauftrag bearbeiten'),
         actions: [
@@ -68,24 +90,30 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                   _descriptionController.text != '' &&
                   isNumeric(_amountController.text))
               //If Category is selected
+              //description kein muss!
               {
                 StandingOrder so = StandingOrder(
-                  id: Uuid().v1(),
+                  id: widget.id != '' ? widget.id : Uuid().v1(),
                   title: _titleController.text,
                   description: _descriptionController.text,
                   amount: double.parse(_amountController.text),
-                  // account: , //Konto auswahl
+                  account: AllData.accounts.firstWhere(
+                      (element) => element.id == _selectedItem.value),
                   // category: , //Kategorie auswahl
                   begin: _dateTime,
                   postingType: PostingType.values[_groupValue_buchungsart],
                   // repetition: Repetition.values[], //Repetitionvalue abfragen
                 );
 
+                //Bei bearbeitung nicht INSERT sondern UPDATE...
                 StandingOrderPosting sop = StandingOrderPosting(
                     id: Uuid().v1(), date: _dateTime, standingOrder: so);
-
+                
                 await DBHelper.insert('Standingorder', so.toMap());
                 await DBHelper.insert('StandingorderPosting', sop.toMap());
+
+                AllData.standingOrders.add(so);
+                AllData.standingOrderPostings.add(sop);
 
                 Navigator.popAndPushNamed(
                     context, StandingOrdersScreen.routeName);
@@ -185,7 +213,14 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
               SizedBox(height: 20),
               Text('Konto auswählen:'),
               SizedBox(height: 10),
-              DropDown(dropdownItems: _accountDropDownItems, onChanged: () {}),
+              DropDown(
+                dropdownItems: _accountDropDownItems,
+                listItemValue: _selectedItem.value,
+                onChanged: (newValue) {
+                  _selectedItem = newValue as ListItem;
+                  setState(() {});
+                },
+              ),
               SizedBox(height: 20),
               Text('Kategorie auswählen:'),
               SizedBox(height: 10),

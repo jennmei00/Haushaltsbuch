@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(
             builder: (context) {
               return AddEditStandingOrder(
-                type: args,
+                id: args,
               );
             },
           );
