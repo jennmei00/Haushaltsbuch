@@ -36,7 +36,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   late ListItem _selectedItem;
 
   void _getAccountDropDownItems() {
-    _selectedItem = ListItem('', '');
+    _selectedItem = ListItem('0', 'name');
     if (AllData.accounts.length != 0) {
       _accountDropDownItems = [];
       AllData.accounts.forEach((element) {
@@ -80,6 +80,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                       ? PostingType.income
                       : PostingType.expense,
                 );
+                AllData.postings.add(posting);
                 DBHelper.insert('Posting', posting.toMap()).then((value) =>
                     Navigator.popAndPushNamed(
                         context, PostingScreen.routeName));

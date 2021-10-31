@@ -70,6 +70,7 @@ class _TransferScreenState extends State<TransferScreen> {
                   amount: double.parse(_amountController.text),
                   date: _dateTime,
                 );
+                AllData.transfers.add(transfer);
                 DBHelper.insert('Transfer', transfer.toMap()).then((value) =>
                     Navigator.popAndPushNamed(
                         context, PostingScreen.routeName));

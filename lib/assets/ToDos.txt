@@ -15,7 +15,7 @@
 4) Design von Input Feldern ändern
 5) Buchen -> Design überlegen
 6) Kategorie wählen als Popup bei Buchen Einnahme/Ausgabe
-7) DropDown in Umbuchung hinzufügen
+7) ERLEDIGT DropDown in Umbuchung hinzufügen
 8) Dauerauftrag Kontoauswahl als DropDown und Kategorie als Popup
 9) Dauerauftrag Wiederholung Popup verschönern
 
