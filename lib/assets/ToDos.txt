@@ -11,6 +11,12 @@
     - Category
     - Postings
 - bei Wiederholung lieber radio buttons?
+- Buchung verwalten
+    - Liste aller Buchungen 
+    - mit Filter
+    - und edit/delete Funktion
+
+
 
 
 ------- To-Do Jessica -------

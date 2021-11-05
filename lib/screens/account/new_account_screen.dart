@@ -25,7 +25,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       TextEditingController(text: '');
   TextEditingController _descriptionController =
       TextEditingController(text: '');
-  // Color _color = Colors.black;
   Color _iconcolor = Colors.black;
   Color _onchangedColor = Colors.black;
   final _formKey = GlobalKey<FormState>();
@@ -37,11 +36,9 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   void _getAccountTypeDropDownItems() {
     if (AllData.accountTypes.length != 0) {
       _accountTypeDropDownItems = [];
-      // int i = 0;
       AllData.accountTypes.forEach((element) {
         _accountTypeDropDownItems
             .add(ListItem(element.id.toString(), element.title.toString()));
-        // i++;
       });
       _selectedItem = _accountTypeDropDownItems.first;
 

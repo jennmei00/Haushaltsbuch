@@ -2,6 +2,7 @@
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 
 class Posting {
   String? id;
@@ -56,10 +57,10 @@ class Posting {
       amount: data['Amount'],
       title: data['Title'],
       description: data['Description'],
-      // account: await Account()
-      //     .fromDB(await DBHelper.getOneData('Account', where: 'ID = $account')),
-      // category: Category().fromDB(await DBHelper.getOneData('Category',
-      //     where: 'ID = ${data['CategoryID']}')),
+      account: await Account()
+          .fromDB(await DBHelper.getOneData('Account', where: "ID = $account'")),
+      category: Category().fromDB(await DBHelper.getOneData('Category',
+          where: "ID = ${data['CategoryID']}'")),
     );
     return posting;
   }

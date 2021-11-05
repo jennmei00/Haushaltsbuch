@@ -38,7 +38,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                     Navigator.popAndPushNamed(
                         context,
                         CategoriesScreen
-                            .routeName)); // Navigator.pop(context));
+                            .routeName));
                 AllData.categires.add(cat);
               } else
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -48,8 +48,6 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
           )
         ],
       ),
-      //Kategoriename
-      //Farbe Farbbabbel +
       // ignore: todo
       //TODO: Symbol Symbolbabbel
       body: ListView(
@@ -65,40 +63,14 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Farbe wählen:'),
-              // Row(
-              //   children: [
-              // CircleAvatar(
-              //   backgroundColor: _color,
-              //   radius: 10,
-              // ),
               IconButton(
                 onPressed: () => CustomDialog().customShowDialog(context,
                     'ColorPicker', ColorPickerClass(_colorChanged), true, true),
                 icon: Icon(Icons.color_lens),
                 color: _color,
               ),
-              //   ],
-              // )
             ],
           ),
-          // Row(
-          //   children: [
-          //     CircleAvatar(backgroundColor: Colors.red),
-          //     CircleAvatar(backgroundColor: Colors.orange),
-          //     CircleAvatar(backgroundColor: Colors.yellow),
-          //     CircleAvatar(backgroundColor: Colors.green),
-          //     CircleAvatar(backgroundColor: Colors.lightGreen),
-          //     CircleAvatar(backgroundColor: Colors.blue),
-          //     CircleAvatar(backgroundColor: Colors.lightBlue),
-          //     CircleAvatar(backgroundColor: Colors.black),
-          //     FloatingActionButton(
-          //       onPressed: () {
-          //       },
-          //       child: Icon(Icons.add),
-          //       mini: true,
-          //     ),
-          //   ],
-          // ),
           SizedBox(height: 20),
           Text('Symbol'),
           Row(),

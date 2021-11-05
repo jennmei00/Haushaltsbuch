@@ -21,7 +21,6 @@ class _TransferScreenState extends State<TransferScreen> {
   TextEditingController _amountController = TextEditingController(text: '');
   TextEditingController _descriptionController =
       TextEditingController(text: '');
-  // late List<ListItem> _accountFromDropDownItems;
   late List<ListItem> _accountDropDownItems;
   late ListItem _selectedAccountFrom;
   late ListItem _selectedAccountTo;
@@ -57,8 +56,9 @@ class _TransferScreenState extends State<TransferScreen> {
           IconButton(
             onPressed: () {
               if (_descriptionController.text != '' &&
-                  isNumeric(_amountController.text))
-              //Different accounts???
+                  isNumeric(_amountController.text)
+                  && _selectedAccountFrom != _selectedAccountTo
+                  )
               {
                 Transfer transfer = Transfer(
                   id: Uuid().v1(),
@@ -85,65 +85,67 @@ class _TransferScreenState extends State<TransferScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Datum:'),
-                Row(
-                  children: [
-                    Text(
-                        '${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
-                    IconButton(
-                      icon: Icon(Icons.date_range),
-                      onPressed: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: _dateTime,
-                          firstDate:
-                              DateTime.now().subtract(Duration(days: 365)),
-                          lastDate: DateTime.now().add(Duration(days: 365)),
-                        ).then((value) => setState(() => _dateTime = value!));
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            DropDown(
-                dropdownItems: _accountDropDownItems,
-                listItemValue: _selectedAccountFrom.value,
-                onChanged: (newValue) {
-                  _selectedAccountFrom = newValue as ListItem;
-                  setState(() {});
-                }),
-            SizedBox(height: 20),
-            Icon(Icons.arrow_downward_rounded, size: 60),
-            SizedBox(height: 20),
-            DropDown(
-                dropdownItems: _accountDropDownItems,
-                listItemValue: _selectedAccountTo.value,
-                onChanged: (newValue) {
-                  _selectedAccountTo = newValue as ListItem;
-                  setState(() {});
-                }),
-            SizedBox(height: 20),
-            CustomTextField(
-              labelText: 'Betrag',
-              hintText: 'in €',
-              keyboardType: TextInputType.number,
-              controller: _amountController,
-            ),
-            SizedBox(height: 20),
-            CustomTextField(
-              labelText: 'Beschreibung',
-              hintText: '',
-              controller: _descriptionController,
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Datum:'),
+                  Row(
+                    children: [
+                      Text(
+                          '${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
+                      IconButton(
+                        icon: Icon(Icons.date_range),
+                        onPressed: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate: _dateTime,
+                            firstDate:
+                                DateTime.now().subtract(Duration(days: 365)),
+                            lastDate: DateTime.now().add(Duration(days: 365)),
+                          ).then((value) => setState(() => _dateTime = value!));
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              DropDown(
+                  dropdownItems: _accountDropDownItems,
+                  listItemValue: _selectedAccountFrom.value,
+                  onChanged: (newValue) {
+                    _selectedAccountFrom = newValue as ListItem;
+                    setState(() {});
+                  }),
+              SizedBox(height: 20),
+              Icon(Icons.arrow_downward_rounded, size: 60),
+              SizedBox(height: 20),
+              DropDown(
+                  dropdownItems: _accountDropDownItems,
+                  listItemValue: _selectedAccountTo.value,
+                  onChanged: (newValue) {
+                    _selectedAccountTo = newValue as ListItem;
+                    setState(() {});
+                  }),
+              SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Betrag',
+                hintText: 'in €',
+                keyboardType: TextInputType.number,
+                controller: _amountController,
+              ),
+              SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Beschreibung',
+                hintText: '',
+                controller: _descriptionController,
+              ),
+            ],
+          ),
         ),
       ),
     );

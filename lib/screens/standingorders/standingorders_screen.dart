@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/enums.dart';
-import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';

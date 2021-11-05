@@ -66,7 +66,7 @@ class StandingOrder {
               where: "ID = '${data['CategoryID']}'")),
       account: data['AccountID'] == null
           ? null
-          :  Account().fromDB(await DBHelper.getOneData('Account',
+          :  await Account().fromDB(await DBHelper.getOneData('Account',
               where: "ID = '${data['AccountID']}'")),
     );
     return standingOrder;

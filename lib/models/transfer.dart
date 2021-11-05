@@ -44,9 +44,9 @@ class Transfer {
       date: DateTime.parse(data['Date']),
       description: data['Description'],
       amount: data['Amount'],
-      accountFrom:  Account().fromDB(await DBHelper.getOneData('Account',
+      accountFrom: await Account().fromDB(await DBHelper.getOneData('Account',
           where: "ID = '${data['AccountFromID']}'")),
-      accountTo:  Account().fromDB(await DBHelper.getOneData('Account',
+      accountTo: await Account().fromDB(await DBHelper.getOneData('Account',
           where: "ID = '${data['AccountToID']}'")),
     );
     return transfer;
