@@ -53,7 +53,7 @@ class PostingScreen extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    _income(context);
+                    _expense(context);
                   },
                   child: Container(
                     padding: EdgeInsets.all(25),
@@ -81,7 +81,7 @@ class PostingScreen extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    _income(context);
+                    _transfer(context);
                   },
                   child: Container(
                     padding: EdgeInsets.all(25),

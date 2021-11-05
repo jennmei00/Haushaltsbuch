@@ -40,8 +40,8 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   void _getAccountDropDownItems() {
     _selectedItem = ListItem('', '');
 
+    _accountDropDownItems = [ListItem('', '')];
     if (AllData.accounts.length != 0) {
-      _accountDropDownItems = [];
       AllData.accounts.forEach((element) {
         _accountDropDownItems
             .add(ListItem(element.id.toString(), element.title.toString()));
@@ -58,8 +58,8 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     // _repeatValue = Repetition.values(so.repetition!.index);
     _groupValue_buchungsart = so.postingType!.index;
     _dateTime = so.begin!;
-    _selectedItem =
-        _accountDropDownItems.firstWhere((element) => element.value == so.account!.id);
+    _selectedItem = _accountDropDownItems
+        .firstWhere((element) => element.value == so.account!.id);
     //Category
     _amountController.text = so.amount!.toString();
     _titleController.text = so.title!;
@@ -105,13 +105,23 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                   // repetition: Repetition.values[], //Repetitionvalue abfragen
                 );
 
-                //Bei bearbeitung nicht INSERT sondern UPDATE...
                 StandingOrderPosting sop = StandingOrderPosting(
                     id: Uuid().v1(), date: _dateTime, standingOrder: so);
-                
-                await DBHelper.insert('Standingorder', so.toMap());
-                await DBHelper.insert('StandingorderPosting', sop.toMap());
 
+                if (widget.id == '') {
+                  await DBHelper.insert('Standingorder', so.toMap());
+                  await DBHelper.insert('StandingorderPosting', sop.toMap());
+                } else {
+                  await DBHelper.update('Standingorder', so.toMap(),
+                      where: "ID = '${so.id}'");
+                  await DBHelper.update('StandingorderPosting', sop.toMap(),
+                      where: "ID = '${so.id}'");
+
+                  AllData.standingOrders
+                      .removeWhere((element) => element.id == so.id);
+                  AllData.standingOrderPostings
+                      .removeWhere((element) => element.id == sop.id);
+                }
                 AllData.standingOrders.add(so);
                 AllData.standingOrderPostings.add(sop);
 

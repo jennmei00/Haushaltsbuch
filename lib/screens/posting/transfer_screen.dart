@@ -27,8 +27,8 @@ class _TransferScreenState extends State<TransferScreen> {
   late ListItem _selectedAccountTo;
 
   void _getAccountDropDownItems() {
+      _accountDropDownItems = [ListItem('', '')];
     if (AllData.accounts.length != 0) {
-      _accountDropDownItems = [];
       AllData.accounts.forEach((element) {
         _accountDropDownItems
             .add(ListItem(element.id.toString(), element.title.toString()));

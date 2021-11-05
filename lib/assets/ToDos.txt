@@ -1,10 +1,17 @@
 ------- Datenspeicherung und Datenausgabe -------
 
 - ERLEDIGT Transfer Speicherung
-- Standingorders Speicherung und Ausgabe
+- ERLEDIGT Standingorders Speicherung und Ausgabe
+- ERLEDIGT FutureBuilder als ersten Build verwenden
 - Statistic Ausgabe
 - Umbuchung abfangen, wenn beide Konten gleich sind
-- ERLEDIGT FutureBuilder als ersten Build verwenden
+- Löschfunktion (Aufpassen, da Daten verknüft sind)
+    - Standingorders
+    - Accounts
+    - Category
+    - Postings
+- bei Wiederholung lieber radio buttons?
+
 
 ------- To-Do Jessica -------
 1) ERLEDIGT Hier rein schreiben, was es für Kontokategorien geben soll

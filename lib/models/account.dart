@@ -35,16 +35,16 @@ class Account {
     return map;
   }
 
-  Future<List<Account>> listFromDB(List<Map<String, dynamic>> mapList) async {
+  List<Account> listFromDB(List<Map<String, dynamic>> mapList) {
     List<Account> list = [];
-    mapList.forEach((element) async {
-      Account account = await fromDB(element);
+    mapList.forEach((element)  {
+      Account account =  fromDB(element);
       list.add(account);
     });
     return list;
   }
 
-  Future<Account> fromDB(Map<String, dynamic> data) async {
+  Account fromDB(Map<String, dynamic> data) {
     Account account = Account(
       id: data['ID'],
       title: data['Title'],

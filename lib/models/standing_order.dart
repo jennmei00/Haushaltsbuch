@@ -63,11 +63,11 @@ class StandingOrder {
       category: data['CategoryID'] == null
           ? null
           : Category().fromDB(await DBHelper.getOneData('Category',
-              where: 'ID = ${data['CategoryID']}')),
+              where: "ID = '${data['CategoryID']}'")),
       account: data['AccountID'] == null
           ? null
-          : await Account().fromDB(await DBHelper.getOneData('Account',
-              where: 'ID = ${data['AccountID']}')),
+          :  Account().fromDB(await DBHelper.getOneData('Account',
+              where: "ID = '${data['AccountID']}'")),
     );
     return standingOrder;
   }

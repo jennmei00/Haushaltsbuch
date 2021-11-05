@@ -22,7 +22,7 @@ class _StartScreenState extends State<StartScreen> {
 
   Future<bool> _getAllData() async {
     AllData.accounts =
-        await Account().listFromDB(await DBHelper.getData('Account'));
+       Account().listFromDB(await DBHelper.getData('Account'));
 
     AllData.categires =
         Category().listFromDB(await DBHelper.getData('Category'));
@@ -41,14 +41,6 @@ class _StartScreenState extends State<StartScreen> {
     AllData.transfers =
         Transfer().listFromDB(await DBHelper.getData('Transfer'));
 
-    // await _getAccountList();
-    // await _getCategoryList();
-    // await _getAccountTypeList();
-    // await _getPostingList();
-    // await _getTransferList();
-    // await _getStandingorderList();
-    // await _getStandingorderPostingList();
-
     return Future.value(true);
   }
 
@@ -58,10 +50,6 @@ class _StartScreenState extends State<StartScreen> {
     _loadData = _getAllData();
     super.initState();
   }
-
-  //  Future.sync(() => null) Future.wait(futures)() async {
-  //     return true;
-  // }
 
   @override
   Widget build(BuildContext context) {

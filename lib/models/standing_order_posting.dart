@@ -35,7 +35,7 @@ class StandingOrderPosting {
       date: DateTime.parse(data['Date']),
       standingOrder: await StandingOrder().fromDB(await DBHelper.getOneData(
           'StandingOrder',
-          where: 'ID = ${data['StandingOrderID']}')),
+          where: "ID = '${data['StandingOrderID']}'")),
     );
     return standingOrderPosting;
   }
