@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
+import 'package:haushaltsbuch/screens/management_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/statistics_screen.dart';
@@ -49,38 +50,43 @@ class AppDrawer extends StatelessWidget {
             //isIOS ?  Icon(CupertinoIcons.add) :
             leading: Icon(Icons.home, size: 36),
             title: Text('Home', style: TextStyle(fontSize: 18)),
-            onTap: () => selectedItem(context, 6),
+            onTap: () => selectedItem(context, 'home'),
           ),
           ListTile(
             leading: Icon(Icons.switch_account, size: 36),
             title: Text('Konten', style: TextStyle(fontSize: 18)),
-            onTap: () => selectedItem(context, 0),
+            onTap: () => selectedItem(context, 'accounts'),
           ),
           ListTile(
             leading: Icon(Icons.category, size: 36),
             title: Text('Kategorien', style: TextStyle(fontSize: 18)),
-            onTap: () => selectedItem(context, 1),
+            onTap: () => selectedItem(context, 'categories'),
           ),
           ListTile(
             leading: Icon(Icons.price_change, size: 36),
             title: Text('Buchen', style: TextStyle(fontSize: 18)),
-            onTap: () => selectedItem(context, 2),
+            onTap: () => selectedItem(context, 'posting'),
           ),
           ListTile(
             leading: Icon(Icons.assignment, size: 36),
             title: Text('Daueraufträge', style: TextStyle(fontSize: 18)),
-            onTap: () => selectedItem(context, 3),
+            onTap: () => selectedItem(context, 'standingorders'),
           ),
           ListTile(
             leading: Icon(Icons.stacked_bar_chart, size: 36),
             title: Text('Statistik', style: TextStyle(fontSize: 18)),
-            onTap: () => selectedItem(context, 4),
+            onTap: () => selectedItem(context, 'statistic'),
+          ),
+          ListTile(
+            leading: Icon(Icons.request_page, size: 36),
+            title: Text('Verwlatung', style: TextStyle(fontSize: 18)),
+            onTap: () => selectedItem(context, 'management'),
           ),
           ListTile(
             // isIOS? Icon(CupertinoIcons.settings) :
             leading: Icon(Icons.settings, size: 36),
             title: Text('Einstellungen', style: TextStyle(fontSize: 18)),
-            onTap: () => selectedItem(context, 5),
+            onTap: () => selectedItem(context, 'settings'),
           ),
         ],
       ),
@@ -88,35 +94,35 @@ class AppDrawer extends StatelessWidget {
   }
 
   // function for navigating through the menu items
-  void selectedItem(BuildContext context, int index) {
+  void selectedItem(BuildContext context, String screen) {
     Navigator.of(context)
         .pop(); //closes the Drawer when navigation to another screen
 
-    switch (index) {
-      case 0:
-        // Navigator.of(context).pushReplacement(MaterialPageRoute(
-        //     builder: (context) => AccountScreen(),
-        //   ));
+    switch (screen) {
+      case 'home':
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        break;
+      case 'accounts':
         Navigator.of(context).pushReplacementNamed(AccountScreen.routeName);
         break;
-      case 1:
+      case 'categories':
         Navigator.of(context).pushReplacementNamed(CategoriesScreen.routeName);
         break;
-      case 2:
+      case 'posting':
         Navigator.of(context).pushReplacementNamed(PostingScreen.routeName);
         break;
-      case 3:
+      case 'standingorders':
         Navigator.of(context)
             .pushReplacementNamed(StandingOrdersScreen.routeName);
         break;
-      case 4:
+      case 'statistic':
         Navigator.of(context).pushReplacementNamed(StatisticsScreen.routeName);
         break;
-      case 5:
-        Navigator.of(context).pushReplacementNamed(SettingsScreen.routeName);
+      case 'management':
+        Navigator.of(context).pushReplacementNamed(ManagementScreen.routeName);
         break;
-      case 6:
-        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      case 'settings':
+        Navigator.of(context).pushReplacementNamed(SettingsScreen.routeName);
         break;
     }
   }
