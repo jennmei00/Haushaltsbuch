@@ -3,8 +3,8 @@
 - ERLEDIGT Transfer Speicherung
 - ERLEDIGT Standingorders Speicherung und Ausgabe
 - ERLEDIGT FutureBuilder als ersten Build verwenden
+- ERLEDIGT Umbuchung abfangen, wenn beide Konten gleich sind
 - Statistic Ausgabe
-- Umbuchung abfangen, wenn beide Konten gleich sind
 - Löschfunktion (Aufpassen, da Daten verknüft sind)
     - Standingorders
     - Accounts
@@ -15,7 +15,16 @@
     - Liste aller Buchungen 
     - mit Filter
     - und edit/delete Funktion
+- Konten bearbeiten mit Löschenbutton
+- Kategorien bearbeiten
+- Dropdowns erstes Value "Bitte wählen", falls nicht gewählt schriftfarbe rot werden
+- Daueraufträge auf zwei Kommastellen runden
 
+Prüfung TextFields keine Pflichtfelder sind
+- Neues Konto: Beschreibung
+- Einnahme/Ausgabe: Beschreibung
+- Umbuchung: Beschreibung
+- Dauerauftrag: Beschreibung
 
 
 
@@ -31,6 +40,9 @@
 7) ERLEDIGT DropDown in Umbuchung hinzufügen
 8) Dauerauftrag Kontoauswahl als DropDown und Kategorie als Popup
 9) Dauerauftrag Wiederholung Popup verschönern
+10) nach Symbolen suchen
+11) Bilder für Buchen
+12) TextField validations auf float prüfen (bei Betrag) auf ALLE seiten
 
 ------- Kontokategorien -------
 - Sparkonto
