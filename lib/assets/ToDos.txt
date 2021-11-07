@@ -42,7 +42,8 @@ Prüfung TextFields keine Pflichtfelder sind
 9) Dauerauftrag Wiederholung Popup verschönern
 10) nach Symbolen suchen
 11) Bilder für Buchen
-12) TextField validations auf float prüfen (bei Betrag) auf ALLE seiten
+12) ERLEDIGT TextField validations auf float prüfen (bei Betrag) auf ALLE seiten
+13) Dropdown validations auf allen Seiten
 
 ------- Kontokategorien -------
 - Sparkonto

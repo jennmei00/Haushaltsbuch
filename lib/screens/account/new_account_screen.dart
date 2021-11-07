@@ -67,8 +67,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 if (_titleController.text != '' &&
-                    _descriptionController.text != '' &&
-                    isNumeric(_bankBalanceController.text)) {
+                    isFloat(_bankBalanceController.text)) {
                   Account ac = Account(
                     id: Uuid().v1(),
                     title: _titleController.text,
@@ -83,92 +82,106 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                       Navigator.popAndPushNamed(
                           context, AccountScreen.routeName));
                   AllData.accounts.add(ac);
-                } else {
+                } 
+                else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Please enter some text in the TextFields.'),
+                    content: Text('Das Speichern in die Datenbank ist \n schiefgelaufen :(', textAlign: TextAlign.center,),
+                  ));}
+              }
+              else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Ups, da passt etwas noch nicht :(', textAlign: TextAlign.center,),
                   ));
-                }
               }
             },
           )
         ],
       ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          padding: const EdgeInsets.all(10.0),
+      // body: SingleChildScrollView(
+      //   physics: BouncingScrollPhysics(),
+      //   child: Form(
+      //     key: _formKey,
+      //     child: Padding(
+      //       padding: const EdgeInsets.all(10.0),
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CustomTextField(
+              labelText: 'Konto',
+              hintText: 'Kontoname',
+              controller: _titleController,
+              mandatory: true,
+              fieldname: 'account',
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            CustomTextField(
+              labelText: 'Kontostand',
+              hintText: 'Aktueller Kontostand',
+              controller: _bankBalanceController,
+              keyboardType: TextInputType.number,
+              mandatory: true,
+              fieldname: 'accountBalance',
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            CustomTextField(
+              labelText: 'Beschreibung',
+              hintText: 'Kontobeschreibung',
+              controller: _descriptionController,
+              mandatory: false,
+              fieldname: 'description',
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            DropDown(
+              onChanged: (newValue) {
+                _selectedItem = newValue as ListItem;
+                setState(() {});
+              },
+              dropdownItems: _accountTypeDropDownItems,
+              listItemValue: _selectedItem.value,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomTextField(
-                  labelText: 'Konto',
-                  hintText: 'Kontoname',
-                  controller: _titleController,
+                Text(
+                  'Iconfarbe auswählen: ',
+                  style: TextStyle(fontSize: 20),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomTextField(
-                  labelText: 'Kontostand',
-                  hintText: 'Aktueller Kontostand',
-                  controller: _bankBalanceController,
-                  keyboardType: TextInputType.number,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                CustomTextField(
-                  labelText: 'Beschreibung',
-                  hintText: 'Kontobeschreibung',
-                  controller: _descriptionController,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                DropDown(
-                  onChanged: (newValue) {
-                    _selectedItem = newValue as ListItem;
-                    setState(() {});
-                  },
-                  dropdownItems: _accountTypeDropDownItems,
-                  listItemValue: _selectedItem.value,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Iconfarbe auswählen: ',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    IconButton(
-                      onPressed: () => CustomDialog().customShowDialog(
-                        context,
-                        'ColorPicker',
-                        ColorPickerClass(_colorChanged),
-                        true,
-                        true,
-                        () {
-                          setState(() {
-                            _iconcolor = _onchangedColor;
-                          });
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      icon: Icon(
-                        Icons.color_lens,
-                        color: _iconcolor,
-                      ),
-                    ),
-                  ],
+                IconButton(
+                  onPressed: () => CustomDialog().customShowDialog(
+                    context,
+                    'ColorPicker',
+                    ColorPickerClass(_colorChanged),
+                    true,
+                    true,
+                    () {
+                      setState(() {
+                        _iconcolor = _onchangedColor;
+                      });
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  icon: Icon(
+                    Icons.color_lens,
+                    color: _iconcolor,
+                  ),
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );

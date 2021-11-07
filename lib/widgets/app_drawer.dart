@@ -79,7 +79,7 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.request_page, size: 36),
-            title: Text('Verwlatung', style: TextStyle(fontSize: 18)),
+            title: Text('Verwaltung', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 'management'),
           ),
           ListTile(

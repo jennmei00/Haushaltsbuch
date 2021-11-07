@@ -49,7 +49,13 @@ class DropDown extends StatelessWidget {
       padding: EdgeInsets.only(left: 12.0, right: 12.0),
       height: 60,
       child: DropdownButtonHideUnderline(
-        child: DropdownButton(
+        child: DropdownButtonFormField(
+          validator: (value) {
+            print(value);
+            if (value == null || value == '') {
+              return 'Das ist ein Pflichtfeld';
+            }
+          },
           style: TextStyle(
             fontSize: 20,
             // color: Colors.grey[400],

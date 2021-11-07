@@ -18,6 +18,7 @@ class NewCategorieScreen extends StatefulWidget {
 class _NewCategorieScreenState extends State<NewCategorieScreen> {
   TextEditingController _titleController = TextEditingController(text: '');
   Color _color = Colors.black;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,8 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: () async {
+            onPressed: () {
+            if (_formKey.currentState!.validate()) {
               if (_titleController.text != '') {
                 Category cat = Category(
                   id: Uuid().v1(),
@@ -40,41 +42,53 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                         CategoriesScreen
                             .routeName));
                 AllData.categires.add(cat);
-              } else
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Please enter some text in the TextFields.'),
-                ));
+              } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Das Speichern in die Datenbank ist \n schiefgelaufen :(', textAlign: TextAlign.center,),
+                  ));}
+              }
+              else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Ups, da passt etwas noch nicht :(', textAlign: TextAlign.center,),
+                  ));
+              }
             },
           )
         ],
       ),
       // ignore: todo
       //TODO: Symbol Symbolbabbel
-      body: ListView(
-        padding: const EdgeInsets.all(10.0),
-        children: [
-          CustomTextField(
-            labelText: 'Kategoriename',
-            hintText: '',
-            controller: _titleController,
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Farbe wählen:'),
-              IconButton(
-                onPressed: () => CustomDialog().customShowDialog(context,
-                    'ColorPicker', ColorPickerClass(_colorChanged), true, true),
-                icon: Icon(Icons.color_lens),
-                color: _color,
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-          Text('Symbol'),
-          Row(),
-        ],
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          padding: const EdgeInsets.all(10.0),
+          children: [
+            CustomTextField(
+              labelText: 'Kategoriename',
+              hintText: '',
+              controller: _titleController,
+              mandatory: true,
+              fieldname: 'categoryName',
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Farbe wählen:'),
+                IconButton(
+                  onPressed: () => CustomDialog().customShowDialog(context,
+                      'ColorPicker', ColorPickerClass(_colorChanged), true, true),
+                  icon: Icon(Icons.color_lens),
+                  color: _color,
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Text('Symbol'),
+            Row(),
+          ],
+        ),
       ),
     );
   }

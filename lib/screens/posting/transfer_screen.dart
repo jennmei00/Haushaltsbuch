@@ -24,6 +24,7 @@ class _TransferScreenState extends State<TransferScreen> {
   late List<ListItem> _accountDropDownItems;
   late ListItem _selectedAccountFrom;
   late ListItem _selectedAccountTo;
+  final _formKey = GlobalKey<FormState>();
 
   void _getAccountDropDownItems() {
       _accountDropDownItems = [ListItem('', '')];
@@ -54,9 +55,10 @@ class _TransferScreenState extends State<TransferScreen> {
         title: Text('Umbuchung'),
         actions: [
           IconButton(
+            icon: Icon(Icons.save),
             onPressed: () {
-              if (_descriptionController.text != '' &&
-                  isNumeric(_amountController.text)
+              if (_formKey.currentState!.validate()) {
+              if (isFloat(_amountController.text)
                   && _selectedAccountFrom != _selectedAccountTo
                   )
               {
@@ -74,20 +76,25 @@ class _TransferScreenState extends State<TransferScreen> {
                 DBHelper.insert('Transfer', transfer.toMap()).then((value) =>
                     Navigator.popAndPushNamed(
                         context, PostingScreen.routeName));
-              } else
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Please enter some text in the TextFields.'),
-                ));
+              } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Das Speichern in die Datenbank ist \n schiefgelaufen :(', textAlign: TextAlign.center,),
+                  ));}
+              }
+              else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Ups, da passt etwas noch nicht :(', textAlign: TextAlign.center,),
+                  ));
+              }
             },
-            icon: Icon(Icons.save),
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          padding: const EdgeInsets.all(10.0),
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -137,17 +144,20 @@ class _TransferScreenState extends State<TransferScreen> {
                 hintText: 'in €',
                 keyboardType: TextInputType.number,
                 controller: _amountController,
+                mandatory: true,
+                fieldname: 'amount',
               ),
               SizedBox(height: 20),
               CustomTextField(
                 labelText: 'Beschreibung',
                 hintText: '',
                 controller: _descriptionController,
+                mandatory: false,
+                fieldname: 'description',
               ),
             ],
           ),
         ),
-      ),
     );
   }
 }

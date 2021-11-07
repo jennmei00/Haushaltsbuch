@@ -33,6 +33,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   TextEditingController _titleController = TextEditingController(text: '');
   TextEditingController _descriptionController =
       TextEditingController(text: '');
+  final _formKey = GlobalKey<FormState>();
 
   late List<ListItem> _accountDropDownItems;
   late ListItem _selectedItem;
@@ -86,52 +87,57 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () async {
-              if (_titleController.text != '' &&
-                  _descriptionController.text != '' &&
-                  isNumeric(_amountController.text))
-              //If Category is selected
-              //description kein muss!
-              {
-                StandingOrder so = StandingOrder(
-                  id: widget.id != '' ? widget.id : Uuid().v1(),
-                  title: _titleController.text,
-                  description: _descriptionController.text,
-                  amount: double.parse(_amountController.text),
-                  account: AllData.accounts.firstWhere(
-                      (element) => element.id == _selectedItem.value),
-                  // category: , //Kategorie auswahl
-                  begin: _dateTime,
-                  postingType: PostingType.values[_groupValue_buchungsart],
-                  // repetition: Repetition.values[], //Repetitionvalue abfragen
-                );
+              if (_formKey.currentState!.validate()) {
+                if (_titleController.text != '' &&
+                    isFloat(_amountController.text))
+                //If Category is selected
+                //description kein muss!
+                {
+                  StandingOrder so = StandingOrder(
+                    id: widget.id != '' ? widget.id : Uuid().v1(),
+                    title: _titleController.text,
+                    description: _descriptionController.text,
+                    amount: double.parse(_amountController.text),
+                    account: AllData.accounts.firstWhere(
+                        (element) => element.id == _selectedItem.value),
+                    // category: , //Kategorie auswahl
+                    begin: _dateTime,
+                    postingType: PostingType.values[_groupValue_buchungsart],
+                    // repetition: Repetition.values[], //Repetitionvalue abfragen
+                  );
 
-                StandingOrderPosting sop = StandingOrderPosting(
-                    id: Uuid().v1(), date: _dateTime, standingOrder: so);
+                  StandingOrderPosting sop = StandingOrderPosting(
+                      id: Uuid().v1(), date: _dateTime, standingOrder: so);
 
-                if (widget.id == '') {
-                  await DBHelper.insert('Standingorder', so.toMap());
-                  await DBHelper.insert('StandingorderPosting', sop.toMap());
+                  if (widget.id == '') {
+                    await DBHelper.insert('Standingorder', so.toMap());
+                    await DBHelper.insert('StandingorderPosting', sop.toMap());
+                  } else {
+                    await DBHelper.update('Standingorder', so.toMap(),
+                        where: "ID = '${so.id}'");
+                    await DBHelper.update('StandingorderPosting', sop.toMap(),
+                        where: "ID = '${so.id}'");
+
+                    AllData.standingOrders
+                        .removeWhere((element) => element.id == so.id);
+                    AllData.standingOrderPostings
+                        .removeWhere((element) => element.id == sop.id);
+                  }
+                  AllData.standingOrders.add(so);
+                  AllData.standingOrderPostings.add(sop);
+
+                  Navigator.popAndPushNamed(
+                      context, StandingOrdersScreen.routeName);
                 } else {
-                  await DBHelper.update('Standingorder', so.toMap(),
-                      where: "ID = '${so.id}'");
-                  await DBHelper.update('StandingorderPosting', sop.toMap(),
-                      where: "ID = '${so.id}'");
-
-                  AllData.standingOrders
-                      .removeWhere((element) => element.id == so.id);
-                  AllData.standingOrderPostings
-                      .removeWhere((element) => element.id == sop.id);
-                }
-                AllData.standingOrders.add(so);
-                AllData.standingOrderPostings.add(sop);
-
-                Navigator.popAndPushNamed(
-                    context, StandingOrdersScreen.routeName);
-              } else
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Please enter some text in the TextFields.'),
-                ));
-
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Das Speichern in die Datenbank ist \n schiefgelaufen :(', textAlign: TextAlign.center,),
+                    ));}
+              }
+              else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Ups, da passt etwas noch nicht :(', textAlign: TextAlign.center,),
+                  ));
+              }
               // ignore: todo
               //TODO: Testen ob Eintrag in StandingorderPosting funktioniert
               // Kontrollieren, ob Erstell- oder Bearbeitungsmodus
@@ -139,12 +145,11 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Padding(
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          physics: BouncingScrollPhysics(),
           padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               FractionallySizedBox(
                 widthFactor: 0.9,
@@ -271,24 +276,29 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 hintText: 'in €',
                 keyboardType: TextInputType.number,
                 controller: _amountController,
+                mandatory: true,
+                fieldname: 'amount',
               ),
               SizedBox(height: 20),
               CustomTextField(
                 labelText: 'Bezeichnung',
                 hintText: '',
                 controller: _titleController,
+                mandatory: true,
+                fieldname: 'title',
               ),
               SizedBox(height: 20),
               CustomTextField(
                 labelText: 'Beschreibung',
                 hintText: '',
                 controller: _descriptionController,
+                mandatory: false,
+                fieldname: 'description',
               ),
               SizedBox(height: 20),
             ],
           ),
         ),
-      ),
     );
   }
 

@@ -6,13 +6,16 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final TextInputType keyboardType;
   final TextEditingController controller;
+  final bool mandatory; //check for mandatory field
+  final String fieldname; //substitute for an id
 
   CustomTextField({
     this.labelText: '',
     this.hintText: '',
     this.keyboardType: TextInputType.text,
     required this.controller,
-    // required this.optional,
+    required this.mandatory,
+    required this.fieldname,
   });
 
   @override
@@ -21,11 +24,16 @@ class CustomTextField extends StatelessWidget {
         keyboardType: this.keyboardType,
         controller: this.controller,
         validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter some text';
-          } else if (this.keyboardType == TextInputType.number &&
-              !(isNumeric(value))) {
-            return 'Only numbers allowed';
+          if ((value == null || value.isEmpty) && mandatory) {
+            return 'Das ist ein Pflichtfeld!';
+          } else if (this.keyboardType == TextInputType.number && 
+              !(isFloat(value!))) {
+            // if (value!.contains(',')) {
+            //   return 'Komma durch einen Punkt ersetzen';
+            // } else 
+            // if (!(isFloat(value!))) {
+              return 'Nur Zahlen sind erlaubt (Punkt statt Komma)';
+            // } 
           }
           return null;
         },

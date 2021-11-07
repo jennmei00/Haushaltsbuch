@@ -29,6 +29,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   TextEditingController _titleController = TextEditingController(text: '');
   TextEditingController _descriptionController =
       TextEditingController(text: '');
+  final _formKey = GlobalKey<FormState>();
   List<ListItem> _accountDropDownItems = [
     ListItem('0', 'name'),
     ListItem('1', ' ')
@@ -61,49 +62,49 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
         title: Text('${widget.type}'),
         actions: [
           IconButton(
-            onPressed: () {
-              if (_titleController.text != '' &&
-                  _descriptionController.text != '' &&
-                  isNumeric(_amountController.text))
-              //If Category is selected
-              {
-                Posting posting = Posting(
-                  id: Uuid().v1(),
-                  title: _titleController.text,
-                  description: _descriptionController.text,
-                  account: AllData.accounts.firstWhere((element) =>
-                      element.id == _selectedItem.value), //Ausgewähltes Konto
-                  amount: double.parse(_amountController.text),
-                  // category: , //Ausgewählte Kategorie
-                  date: _incomeDateTime,
-                  postingType: widget.type == 'Einnahme'
-                      ? PostingType.income
-                      : PostingType.expense,
-                );
-                AllData.postings.add(posting);
-                DBHelper.insert('Posting', posting.toMap()).then((value) =>
-                    Navigator.popAndPushNamed(
-                        context, PostingScreen.routeName));
-              } else
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Please enter some text in the TextFields.'),
-                ));
-            },
             icon: Icon(Icons.save),
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                if (_titleController.text != '' &&
+                    isFloat(_amountController.text))
+                //If Category is selected
+                {
+                  Posting posting = Posting(
+                    id: Uuid().v1(),
+                    title: _titleController.text,
+                    description: _descriptionController.text,
+                    account: AllData.accounts.firstWhere((element) =>
+                        element.id == _selectedItem.value), //Ausgewähltes Konto
+                    amount: double.parse(_amountController.text),
+                    // category: , //Ausgewählte Kategorie
+                    date: _incomeDateTime,
+                    postingType: widget.type == 'Einnahme'
+                        ? PostingType.income
+                        : PostingType.expense,
+                  );
+                  DBHelper.insert('Posting', posting.toMap()).then((value) =>
+                      Navigator.popAndPushNamed(
+                          context, PostingScreen.routeName));
+                  AllData.postings.add(posting);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Das Speichern in die Datenbank ist \n schiefgelaufen :(', textAlign: TextAlign.center,),
+                  ));}
+              }
+              else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Ups, da passt etwas noch nicht :(', textAlign: TextAlign.center,),
+                  ));
+              }
+            },
           ),
         ],
       ),
-      body:
-          SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-          //   FractionallySizedBox(
-          // widthFactor: 1,
-          // alignment: Alignment.center,
-          child:
-          Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          padding: const EdgeInsets.all(10.0),
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,18 +190,24 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               hintText: 'in €',
               keyboardType: TextInputType.number,
               controller: _amountController,
+              mandatory: true,
+              fieldname: 'amount',
             ),
             SizedBox(height: 20),
             CustomTextField(
               labelText: 'Bezeichnung',
               hintText: '',
               controller: _titleController,
+              mandatory: true,
+              fieldname: 'title',
             ),
             SizedBox(height: 20),
             CustomTextField(
               labelText: 'Beschreibung',
               hintText: '',
               controller: _descriptionController,
+              mandatory: false,
+              fieldname: 'description',
             ),
             SizedBox(
               height: 20,
@@ -273,8 +280,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
         // ],
         // ),
         ),
-      ),
     );
+
   }
 
   // void _repeatStandingorder() {
