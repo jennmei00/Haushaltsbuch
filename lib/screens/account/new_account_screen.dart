@@ -75,7 +75,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                     bankBalance: double.parse(_bankBalanceController.text),
                     color: _iconcolor,
                     accountType: AllData.accountTypes.firstWhere(
-                        (element) => element.id == _selectedItem.value),
+                        (element) => element.id == _selectedItem.id),
                     // symbol: ,
                   );
                   DBHelper.insert('Account', ac.toMap()).then((value) =>
@@ -148,7 +148,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                 setState(() {});
               },
               dropdownItems: _accountTypeDropDownItems,
-              listItemValue: _selectedItem.value,
+              listItemValue: _selectedItem.id,
             ),
             SizedBox(
               height: 30,

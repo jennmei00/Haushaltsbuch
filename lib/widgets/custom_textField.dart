@@ -28,12 +28,7 @@ class CustomTextField extends StatelessWidget {
             return 'Das ist ein Pflichtfeld!';
           } else if (this.keyboardType == TextInputType.number && 
               !(isFloat(value!))) {
-            // if (value!.contains(',')) {
-            //   return 'Komma durch einen Punkt ersetzen';
-            // } else 
-            // if (!(isFloat(value!))) {
               return 'Nur Zahlen sind erlaubt (Punkt statt Komma)';
-            // } 
           }
           return null;
         },

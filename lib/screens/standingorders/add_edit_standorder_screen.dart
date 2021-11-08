@@ -60,7 +60,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     _groupValue_buchungsart = so.postingType!.index;
     _dateTime = so.begin!;
     _selectedItem = _accountDropDownItems
-        .firstWhere((element) => element.value == so.account!.id);
+        .firstWhere((element) => element.id == so.account!.id);
     //Category
     _amountController.text = so.amount!.toString();
     _titleController.text = so.title!;
@@ -99,7 +99,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                     description: _descriptionController.text,
                     amount: double.parse(_amountController.text),
                     account: AllData.accounts.firstWhere(
-                        (element) => element.id == _selectedItem.value),
+                        (element) => element.id == _selectedItem.id),
                     // category: , //Kategorie auswahl
                     begin: _dateTime,
                     postingType: PostingType.values[_groupValue_buchungsart],
@@ -230,7 +230,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
               SizedBox(height: 10),
               DropDown(
                 dropdownItems: _accountDropDownItems,
-                listItemValue: _selectedItem.value,
+                listItemValue: _selectedItem.id,
                 onChanged: (newValue) {
                   _selectedItem = newValue as ListItem;
                   setState(() {});

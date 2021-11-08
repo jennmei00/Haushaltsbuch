@@ -1,8 +1,8 @@
 class ListItem {
   // int value;
-  String value;
+  String id;
   String name;
   // String? name;
 
-  ListItem(this.value, this.name);
+  ListItem(this.id, this.name);
 }

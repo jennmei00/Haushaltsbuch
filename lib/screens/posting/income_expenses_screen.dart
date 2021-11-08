@@ -74,7 +74,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                     title: _titleController.text,
                     description: _descriptionController.text,
                     account: AllData.accounts.firstWhere((element) =>
-                        element.id == _selectedItem.value), //Ausgewähltes Konto
+                        element.id == _selectedItem.id), //Ausgewähltes Konto
                     amount: double.parse(_amountController.text),
                     // category: , //Ausgewählte Kategorie
                     date: _incomeDateTime,
@@ -140,7 +140,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                 _selectedItem = newValue as ListItem;
                 setState(() {});
               },
-              listItemValue: _selectedItem.value,
+              listItemValue: _selectedItem.id,
             ),
             SizedBox(height: 20),
             Text('Kategorie wählen:'),

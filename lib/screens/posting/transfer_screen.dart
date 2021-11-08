@@ -66,9 +66,9 @@ class _TransferScreenState extends State<TransferScreen> {
                   id: Uuid().v1(),
                   description: _descriptionController.text,
                   accountFrom: AllData.accounts.firstWhere(
-                      (element) => element.id == _selectedAccountFrom.value),
+                      (element) => element.id == _selectedAccountFrom.id),
                   accountTo: AllData.accounts.firstWhere(
-                      (element) => element.id == _selectedAccountTo.value),
+                      (element) => element.id == _selectedAccountTo.id),
                   amount: double.parse(_amountController.text),
                   date: _dateTime,
                 );
@@ -123,7 +123,7 @@ class _TransferScreenState extends State<TransferScreen> {
               SizedBox(height: 20),
               DropDown(
                   dropdownItems: _accountDropDownItems,
-                  listItemValue: _selectedAccountFrom.value,
+                  listItemValue: _selectedAccountFrom.id,
                   onChanged: (newValue) {
                     _selectedAccountFrom = newValue as ListItem;
                     setState(() {});
@@ -133,7 +133,7 @@ class _TransferScreenState extends State<TransferScreen> {
               SizedBox(height: 20),
               DropDown(
                   dropdownItems: _accountDropDownItems,
-                  listItemValue: _selectedAccountTo.value,
+                  listItemValue: _selectedAccountTo.id,
                   onChanged: (newValue) {
                     _selectedAccountTo = newValue as ListItem;
                     setState(() {});

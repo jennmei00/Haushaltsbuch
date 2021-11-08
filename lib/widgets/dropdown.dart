@@ -36,7 +36,7 @@ class DropDown extends StatelessWidget {
       _selectedItem = _dropdownMenuItems[0].value!;
     else
       _selectedItem =
-          dropdownItems.firstWhere((element) => element.value == listItemValue);
+          dropdownItems.firstWhere((element) => element.id == listItemValue);
           
     return Container(
       decoration: BoxDecoration(
@@ -51,8 +51,9 @@ class DropDown extends StatelessWidget {
       child: DropdownButtonHideUnderline(
         child: DropdownButtonFormField(
           validator: (value) {
-            print(value);
-            if (value == null || value == '') {
+            ListItem item = value as ListItem;
+            print(item.name);
+            if (item.name == '') {  //HIER ID AUF item.id=0 prüfen
               return 'Das ist ein Pflichtfeld';
             }
           },
