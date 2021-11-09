@@ -27,7 +27,7 @@ class _TransferScreenState extends State<TransferScreen> {
   final _formKey = GlobalKey<FormState>();
 
   void _getAccountDropDownItems() {
-      _accountDropDownItems = [ListItem('', '')];
+    _accountDropDownItems = [ListItem('', '')];
     if (AllData.accounts.length != 0) {
       AllData.accounts.forEach((element) {
         _accountDropDownItems
@@ -58,33 +58,37 @@ class _TransferScreenState extends State<TransferScreen> {
             icon: Icon(Icons.save),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-              if (isFloat(_amountController.text)
-                  && _selectedAccountFrom != _selectedAccountTo
-                  )
-              {
-                Transfer transfer = Transfer(
-                  id: Uuid().v1(),
-                  description: _descriptionController.text,
-                  accountFrom: AllData.accounts.firstWhere(
-                      (element) => element.id == _selectedAccountFrom.id),
-                  accountTo: AllData.accounts.firstWhere(
-                      (element) => element.id == _selectedAccountTo.id),
-                  amount: double.parse(_amountController.text),
-                  date: _dateTime,
-                );
-                AllData.transfers.add(transfer);
-                DBHelper.insert('Transfer', transfer.toMap()).then((value) =>
-                    Navigator.popAndPushNamed(
-                        context, PostingScreen.routeName));
-              } else {
+                if (isFloat(_amountController.text) &&
+                    _selectedAccountFrom != _selectedAccountTo) {
+                  Transfer transfer = Transfer(
+                    id: Uuid().v1(),
+                    description: _descriptionController.text,
+                    accountFrom: AllData.accounts.firstWhere(
+                        (element) => element.id == _selectedAccountFrom.id),
+                    accountTo: AllData.accounts.firstWhere(
+                        (element) => element.id == _selectedAccountTo.id),
+                    amount: double.parse(_amountController.text),
+                    date: _dateTime,
+                  );
+                  AllData.transfers.add(transfer);
+                  DBHelper.insert('Transfer', transfer.toMap()).then((value) =>
+                      Navigator.popAndPushNamed(
+                          context, PostingScreen.routeName));
+                } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Das Speichern in die Datenbank ist \n schiefgelaufen :(', textAlign: TextAlign.center,),
-                  ));}
-              }
-              else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Ups, da passt etwas noch nicht :(', textAlign: TextAlign.center,),
+                    content: Text(
+                      'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+                      textAlign: TextAlign.center,
+                    ),
                   ));
+                }
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    'Ups, da passt etwas noch nicht :(',
+                    textAlign: TextAlign.center,
+                  ),
+                ));
               }
             },
           ),
@@ -95,69 +99,73 @@ class _TransferScreenState extends State<TransferScreen> {
         child: ListView(
           physics: BouncingScrollPhysics(),
           padding: const EdgeInsets.all(10.0),
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Datum:'),
-                  Row(
-                    children: [
-                      Text(
-                          '${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
-                      IconButton(
-                        icon: Icon(Icons.date_range),
-                        onPressed: () {
-                          showDatePicker(
-                            context: context,
-                            initialDate: _dateTime,
-                            firstDate:
-                                DateTime.now().subtract(Duration(days: 365)),
-                            lastDate: DateTime.now().add(Duration(days: 365)),
-                          ).then((value) => setState(() => _dateTime = value!));
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              DropDown(
-                  dropdownItems: _accountDropDownItems,
-                  listItemValue: _selectedAccountFrom.id,
-                  onChanged: (newValue) {
-                    _selectedAccountFrom = newValue as ListItem;
-                    setState(() {});
-                  }),
-              SizedBox(height: 20),
-              Icon(Icons.arrow_downward_rounded, size: 60),
-              SizedBox(height: 20),
-              DropDown(
-                  dropdownItems: _accountDropDownItems,
-                  listItemValue: _selectedAccountTo.id,
-                  onChanged: (newValue) {
-                    _selectedAccountTo = newValue as ListItem;
-                    setState(() {});
-                  }),
-              SizedBox(height: 20),
-              CustomTextField(
-                labelText: 'Betrag',
-                hintText: 'in €',
-                keyboardType: TextInputType.number,
-                controller: _amountController,
-                mandatory: true,
-                fieldname: 'amount',
-              ),
-              SizedBox(height: 20),
-              CustomTextField(
-                labelText: 'Beschreibung',
-                hintText: '',
-                controller: _descriptionController,
-                mandatory: false,
-                fieldname: 'description',
-              ),
-            ],
-          ),
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Datum:'),
+                Row(
+                  children: [
+                    Text(
+                        '${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
+                    IconButton(
+                      icon: Icon(Icons.date_range),
+                      onPressed: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: _dateTime,
+                          firstDate:
+                              DateTime.now().subtract(Duration(days: 365)),
+                          lastDate: DateTime.now().add(Duration(days: 365)),
+                        ).then((value) => setState(() => _dateTime = value!));
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            DropDown(
+              dropdownItems: _accountDropDownItems,
+              listItemValue: _selectedAccountFrom.id,
+              onChanged: (newValue) {
+                _selectedAccountFrom = newValue as ListItem;
+                setState(() {});
+              },
+              dropdownHintText: 'Von Konto',
+            ),
+            SizedBox(height: 20),
+            Icon(Icons.arrow_downward_rounded, size: 60),
+            SizedBox(height: 20),
+            DropDown(
+              dropdownItems: _accountDropDownItems,
+              listItemValue: _selectedAccountTo.id,
+              onChanged: (newValue) {
+                _selectedAccountTo = newValue as ListItem;
+                setState(() {});
+              },
+              dropdownHintText: 'Zu Konto',
+            ),
+            SizedBox(height: 20),
+            CustomTextField(
+              labelText: 'Betrag',
+              hintText: 'in €',
+              keyboardType: TextInputType.number,
+              controller: _amountController,
+              mandatory: true,
+              fieldname: 'amount',
+            ),
+            SizedBox(height: 20),
+            CustomTextField(
+              labelText: 'Beschreibung',
+              hintText: '',
+              controller: _descriptionController,
+              mandatory: false,
+              fieldname: 'description',
+            ),
+          ],
         ),
+      ),
     );
   }
 }

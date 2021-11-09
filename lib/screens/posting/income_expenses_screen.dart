@@ -132,8 +132,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               ],
             ),
             SizedBox(height: 20),
-            Text('Konto wählen:'),
-            SizedBox(height: 10),
+            // Text('Konto wählen:'),
+            // SizedBox(height: 10),
             DropDown(
               dropdownItems: _accountDropDownItems,
               onChanged: (newValue) {
@@ -141,6 +141,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                 setState(() {});
               },
               listItemValue: _selectedItem.id,
+              dropdownHintText: 'Konto',
             ),
             SizedBox(height: 20),
             Text('Kategorie wählen:'),

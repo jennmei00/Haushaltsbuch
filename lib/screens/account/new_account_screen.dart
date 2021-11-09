@@ -149,6 +149,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
               },
               dropdownItems: _accountTypeDropDownItems,
               listItemValue: _selectedItem.id,
+              dropdownHintText: 'Kontoart',
             ),
             SizedBox(
               height: 30,
