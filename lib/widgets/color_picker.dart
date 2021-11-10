@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class ColorPickerClass extends StatelessWidget {
   final Function onColorChanged;
+  // final Color color;
 
-  ColorPickerClass(this.onColorChanged);
+  ColorPickerClass(this.onColorChanged, ); //this.color
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class ColorPickerClass extends StatelessWidget {
       columnSpacing: 10,
       enableOpacity: true,
       opacityTrackHeight: 14,
+      // color: color,
     );
   }
 }

@@ -4,18 +4,19 @@ import 'package:haushaltsbuch/models/dropdown_classes.dart';
 // ignore: must_be_immutable
 class DropDown extends StatelessWidget {
   final List<ListItem> dropdownItems;
-  final String listItemValue;
+  final String? listItemValue;
   final Function onChanged;
   final String dropdownHintText;
+  String? selectedItem;
 
   DropDown(
       {required this.dropdownItems,
-      this.listItemValue = '999',
+      this.listItemValue,
+      this.selectedItem,
       required this.onChanged,
       this.dropdownHintText = 'Bitte auswählen'});
 
   // ListItem _selectedItem = ListItem('999', '');
-  String? _selectedItem;
 
   List<DropdownMenuItem<ListItem>> _dropdownMenuItems = [];
 
@@ -73,7 +74,7 @@ class DropDown extends StatelessWidget {
           icon: Icon(Icons.arrow_drop_down),
           iconEnabledColor: Colors.grey[600],
           iconSize: 30,
-          value: _selectedItem,
+          value: selectedItem,
           items: _dropdownMenuItems,
           onChanged: (newValue) => onChanged(newValue),
           decoration: InputDecoration(
