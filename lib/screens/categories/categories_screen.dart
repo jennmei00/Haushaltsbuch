@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
@@ -28,16 +29,22 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               crossAxisSpacing: 20,
               mainAxisSpacing: 20,
               children: AllData.categires
-                  .map((item) => new CircleAvatar(
-                        backgroundColor: item.color,
-                        child: Text('${item.title}'),
+                  .map((item) => GestureDetector(
+                        onTap: () => Navigator.of(context).pushNamed(
+                            NewCategorieScreen.routeName,
+                            arguments: item.id),
+                        child: new CircleAvatar(
+                          backgroundColor: item.color,
+                          child: Text('${item.title}'),
+                        ),
                       ))
                   .toList(),
             ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).pushNamed(NewCategorieScreen.routeName);
+          Navigator.of(context)
+              .pushNamed(NewCategorieScreen.routeName, arguments: '');
         },
       ),
     );

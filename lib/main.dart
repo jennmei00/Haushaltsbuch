@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
         StatisticsScreen.routeName: (context) => StatisticsScreen(),
         //categories
         CategoriesScreen.routeName: (context) => CategoriesScreen(),
-        NewCategorieScreen.routeName: (context) => NewCategorieScreen(),
+        // NewCategorieScreen.routeName: (context) => NewCategorieScreen(),
         //standingorders
         StandingOrdersScreen.routeName: (context) => StandingOrdersScreen(),
         // AddEditStandingOrder.routeName: (context) => AddEditStandingOrder(),
@@ -92,6 +92,16 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(
             builder: (context) {
               return AddEditStandingOrder(
+                id: args,
+              );
+            },
+          );
+        } else if (settings.name == NewCategorieScreen.routeName) {
+          final args = settings.arguments as String;
+
+          return MaterialPageRoute(
+            builder: (context) {
+              return NewCategorieScreen(
                 id: args,
               );
             },

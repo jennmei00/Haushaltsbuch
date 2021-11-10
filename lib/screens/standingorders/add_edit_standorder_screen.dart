@@ -86,62 +86,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         actions: [
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                if (_titleController.text != '' &&
-                    isFloat(_amountController.text))
-                //If Category is selected
-                //description kein muss!
-                {
-                  StandingOrder so = StandingOrder(
-                    id: widget.id != '' ? widget.id : Uuid().v1(),
-                    title: _titleController.text,
-                    description: _descriptionController.text,
-                    amount: double.parse(_amountController.text),
-                    account: AllData.accounts.firstWhere(
-                        (element) => element.id == _selectedItem.id),
-                    // category: , //Kategorie auswahl
-                    begin: _dateTime,
-                    postingType: PostingType.values[_groupValue_buchungsart],
-                    // repetition: Repetition.values[], //Repetitionvalue abfragen
-                  );
-
-                  StandingOrderPosting sop = StandingOrderPosting(
-                      id: Uuid().v1(), date: _dateTime, standingOrder: so);
-
-                  if (widget.id == '') {
-                    await DBHelper.insert('Standingorder', so.toMap());
-                    await DBHelper.insert('StandingorderPosting', sop.toMap());
-                  } else {
-                    await DBHelper.update('Standingorder', so.toMap(),
-                        where: "ID = '${so.id}'");
-                    await DBHelper.update('StandingorderPosting', sop.toMap(),
-                        where: "ID = '${so.id}'");
-
-                    AllData.standingOrders
-                        .removeWhere((element) => element.id == so.id);
-                    AllData.standingOrderPostings
-                        .removeWhere((element) => element.id == sop.id);
-                  }
-                  AllData.standingOrders.add(so);
-                  AllData.standingOrderPostings.add(sop);
-
-                  Navigator.popAndPushNamed(
-                      context, StandingOrdersScreen.routeName);
-                } else {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Das Speichern in die Datenbank ist \n schiefgelaufen :(', textAlign: TextAlign.center,),
-                    ));}
-              }
-              else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Ups, da passt etwas noch nicht :(', textAlign: TextAlign.center,),
-                  ));
-              }
-              // ignore: todo
-              //TODO: Testen ob Eintrag in StandingorderPosting funktioniert
-              // Kontrollieren, ob Erstell- oder Bearbeitungsmodus
-            },
+            onPressed: () => _saveStandingorder,
           )
         ],
       ),
@@ -150,155 +95,155 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         child: ListView(
           physics: BouncingScrollPhysics(),
           padding: const EdgeInsets.all(10.0),
-            children: [
-              FractionallySizedBox(
-                widthFactor: 0.9,
-                child: CupertinoSlidingSegmentedControl(
-                  children: <Object, Widget>{
-                    0: Text('Einnahme'),
-                    1: Text('Ausgabe')
-                  },
-                  onValueChanged: (val) {
-                    setState(() {
-                      _groupValue_buchungsart = val as int;
-                    });
-                  },
-                  groupValue: _groupValue_buchungsart,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Beginn:'),
-                  Row(
-                    children: [
-                      Text(
-                          '${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
-                      IconButton(
-                        icon: Icon(Icons.date_range),
-                        onPressed: () {
-                          showDatePicker(
-                            context: context,
-                            initialDate: _dateTime,
-                            firstDate:
-                                DateTime.now().subtract(Duration(days: 365)),
-                            lastDate: DateTime.now().add(Duration(days: 365)),
-                          ).then((value) => setState(() => _dateTime = value!));
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Wiederholung'),
-                  TextButton(
-                    onPressed: () => _repeatStandingorder(),
-                    child: Text('$_repeatValue'),
-                  ),
-                ],
-              ),
-              Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Text('Tag der ${widget.type}:'),
-                  Row(
-                    children: [
-                      // Text(
-                      //     '${_incomeDateTime.day}. ${_incomeDateTime.month}. ${_incomeDateTime.year}'),
-                      // IconButton(
-                      //   icon: Icon(Icons.date_range),
-                      //   onPressed: () {
-                      //     showDatePicker(
-                      //       context: context,
-                      //       initialDate: _incomeDateTime,
-                      //       firstDate:
-                      //           DateTime.now().subtract(Duration(days: 365)),
-                      //       lastDate: DateTime.now().add(Duration(days: 365)),
-                      //     ).then((value) =>
-                      //         setState(() => _incomeDateTime = value!));
-                      //   },
-                      // ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Text('Konto auswählen:'),
-              SizedBox(height: 10),
-              DropDown(
-                dropdownItems: _accountDropDownItems,
-                listItemValue: _selectedItem.id,
-                onChanged: (newValue) {
-                  _selectedItem = newValue as ListItem;
-                  setState(() {});
+          children: [
+            FractionallySizedBox(
+              widthFactor: 0.9,
+              child: CupertinoSlidingSegmentedControl(
+                children: <Object, Widget>{
+                  0: Text('Einnahme'),
+                  1: Text('Ausgabe')
                 },
+                onValueChanged: (val) {
+                  setState(() {
+                    _groupValue_buchungsart = val as int;
+                  });
+                },
+                groupValue: _groupValue_buchungsart,
               ),
-              SizedBox(height: 20),
-              Text('Kategorie auswählen:'),
-              SizedBox(height: 10),
-              Container(
-                height: 100,
-                // padding: EdgeInsets.all(20),
-                // color: Colors.grey[400]?.withOpacity(0.5),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(children: [
-                    Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: AllData.categires
-                          .map((item) => new CircleAvatar(
-                                radius: 40,
-                                backgroundColor: item.color,
-                                child: Text('${item.title}'),
-                              ))
-                          .toList(),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Beginn:'),
+                Row(
+                  children: [
+                    Text(
+                        '${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
+                    IconButton(
+                      icon: Icon(Icons.date_range),
+                      onPressed: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: _dateTime,
+                          firstDate:
+                              DateTime.now().subtract(Duration(days: 365)),
+                          lastDate: DateTime.now().add(Duration(days: 365)),
+                        ).then((value) => setState(() => _dateTime = value!));
+                      },
                     ),
-                    Text('data'),
-                    Text('data'),
-                    Text('data'),
-                    Text('data'),
-                    Text('data'),
-                    Text('data'),
-                    Text('data'),
-                    Text('data'),
-                    Text('data'),
-                    Text('data'),
-                    Text('data'),
-                  ]),
+                  ],
                 ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Wiederholung'),
+                TextButton(
+                  onPressed: () => _repeatStandingorder(),
+                  child: Text('$_repeatValue'),
+                ),
+              ],
+            ),
+            Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Text('Tag der ${widget.type}:'),
+                Row(
+                  children: [
+                    // Text(
+                    //     '${_incomeDateTime.day}. ${_incomeDateTime.month}. ${_incomeDateTime.year}'),
+                    // IconButton(
+                    //   icon: Icon(Icons.date_range),
+                    //   onPressed: () {
+                    //     showDatePicker(
+                    //       context: context,
+                    //       initialDate: _incomeDateTime,
+                    //       firstDate:
+                    //           DateTime.now().subtract(Duration(days: 365)),
+                    //       lastDate: DateTime.now().add(Duration(days: 365)),
+                    //     ).then((value) =>
+                    //         setState(() => _incomeDateTime = value!));
+                    //   },
+                    // ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Text('Konto auswählen:'),
+            SizedBox(height: 10),
+            DropDown(
+              dropdownItems: _accountDropDownItems,
+              listItemValue: _selectedItem.id,
+              onChanged: (newValue) {
+                _selectedItem = newValue as ListItem;
+                setState(() {});
+              },
+            ),
+            SizedBox(height: 20),
+            Text('Kategorie auswählen:'),
+            SizedBox(height: 10),
+            Container(
+              height: 100,
+              // padding: EdgeInsets.all(20),
+              // color: Colors.grey[400]?.withOpacity(0.5),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(children: [
+                  Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: AllData.categires
+                        .map((item) => new CircleAvatar(
+                              radius: 40,
+                              backgroundColor: item.color,
+                              child: Text('${item.title}'),
+                            ))
+                        .toList(),
+                  ),
+                  Text('data'),
+                  Text('data'),
+                  Text('data'),
+                  Text('data'),
+                  Text('data'),
+                  Text('data'),
+                  Text('data'),
+                  Text('data'),
+                  Text('data'),
+                  Text('data'),
+                  Text('data'),
+                ]),
               ),
-              SizedBox(height: 20),
-              CustomTextField(
-                labelText: 'Betrag',
-                hintText: 'in €',
-                keyboardType: TextInputType.number,
-                controller: _amountController,
-                mandatory: true,
-                fieldname: 'amount',
-              ),
-              SizedBox(height: 20),
-              CustomTextField(
-                labelText: 'Bezeichnung',
-                hintText: '',
-                controller: _titleController,
-                mandatory: true,
-                fieldname: 'title',
-              ),
-              SizedBox(height: 20),
-              CustomTextField(
-                labelText: 'Beschreibung',
-                hintText: '',
-                controller: _descriptionController,
-                mandatory: false,
-                fieldname: 'description',
-              ),
-              SizedBox(height: 20),
-            ],
-          ),
+            ),
+            SizedBox(height: 20),
+            CustomTextField(
+              labelText: 'Betrag',
+              hintText: 'in €',
+              keyboardType: TextInputType.number,
+              controller: _amountController,
+              mandatory: true,
+              fieldname: 'amount',
+            ),
+            SizedBox(height: 20),
+            CustomTextField(
+              labelText: 'Bezeichnung',
+              hintText: '',
+              controller: _titleController,
+              mandatory: true,
+              fieldname: 'title',
+            ),
+            SizedBox(height: 20),
+            CustomTextField(
+              labelText: 'Beschreibung',
+              hintText: '',
+              controller: _descriptionController,
+              mandatory: false,
+              fieldname: 'description',
+            ),
+            SizedBox(height: 20),
+          ],
         ),
+      ),
     );
   }
 
@@ -353,5 +298,66 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     }
     this.setState(() {});
     Navigator.pop(context, true);
+  }
+
+  void _saveStandingorder() async {
+    if (_formKey.currentState!.validate()) {
+      // if (_titleController.text != '' &&
+      //     isFloat(_amountController.text))
+      // //If Category is selected
+      // //description kein muss!
+      // {
+      StandingOrder so = StandingOrder(
+        id: widget.id != '' ? widget.id : Uuid().v1(),
+        title: _titleController.text,
+        description: _descriptionController.text,
+        amount: double.parse(_amountController.text),
+        account: AllData.accounts
+            .firstWhere((element) => element.id == _selectedItem.id),
+        // category: , //Kategorie auswahl
+        begin: _dateTime,
+        postingType: PostingType.values[_groupValue_buchungsart],
+        // repetition: Repetition.values[], //Repetitionvalue abfragen
+      );
+
+      StandingOrderPosting sop = StandingOrderPosting(
+          id: Uuid().v1(), date: _dateTime, standingOrder: so);
+
+      if (widget.id == '') {
+        await DBHelper.insert('Standingorder', so.toMap());
+        await DBHelper.insert('StandingorderPosting', sop.toMap());
+      } else {
+        await DBHelper.update('Standingorder', so.toMap(),
+            where: "ID = '${so.id}'");
+        await DBHelper.update('StandingorderPosting', sop.toMap(),
+            where: "ID = '${so.id}'");
+
+        AllData.standingOrders.removeWhere((element) => element.id == so.id);
+        AllData.standingOrderPostings
+            .removeWhere((element) => element.id == sop.id);
+      }
+      AllData.standingOrders.add(so);
+      AllData.standingOrderPostings.add(sop);
+
+      Navigator.of(context)
+        ..pop()
+        ..popAndPushNamed(StandingOrdersScreen.routeName);
+      // } else {
+      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //     content: Text(
+      //       'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+      //       textAlign: TextAlign.center,
+      //     ),
+      //   ));
+      // }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'Ups, da passt etwas noch nicht :(',
+          textAlign: TextAlign.center,
+        ),
+      ));
+    }
+    ;
   }
 }
