@@ -33,17 +33,15 @@ Prüfung TextFields keine Pflichtfelder sind
 2) ERLEDIGT beim Color Picker in Neues Konto bei Speicherbutton das machen, 
     was jetzt beim Picker in Neue Kategorie bei onchange passiert
     -> Farbe vom Symbol soll sich ändern
-3) Custom Text field überall fehlende Parameter mit übergeben
+3) ERLEDIGT Custom Text field überall fehlende Parameter mit übergeben
 4) Design von Input Feldern ändern
 5) Buchen -> Design überlegen
-6) Kategorie wählen als Popup bei Buchen Einnahme/Ausgabe
 7) ERLEDIGT DropDown in Umbuchung hinzufügen
-8) Dauerauftrag Kontoauswahl als DropDown und Kategorie als Popup
 9) Dauerauftrag Wiederholung Popup verschönern
 10) nach Symbolen suchen
 11) Bilder für Buchen
 12) ERLEDIGT TextField validations auf float prüfen (bei Betrag) auf ALLE seiten
-13) Dropdown validations auf allen Seiten
+13) ERLEDIGT Dropdown validations auf allen Seiten 
 
 ------- Kontokategorien -------
 - Sparkonto
