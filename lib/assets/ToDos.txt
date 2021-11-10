@@ -34,7 +34,7 @@ Prüfung TextFields keine Pflichtfelder sind
     was jetzt beim Picker in Neue Kategorie bei onchange passiert
     -> Farbe vom Symbol soll sich ändern
 3) ERLEDIGT Custom Text field überall fehlende Parameter mit übergeben
-4) Design von Input Feldern ändern
+4) ERLEDIGT Design von Input Feldern ändern
 5) Buchen -> Design überlegen
 7) ERLEDIGT DropDown in Umbuchung hinzufügen
 9) Dauerauftrag Wiederholung Popup verschönern
@@ -42,6 +42,7 @@ Prüfung TextFields keine Pflichtfelder sind
 11) Bilder für Buchen
 12) ERLEDIGT TextField validations auf float prüfen (bei Betrag) auf ALLE seiten
 13) ERLEDIGT Dropdown validations auf allen Seiten 
+14) Konto: mit Daten UI erstellen (all_data.dart)
 
 ------- Kontokategorien -------
 - Sparkonto
