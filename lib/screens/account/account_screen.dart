@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
+import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
@@ -12,15 +13,16 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  var accountTypeList = [];
+  List<AccountType> accountTypeList = [];
   var accountData = AllData.accounts;
   void _createAccountList() {
-    for (var i = 0; i < accountData.length; i++) {
-      print(accountData[i].title);
-      if (!accountTypeList.contains(accountData[i].accountType!.title)) {
-        accountTypeList.add(accountData[i].accountType!.title);
+    accountData.forEach((ac) {
+      print(ac.title);
+      if (accountTypeList.where((element) => element.id == ac.accountType!.id).length == 0)
+       {
+        accountTypeList.add(ac.accountType as AccountType);
       }
-    }
+    });
     print(accountTypeList);
   }
 
@@ -64,15 +66,52 @@ class _AccountScreenState extends State<AccountScreen> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      SingleChildScrollView(
+                      Expanded(
                         child: ListView.builder(
+                          shrinkWrap: true,
                           itemCount: accountTypeList.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              //height: 50,
-                              // child: Center(
-                              //     child: Text('Entry ${accountTypeList[index]}')),
+                            return Card(
+                              child: ExpansionTile(
+                                initiallyExpanded: false,
+                                title: Text('${accountTypeList[index].title}'),
+                                children: AllData.accounts
+                                    .where((element) => element.accountType!.id == accountTypeList[index].id)
+                                    .map((e) {
+                                    return Card(
+                                        margin: EdgeInsets.all(10),
+                                        color: Colors.grey[300],
+                                        child: ListTile(
+                                          title: Text('${e.title}'),
+                                        ),
+                                      );
+                                    
+                                    //Container(child: Text('${e.title}'));
+                                    })
+                                    .toList(),
+
+                                //     [
+                                //       Card(
+                                //         margin: EdgeInsets.all(10),
+                                //         color: Colors.lightBlue,
+                                //         child: ListTile(
+                                //           title: Text('Test'),
+                                //         ),
+                                //       ),
+                                //       Card(
+                                //         margin: EdgeInsets.all(10),
+                                //         color: Colors.lightBlue,
+                                //         child: ListTile(
+                                //           title: Text('Test 2'),
+                                //         ),
+                                //       )
+                                //     ],
+                              ),
                             );
+                            // Container(
+                            //   child: Center(
+                            //       child: Text('Entry ${accountTypeList[index]}')),
+                            // );
                           },
                         ),
                         // child: ListView(
