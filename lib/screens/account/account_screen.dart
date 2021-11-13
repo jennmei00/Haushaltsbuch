@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
+import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
 class AccountScreen extends StatefulWidget {
   static final routeName = '/account_screen';
@@ -15,20 +16,37 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   List<AccountType> accountTypeList = [];
   var accountData = AllData.accounts;
+  double totalBankBalance = 0;
   void _createAccountList() {
     accountData.forEach((ac) {
-      print(ac.title);
-      if (accountTypeList.where((element) => element.id == ac.accountType!.id).length == 0)
-       {
+      if (accountTypeList
+              .where((element) => element.id == ac.accountType!.id)
+              .length ==
+          0) {
         accountTypeList.add(ac.accountType as AccountType);
       }
     });
-    print(accountTypeList);
+  }
+
+  void _getTotalBankBalance() {
+    accountData.forEach((ac) {
+      totalBankBalance += ac.bankBalance!;
+    });
+    totalBankBalance = double.parse((totalBankBalance).toStringAsFixed(2));
+  }
+
+  Color _getColorBalance(double balance) {
+    if (balance < 0) {
+      return Colors.red.shade900;
+    } else {
+      return Colors.black;
+    }
   }
 
   @override
   void initState() {
     _createAccountList();
+    _getTotalBankBalance();
     super.initState();
   }
 
@@ -50,100 +68,75 @@ class _AccountScreenState extends State<AccountScreen> {
             backgroundColor: Theme.of(context).primaryColor),
         drawer: AppDrawer(),
         body: AllData.accounts.length == 0
-            ? Text('Kein Konto vorhanden, erstelle welche!')
+            ? NothingThere(textScreen: 'Noch keine Konten vorhanden :(')
             : Padding(
                 padding: const EdgeInsets.all(30),
-                child: FractionallySizedBox(
-                  widthFactor: 1,
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Vermögen:\n10.000€',
-                          style: TextStyle(fontSize: 18),
-                          textAlign: TextAlign.center,
-                        ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Gesamtes Vermögen:',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            '$totalBankBalance €',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: _getColorBalance(totalBankBalance)),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: accountTypeList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Card(
-                              child: ExpansionTile(
-                                initiallyExpanded: false,
-                                title: Text('${accountTypeList[index].title}'),
-                                children: AllData.accounts
-                                    .where((element) => element.accountType!.id == accountTypeList[index].id)
-                                    .map((e) {
-                                    return Card(
-                                        margin: EdgeInsets.all(10),
-                                        color: Colors.grey[300],
-                                        child: ListTile(
-                                          title: Text('${e.title}'),
-                                        ),
-                                      );
-                                    
-                                    //Container(child: Text('${e.title}'));
-                                    })
-                                    .toList(),
-
-                                //     [
-                                //       Card(
-                                //         margin: EdgeInsets.all(10),
-                                //         color: Colors.lightBlue,
-                                //         child: ListTile(
-                                //           title: Text('Test'),
-                                //         ),
-                                //       ),
-                                //       Card(
-                                //         margin: EdgeInsets.all(10),
-                                //         color: Colors.lightBlue,
-                                //         child: ListTile(
-                                //           title: Text('Test 2'),
-                                //         ),
-                                //       )
-                                //     ],
-                              ),
-                            );
-                            // Container(
-                            //   child: Center(
-                            //       child: Text('Entry ${accountTypeList[index]}')),
-                            // );
-                          },
-                        ),
-                        // child: ListView(
-                        //   shrinkWrap: true,
-                        //   children: [
-                        //     Card(
-                        //       child: ExpansionTile(
-                        //         initiallyExpanded: false,
-                        //         title: Text('Kontokategorie 1'),
-                        //         children: [
-                        //           Card(
-                        //             margin: EdgeInsets.all(10),
-                        //             color: Colors.lightBlue,
-                        //             child: ListTile(
-                        //               title: Text('Test'),
-                        //             ),
-                        //           ),
-                        //           Card(
-                        //             margin: EdgeInsets.all(10),
-                        //             color: Colors.lightBlue,
-                        //             child: ListTile(
-                        //               title: Text('Test 2'),
-                        //             ),
-                        //           )
-                        //         ],
-                        //       ),
-                        //     )
-                        //   ],
-                        // ),
-                      )
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: accountTypeList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Card(
+                            child: ExpansionTile(
+                              textColor: Colors.black,
+                              iconColor: Colors.black,
+                              initiallyExpanded: false,
+                              title: Text('${accountTypeList[index].title}'),
+                              children: AllData.accounts
+                                  .where((element) =>
+                                      element.accountType!.id ==
+                                      accountTypeList[index].id)
+                                  .map((e) {
+                                return Card(
+                                  margin: EdgeInsets.all(10),
+                                  color: Colors.cyan[50],
+                                  child: ListTile(
+                                    title: Text(
+                                      '${e.title}',
+                                    ),
+                                    trailing: Text(
+                                      '${e.bankBalance} €',
+                                      style: TextStyle(
+                                          color: _getColorBalance(e.bankBalance!)),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  ],
                 ),
               ));
   }

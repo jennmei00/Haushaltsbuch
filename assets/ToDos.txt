@@ -35,14 +35,13 @@ Prüfung TextFields keine Pflichtfelder sind
     -> Farbe vom Symbol soll sich ändern
 3) ERLEDIGT Custom Text field überall fehlende Parameter mit übergeben
 4) ERLEDIGT Design von Input Feldern ändern
-5) Buchen -> Design überlegen
+5) Buchen -> Design überlegen, Bilder suchen
 7) ERLEDIGT DropDown in Umbuchung hinzufügen
 9) Dauerauftrag Wiederholung Popup verschönern
 10) nach Symbolen suchen
-11) Bilder für Buchen
 12) ERLEDIGT TextField validations auf float prüfen (bei Betrag) auf ALLE seiten
 13) ERLEDIGT Dropdown validations auf allen Seiten 
-14) Konto: mit Daten UI erstellen (all_data.dart)
+14) ERLEDIGT Konto: mit Daten UI erstellen (all_data.dart)
 
 ------- Kontokategorien -------
 - Sparkonto
@@ -56,3 +55,6 @@ ERLEDIGT
 
 ----- Ideensammlung -----
 + ERLEDIGT "Kontokategorie" in "Kontoart" umbenennen
+
+---- Anmerkungen ----
++ Hab gelesen, man sollte/kann assets Ordner aus dem lib raustun

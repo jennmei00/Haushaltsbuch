@@ -3,6 +3,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
+import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
 class CategoriesScreen extends StatefulWidget {
   static final routeName = '/categories_screen';
@@ -22,7 +23,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       ),
       drawer: AppDrawer(),
       body: AllData.categires.length == 0
-          ? Text('Keine Kategorien vorhanden, erstelle welche!')
+          ? NothingThere(textScreen: 'Noch keine Kategorien vorhanden :(')//Text('Keine Kategorien vorhanden, erstelle welche!')
           : GridView.count(
               padding: EdgeInsets.all(20),
               crossAxisCount: 4,

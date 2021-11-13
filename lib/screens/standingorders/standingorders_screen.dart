@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
+import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
 class StandingOrdersScreen extends StatefulWidget {
   static final routeName = '/standing_orders_screen';
@@ -31,7 +32,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: AllData.standingOrders.length == 0
-            ? Text('Keine Daueraufträge vorhanden, erstelle doch welche!')
+            ? NothingThere(textScreen: 'Noch keine Daueraufträge vorhanden :(')
             :
             // onlongpress -> bearbeitungsmodus
             ListView(

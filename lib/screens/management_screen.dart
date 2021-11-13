@@ -6,6 +6,7 @@ import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order_posting.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
+import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
 class ManagementScreen extends StatefulWidget {
   static final routeName = '/management_screen';
@@ -124,9 +125,11 @@ class _ManagementScreenState extends State<ManagementScreen> {
           // ],
         ),
         drawer: AppDrawer(),
-        body: ListView(
-          children: _listViewChildren,
-        ));
+        body: AllData.accounts.length == 0
+            ? NothingThere(textScreen: 'Du hast noch keine Buchung erstellt :(')
+            : ListView(
+                children: _listViewChildren,
+              ));
   }
 
   Widget _listViewWidget(String id, String title, Widget subtitle,
