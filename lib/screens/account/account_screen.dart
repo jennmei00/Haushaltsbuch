@@ -55,7 +55,7 @@ class _AccountScreenState extends State<AccountScreen> {
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue[200],
+          backgroundColor: Theme.of(context).primaryColor,
           child: Icon(Icons.add),
           onPressed: () {
             //print(accountData);

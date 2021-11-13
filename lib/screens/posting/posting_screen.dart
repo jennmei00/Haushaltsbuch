@@ -120,7 +120,7 @@ class PostingScreen extends StatelessWidget {
 
   void _expense(BuildContext context) {
     Navigator.of(context)
-        .pushNamed(IncomeExpenseScreen.routeName, arguments: 'Asugabe');
+        .pushNamed(IncomeExpenseScreen.routeName, arguments: 'Ausgabe');
   }
 
   void _transfer(BuildContext context) {

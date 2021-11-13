@@ -41,9 +41,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ))
                   .toList(),
             ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          child: Icon(Icons.add),
+          onPressed: () {
           Navigator.of(context)
               .pushNamed(NewCategorieScreen.routeName, arguments: '');
         },

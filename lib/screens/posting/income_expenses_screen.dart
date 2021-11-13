@@ -60,6 +60,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.type}'),
+        backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
             icon: Icon(Icons.save),

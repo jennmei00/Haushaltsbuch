@@ -1,28 +1,41 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static final routeName = '/home_screen';
 
-  // void _openDatabase() {
-  //   // DBHelper.deleteDatabse();
-  //   DBHelper.openDatabase();
-  // }
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
-  // void _openDirectory() async {
-  //   await getApplicationDocumentsDirectory();
-  //   Directory dir = await getApplicationDocumentsDirectory();
-  //   print(dir);
-  // }
+class _HomeScreenState extends State<HomeScreen> {
+  String value = 'Dein Vermögen beträgt';
+  bool showsBalance = false;
+
+  var accountData = AllData.accounts;
+
+  double totalBankBalance = 0;
+
+  void _getTotalBankBalance() {
+    accountData.forEach((ac) {
+      totalBankBalance += ac.bankBalance!;
+    });
+    totalBankBalance = double.parse((totalBankBalance).toStringAsFixed(2));
+  }
+
+  @override
+  void initState() {
+    _getTotalBankBalance();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     // _openDatabase();
 
     // _openDirectory();
-
-    final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
       appBar: AppBar(
@@ -31,46 +44,52 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Theme.of(context).primaryColor,
-        actions: [
-          IconButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                print('alles in ordnung');
-              }
-            },
-            icon: Icon(Icons.save),
-          )
-        ],
       ),
 
       // drawer: Drawer(),
       drawer: AppDrawer(),
-      body: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                validator: (val) {
-                  print(val);
-                  if (val == '') return 'Textfeld darf nicht null sein';
-
-                  return null;
-                },
-              ),
-              TextFormField(
-                validator: (val) {
-                  print(val);
-                  if (val == '') return 'Textfeld darf nicht nullllllll sein';
-
-                  return null;
-                },
+      body: Center(
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 20,
+                color: Theme.of(context).primaryColor,
+                spreadRadius: 10,
               )
             ],
-          )
-          // Container(
-          //   child: Text("Das ist die Homeseite"),
-          // ),
           ),
+          child: GestureDetector(
+            onTap: () {
+              if (!showsBalance) {
+                setState(() {
+                  value = totalBankBalance.toString() + ' €';
+                  showsBalance = true;
+                });
+              } else {
+                setState(() {
+                  value = 'Dein Vermögen beträgt';
+                  showsBalance = false;
+                });
+              }
+            },
+            child: CircleAvatar(
+              radius: 150,
+              backgroundColor: Theme.of(context).primaryColor,
+              child: Text(
+                value,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Handwritingstyle',
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
 
     // ignore: todo

@@ -44,6 +44,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
       appBar: AppBar(
         title:
             Text(widget.id == '' ? 'Neue Kategorie' : 'Kategorie bearbeiten'),
+        backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
             icon: Icon(Icons.save),
