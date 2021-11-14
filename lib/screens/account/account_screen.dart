@@ -157,9 +157,12 @@ class _AccountScreenState extends State<AccountScreen> {
                 padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
                 child: Stack(children: [
                   Container(
-
-                    //child: AssetImage('assets/icons/money-bag.png'),
-                    //backgroundImage: Image.asset('assets/icons/money-bag.png', ),
+                    //color: Colors.green,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.green,
+                    ),
+                    child: Image.asset('assets/icons/money-bag.png'),
                   ),
                   // Text(
                   //   '- ' + account.accountType!.title! + ' -',
