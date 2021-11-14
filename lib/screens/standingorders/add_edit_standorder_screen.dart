@@ -11,7 +11,6 @@ import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
 import 'package:uuid/uuid.dart';
-import 'package:validators/validators.dart';
 
 class AddEditStandingOrder extends StatefulWidget {
   static final routeName = '/edit_standingorder_screen';
@@ -34,15 +33,14 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   TextEditingController _descriptionController =
       TextEditingController(text: '');
   final _formKey = GlobalKey<FormState>();
+  ListItem _selectedItem = ListItem('', '');
 
-  late List<ListItem> _accountDropDownItems;
-  late ListItem _selectedItem;
+  // late
+  List<ListItem> _accountDropDownItems = [ListItem('', '')];
 
   void _getAccountDropDownItems() {
-    _selectedItem = ListItem('', '');
-
-    _accountDropDownItems = [ListItem('', '')];
     if (AllData.accounts.length != 0) {
+      _accountDropDownItems = [];
       AllData.accounts.forEach((element) {
         _accountDropDownItems
             .add(ListItem(element.id.toString(), element.title.toString()));
@@ -69,6 +67,8 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
 
   @override
   void initState() {
+    // DBHelper.delete('Account');
+
     _getAccountDropDownItems();
     if (widget.id != '') {
       _getStandingOrderData();
@@ -87,7 +87,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         actions: [
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: () => _saveStandingorder,
+            onPressed: () => _saveStandingorder(),
           )
         ],
       ),
@@ -176,7 +176,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
             SizedBox(height: 10),
             DropDown(
               dropdownItems: _accountDropDownItems,
-              listItemValue: _selectedItem.id,
+              listItemValue:  _selectedItem.id,
               onChanged: (newValue) {
                 _selectedItem = newValue as ListItem;
                 setState(() {});
@@ -194,7 +194,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 child: Row(children: [
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: AllData.categires
+                    children: AllData.categories
                         .map((item) => new CircleAvatar(
                               radius: 40,
                               backgroundColor: item.color,

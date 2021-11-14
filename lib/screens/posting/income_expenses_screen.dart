@@ -164,7 +164,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                 child: Row(children: [
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: AllData.categires
+                    children: AllData.categories
                         .map((item) => new CircleAvatar(
                               radius: 40,
                               backgroundColor: item.color,
