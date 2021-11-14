@@ -25,20 +25,34 @@ class Popup extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(15, 25, 15, 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    //CircleAvatar(child:Icon(Icons.ac_unit)),
-                    Text(
+                padding: const EdgeInsets.fromLTRB(15, 25, 15, 15),
+                // child: Stack(
+                //   //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   children: [
+                //     //CircleAvatar(child:Icon(Icons.ac_unit)),
+                //     Positioned(
+                //       height: MediaQuery.of(context).size.width * 0.1,
+                //       left: -20,
+                //       child: CircleAvatar(
+                //         backgroundColor: Colors.lightGreen.shade400,
+                //         radius: MediaQuery.of(context).size.width * 0.1,
+                //         child: FractionallySizedBox(
+                //           widthFactor: 0.65,
+                //           heightFactor: 0.65,
+                //           child: Image.asset(
+                //             'assets/icons/money-bag.png',
+                //           ),
+                //         )),
+                //     ),
+                  child:  Text(
                       '$title',
                       //style: Theme.of(context).textTheme.headline4,
                       style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                     
-                  ],
-                ),
+                //   ],
+                // ),
               ),
               body,
               Padding(
