@@ -82,16 +82,21 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                       Navigator.popAndPushNamed(
                           context, AccountScreen.routeName));
                   AllData.accounts.add(ac);
-                } 
-                else {
+                } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Das Speichern in die Datenbank ist \n schiefgelaufen :(', textAlign: TextAlign.center,),
-                  ));}
-              }
-              else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Ups, da passt etwas noch nicht :(', textAlign: TextAlign.center,),
+                    content: Text(
+                      'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+                      textAlign: TextAlign.center,
+                    ),
                   ));
+                }
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    'Ups, da passt etwas noch nicht :(',
+                    textAlign: TextAlign.center,
+                  ),
+                ));
               }
             },
           )
@@ -102,14 +107,14 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
         child: ListView(
           physics: BouncingScrollPhysics(),
           padding: const EdgeInsets.all(10.0),
-      // body: SingleChildScrollView(
-      //   physics: BouncingScrollPhysics(),
-      //   child: Form(
-      //     key: _formKey,
-      //     child: Padding(
-      //       padding: const EdgeInsets.all(10.0),
-      //       child: Column(
-      //         crossAxisAlignment: CrossAxisAlignment.stretch,
+          // body: SingleChildScrollView(
+          //   physics: BouncingScrollPhysics(),
+          //   child: Form(
+          //     key: _formKey,
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(10.0),
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             CustomTextField(
               labelText: 'Konto',
@@ -165,7 +170,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                   onPressed: () => CustomDialog().customShowDialog(
                     context,
                     'ColorPicker',
-                    ColorPickerClass(_colorChanged),
+                    ColorPickerClass(_colorChanged, _iconcolor),
                     true,
                     true,
                     () {

@@ -76,9 +76,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                   onPressed: () => CustomDialog().customShowDialog(
                     context,
                     'ColorPicker',
-                    ColorPickerClass(
-                      _colorChanged,
-                    ), //_iconcolor
+                    ColorPickerClass(_colorChanged, _iconcolor),
                     true,
                     true,
                     () {
@@ -99,24 +97,26 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
             Text('Symbol'),
             Row(),
             SizedBox(height: 20),
-            TextButton(
-                onPressed: () {
-                  AllData.categires
-                      .removeWhere((element) => element.id == widget.id);
-                  DBHelper.delete('Category', where: "ID = '${widget.id}'");
+            widget.id == ''
+                ? SizedBox()
+                : TextButton(
+                    onPressed: () {
+                      AllData.categires
+                          .removeWhere((element) => element.id == widget.id);
+                      DBHelper.delete('Category', where: "ID = '${widget.id}'");
 
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Kategorie wurde gelöscht')));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Kategorie wurde gelöscht')));
 
-                  Navigator.of(context)
-                    ..pop()
-                    ..popAndPushNamed(CategoriesScreen.routeName);
-                },
-                child: Text(
-                  'Kategorie Löschen',
-                  style: TextStyle(color: Colors.red),
-                  // textAlign: TextAlign.left,
-                )),
+                      Navigator.of(context)
+                        ..pop()
+                        ..popAndPushNamed(CategoriesScreen.routeName);
+                    },
+                    child: Text(
+                      'Kategorie Löschen',
+                      style: TextStyle(color: Colors.red),
+                      // textAlign: TextAlign.left,
+                    )),
           ],
         ),
       ),
