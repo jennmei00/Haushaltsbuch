@@ -5,6 +5,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
+import 'package:haushaltsbuch/widgets/popup.dart';
 
 class AccountScreen extends StatefulWidget {
   static final routeName = '/account_screen';
@@ -116,17 +117,21 @@ class _AccountScreenState extends State<AccountScreen> {
                                       element.accountType!.id ==
                                       accountTypeList[index].id)
                                   .map((e) {
-                                return Card(
-                                  margin: EdgeInsets.all(10),
-                                  color: Colors.cyan[50],
-                                  child: ListTile(
-                                    title: Text(
-                                      '${e.title}',
-                                    ),
-                                    trailing: Text(
-                                      '${e.bankBalance} €',
-                                      style: TextStyle(
-                                          color: _getColorBalance(e.bankBalance!)),
+                                return GestureDetector(
+                                  onTap: () => _showAccountDetails(e),
+                                  child: Card(
+                                    margin: EdgeInsets.all(10),
+                                    color: Colors.cyan[50],
+                                    child: ListTile(
+                                      title: Text(
+                                        '${e.title}',
+                                      ),
+                                      trailing: Text(
+                                        '${e.bankBalance} €',
+                                        style: TextStyle(
+                                            color: _getColorBalance(
+                                                e.bankBalance!)),
+                                      ),
                                     ),
                                   ),
                                 );
@@ -139,5 +144,90 @@ class _AccountScreenState extends State<AccountScreen> {
                   ],
                 ),
               ));
+  }
+
+  void _showAccountDetails(Account account) {
+    print(account.description);
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Popup(
+            title: account.title!,
+            body: Padding(
+                padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+                child: Stack(children: [
+                  Container(
+
+                    //child: AssetImage('assets/icons/money-bag.png'),
+                    //backgroundImage: Image.asset('assets/icons/money-bag.png', ),
+                  ),
+                  // Text(
+                  //   '- ' + account.accountType!.title! + ' -',
+                  //   style: TextStyle(fontSize: 20),
+                  // ),
+                  // Container(
+                  //   padding: const EdgeInsets.all(10),
+                  //   decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(8),
+                  //       color: Colors.cyan[100],
+                  //       boxShadow: [
+                  //         BoxShadow(
+                  //           blurRadius: 10,
+                  //           color: Colors.cyan.shade100,
+                  //           spreadRadius: 5,
+                  //         ),
+                  //       ]),
+                  //   child: Text(account.bankBalance.toString() + ' €',
+                  //       style: TextStyle(
+                  //         fontSize: 20,
+                  //         fontWeight: FontWeight.bold,
+                  //         color: _getColorBalance(account.bankBalance!),
+                  //       )),
+                  // ),
+                ])
+                // Column(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Text(
+                //       '- ' + account.accountType!.title! + ' -',
+                //       style: TextStyle(fontSize: 20),
+                //     ),
+                //     SizedBox(height: 20),
+                //     Center(
+                //       child: Container(
+                //         padding: const EdgeInsets.all(10),
+                //         decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(8),
+                //             color: Colors.cyan[100],
+                //             boxShadow: [
+                //               BoxShadow(
+                //                 blurRadius: 10,
+                //                 color: Colors.cyan.shade100,
+                //                 spreadRadius: 5,
+                //               ),
+                //             ]),
+                //         child: Text(account.bankBalance.toString() + ' €',
+                //             style: TextStyle(
+                //               fontSize: 20,
+                //               fontWeight: FontWeight.bold,
+                //               color: _getColorBalance(account.bankBalance!),
+                //             )),
+                //       ),
+                //     ),
+                //     //SizedBox(height: 20),
+                //     if (account.description! != '' && account.description != null)
+                //       SizedBox(height: 20),
+                //       Text(
+                //         account.description!,
+                //         style: TextStyle(fontSize: 18),
+                //         textAlign: TextAlign.center,
+                //       )
+                //   ],
+                // )
+                ),
+            saveButton: false,
+            cancelButton: false,
+          );
+        });
   }
 }

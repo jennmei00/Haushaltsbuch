@@ -26,11 +26,18 @@ class Popup extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 25, 15, 10),
-                child: Text(
-                  '$title',
-                  style: Theme.of(context).textTheme.headline4,
-                  // style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    //CircleAvatar(child:Icon(Icons.ac_unit)),
+                    Text(
+                      '$title',
+                      //style: Theme.of(context).textTheme.headline4,
+                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    
+                  ],
                 ),
               ),
               body,
