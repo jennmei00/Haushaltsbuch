@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
-import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
+import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
@@ -13,6 +13,17 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
+  final List<Category> _categoryList = AllData.categories;
+
+  @override
+  void initState() {
+    _categoryList.sort((a, b) {
+      return a.title!.toLowerCase().compareTo(b.title!.toLowerCase());
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,14 +33,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         backgroundColor: Theme.of(context).primaryColor,
       ),
       drawer: AppDrawer(),
-      body: AllData.categires.length == 0
-          ? NothingThere(textScreen: 'Noch keine Kategorien vorhanden :(')//Text('Keine Kategorien vorhanden, erstelle welche!')
+      body: AllData.categories.length == 0
+          ? NothingThere(
+              textScreen:
+                  'Noch keine Kategorien vorhanden :(') //Text('Keine Kategorien vorhanden, erstelle welche!')
           : GridView.count(
               padding: EdgeInsets.all(20),
               crossAxisCount: 4,
               crossAxisSpacing: 20,
               mainAxisSpacing: 20,
-              children: AllData.categires
+              children: _categoryList
                   .map((item) => GestureDetector(
                         onTap: () => Navigator.of(context).pushNamed(
                             NewCategorieScreen.routeName,
@@ -42,10 +55,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   .toList(),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          child: Icon(Icons.add),
-          onPressed: () {
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
+        child: Icon(Icons.add),
+        onPressed: () {
           Navigator.of(context)
               .pushNamed(NewCategorieScreen.routeName, arguments: '');
         },

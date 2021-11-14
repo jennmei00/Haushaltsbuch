@@ -11,7 +11,7 @@ class AllData {
   //Otherwise it throws an Error!
   //So you don't have to add "?" and the variable cannot be null.
 
-  static late List<Category> categires;
+  static late List<Category> categories;
   static late List<AccountType> accountTypes;
   static late List<Account> accounts;
   static late List<Posting> postings;

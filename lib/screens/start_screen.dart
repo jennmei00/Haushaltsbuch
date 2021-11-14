@@ -24,7 +24,7 @@ class _StartScreenState extends State<StartScreen> {
     AllData.accounts =
        Account().listFromDB(await DBHelper.getData('Account'));
 
-    AllData.categires =
+    AllData.categories =
         Category().listFromDB(await DBHelper.getData('Category'));
 
     AllData.standingOrders =

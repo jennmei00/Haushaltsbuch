@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/theme.dart';
 import 'package:haushaltsbuch/services/theme_notifier.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
@@ -8,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // ignore: must_be_immutable
 class SettingsScreen extends StatelessWidget {
   static final routeName = '/settings_screen';
-   bool _darkTheme = false;
+  bool _darkTheme = false;
 
   void onThemeChanged(bool value, ThemeNotifier themeNotifier) async {
     (value)
@@ -47,8 +49,51 @@ class SettingsScreen extends StatelessWidget {
           //
           //
           ListTile(
-            leading: Icon(Icons.delete_forever),
-            title: Text('Alle Daten Löschen'),
+            leading: Icon(
+              Icons.delete_forever,
+              color: Colors.red,
+            ),
+            title: TextButton(
+              child: Text('Alle Daten Löschen'),
+              style: ButtonStyle(
+                alignment: Alignment.centerLeft,
+                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                foregroundColor: MaterialStateProperty.all(Colors.red),
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("Alle Daten löschen"),
+                      content: const Text(
+                          "Bist du WIRKLICH sicher, dass du ALLE Daten löschen willst?"),
+                      actions: <Widget>[
+                        TextButton(
+                            onPressed: () {
+                              
+                              // AllData.accountTypes = [];
+                              // AllData.accounts = [];
+                              // AllData.categories = [];
+                              // AllData.postings = [];
+                              // AllData.standingOrderPostings = [];
+                              // AllData.standingOrders = [];
+                              // AllData.transfers = [];
+                              DBHelper.deleteDatabse();
+
+                              Navigator.of(context).pop(true);
+                            },
+                            child: const Text("Löschen")),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: const Text("Abbrechen"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
           )
         ],
       ),

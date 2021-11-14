@@ -30,7 +30,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
   void initState() {
     if (widget.id != '') {
       Category cat =
-          AllData.categires.firstWhere((element) => element.id == widget.id);
+          AllData.categories.firstWhere((element) => element.id == widget.id);
       _titleController.text = '${cat.title}';
       _iconcolor = cat.color as Color;
     }
@@ -100,8 +100,13 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
             widget.id == ''
                 ? SizedBox()
                 : TextButton(
+                    style: ButtonStyle(
+                      alignment: Alignment.centerLeft,
+                      // textStyle: TextStyle(),
+                      padding: MaterialStateProperty.all(EdgeInsets.zero),
+                    ),
                     onPressed: () {
-                      AllData.categires
+                      AllData.categories
                           .removeWhere((element) => element.id == widget.id);
                       DBHelper.delete('Category', where: "ID = '${widget.id}'");
 
@@ -113,9 +118,8 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                         ..popAndPushNamed(CategoriesScreen.routeName);
                     },
                     child: Text(
-                      'Kategorie Löschen',
+                      'Kategorie löschen',
                       style: TextStyle(color: Colors.red),
-                      // textAlign: TextAlign.left,
                     )),
           ],
         ),
@@ -143,10 +147,10 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
       } else {
         await DBHelper.update('Category', cat.toMap(),
             where: "ID = '${cat.id}'");
-        AllData.categires.removeWhere((element) => element.id == cat.id);
+        AllData.categories.removeWhere((element) => element.id == cat.id);
       }
 
-      AllData.categires.add(cat);
+      AllData.categories.add(cat);
       Navigator.of(context)
         ..pop()
         ..popAndPushNamed(CategoriesScreen.routeName);
