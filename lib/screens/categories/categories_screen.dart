@@ -38,18 +38,40 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               textScreen:
                   'Noch keine Kategorien vorhanden :(') //Text('Keine Kategorien vorhanden, erstelle welche!')
           : GridView.count(
+              childAspectRatio: MediaQuery.of(context).size.width /
+                  (MediaQuery.of(context).size.height / 1.8),
               padding: EdgeInsets.all(20),
-              crossAxisCount: 4,
-              crossAxisSpacing: 20,
+              crossAxisCount: 3,
+              crossAxisSpacing: MediaQuery.of(context).size.width * 0.05,
               mainAxisSpacing: 20,
               children: _categoryList
-                  .map((item) => GestureDetector(
+                  .map((item) => InkWell(
+                        borderRadius: BorderRadius.circular(8),
                         onTap: () => Navigator.of(context).pushNamed(
                             NewCategorieScreen.routeName,
                             arguments: item.id),
-                        child: new CircleAvatar(
-                          backgroundColor: item.color,
-                          child: Text('${item.title}'),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: new Column(
+                            children: [
+                              CircleAvatar(
+                                  radius: MediaQuery.of(context).size.width * 0.1,
+                                  backgroundColor: item.color,
+                                  child: FractionallySizedBox(
+                                    widthFactor: 0.6,
+                                    heightFactor: 0.6,
+                                    child: Image.asset(
+                                      'assets/icons/money-bag.png',
+                                    ),
+                                  )),
+                              SizedBox(height: 8),
+                              Center(
+                                  child: Text(
+                                '${item.title}',
+                                style: TextStyle(fontSize: 14),
+                              )),
+                            ],
+                          ),
                         ),
                       ))
                   .toList(),

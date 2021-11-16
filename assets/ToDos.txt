@@ -19,6 +19,7 @@
 - Kategorien bearbeiten
 - Dropdowns erstes Value "Bitte wählen", falls nicht gewählt schriftfarbe rot werden
 - Daueraufträge auf zwei Kommastellen runden
+- Kategorie bei Löschen fragen oder Rückgängig in Meldung mit einbauen
 
 Prüfung TextFields keine Pflichtfelder sind
 - Neues Konto: Beschreibung
@@ -55,6 +56,3 @@ ERLEDIGT
 
 ----- Ideensammlung -----
 + ERLEDIGT "Kontokategorie" in "Kontoart" umbenennen
-
----- Anmerkungen ----
-+ Hab gelesen, man sollte/kann assets Ordner aus dem lib raustun
