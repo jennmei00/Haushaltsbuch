@@ -21,6 +21,8 @@
 - Daueraufträge auf zwei Kommastellen runden
 - Kategorie bei Löschen fragen oder Rückgängig in Meldung mit einbauen
 
+- Kategorie wählen nach Alphabet sortieren
+
 Prüfung TextFields keine Pflichtfelder sind
 - Neues Konto: Beschreibung
 - Einnahme/Ausgabe: Beschreibung
@@ -30,19 +32,15 @@ Prüfung TextFields keine Pflichtfelder sind
 
 
 ------- To-Do Jessica -------
-1) ERLEDIGT Hier rein schreiben, was es für Kontokategorien geben soll
-2) ERLEDIGT beim Color Picker in Neues Konto bei Speicherbutton das machen, 
-    was jetzt beim Picker in Neue Kategorie bei onchange passiert
-    -> Farbe vom Symbol soll sich ändern
-3) ERLEDIGT Custom Text field überall fehlende Parameter mit übergeben
-4) ERLEDIGT Design von Input Feldern ändern
-5) Buchen -> Design überlegen, Bilder suchen
-7) ERLEDIGT DropDown in Umbuchung hinzufügen
-9) Dauerauftrag Wiederholung Popup verschönern
-10) nach Symbolen suchen
-12) ERLEDIGT TextField validations auf float prüfen (bei Betrag) auf ALLE seiten
-13) ERLEDIGT Dropdown validations auf allen Seiten 
-14) ERLEDIGT Konto: mit Daten UI erstellen (all_data.dart)
+- Buchen -> Design überlegen, Bilder suchen
+- Dauerauftrag Wiederholung Popup verschönern
+- nach Symbolen suchen
+- change kategorie hintergrund oder so on click und merke auswahl zum speichern
+- farbe von kategorie icon (schwarz oder weiß) an hintergrund anpassen
+- farben in theme auslagern
+
+- globale Variablen für größe der sized boxes mit media query? 
+- globale Variablen für fontsizes (theme?)
 
 ------- Kontokategorien -------
 - Sparkonto

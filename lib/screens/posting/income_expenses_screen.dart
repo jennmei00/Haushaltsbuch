@@ -31,10 +31,11 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
       TextEditingController(text: '');
   final _formKey = GlobalKey<FormState>();
   List<ListItem> _accountDropDownItems = [
-    ListItem('0', 'name'),
-    ListItem('1', ' ')
+    // ListItem('0', 'name'),
+    // ListItem('1', ' ')
   ];
   late ListItem _selectedItem;
+  //Color _selectionColor = ;
 
   void _getAccountDropDownItems() {
     _selectedItem = ListItem('0', 'name');
@@ -89,13 +90,19 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                   AllData.postings.add(posting);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Das Speichern in die Datenbank ist \n schiefgelaufen :(', textAlign: TextAlign.center,),
-                  ));}
-              }
-              else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Ups, da passt etwas noch nicht :(', textAlign: TextAlign.center,),
+                    content: Text(
+                      'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+                      textAlign: TextAlign.center,
+                    ),
                   ));
+                }
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    'Ups, da passt etwas noch nicht :(',
+                    textAlign: TextAlign.center,
+                  ),
+                ));
               }
             },
           ),
@@ -156,34 +163,66 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             //     onChanged: () {}),
             // TextButton(onPressed: () {}, child: Text('Kategorie wählen: ')),
             Container(
-              height: 100,
+              //height: 100,
               // padding: EdgeInsets.all(20),
               // color: Colors.grey[400]?.withOpacity(0.5),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(children: [
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: AllData.categories
-                        .map((item) => new CircleAvatar(
-                              radius: 40,
-                              backgroundColor: item.color,
-                              child: Text('${item.title}'),
-                            ))
-                        .toList(),
-                  ),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                ]),
+                child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: AllData.categories
+                      .map((item) => Padding(
+                            padding: const EdgeInsets.only(left: 4, right: 4),
+                            child: new Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(),
+                                color: Colors.yellow,
+                              ),
+                              height: MediaQuery.of(context).size.width * 0.34,
+                              width: MediaQuery.of(context).size.width * 0.29,
+                              child: GestureDetector(
+                                //borderRadius: BorderRadius.circular(8),
+                                //onTap: () => ,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 8, left: 5, right: 5),
+                                  child: new Column(
+                                    children: [
+                                      CircleAvatar(
+                                          radius: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.1,
+                                          backgroundColor: item.color,
+                                          child: FractionallySizedBox(
+                                            widthFactor: 0.6,
+                                            heightFactor: 0.6,
+                                            child: Image.asset(
+                                              'assets/icons/money-bag.png',
+                                            ),
+                                          )),
+                                      SizedBox(height: 8),
+                                      Center(
+                                          child: Text(
+                                        '${item.title}',
+                                        style: TextStyle(fontSize: 14),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ))
+
+                      // new CircleAvatar(
+                      //       radius: 40,
+                      //       backgroundColor: item.color,
+                      //       child: Text('${item.title}'),
+                      //     ))
+                      .toList(),
+                ),
               ),
             ),
             SizedBox(height: 20),
@@ -281,9 +320,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
         ),
         // ],
         // ),
-        ),
+      ),
     );
-
   }
 
   // void _repeatStandingorder() {

@@ -38,6 +38,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               textScreen:
                   'Noch keine Kategorien vorhanden :(') //Text('Keine Kategorien vorhanden, erstelle welche!')
           : GridView.count(
+              scrollDirection: Axis.vertical,
               childAspectRatio: MediaQuery.of(context).size.width /
                   (MediaQuery.of(context).size.height / 1.8),
               padding: EdgeInsets.all(20),
