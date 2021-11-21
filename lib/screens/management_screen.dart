@@ -44,7 +44,7 @@ class _ManagementScreenState extends State<ManagementScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Kategorie:'),
-                    Text('Beginn:'),
+                    Text('Datum/Beginn:'),
                     Text('Wiederholung:'),
                     item.description == '' ? SizedBox() : Text('Beschreibung:'),
                   ],
@@ -54,8 +54,10 @@ class _ManagementScreenState extends State<ManagementScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     item.category != null
-                        ? Text('${item.category!.title}')
+                        ? Text('${item.category!.title}', style: TextStyle(color: item.category!.color),)
                         : Text(''),
+                    Text('Datum'),
+                    Text('Wiederholung'),
                     // Text(
                     //     '${item.begin!.day}.${item.begin!.month}.${item.begin!.year}'),
                     // Text('${item.repetition}'),

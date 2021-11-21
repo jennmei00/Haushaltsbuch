@@ -8,6 +8,7 @@ import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:uuid/uuid.dart';
 
+
 class NewCategorieScreen extends StatefulWidget {
   static final routeName = '/new_categories_screen';
 

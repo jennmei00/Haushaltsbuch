@@ -35,7 +35,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     // ListItem('1', ' ')
   ];
   late ListItem _selectedItem;
-  //Color _selectionColor = ;
+  String _selectedCategoryID = '';
 
   void _getAccountDropDownItems() {
     _selectedItem = ListItem('0', 'name');
@@ -83,6 +83,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                     postingType: widget.type == 'Einnahme'
                         ? PostingType.income
                         : PostingType.expense,
+                    category: AllData.categories.firstWhere((element) =>
+                        element.id == _selectedCategoryID), //Ausgewählte Kategorie
                   );
                   DBHelper.insert('Posting', posting.toMap()).then((value) =>
                       Navigator.popAndPushNamed(
@@ -171,19 +173,28 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                 child: Row(
                   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: AllData.categories
-                      .map((item) => Padding(
-                            padding: const EdgeInsets.only(left: 4, right: 4),
-                            child: new Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(),
-                                color: Colors.yellow,
-                              ),
-                              height: MediaQuery.of(context).size.width * 0.34,
-                              width: MediaQuery.of(context).size.width * 0.29,
-                              child: GestureDetector(
-                                //borderRadius: BorderRadius.circular(8),
-                                //onTap: () => ,
+                      .map((item) => GestureDetector(
+                            onTap: () => setState(() {
+                              _selectedCategoryID = '${item.id}';
+                            }),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 4, right: 4),
+                              child: new Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    width: _selectedCategoryID == '${item.id}'
+                                        ? 2.1
+                                        : 1.0,
+                                    color: _selectedCategoryID == '${item.id}'
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.grey.shade700,
+                                  ),
+                                  color: Colors.grey.shade200,
+                                ),
+                                height:
+                                    MediaQuery.of(context).size.width * 0.34,
+                                width: MediaQuery.of(context).size.width * 0.29,
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       top: 8, left: 5, right: 5),

@@ -10,6 +10,7 @@ import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:uuid/uuid.dart';
 import 'package:validators/validators.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 
 class NewAccountScreen extends StatefulWidget {
   static final routeName = '/new_account_screen';
@@ -58,7 +59,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Neues Konto'),
+        title: Text('Neues Konto'), //Text('${Globals.funktioniert}'),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
