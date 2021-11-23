@@ -38,6 +38,7 @@ Prüfung TextFields keine Pflichtfelder sind
 - change kategorie hintergrund oder so on click und merke auswahl zum speichern
 - farbe von kategorie icon (schwarz oder weiß) an hintergrund anpassen
 - farben in theme auslagern
+- default category anlegen
 
 - globale Variablen für größe der sized boxes mit media query? 
 - globale Variablen für fontsizes (theme?)

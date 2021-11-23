@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
@@ -26,6 +29,27 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
   Color _iconcolor = Colors.black;
   Color _onchangedColor = Colors.black;
   final _formKey = GlobalKey<FormState>();
+  List iconFileNames = [];
+  var images; 
+  
+  void _initImages() async {
+      final manifestJson = await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+      images = json.decode(manifestJson).keys.where((String key) => key.startsWith('assets/images'));
+      // // >> To get paths you need these 2 lines
+      // final manifestContent = await rootBundle.loadString('AssetManifest.json');
+    
+      // final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+      // // >> To get paths you need these 2 lines
+
+      // final imagePaths = manifestMap.keys
+      //     .where((String key) => key.contains('images/'))
+      //     .where((String key) => key.contains('.svg'))
+      //     .toList();
+    
+      // setState(() {
+      //   iconFileNames = imagePaths;
+      // });
+    }
 
   @override
   void initState() {
@@ -35,7 +59,8 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
       _titleController.text = '${cat.title}';
       _iconcolor = cat.color as Color;
     }
-
+    _initImages();
+    print(images);
     super.initState();
   }
 
@@ -95,7 +120,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
               ],
             ),
             SizedBox(height: 20),
-            Text('Symbol'),
+            //Text('${iconFileNames[0]}'),
             Row(),
             SizedBox(height: 20),
             widget.id == ''
