@@ -28,31 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
     totalBankBalance = double.parse((totalBankBalance).toStringAsFixed(2));
   }
 
-  Future<void> _getImageList() async {
-    //Im DefaultAssetBundle stehen irgendiwe alle ASSETS im JSON-Format drinnen.
-    //und mit dem key.contains(...) hole ich nur die aus dem ordner assets/icons/ raus
-    
-    String manifestContent =
-        await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
-
-    Map<dynamic, dynamic> manifestMap = json.decode(manifestContent);
-
-    List<dynamic> imagePaths = manifestMap.keys.where((key) => key.contains('assets/icons/')).toList();
-
-    List<String> iconnameList = [];
-    imagePaths.forEach((val) {
-      String name = val as String;
-      iconnameList.add(name.replaceAll('assets/icons/', ''));
-    });
-
-    print(imagePaths);
-    print(iconnameList);
-  }
 
   @override
   void initState() {
     _getTotalBankBalance();
-    _getImageList();
     super.initState();
   }
 

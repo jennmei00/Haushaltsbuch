@@ -11,7 +11,6 @@ import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:uuid/uuid.dart';
 
-
 class NewCategorieScreen extends StatefulWidget {
   static final routeName = '/new_categories_screen';
 
@@ -29,27 +28,31 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
   Color _iconcolor = Colors.black;
   Color _onchangedColor = Colors.black;
   final _formKey = GlobalKey<FormState>();
-  List iconFileNames = [];
-  var images; 
-  
-  void _initImages() async {
-      final manifestJson = await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
-      images = json.decode(manifestJson).keys.where((String key) => key.startsWith('assets/images'));
-      // // >> To get paths you need these 2 lines
-      // final manifestContent = await rootBundle.loadString('AssetManifest.json');
-    
-      // final Map<String, dynamic> manifestMap = json.decode(manifestContent);
-      // // >> To get paths you need these 2 lines
+  String _selectedIcon = '';
 
-      // final imagePaths = manifestMap.keys
-      //     .where((String key) => key.contains('images/'))
-      //     .where((String key) => key.contains('.svg'))
-      //     .toList();
-    
-      // setState(() {
-      //   iconFileNames = imagePaths;
-      // });
-    }
+  List<String> iconnameList = [];
+  List<dynamic> imagePaths = [];
+
+  Future<void> _getImageList() async {
+    //Im DefaultAssetBundle stehen irgendiwe alle ASSETS im JSON-Format drinnen.
+    //und mit dem key.contains(...) hole ich nur die aus dem ordner assets/icons/ raus
+
+    String manifestContent =
+        await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+
+    Map<dynamic, dynamic> manifestMap = json.decode(manifestContent);
+
+    imagePaths =
+        manifestMap.keys.where((key) => key.contains('assets/icons/')).toList();
+
+    imagePaths.forEach((val) {
+      String name = val as String;
+      iconnameList.add(name.replaceAll('assets/icons/', ''));
+    });
+
+    print(imagePaths);
+    // print(iconnameList);
+  }
 
   @override
   void initState() {
@@ -59,8 +62,8 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
       _titleController.text = '${cat.title}';
       _iconcolor = cat.color as Color;
     }
-    _initImages();
-    print(images);
+    _getImageList();
+    print(imagePaths);
     super.initState();
   }
 
@@ -120,7 +123,49 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
               ],
             ),
             SizedBox(height: 20),
-            //Text('${iconFileNames[0]}'),
+            GridView.count(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.all(8),
+              crossAxisCount: 4,
+              crossAxisSpacing: MediaQuery.of(context).size.width * 0.02,
+              mainAxisSpacing: 20,
+              children: imagePaths
+                  .map((item) => GestureDetector(
+                        onTap: () => setState(() {
+                          _selectedIcon = item;
+                        }),
+                        child: new Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              width: _selectedIcon == item ? 2.1 : 1.0,
+                              color: _selectedIcon == item
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey.shade700,
+                            ),
+                            color: Colors.grey.shade200,
+                          ),
+                          // height: MediaQuery.of(context).size.width * 0.34,
+                          // width: MediaQuery.of(context).size.width * 0.34,
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: CircleAvatar(
+                                radius:
+                                    MediaQuery.of(context).size.width * 0.1,
+                                backgroundColor: Colors.grey.shade500,
+                                child: FractionallySizedBox(
+                                  widthFactor: 0.6,
+                                  heightFactor: 0.6,
+                                  child: Image.asset(
+                                    item,
+                                  ),
+                                )),
+                          ),
+                        ),
+                      ))
+                  .toList(),
+            ),
             Row(),
             SizedBox(height: 20),
             widget.id == ''
