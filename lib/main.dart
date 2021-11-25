@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
       // ),
       // themeMode: ThemeMode.system,
       // darkTheme: MyThemes.darkTheme,
-      home: StartScreen(),
+      home: StartScreen(ctx: context),
       // HomeScreen(),
       routes: {
         AccountScreen.routeName: (context) => AccountScreen(),

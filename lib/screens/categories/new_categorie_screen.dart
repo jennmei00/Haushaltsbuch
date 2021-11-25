@@ -7,6 +7,7 @@ import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/custom_dialog.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:uuid/uuid.dart';
@@ -30,29 +31,29 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
   final _formKey = GlobalKey<FormState>();
   String _selectedIcon = '';
 
-  List<String> iconnameList = [];
-  List<dynamic> imagePaths = [];
+  // List<String> iconnameList = [];
+  // List<dynamic> imagePaths = [];
 
-  Future<void> _getImageList() async {
-    //Im DefaultAssetBundle stehen irgendiwe alle ASSETS im JSON-Format drinnen.
-    //und mit dem key.contains(...) hole ich nur die aus dem ordner assets/icons/ raus
+  // Future<void> _getImageList() async {
+  //   //Im DefaultAssetBundle stehen irgendiwe alle ASSETS im JSON-Format drinnen.
+  //   //und mit dem key.contains(...) hole ich nur die aus dem ordner assets/icons/ raus
 
-    String manifestContent =
-        await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+  //   String manifestContent =
+  //       await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
 
-    Map<dynamic, dynamic> manifestMap = json.decode(manifestContent);
+  //   Map<dynamic, dynamic> manifestMap = json.decode(manifestContent);
 
-    imagePaths =
-        manifestMap.keys.where((key) => key.contains('assets/icons/')).toList();
+  //   imagePaths =
+  //       manifestMap.keys.where((key) => key.contains('assets/icons/')).toList();
 
-    imagePaths.forEach((val) {
-      String name = val as String;
-      iconnameList.add(name.replaceAll('assets/icons/', ''));
-    });
+  //   imagePaths.forEach((val) {
+  //     String name = val as String;
+  //     iconnameList.add(name.replaceAll('assets/icons/', ''));
+  //   });
 
-    print(imagePaths);
-    // print(iconnameList);
-  }
+  //   print(imagePaths);
+  //   // print(iconnameList);
+  // }
 
   @override
   void initState() {
@@ -62,8 +63,8 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
       _titleController.text = '${cat.title}';
       _iconcolor = cat.color as Color;
     }
-    _getImageList();
-    print(imagePaths);
+    // _getImageList();
+    // print(imagePaths);
     super.initState();
   }
 
@@ -130,7 +131,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
               crossAxisCount: 4,
               crossAxisSpacing: MediaQuery.of(context).size.width * 0.02,
               mainAxisSpacing: 20,
-              children: imagePaths
+              children: Globals.imagePaths
                   .map((item) => GestureDetector(
                         onTap: () => setState(() {
                           _selectedIcon = item;

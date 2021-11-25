@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
@@ -9,20 +11,37 @@ import 'package:haushaltsbuch/models/standing_order_posting.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 
 class StartScreen extends StatefulWidget {
-  const StartScreen({Key? key}) : super(key: key);
+  const StartScreen({Key? key, this.ctx}) : super(key: key);
+
+  final BuildContext? ctx;
 
   @override
   _StartScreenState createState() => _StartScreenState();
+}
+
+Future<void> _getImageList(BuildContext context) async {
+  //Im DefaultAssetBundle stehen irgendiwe alle ASSETS im JSON-Format drinnen.
+  //und mit dem key.contains(...) hole ich nur die aus dem ordner assets/icons/ raus
+
+    print('in getImageList 1');
+
+  String manifestContent =
+      await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+
+  Map<dynamic, dynamic> manifestMap = json.decode(manifestContent);
+
+  Globals.imagePaths = manifestMap.keys
+      .where((key) => key.contains('assets/icons/')).toList();
 }
 
 class _StartScreenState extends State<StartScreen> {
   late Future<bool> _loadData;
 
   Future<bool> _getAllData() async {
-    AllData.accounts =
-       Account().listFromDB(await DBHelper.getData('Account'));
+    AllData.accounts = Account().listFromDB(await DBHelper.getData('Account'));
 
     AllData.categories =
         Category().listFromDB(await DBHelper.getData('Category'));
@@ -41,12 +60,14 @@ class _StartScreenState extends State<StartScreen> {
     AllData.transfers =
         Transfer().listFromDB(await DBHelper.getData('Transfer'));
 
+    await _getImageList(widget.ctx as BuildContext);
+
+
     return Future.value(true);
   }
 
   @override
   void initState() {
-    // DBHelper.deleteDatabse();
     _loadData = _getAllData();
     super.initState();
   }
