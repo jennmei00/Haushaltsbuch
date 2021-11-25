@@ -43,8 +43,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   (MediaQuery.of(context).size.height / 1.8),
               padding: EdgeInsets.all(20),
               crossAxisCount: 3,
-              crossAxisSpacing: MediaQuery.of(context).size.width * 0.05,
-              mainAxisSpacing: 20,
+              crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
+              mainAxisSpacing: 12,
               children: _categoryList
                   .map((item) => InkWell(
                         borderRadius: BorderRadius.circular(8),
@@ -52,24 +52,30 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             NewCategorieScreen.routeName,
                             arguments: item.id),
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 4.0),
+                          padding: const EdgeInsets.only(top: 5.0),
                           child: new Column(
                             children: [
                               CircleAvatar(
-                                  radius: MediaQuery.of(context).size.width * 0.1,
+                                  radius:
+                                      MediaQuery.of(context).size.width * 0.1,
                                   backgroundColor: item.color,
                                   child: FractionallySizedBox(
                                     widthFactor: 0.6,
                                     heightFactor: 0.6,
                                     child: Image.asset(
-                                      'assets/icons/money-bag.png',
+                                      item.symbol!,
+                                      color:
+                                          item.color!.computeLuminance() > 0.2
+                                              ? Colors.black
+                                              : Colors.white,
                                     ),
                                   )),
-                              SizedBox(height: 8),
+                              SizedBox(height: 4),
                               Center(
                                   child: Text(
                                 '${item.title}',
-                                style: TextStyle(fontSize: 14),
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: item.color),
+                                textAlign: TextAlign.center,
                               )),
                             ],
                           ),

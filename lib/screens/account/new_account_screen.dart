@@ -29,6 +29,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   Color _iconcolor = Colors.black;
   Color _onchangedColor = Colors.black;
   final _formKey = GlobalKey<FormState>();
+  String _selectedIcon = '';
+
   List<ListItem> _accountTypeDropDownItems = [
     ListItem('0', 'name'),
     ListItem('1', ' ')
@@ -77,7 +79,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                     color: _iconcolor,
                     accountType: AllData.accountTypes.firstWhere(
                         (element) => element.id == _selectedItem.id),
-                    // symbol: ,
+                    symbol: _selectedIcon,
                   );
                   DBHelper.insert('Account', ac.toMap()).then((value) =>
                       Navigator.popAndPushNamed(
@@ -187,6 +189,52 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                   ),
                 ),
               ],
+            ),
+            Text(
+              'Icon wählen: ',
+              style: TextStyle(fontSize: 20),
+            ),
+            GridView.count(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.all(8),
+              crossAxisCount: 4,
+              crossAxisSpacing: MediaQuery.of(context).size.width * 0.02,
+              mainAxisSpacing: 20,
+              children: Globals.imagePaths
+                  .map((item) => GestureDetector(
+                        onTap: () => setState(() {
+                          _selectedIcon = item;
+                        }),
+                        child: new Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              width: _selectedIcon == item ? 2.1 : 1.0,
+                              color: _selectedIcon == item
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey.shade700,
+                            ),
+                            color: Colors.grey.shade200,
+                          ),
+                          // height: MediaQuery.of(context).size.width * 0.34,
+                          // width: MediaQuery.of(context).size.width * 0.34,
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: CircleAvatar(
+                                radius: MediaQuery.of(context).size.width * 0.1,
+                                backgroundColor: Colors.grey.shade500,
+                                child: FractionallySizedBox(
+                                  widthFactor: 0.6,
+                                  heightFactor: 0.6,
+                                  child: Image.asset(
+                                    item,
+                                  ),
+                                )),
+                          ),
+                        ),
+                      ))
+                  .toList(),
             ),
           ],
         ),

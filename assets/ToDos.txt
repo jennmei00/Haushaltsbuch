@@ -35,10 +35,9 @@ Prüfung TextFields keine Pflichtfelder sind
 - Buchen -> Design überlegen, Bilder suchen
 - Dauerauftrag Wiederholung Popup verschönern
 - nach Symbolen suchen
-- change kategorie hintergrund oder so on click und merke auswahl zum speichern
-- farbe von kategorie icon (schwarz oder weiß) an hintergrund anpassen
 - farben in theme auslagern
-- default category anlegen
+- default category anlegen -> und damit kein pflichtfeld für konto und Buchen
+- für kontoerstellung extra symbole suchen
 
 - globale Variablen für größe der sized boxes mit media query? 
 - globale Variablen für fontsizes (theme?)

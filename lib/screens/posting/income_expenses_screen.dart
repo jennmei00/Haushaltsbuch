@@ -84,7 +84,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                         ? PostingType.income
                         : PostingType.expense,
                     category: AllData.categories.firstWhere((element) =>
-                        element.id == _selectedCategoryID), //Ausgewählte Kategorie
+                        element.id ==
+                        _selectedCategoryID), //Ausgewählte Kategorie
                   );
                   DBHelper.insert('Posting', posting.toMap()).then((value) =>
                       Navigator.popAndPushNamed(
@@ -210,14 +211,22 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                                             widthFactor: 0.6,
                                             heightFactor: 0.6,
                                             child: Image.asset(
-                                              'assets/icons/money-bag.png',
+                                              item.symbol!,
+                                              color: item.color!
+                                                          .computeLuminance() >
+                                                      0.2
+                                                  ? Colors.black
+                                                  : Colors.white,
                                             ),
                                           )),
-                                      SizedBox(height: 8),
+                                      SizedBox(height: 4),
                                       Center(
                                           child: Text(
                                         '${item.title}',
-                                        style: TextStyle(fontSize: 14),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: item.color),
                                         textAlign: TextAlign.center,
                                       )),
                                     ],

@@ -31,30 +31,6 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
   final _formKey = GlobalKey<FormState>();
   String _selectedIcon = '';
 
-  // List<String> iconnameList = [];
-  // List<dynamic> imagePaths = [];
-
-  // Future<void> _getImageList() async {
-  //   //Im DefaultAssetBundle stehen irgendiwe alle ASSETS im JSON-Format drinnen.
-  //   //und mit dem key.contains(...) hole ich nur die aus dem ordner assets/icons/ raus
-
-  //   String manifestContent =
-  //       await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
-
-  //   Map<dynamic, dynamic> manifestMap = json.decode(manifestContent);
-
-  //   imagePaths =
-  //       manifestMap.keys.where((key) => key.contains('assets/icons/')).toList();
-
-  //   imagePaths.forEach((val) {
-  //     String name = val as String;
-  //     iconnameList.add(name.replaceAll('assets/icons/', ''));
-  //   });
-
-  //   print(imagePaths);
-  //   // print(iconnameList);
-  // }
-
   @override
   void initState() {
     if (widget.id != '') {
@@ -124,6 +100,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
               ],
             ),
             SizedBox(height: 20),
+            Text('Symbol wählen:'),
             GridView.count(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -152,14 +129,16 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(5),
                             child: CircleAvatar(
-                                radius:
-                                    MediaQuery.of(context).size.width * 0.1,
-                                backgroundColor: Colors.grey.shade500,
+                                radius: MediaQuery.of(context).size.width * 0.1,
+                                backgroundColor: _iconcolor,
                                 child: FractionallySizedBox(
                                   widthFactor: 0.6,
                                   heightFactor: 0.6,
                                   child: Image.asset(
                                     item,
+                                    color: _iconcolor.computeLuminance() > 0.2
+                                        ? Colors.black
+                                        : Colors.white,
                                   ),
                                 )),
                           ),
@@ -207,41 +186,42 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
 
   void _saveCategory() async {
     if (_formKey.currentState!.validate()) {
-      // if (_titleController.text != '') {
-      Category cat = Category(
-        id: widget.id != '' ? widget.id : Uuid().v1(),
-        title: _titleController.text,
-        color: _iconcolor,
-      );
+      if (_selectedIcon != '') {
+        Category cat = Category(
+          id: widget.id != '' ? widget.id : Uuid().v1(),
+          title: _titleController.text,
+          color: _iconcolor,
+          symbol: _selectedIcon,
+        );
 
-      if (widget.id == '') {
-        await DBHelper.insert('Category', cat.toMap());
+        if (widget.id == '') {
+          await DBHelper.insert('Category', cat.toMap());
+        } else {
+          await DBHelper.update('Category', cat.toMap(),
+              where: "ID = '${cat.id}'");
+          AllData.categories.removeWhere((element) => element.id == cat.id);
+        }
+
+        AllData.categories.add(cat);
+        Navigator.of(context)
+          ..pop()
+          ..popAndPushNamed(CategoriesScreen.routeName);
+        // } else {
+        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //     content: Text(
+        //       'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+        //       textAlign: TextAlign.center,
+        //     ),
+        //   ));
+        // }
       } else {
-        await DBHelper.update('Category', cat.toMap(),
-            where: "ID = '${cat.id}'");
-        AllData.categories.removeWhere((element) => element.id == cat.id);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Bitte wähle noch ein Symbol aus :)',
+            textAlign: TextAlign.center,
+          ),
+        ));
       }
-
-      AllData.categories.add(cat);
-      Navigator.of(context)
-        ..pop()
-        ..popAndPushNamed(CategoriesScreen.routeName);
-      // } else {
-      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //     content: Text(
-      //       'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
-      //       textAlign: TextAlign.center,
-      //     ),
-      //   ));
-      // }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          'Ups, da passt etwas noch nicht :(',
-          textAlign: TextAlign.center,
-        ),
-      ));
     }
-    ;
   }
 }
