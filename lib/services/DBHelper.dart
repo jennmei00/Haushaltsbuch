@@ -157,7 +157,7 @@ class DBHelper {
 
     //Category
     await db.execute(
-        'CREATE TABLE Category(ID TEXT PRIAMRY KEY, Title TEXT, Symbol BLOB, Color TEXT)');
+        'CREATE TABLE Category(ID TEXT PRIAMRY KEY, Title TEXT, Symbol TEXT, Color TEXT)');
 
     //AccountType
     await db
@@ -166,17 +166,17 @@ class DBHelper {
     //Account
     await db.execute(
         'CREATE TABLE Account(ID TEXT PRIMARY KEY, Title TEXT, Description TEXT, BankBalance REAL,' +
-            'Color TEXT, Symbol BLOB, AccountTypeID TEXT, FOREIGN KEY(AccountTypeID) REFERENCES AccountType(ID))');
+            'Color TEXT, Symbol TEXT, AccountTypeID TEXT, FOREIGN KEY(AccountTypeID) REFERENCES AccountType(ID))');
 
     //Posting
     await db.execute(
         'CREATE TABLE Posting(ID TEXT, PostingType INTEGER, Date TEXT, Amount REAL, ' +
-            'Title TEXT, Description TEXT, AccountID TEXT, CategoryID TEXT, FOREIGN KEY(AccountID) REFERENCES Account(ID), ' +
+            'Title TEXT, Description TEXT, AccountName TEXT, AccountID TEXT, CategoryID TEXT, FOREIGN KEY(AccountID) REFERENCES Account(ID), ' +
             'FOREIGN KEY(CategoryID) REFERENCES Category(ID))');
 
     //Transfer
     await db.execute(
-        'CREATE TABLE Transfer(ID TEXT, Date TEXT, Amount REAL, Description TEXT, ' +
+        'CREATE TABLE Transfer(ID TEXT, Date TEXT, Amount REAL, Description TEXT, AccountFromName TEXT, AccountToName TEXT' +
             'AccountFromID TEXT, AccountToID TEXT, FOREIGN KEY(AccountFromID) REFERENCES Account(ID), ' +
             'FOREIGN KEY(AccountToID) REFERENCES Account(ID))');
 
@@ -187,9 +187,9 @@ class DBHelper {
             'FOREIGN KEY(AccountID) REFERENCES Account(ID), FOREIGN KEY(CategoryID) REFERENCES Category(ID))');
 
     //StandingOrderPosting
-    await db.execute(
-        'CREATE TABLE StandingOrderPosting(ID TEXT, Date TEXT, StandingOrderID TEXT, ' +
-            'FOREIGN KEY(StandingOrderID) REFERENCES StandingOrder(ID))');
+    // await db.execute(
+    //     'CREATE TABLE StandingOrderPosting(ID TEXT, Date TEXT, StandingOrderID TEXT, ' +
+    //         'FOREIGN KEY(StandingOrderID) REFERENCES StandingOrder(ID))');
 
     await db
         .execute("INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Sparkonto')");
