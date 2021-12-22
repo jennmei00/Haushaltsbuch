@@ -39,9 +39,12 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                 children: AllData.standingOrders
                     .map((item) => Dismissible(
                           confirmDismiss: (DismissDirection direction) {
-                            if (direction == DismissDirection.startToEnd)
+                            if (direction == DismissDirection.startToEnd) {
+                              Navigator.of(context).pushNamed(
+                                  AddEditStandingOrder.routeName,
+                                  arguments: item.id);
                               return Future.value(false);
-                            else {
+                            } else {
                               return showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -67,17 +70,36 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                           },
                           key: ValueKey<String>(item.id.toString()),
                           onDismissed: (DismissDirection direction) {
-                            AllData.standingOrders.remove(item);
-                            DBHelper.delete('StandingOrder',
-                                where: "ID = '${item.id}'");
+                            print(direction);
+                            if (direction == DismissDirection.endToStart) {
+                              // AllData.standingOrders.remove(item);
+                              // DBHelper.delete('StandingOrder',
+                              //     where: "ID = '${item.id}'");
 
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('Dauerauftrag wurde gelöscht')));
-                            setState(() {});
+                              // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              //     content: Text('Dauerauftrag wurde gelöscht')));
+                              // setState(() {});
+
+                              // } else {
+                              //   Navigator.of(context).pushNamed(
+                              //       AddEditStandingOrder.routeName,
+                              //       arguments: item.id);
+                            }
                           },
-                          direction: DismissDirection.endToStart,
+                          direction: DismissDirection.horizontal,
                           background: Container(
-                            color: Colors.white,
+                            color: Colors.orange,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(Icons.edit, color: Colors.white),
+                                  Text('Edit',
+                                      style: TextStyle(color: Colors.white)),
+                                ],
+                              ),
+                            ),
                           ),
                           secondaryBackground: Container(
                             color: Colors.red,
@@ -94,11 +116,11 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                             ),
                           ),
                           child: GestureDetector(
-                            onLongPress: () {
-                              Navigator.of(context).pushNamed(
-                                  AddEditStandingOrder.routeName,
-                                  arguments: item.id);
-                            },
+                            // onLongPress: () {
+                            //   Navigator.of(context).pushNamed(
+                            //       AddEditStandingOrder.routeName,
+                            //       arguments: item.id);
+                            // },
                             child: Card(
                               child: ExpansionTile(
                                 textColor: Colors.black,
