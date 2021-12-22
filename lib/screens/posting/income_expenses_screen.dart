@@ -71,26 +71,30 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                     isFloat(_amountController.text))
                 //If Category is selected
                 {
-                  Posting posting = Posting(
-                    id: Uuid().v1(),
-                    title: _titleController.text,
-                    description: _descriptionController.text,
-                    account: AllData.accounts.firstWhere((element) =>
-                        element.id == _selectedItem.id), //Ausgewähltes Konto
-                    amount: double.parse(_amountController.text),
-                    // category: , //Ausgewählte Kategorie
-                    date: _incomeDateTime,
-                    postingType: widget.type == 'Einnahme'
-                        ? PostingType.income
-                        : PostingType.expense,
-                    category: AllData.categories.firstWhere((element) =>
-                        element.id ==
-                        _selectedCategoryID), //Ausgewählte Kategorie
-                  );
-                  DBHelper.insert('Posting', posting.toMap()).then((value) =>
-                      Navigator.popAndPushNamed(
-                          context, PostingScreen.routeName));
-                  AllData.postings.add(posting);
+                  try {
+                    Posting posting = Posting(
+                      id: Uuid().v1(),
+                      title: _titleController.text,
+                      description: _descriptionController.text,
+                      account: AllData.accounts.firstWhere((element) =>
+                          element.id == _selectedItem.id), //Ausgewähltes Konto
+                      amount: double.parse(_amountController.text),
+                      // category: , //Ausgewählte Kategorie
+                      date: _incomeDateTime,
+                      postingType: widget.type == 'Einnahme'
+                          ? PostingType.income
+                          : PostingType.expense,
+                      category: AllData.categories.firstWhere((element) =>
+                          element.id ==
+                          _selectedCategoryID), //Ausgewählte Kategorie
+                    );
+                    DBHelper.insert('Posting', posting.toMap()).then((value) =>
+                        Navigator.popAndPushNamed(
+                            context, PostingScreen.routeName));
+                    AllData.postings.add(posting);
+                  } catch (error) {
+                    print(error);
+                  }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(

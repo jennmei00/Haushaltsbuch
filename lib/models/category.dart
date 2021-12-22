@@ -17,7 +17,8 @@ class Category {
     var map = Map<String, dynamic>();
     map['ID'] = this.id;
     map['Title'] = this.title;
-    map['Color'] = this.color!.value.toString();
+    map['Color'] =
+        this.color == null ? Colors.black : this.color!.value.toString();
     map['Symbol'] = this.symbol;
     return map;
   }

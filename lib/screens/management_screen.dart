@@ -75,7 +75,7 @@ class _ManagementScreenState extends State<ManagementScreen> {
           (item) => _listViewWidget(
             '${item.id}',
             '${item.description}',
-            Text('Subtitle'),
+            Text('Umbuchung'),
             Text('Trailing'),
             [],
           ),
@@ -91,7 +91,7 @@ class _ManagementScreenState extends State<ManagementScreen> {
           (item) => _listViewWidget(
             '${item.id}',
             '${item.standingOrder!.title}',
-            Text('Subtitle'),
+            Text('Daueraufträge'),
             Text('Trailing'),
             [],
           ),
@@ -110,7 +110,7 @@ class _ManagementScreenState extends State<ManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _createListView();
+    // _createListView();
 
     return Scaffold(
         appBar: AppBar(
