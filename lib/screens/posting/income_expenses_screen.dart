@@ -79,7 +79,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                       account: AllData.accounts.firstWhere((element) =>
                           element.id == _selectedItem.id), //Ausgewähltes Konto
                       amount: double.parse(_amountController.text),
-                      // category: , //Ausgewählte Kategorie
                       date: _incomeDateTime,
                       postingType: widget.type == 'Einnahme'
                           ? PostingType.income
@@ -87,6 +86,10 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                       category: AllData.categories.firstWhere((element) =>
                           element.id ==
                           _selectedCategoryID), //Ausgewählte Kategorie
+                      accountName: AllData.accounts
+                          .firstWhere(
+                              (element) => element.id == _selectedItem.id)
+                          .title,
                     );
                     DBHelper.insert('Posting', posting.toMap()).then((value) =>
                         Navigator.popAndPushNamed(

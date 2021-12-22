@@ -6,6 +6,8 @@ class Transfer {
   DateTime? date;
   double? amount;
   String? description;
+  String? accountFromName;
+  String? accountToName;
   Account? accountFrom;
   Account? accountTo;
 
@@ -14,6 +16,8 @@ class Transfer {
     this.date,
     this.amount,
     this.description,
+    this.accountFromName,
+    this.accountToName,
     this.accountFrom,
     this.accountTo,
   });
@@ -26,6 +30,8 @@ class Transfer {
     map['Description'] = this.description;
     map['AccountFromID'] = this.accountFrom!.id;
     map['AccountToID'] = this.accountTo!.id;
+    map['AccountFromName'] = this.accountFromName;
+    map['AccountToName'] = this.accountToName;
     return map;
   }
 
@@ -48,6 +54,8 @@ class Transfer {
           where: "ID = '${data['AccountFromID']}'")),
       accountTo: await Account().fromDB(await DBHelper.getOneData('Account',
           where: "ID = '${data['AccountToID']}'")),
+      accountFromName: data['AccountFromName'],
+      accountToName: data['AccountToName'],
     );
     return transfer;
   }

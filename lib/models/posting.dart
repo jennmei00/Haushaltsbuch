@@ -1,4 +1,3 @@
-
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
@@ -12,6 +11,7 @@ class Posting {
   String? title;
   String? description;
   Account? account;
+  String? accountName;
   Category? category;
 
   Posting({
@@ -22,18 +22,21 @@ class Posting {
     this.title,
     this.description,
     this.account,
+    this.accountName,
     this.category,
   });
 
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['ID'] = this.id;
-    map['PostingType'] = this.postingType == null ? null : this.postingType!.index;
+    map['PostingType'] =
+        this.postingType == null ? null : this.postingType!.index;
     map['Date'] = this.date!.toIso8601String();
     map['Amount'] = this.amount;
     map['Title'] = this.title;
     map['Description'] = this.description;
     map['AccountID'] = this.account == null ? null : this.account!.id;
+    map['AccountName'] = this.accountName;
     map['CategoryID'] = this.category == null ? null : this.category!.id;
     return map;
   }
@@ -57,8 +60,9 @@ class Posting {
       amount: data['Amount'],
       title: data['Title'],
       description: data['Description'],
-      account: await Account()
-          .fromDB(await DBHelper.getOneData('Account', where: "ID = $account'")),
+      account: await Account().fromDB(
+          await DBHelper.getOneData('Account', where: "ID = $account'")),
+      accountName: data['AccountName'],
       category: Category().fromDB(await DBHelper.getOneData('Category',
           where: "ID = ${data['CategoryID']}'")),
     );

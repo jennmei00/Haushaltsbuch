@@ -86,20 +86,20 @@ class _ManagementScreenState extends State<ManagementScreen> {
         //     ))
 
         .toList());
-    _listViewChildren.addAll(AllData.standingOrderPostings
-        .map(
-          (item) => _listViewWidget(
-            '${item.id}',
-            '${item.standingOrder!.title}',
-            Text('Daueraufträge'),
-            Text('Trailing'),
-            [],
-          ),
-        )
-        // Container(
-        //       child: Text('${e.standingOrder!.title} STANDINGORDER'),
-        //     ))
-        .toList());
+    // _listViewChildren.addAll(AllData.standingOrderPostings
+    //     .map(
+    //       (item) => _listViewWidget(
+    //         '${item.id}',
+    //         '${item.standingOrder!.title}',
+    //         Text('Daueraufträge'),
+    //         Text('Trailing'),
+    //         [],
+    //       ),
+    //     )
+    //     // Container(
+    //     //       child: Text('${e.standingOrder!.title} STANDINGORDER'),
+    //     //     ))
+    //     .toList());
   }
 
   @override

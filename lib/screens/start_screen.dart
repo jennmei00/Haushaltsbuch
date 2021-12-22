@@ -41,6 +41,7 @@ class _StartScreenState extends State<StartScreen> {
   late Future<bool> _loadData;
 
   Future<bool> _getAllData() async {
+    await _getImageList(widget.ctx as BuildContext);
     AllData.accounts = Account().listFromDB(await DBHelper.getData('Account'));
 
     AllData.categories =
@@ -54,13 +55,12 @@ class _StartScreenState extends State<StartScreen> {
 
     AllData.postings = Posting().listFromDB(await DBHelper.getData('Posting'));
 
-    AllData.standingOrderPostings = StandingOrderPosting()
-        .listFromDB(await DBHelper.getData('StandingOrderPosting'));
+    // AllData.standingOrderPostings = StandingOrderPosting()
+    //     .listFromDB(await DBHelper.getData('StandingOrderPosting'));
 
     AllData.transfers =
         Transfer().listFromDB(await DBHelper.getData('Transfer'));
 
-    await _getImageList(widget.ctx as BuildContext);
 
 
     return Future.value(true);

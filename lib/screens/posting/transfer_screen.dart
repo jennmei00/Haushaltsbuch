@@ -70,6 +70,14 @@ class _TransferScreenState extends State<TransferScreen> {
                         (element) => element.id == _selectedAccountTo.id),
                     amount: double.parse(_amountController.text),
                     date: _dateTime,
+                    accountFromName: AllData.accounts
+                        .firstWhere(
+                            (element) => element.id == _selectedAccountFrom.id)
+                        .title,
+                    accountToName: AllData.accounts
+                        .firstWhere(
+                            (element) => element.id == _selectedAccountTo.id)
+                        .title,
                   );
                   AllData.transfers.add(transfer);
                   DBHelper.insert('Transfer', transfer.toMap()).then((value) =>

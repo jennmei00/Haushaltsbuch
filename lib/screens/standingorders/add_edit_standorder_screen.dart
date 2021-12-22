@@ -321,24 +321,24 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         // repetition: Repetition.values[], //Repetitionvalue abfragen
       );
 
-      StandingOrderPosting sop = StandingOrderPosting(
-          id: Uuid().v1(), date: _dateTime, standingOrder: so);
+      // StandingOrderPosting sop = StandingOrderPosting(
+      //     id: Uuid().v1(), date: _dateTime, standingOrder: so);
 
       if (widget.id == '') {
         await DBHelper.insert('Standingorder', so.toMap());
-        await DBHelper.insert('StandingorderPosting', sop.toMap());
+        // await DBHelper.insert('StandingorderPosting', sop.toMap());
       } else {
         await DBHelper.update('Standingorder', so.toMap(),
             where: "ID = '${so.id}'");
-        await DBHelper.update('StandingorderPosting', sop.toMap(),
-            where: "ID = '${so.id}'");
+        // await DBHelper.update('StandingorderPosting', sop.toMap(),
+        //     where: "ID = '${so.id}'");
 
         AllData.standingOrders.removeWhere((element) => element.id == so.id);
-        AllData.standingOrderPostings
-            .removeWhere((element) => element.id == sop.id);
+        // AllData.standingOrderPostings
+        //     .removeWhere((element) => element.id == sop.id);
       }
       AllData.standingOrders.add(so);
-      AllData.standingOrderPostings.add(sop);
+      // AllData.standingOrderPostings.add(sop);
 
       Navigator.of(context)
         ..pop()
