@@ -176,7 +176,7 @@ class DBHelper {
 
     //Transfer
     await db.execute(
-        'CREATE TABLE Transfer(ID TEXT, Date TEXT, Amount REAL, Description TEXT, AccountFromName TEXT, AccountToName TEXT' +
+        'CREATE TABLE Transfer(ID TEXT, Date TEXT, Amount REAL, Description TEXT, AccountFromName TEXT, AccountToName TEXT,' +
             'AccountFromID TEXT, AccountToID TEXT, FOREIGN KEY(AccountFromID) REFERENCES Account(ID), ' +
             'FOREIGN KEY(AccountToID) REFERENCES Account(ID))');
 
