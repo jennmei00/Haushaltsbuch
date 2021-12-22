@@ -4,7 +4,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
-import 'package:haushaltsbuch/services/custom_dialog.dart';
+import 'package:haushaltsbuch/widgets/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';

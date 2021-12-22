@@ -6,7 +6,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
-import 'package:haushaltsbuch/services/custom_dialog.dart';
+import 'package:haushaltsbuch/widgets/custom_dialog.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
