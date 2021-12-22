@@ -4,7 +4,6 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
-import 'package:haushaltsbuch/models/standing_order_posting.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
@@ -359,6 +358,5 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         ),
       ));
     }
-    ;
   }
 }

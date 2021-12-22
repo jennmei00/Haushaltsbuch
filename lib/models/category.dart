@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Category {
   String? id;
   String? title;
-  String? symbol; //Datentyp???
+  String? symbol;
   Color? color;
 
   Category({

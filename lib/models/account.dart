@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
@@ -9,7 +8,7 @@ class Account {
   String? description;
   double? bankBalance;
   Color? color;
-  String? symbol; //Datentyp??
+  String? symbol;
   AccountType? accountType;
 
   Account({

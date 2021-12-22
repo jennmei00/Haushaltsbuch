@@ -1,7 +1,5 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
@@ -58,8 +56,6 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
           )
         ],
       ),
-      // ignore: todo
-      //TODO: Symbol Symbolbabbel
       body: Form(
         key: _formKey,
         child: ListView(

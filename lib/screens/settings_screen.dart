@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/theme.dart';
 import 'package:haushaltsbuch/services/theme_notifier.dart';

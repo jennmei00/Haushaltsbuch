@@ -54,8 +54,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     _getAccountTypeDropDownItems();
     super.initState();
   }
-  // ignore: todo
-  //TODO: Symbol fehlt
 
   @override
   Widget build(BuildContext context) {
