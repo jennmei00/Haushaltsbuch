@@ -61,10 +61,10 @@ class Posting {
       title: data['Title'],
       description: data['Description'],
       account: await Account().fromDB(
-          await DBHelper.getOneData('Account', where: "ID = $account'")),
+          await DBHelper.getOneData('Account', where: "ID = '${data['AccountID']}'")),
       accountName: data['AccountName'],
       category: Category().fromDB(await DBHelper.getOneData('Category',
-          where: "ID = ${data['CategoryID']}'")),
+          where: "ID = '${data['CategoryID']}'")),
     );
     return posting;
   }

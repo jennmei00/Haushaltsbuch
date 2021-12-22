@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
@@ -36,6 +35,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
           AllData.categories.firstWhere((element) => element.id == widget.id);
       _titleController.text = '${cat.title}';
       _iconcolor = cat.color as Color;
+      _selectedIcon = cat.symbol == null ? '' : cat.symbol!;
     }
     // _getImageList();
     // print(imagePaths);

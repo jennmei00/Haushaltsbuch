@@ -148,6 +148,7 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   void _showAccountDetails(Account account) {
+    print(account.symbol);
     showDialog(
         context: context,
         builder: (BuildContext context) {
