@@ -1,17 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/category.dart';
+// import 'package:haushaltsbuch/models/all_data.dart';
 
 class FilterManagementScreen extends StatefulWidget {
   static final routeName = '/filter_management_screen';
+  final List<Object?> filters;
 
-  const FilterManagementScreen({Key? key}) : super(key: key);
+  const FilterManagementScreen({Key? key, this.filters = const []})
+      : super(key: key);
 
   @override
   _FilterManagementScreenState createState() => _FilterManagementScreenState();
 }
 
 class _FilterManagementScreenState extends State<FilterManagementScreen> {
-  // String _dateRange = '';
+  List<Account> _filterAccounts = [];
+  List<Category> _filterCategories = [];
+  bool _filterSO = false;
+  DateTimeRange? _filterDate;
+  String _selectedAccounts = 'Keine Konten ausgewählt';
+
+  @override
+  void initState() {
+    if (widget.filters.length != 0) {
+      _filterAccounts = widget.filters[0] as List<Account>;
+      _filterCategories = widget.filters[1] as List<Category>;
+      _filterDate = widget.filters[2] as DateTimeRange?;
+      _filterSO = widget.filters[3] as bool;
+
+      if (_filterAccounts.length != 0)
+        _selectedAccounts = '';
+
+      _filterAccounts.forEach((e) {
+        if (_filterAccounts.last == e)
+          _selectedAccounts += '${e.title}';
+        else
+          _selectedAccounts += '${e.title}, ';
+      });
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +66,21 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-              onPressed: () {},
-              child: Text('Abbrechen'),
+              onPressed: () => Navigator.pop(context, []),
+              child: Text('Zurücksetzen'),
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
                       Theme.of(context).primaryColor)),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context, [
+                  _filterAccounts,
+                  _filterCategories,
+                  _filterDate,
+                  _filterSO
+                ]);
+              },
               child: Text('Übernehmen'),
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
@@ -52,123 +89,121 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Datum',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Card(
-              child: Row(
-                children: [
-                  Text('Range of the Date...'),
-                  IconButton(
-                    onPressed: () async {
-                      final picked = await showDateRangePicker(
-                        context: context,
-                        lastDate: new DateTime(2026),
-                        firstDate: new DateTime(2019),
-                      );
-                      print(picked);
-                    },
-                    icon: Icon(
-                      Icons.calendar_today,
-                    ),
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                ' Datum',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-            ),
-            Text(
-              'Dauerauftrag',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Card(
-              child: SwitchListTile(
-                title: Text('Daueraufträge anzeigen'),
-                value: false,
-                onChanged: (val) {},
-              ),
-            ),
-            Text(
-              'Kategorien',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Card(
-              // child: GridView(
-              //   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: AllData.categories
-              //       .map((item) => GestureDetector(
-              //             onTap: () => setState(() {
-              //               // _selectedCategoryID = '${item.id}';
-              //             }),
-              //             child: Padding(
-              //               padding: const EdgeInsets.only(left: 4, right: 4),
-              //               child: new Container(
-              //                 decoration: BoxDecoration(
-              //                   borderRadius: BorderRadius.circular(12),
-              //                   border: Border.all(
-              //                     // width: _selectedCategoryID == '${item.id}'
-              //                     //     ? 2.1
-              //                     //     : 1.0,
-              //                     // color: _selectedCategoryID == '${item.id}'
-              //                     //     ? Theme.of(context).primaryColor
-              //                     //     : Colors.grey.shade700,
-              //                   ),
-              //                   color: Colors.grey.shade200,
-              //                 ),
-              //                 height: MediaQuery.of(context).size.width * 0.17,
-              //                 width: MediaQuery.of(context).size.width * 0.15,
-              //                 child: Padding(
-              //                   padding: const EdgeInsets.only(
-              //                       top: 4, left: 2.5, right: 2.5),
-              //                   child: new Column(
-              //                     children: [
-              //                       CircleAvatar(
-              //                           radius:
-              //                               MediaQuery.of(context).size.width *
-              //                                   0.05,
-              //                           backgroundColor: item.color,
-              //                           child: FractionallySizedBox(
-              //                             widthFactor: 0.3,
-              //                             heightFactor: 0.3,
-              //                             child: Image.asset(
-              //                               item.symbol!,
-              //                               color:
-              //                                   item.color!.computeLuminance() >
-              //                                           0.1
-              //                                       ? Colors.black
-              //                                       : Colors.white,
-              //                             ),
-              //                           )),
-              //                       SizedBox(height: 4),
-              //                       Center(
-              //                           child: Text(
-              //                         '${item.title}',
-              //                         style: TextStyle(
-              //                             fontSize: 7,
-              //                             fontWeight: FontWeight.bold,
-              //                             color: item.color),
-              //                         textAlign: TextAlign.center,
-              //                       )),
-              //                     ],
-              //                   ),
-              //                 ),
-              //               ),
-              //             ),
-              //           ))
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(children: [
+                    Text(_filterDate == null
+                        ? 'Datum auswählen'
+                        : '${_filterDate!.start.day}. ${_filterDate!.start.month}. ${_filterDate!.start.year} bis ' +
+                            '${_filterDate!.end.day}. ${_filterDate!.end.month}. ${_filterDate!.end.year}'),
+                    IconButton(
+                      onPressed: () async {
+                        final picked = await showDateRangePicker(
+                          context: context,
+                          lastDate: new DateTime(2022),
+                          firstDate: new DateTime(2021),
+                        );
 
-              //       // new CircleAvatar(
-              //       //       radius: 40,
-              //       //       backgroundColor: item.color,
-              //       //       child: Text('${item.title}'),
-              //       //     ))
-              //       .toList(),
+                        setState(() {
+                          _filterDate = picked;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.calendar_today,
+                      ),
+                    ),
+                  ]),
+                ),
+              ),
+              // Text(
+              //   'Dauerauftrag',
+              //   style: TextStyle(fontWeight: FontWeight.bold),
               // ),
-            ),
-          ],
+              Card(
+                child: SwitchListTile(
+                  title: Text(
+                    'Dauerauftrag',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  value: _filterSO,
+                  onChanged: (val) => setState(() => _filterSO = val),
+                  activeColor: Theme.of(context).primaryColor,
+                ),
+              ),
+              Text(
+                ' Kategorien',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Text('Kategorieeen'),
+                    width: double.infinity,
+                    height: 300,
+                  ),
+                ),
+              ),
+              // Text(
+              //   'Konten',
+              //   style: TextStyle(fontWeight: FontWeight.bold),
+              // ),
+              Card(
+                child: ExpansionTile(
+                  textColor: Colors.black,
+                  iconColor: Colors.black,
+                  title: Text(
+                    'Konten',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(_selectedAccounts),
+                  children: AllData.accounts
+                      .map((e) => ListTile(
+                            title: Text('${e.title}'),
+                            trailing: Checkbox(
+                              fillColor: MaterialStateProperty.all(
+                                  Theme.of(context).primaryColor),
+                              value: _filterAccounts.contains(e),
+                              onChanged: (val) {
+                                setState(() {
+                                  if (val == true)
+                                    _filterAccounts.add(e);
+                                  else
+                                    _filterAccounts.remove(e);
+
+                                  if (_filterAccounts.length == 0)
+                                    _selectedAccounts =
+                                        'Keine Konten ausgewählt';
+                                  else
+                                    _selectedAccounts = '';
+
+                                  _filterAccounts.forEach((e) {
+                                    if (_filterAccounts.last == e)
+                                      _selectedAccounts += '${e.title}';
+                                    else
+                                      _selectedAccounts += '${e.title}, ';
+                                  });
+                                });
+                              },
+                            ),
+                          ))
+                      .toList(),
+                ),
+              ),
+              SizedBox(height: 60)
+            ],
+          ),
         ),
       ),
     );

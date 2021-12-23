@@ -1,17 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
 class ManageTransfers extends StatelessWidget {
-  const ManageTransfers({Key? key}) : super(key: key);
+  final List<Object?> filters;
 
+  ManageTransfers({Key? key, this.filters = const []}) : super(key: key);
+  final List<Transfer> _listTransfer = [];
+
+  void _loadWithFilter() {
+    _listTransfer.clear();
+    if (filters.length != 0) {
+      List<Account> _filterAccounts = filters[0] as List<Account>;
+      DateTimeRange? _filterDate = filters[2] as DateTimeRange?;
+
+      AllData.transfers.forEach((element) {
+        if (_filterAccounts.any((val) => val.id == element.accountFrom!.id) ||
+            _filterAccounts.any((val) => val.id == element.accountTo!.id)) {
+          _listTransfer.add(element);
+        } else if (_filterDate != null) {
+          if(element.date!
+                .isBefore(_filterDate.end.add(Duration(days: 1))) &&
+           (element.date!
+                  .isAfter(_filterDate.start) || element.date! == _filterDate.start)) {
+          _listTransfer.add(element);
+        }
+        }
+      });
+    } else {
+      _listTransfer.addAll(AllData.transfers);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _loadWithFilter();
+
     return AllData.postings.length == 0
         ? NothingThere(textScreen: 'Du hast noch keine Buchung erstellt :(')
         : ListView(
-            // children: _listViewChildren,
-            children: AllData.transfers.map((Transfer e) {
+            children: _listTransfer.map((Transfer e) {
               return _listViewWidget(e, context);
             }).toList(),
           );

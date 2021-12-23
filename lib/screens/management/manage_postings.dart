@@ -1,20 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
 class ManagePostings extends StatelessWidget {
-  const ManagePostings({Key? key}) : super(key: key);
+  final List<Object?> filters;
+
+  ManagePostings({Key? key, this.filters = const []}) : super(key: key);
+
+  final List<Posting> _listPosting = [];
+
+  void _loadWithFilter() {
+    _listPosting.clear();
+    if (filters.length != 0) {
+      List<Account> _filterAccounts = filters[0] as List<Account>;
+      List<Category> _filterCategories = filters[1] as List<Category>;
+      DateTimeRange? _filterDate = filters[2] as DateTimeRange?;
+      bool _filterSO = filters[3] as bool;
+
+      AllData.postings.forEach((element) {
+        if (_filterAccounts.any((val) => val.id == element.account!.id) ||
+            _filterCategories.any((val) => val.id == element.category!.id)) {
+          _listPosting.add(element);
+        } else if (_filterSO) {
+          if (element.description!.contains('Dauerauftrag'))
+            _listPosting.add(element);
+        } else if (_filterDate != null) {
+          if (element.date!.isBefore(_filterDate.end.add(Duration(days: 1))) &&
+              (element.date!
+                  .isAfter(_filterDate.start) || element.date! == _filterDate.start)) {
+            _listPosting.add(element);
+          }
+        }
+      });
+    } else {
+      _listPosting.addAll(AllData.postings);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    _loadWithFilter();
+
     AllData.postings.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
 
     return AllData.postings.length == 0
         ? NothingThere(textScreen: 'Du hast noch keine Buchung erstellt :(')
         : ListView(
-            children: AllData.postings.map((Posting e) {
+            children: _listPosting.map((Posting e) {
               return _listViewWidget(e, context);
             }).toList(),
           );

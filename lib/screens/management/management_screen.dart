@@ -14,6 +14,7 @@ class ManagementScreen extends StatefulWidget {
 class _ManagementScreenState extends State<ManagementScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  List<Object?> _filters = [];
 
   @override
   void initState() {
@@ -36,8 +37,16 @@ class _ManagementScreenState extends State<ManagementScreen>
             icon: Icon(Icons.search),
           ),
           IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(FilterManagementScreen.routeName);
+            onPressed: () async {
+              final result = await Navigator.of(context).pushNamed(
+                  FilterManagementScreen.routeName,
+                  arguments: _filters);
+
+              if (result != null) {
+                setState(() {
+                  _filters = result as List<Object?>;
+                });
+              }
             },
             icon: Icon(Icons.filter_list),
             tooltip: 'Filter',
@@ -55,7 +64,7 @@ class _ManagementScreenState extends State<ManagementScreen>
       ),
       drawer: AppDrawer(),
       body: TabBarView(
-        children: [ManagePostings(), ManageTransfers()],
+        children: [ManagePostings(filters: _filters), ManageTransfers(filters: _filters)],
         controller: _tabController,
       ),
     );
