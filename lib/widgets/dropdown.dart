@@ -7,12 +7,10 @@ class DropDown extends StatelessWidget {
   final String? listItemValue;
   final Function onChanged;
   final String dropdownHintText;
-  String? selectedItem;
 
   DropDown(
       {required this.dropdownItems,
       this.listItemValue,
-      this.selectedItem,
       required this.onChanged,
       this.dropdownHintText = 'Bitte auswählen'});
 
@@ -74,7 +72,7 @@ class DropDown extends StatelessWidget {
           icon: Icon(Icons.arrow_drop_down),
           iconEnabledColor: Colors.grey[600],
           iconSize: 30,
-          value: selectedItem,
+          value: listItemValue == null ? null : dropdownItems.firstWhere((element) => element.id == listItemValue),
           items: _dropdownMenuItems,
           onChanged: (newValue) => onChanged(newValue),
           decoration: InputDecoration(

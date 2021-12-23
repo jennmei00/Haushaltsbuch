@@ -165,13 +165,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             Text('Kategorie wählen:'),
             SizedBox(height: 10),
             //Kategorie -------------------------------------------
-            // DropDown(
-            //     // dropdownItems: [ListItem(1, 'Konto1'), ListItem(1, 'Konto2')],
-            //     dropdownItems: _accountDropDownItems,
-            // ignore: todo
-            //     //TODO: onChanged
-            //     onChanged: () {}),
-            // TextButton(onPressed: () {}, child: Text('Kategorie wählen: ')),
             Container(
               //height: 100,
               // padding: EdgeInsets.all(20),

@@ -15,12 +15,16 @@ import 'package:haushaltsbuch/services/globals.dart';
 class NewAccountScreen extends StatefulWidget {
   static final routeName = '/new_account_screen';
 
+  final String id;
+
+  NewAccountScreen({this.id = ''}); 
+
   @override
   _NewAccountScreenState createState() => _NewAccountScreenState();
 }
 
 class _NewAccountScreenState extends State<NewAccountScreen> {
-  ListItem _selectedItem = ListItem('0', 'name');
+  ListItem? _selectedItem;
   TextEditingController _titleController = TextEditingController(text: '');
   TextEditingController _bankBalanceController =
       TextEditingController(text: '');
@@ -32,8 +36,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   String _selectedIcon = '';
 
   List<ListItem> _accountTypeDropDownItems = [
-    ListItem('0', 'name'),
-    ListItem('1', ' ')
   ];
 
   void _getAccountTypeDropDownItems() {
@@ -43,15 +45,30 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
         _accountTypeDropDownItems
             .add(ListItem(element.id.toString(), element.title.toString()));
       });
-      _selectedItem = _accountTypeDropDownItems.first;
 
       setState(() {});
     }
   }
 
+  void _getAccountData() {
+    Account ac =
+        AllData.accounts.firstWhere((element) => element.id == widget.id);
+    // _repeatValue = Repetition.values(so.repetition!.index);
+    _titleController.text = ac.title!;
+    _bankBalanceController.text = ac.bankBalance!.toString();
+    _descriptionController.text = ac.description!;
+    _selectedItem = _accountTypeDropDownItems
+        .firstWhere((element) => element.id == ac.accountType!.id);
+    _iconcolor = ac.color!;
+    _selectedIcon = ac.symbol!;
+  }
+
   @override
   void initState() {
     _getAccountTypeDropDownItems();
+    if (widget.id != '') {
+      _getAccountData();
+    }
     super.initState();
   }
 
@@ -59,7 +76,9 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Neues Konto'), //Text('${Globals.funktioniert}'),
+        title: Text(widget.id == ''
+            ? 'Neues Konto'
+            : 'Konto bearbeiten'), //Text('${Globals.funktioniert}'),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
@@ -76,7 +95,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                     bankBalance: double.parse(_bankBalanceController.text),
                     color: _iconcolor,
                     accountType: AllData.accountTypes.firstWhere(
-                        (element) => element.id == _selectedItem.id),
+                        (element) => element.id == _selectedItem!.id),
                     symbol: _selectedIcon,
                   );
                   DBHelper.insert('Account', ac.toMap()).then((value) =>
@@ -154,7 +173,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                 setState(() {});
               },
               dropdownItems: _accountTypeDropDownItems,
-              listItemValue: _selectedItem.id,
+              listItemValue: _selectedItem == null ? null : _selectedItem!.id,
               dropdownHintText: 'Kontoart',
             ),
             SizedBox(
@@ -188,6 +207,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                 ),
               ],
             ),
+            SizedBox(height: 20),
             Text(
               'Icon wählen: ',
               style: TextStyle(fontSize: 20),
@@ -221,12 +241,15 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                             padding: const EdgeInsets.all(5),
                             child: CircleAvatar(
                                 radius: MediaQuery.of(context).size.width * 0.1,
-                                backgroundColor: Colors.grey.shade500,
+                                backgroundColor: _iconcolor,
                                 child: FractionallySizedBox(
                                   widthFactor: 0.6,
                                   heightFactor: 0.6,
                                   child: Image.asset(
                                     item,
+                                    color: _iconcolor.computeLuminance() > 0.15
+                                        ? Colors.black
+                                        : Colors.white,
                                   ),
                                 )),
                           ),

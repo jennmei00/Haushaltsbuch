@@ -73,7 +73,10 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Farbe wählen:'),
+                Text(
+                  'Iconfarbe auswählen: ',
+                  style: TextStyle(fontSize: 20),
+                ),
                 IconButton(
                   onPressed: () => CustomDialog().customShowDialog(
                     context,
@@ -96,7 +99,10 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
               ],
             ),
             SizedBox(height: 20),
-            Text('Symbol wählen:'),
+            Text(
+              'Icon wählen: ',
+              style: TextStyle(fontSize: 20),
+            ),
             GridView.count(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -132,7 +138,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                                   heightFactor: 0.6,
                                   child: Image.asset(
                                     item,
-                                    color: _iconcolor.computeLuminance() > 0.2
+                                    color: _iconcolor.computeLuminance() > 0.15
                                         ? Colors.black
                                         : Colors.white,
                                   ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
@@ -61,7 +60,8 @@ class _AccountScreenState extends State<AccountScreen> {
           child: Icon(Icons.add),
           onPressed: () {
             //print(accountData);
-            Navigator.of(context).pushNamed(NewAccountScreen.routeName);
+            Navigator.of(context)
+                .pushNamed(NewAccountScreen.routeName, arguments: '');
           },
         ),
         appBar: AppBar(
@@ -72,7 +72,7 @@ class _AccountScreenState extends State<AccountScreen> {
         body: AllData.accounts.length == 0
             ? NothingThere(textScreen: 'Noch keine Konten vorhanden :(')
             : Padding(
-                padding: const EdgeInsets.all(30),
+                padding: const EdgeInsets.all(5),
                 child: Column(
                   children: [
                     Padding(
@@ -108,7 +108,9 @@ class _AccountScreenState extends State<AccountScreen> {
                         itemCount: accountTypeList.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Card(
+                            color: Colors.red[100],
                             child: ExpansionTile(
+                              //backgroundColor: Theme.of(context).primaryColor,
                               textColor: Colors.black,
                               iconColor: Colors.black,
                               initiallyExpanded: false,
@@ -118,20 +120,102 @@ class _AccountScreenState extends State<AccountScreen> {
                                       element.accountType!.id ==
                                       accountTypeList[index].id)
                                   .map((e) {
-                                return GestureDetector(
-                                  onTap: () => _showAccountDetails(e),
-                                  child: Card(
-                                    margin: EdgeInsets.all(10),
-                                    color: Colors.cyan[50],
-                                    child: ListTile(
-                                      title: Text(
-                                        '${e.title}',
+                                return Dismissible(
+                                  confirmDismiss: (DismissDirection direction) {
+                                    if (direction ==
+                                        DismissDirection.endToStart) {
+                                      return showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title:
+                                                const Text("Buchung löschen"),
+                                            content: const Text(
+                                                "Bist du sicher, dass die Buchung löschen willst?"),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.of(context)
+                                                          .pop(true),
+                                                  child: const Text("Löschen")),
+                                              TextButton(
+                                                onPressed: () =>
+                                                    Navigator.of(context)
+                                                        .pop(false),
+                                                child: const Text("Abbrechen"),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      Navigator.of(context).pushNamed(
+                                          NewAccountScreen.routeName,
+                                          arguments: e.id);
+                                      return Future.value(false);
+                                    }
+                                  },
+                                  onDismissed: (DismissDirection direction) {
+                                    // AllData.standingOrders.remove(item);
+                                    // DBHelper.delete('StandingOrder',
+                                    //     where: "ID = '${item.id}'");
+
+                                    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    //     content: Text('Dauerauftrag wurde gelöscht')));
+                                    // setState(() {});
+                                  },
+                                  key: ValueKey<String>(e.id.toString()),
+                                  background: Container(
+                                    color: Colors.orange,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Icon(Icons.edit, color: Colors.white),
+                                          Text('Edit',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ],
                                       ),
-                                      trailing: Text(
-                                        '${e.bankBalance} €',
-                                        style: TextStyle(
-                                            color: _getColorBalance(
-                                                e.bankBalance!)),
+                                    ),
+                                  ),
+                                  secondaryBackground: Container(
+                                    color: Colors.red,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          Icon(Icons.delete,
+                                              color: Colors.white),
+                                          Text('Move to trash',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () => _showAccountDetails(e),
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.zero,
+                                      ),
+                                      margin: EdgeInsets.all(0),
+                                      //color: ,
+                                      child: ListTile(
+                                        title: Text(
+                                          '${e.title}',
+                                        ),
+                                        trailing: Text(
+                                          '${e.bankBalance} €',
+                                          style: TextStyle(
+                                              color: _getColorBalance(
+                                                  e.bankBalance!)),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -154,94 +238,94 @@ class _AccountScreenState extends State<AccountScreen> {
         builder: (BuildContext context) {
           return Popup(
             title: account.title!,
-            body: 
-            // Padding(
-            //     padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-            //     child: Container(
-            //       height: MediaQuery.of(context).size.height*0.4,
-            //       width: MediaQuery.of(context).size.width*0.8,
-            //       child: Stack(
-            //         //clipBehavior: Clip.antiAlias,
-            //         children: [
-            //         Positioned(
-            //           left: -50,
-            //           bottom: -50,
-            //           child: CircleAvatar(
-            //             backgroundColor: Colors.lightGreen.shade400,
-            //             radius: MediaQuery.of(context).size.width * 0.3,
-            //             child: FractionallySizedBox(
-            //               widthFactor: 0.65,
-            //               heightFactor: 0.65,
-            //               child: Image.asset(
-            //                 'assets/icons/money-bag.png',
-            //               ),
-            //             )),
-            //         ),
-            //         Text(
-            //           '- ' + account.accountType!.title! + ' -',
-            //           style: TextStyle(fontSize: 20),
-            //         ),
-            //         Container(
-            //           padding: const EdgeInsets.all(10),
-            //           decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.circular(8),
-            //               color: Colors.cyan[100],
-            //               boxShadow: [
-            //                 BoxShadow(
-            //                   blurRadius: 10,
-            //                   color: Colors.cyan.shade100,
-            //                   spreadRadius: 5,
-            //                 ),
-            //               ]),
-            //           child: Text(account.bankBalance.toString() + ' €',
-            //               style: TextStyle(
-            //                 fontSize: 20,
-            //                 fontWeight: FontWeight.bold,
-            //                 color: _getColorBalance(account.bankBalance!),
-            //               )),
-            //         ),
-            //       ]),
-            //     )
+            body:
+                // Padding(
+                //     padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                //     child: Container(
+                //       height: MediaQuery.of(context).size.height*0.4,
+                //       width: MediaQuery.of(context).size.width*0.8,
+                //       child: Stack(
+                //         //clipBehavior: Clip.antiAlias,
+                //         children: [
+                //         Positioned(
+                //           left: -50,
+                //           bottom: -50,
+                //           child: CircleAvatar(
+                //             backgroundColor: Colors.lightGreen.shade400,
+                //             radius: MediaQuery.of(context).size.width * 0.3,
+                //             child: FractionallySizedBox(
+                //               widthFactor: 0.65,
+                //               heightFactor: 0.65,
+                //               child: Image.asset(
+                //                 'assets/icons/money-bag.png',
+                //               ),
+                //             )),
+                //         ),
+                //         Text(
+                //           '- ' + account.accountType!.title! + ' -',
+                //           style: TextStyle(fontSize: 20),
+                //         ),
+                //         Container(
+                //           padding: const EdgeInsets.all(10),
+                //           decoration: BoxDecoration(
+                //               borderRadius: BorderRadius.circular(8),
+                //               color: Colors.cyan[100],
+                //               boxShadow: [
+                //                 BoxShadow(
+                //                   blurRadius: 10,
+                //                   color: Colors.cyan.shade100,
+                //                   spreadRadius: 5,
+                //                 ),
+                //               ]),
+                //           child: Text(account.bankBalance.toString() + ' €',
+                //               style: TextStyle(
+                //                 fontSize: 20,
+                //                 fontWeight: FontWeight.bold,
+                //                 color: _getColorBalance(account.bankBalance!),
+                //               )),
+                //         ),
+                //       ]),
+                //     )
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '- ' + account.accountType!.title! + ' -',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(height: 20),
-                    Center(
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.cyan[100],
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 10,
-                                color: Colors.cyan.shade100,
-                                spreadRadius: 5,
-                              ),
-                            ]),
-                        child: Text(account.bankBalance.toString() + ' €',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: _getColorBalance(account.bankBalance!),
-                            )),
-                      ),
-                    ),
-                    //SizedBox(height: 20),
-                    if (account.description! != '' && account.description != null)
-                      SizedBox(height: 20),
-                      Text(
-                        account.description!,
-                        style: TextStyle(fontSize: 18),
-                        textAlign: TextAlign.center,
-                      )
-                  ],
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '- ' + account.accountType!.title! + ' -',
+                  style: TextStyle(fontSize: 20),
                 ),
-                //),
+                SizedBox(height: 20),
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.cyan[100],
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 10,
+                            color: Colors.cyan.shade100,
+                            spreadRadius: 5,
+                          ),
+                        ]),
+                    child: Text(account.bankBalance.toString() + ' €',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: _getColorBalance(account.bankBalance!),
+                        )),
+                  ),
+                ),
+                //SizedBox(height: 20),
+                if (account.description! != '' && account.description != null)
+                  SizedBox(height: 20),
+                Text(
+                  account.description!,
+                  style: TextStyle(fontSize: 18),
+                  textAlign: TextAlign.center,
+                )
+              ],
+            ),
+            //),
             saveButton: false,
             cancelButton: false,
           );

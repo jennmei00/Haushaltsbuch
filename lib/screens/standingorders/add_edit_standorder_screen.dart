@@ -32,10 +32,11 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   TextEditingController _descriptionController =
       TextEditingController(text: '');
   final _formKey = GlobalKey<FormState>();
-  ListItem _selectedItem = ListItem('', '');
+  ListItem? _selectedItem;
+  String _selectedCategoryID = '';
 
   // late
-  List<ListItem> _accountDropDownItems = [ListItem('', '')];
+  List<ListItem> _accountDropDownItems = [];
 
   void _getAccountDropDownItems() {
     if (AllData.accounts.length != 0) {
@@ -44,7 +45,6 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         _accountDropDownItems
             .add(ListItem(element.id.toString(), element.title.toString()));
       });
-      _selectedItem = _accountDropDownItems.first;
 
       setState(() {});
     }
@@ -170,49 +170,110 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ),
               ],
             ),
+            // SizedBox(height: 10),
+            // DropDown(
+            //   dropdownItems: _accountDropDownItems,
+            //   listItemValue:  _selectedItem.id,
+            //   onChanged: (newValue) {
+            //     _selectedItem = newValue as ListItem;
+            //     setState(() {});
+            //   },
+            // ),
+            // SizedBox(height: 20),
             SizedBox(height: 20),
-            Text('Konto auswählen:'),
-            SizedBox(height: 10),
+            // Text('Konto wählen:'),
+            // SizedBox(height: 10),
             DropDown(
               dropdownItems: _accountDropDownItems,
-              listItemValue:  _selectedItem.id,
               onChanged: (newValue) {
                 _selectedItem = newValue as ListItem;
                 setState(() {});
               },
+              listItemValue: _selectedItem == null ? null : _selectedItem!.id,
+              dropdownHintText: 'Konto',
             ),
             SizedBox(height: 20),
-            Text('Kategorie auswählen:'),
+            Text('Kategorie wählen:'),
             SizedBox(height: 10),
+            //Kategorie -------------------------------------------
             Container(
-              height: 100,
+              //height: 100,
               // padding: EdgeInsets.all(20),
               // color: Colors.grey[400]?.withOpacity(0.5),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(children: [
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: AllData.categories
-                        .map((item) => new CircleAvatar(
-                              radius: 40,
-                              backgroundColor: item.color,
-                              child: Text('${item.title}'),
-                            ))
-                        .toList(),
-                  ),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                  Text('data'),
-                ]),
+                child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: AllData.categories
+                      .map((item) => GestureDetector(
+                            onTap: () => setState(() {
+                              _selectedCategoryID = '${item.id}';
+                            }),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 4, right: 4),
+                              child: new Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    width: _selectedCategoryID == '${item.id}'
+                                        ? 2.1
+                                        : 1.0,
+                                    color: _selectedCategoryID == '${item.id}'
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.grey.shade700,
+                                  ),
+                                  color: Colors.grey.shade200,
+                                ),
+                                height:
+                                    MediaQuery.of(context).size.width * 0.34,
+                                width: MediaQuery.of(context).size.width * 0.29,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 8, left: 5, right: 5),
+                                  child: new Column(
+                                    children: [
+                                      CircleAvatar(
+                                          radius: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.1,
+                                          backgroundColor: item.color,
+                                          child: FractionallySizedBox(
+                                            widthFactor: 0.6,
+                                            heightFactor: 0.6,
+                                            child: Image.asset(
+                                              item.symbol!,
+                                              color: item.color!
+                                                          .computeLuminance() >
+                                                      0.2
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
+                                          )),
+                                      SizedBox(height: 4),
+                                      Center(
+                                          child: Text(
+                                        '${item.title}',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: item.color),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ))
+
+                      // new CircleAvatar(
+                      //       radius: 40,
+                      //       backgroundColor: item.color,
+                      //       child: Text('${item.title}'),
+                      //     ))
+                      .toList(),
+                ),
               ),
             ),
             SizedBox(height: 20),
@@ -313,7 +374,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         description: _descriptionController.text,
         amount: double.parse(_amountController.text),
         account: AllData.accounts
-            .firstWhere((element) => element.id == _selectedItem.id),
+            .firstWhere((element) => element.id == _selectedItem!.id),
         // category: , //Kategorie auswahl
         begin: _dateTime,
         postingType: PostingType.values[_groupValue_buchungsart],

@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
         // IncomeScreen.routeName: (context) => IncomeScreen(),
         TransferScreen.routeName: (context) => TransferScreen(),
         //Account
-        NewAccountScreen.routeName: (context) => NewAccountScreen(),
+        //NewAccountScreen.routeName: (context) => NewAccountScreen(),
         //Management
         ManagementScreen.routeName: (context) => ManagementScreen(),
         // FilterManagementScreen.routeName: (context) => FilterManagementScreen(),
@@ -98,6 +98,16 @@ class MyApp extends StatelessWidget {
               );
             },
           );
+        } else if (settings.name == NewAccountScreen.routeName) {
+          final args = settings.arguments as String;
+
+          return MaterialPageRoute(
+            builder: (context) {
+              return NewAccountScreen(
+                id: args,
+              );
+            },
+          );
         } else if (settings.name == NewCategorieScreen.routeName) {
           final args = settings.arguments as String;
 
@@ -114,7 +124,7 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(builder: (context) {
             print(args);
             return FilterManagementScreen(
-              filters: args,
+              //filters: args,
             );
           });
         }
