@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
-import 'package:haushaltsbuch/screens/management_screen.dart';
+import 'package:haushaltsbuch/screens/management/management_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/statistics_screen.dart';

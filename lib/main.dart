@@ -5,7 +5,8 @@ import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
-import 'package:haushaltsbuch/screens/management_screen.dart';
+import 'package:haushaltsbuch/screens/management/filter_management_screen.dart';
+import 'package:haushaltsbuch/screens/management/management_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
@@ -71,6 +72,7 @@ class MyApp extends StatelessWidget {
         NewAccountScreen.routeName: (context) => NewAccountScreen(),
         //Management
         ManagementScreen.routeName: (context) => ManagementScreen(),
+        FilterManagementScreen.routeName: (context) => FilterManagementScreen(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == IncomeExpenseScreen.routeName) {
