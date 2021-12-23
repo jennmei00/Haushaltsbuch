@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
         NewAccountScreen.routeName: (context) => NewAccountScreen(),
         //Management
         ManagementScreen.routeName: (context) => ManagementScreen(),
-        FilterManagementScreen.routeName: (context) => FilterManagementScreen(),
+        // FilterManagementScreen.routeName: (context) => FilterManagementScreen(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == IncomeExpenseScreen.routeName) {
@@ -108,7 +108,17 @@ class MyApp extends StatelessWidget {
               );
             },
           );
+        } else if (settings.name == FilterManagementScreen.routeName) {
+          final args = settings.arguments as List<Object?>;
+
+          return MaterialPageRoute(builder: (context) {
+            print(args);
+            return FilterManagementScreen(
+              filters: args,
+            );
+          });
         }
+
         assert(false, 'Need to implement ${settings.name}');
         return null;
       },
