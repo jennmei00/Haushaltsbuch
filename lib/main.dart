@@ -44,8 +44,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Haushaltsapp',
       theme: themeNotifier.getTheme(),
-      // ThemeData(
-      //   primaryColor: Colors.cyan[700],
+      
+      // theme: ThemeData(
+      //   primaryColor: Colors.red[700],
       //   textTheme: TextTheme(),
       //   buttonTheme: ButtonThemeData()
       // ),

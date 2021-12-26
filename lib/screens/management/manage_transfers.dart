@@ -6,8 +6,16 @@ import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
 class ManageTransfers extends StatelessWidget {
   final List<Object?> filters;
+  final bool search;
+  final String searchQuery;
 
-  ManageTransfers({Key? key, this.filters = const []}) : super(key: key);
+  ManageTransfers({
+    Key? key,
+    this.filters = const [],
+    this.search = false,
+    this.searchQuery = '',
+  }) : super(key: key);
+
   final List<Transfer> _listTransfer = [];
 
   void _loadWithFilter() {
@@ -21,12 +29,11 @@ class ManageTransfers extends StatelessWidget {
             _filterAccounts.any((val) => val.id == element.accountTo!.id)) {
           _listTransfer.add(element);
         } else if (_filterDate != null) {
-          if(element.date!
-                .isBefore(_filterDate.end.add(Duration(days: 1))) &&
-           (element.date!
-                  .isAfter(_filterDate.start) || element.date! == _filterDate.start)) {
-          _listTransfer.add(element);
-        }
+          if (element.date!.isBefore(_filterDate.end.add(Duration(days: 1))) &&
+              (element.date!.isAfter(_filterDate.start) ||
+                  element.date! == _filterDate.start)) {
+            _listTransfer.add(element);
+          }
         }
       });
     } else {
@@ -34,9 +41,31 @@ class ManageTransfers extends StatelessWidget {
     }
   }
 
+  void _loadWithSearchQuery() {
+    _listTransfer.clear();
+    AllData.transfers.forEach((element) {
+      if (element.accountFromName!
+              .toLowerCase()
+              .contains(searchQuery.toLowerCase()) ||
+          element.accountToName!
+              .toLowerCase()
+              .contains(searchQuery.toLowerCase()) ||
+          element.amount!.toString().contains(searchQuery.toLowerCase()) ||
+          element.description!
+              .toLowerCase()
+              .contains(searchQuery.toLowerCase())) {
+        _listTransfer.add(element);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    _loadWithFilter();
+    if (search) {
+      _loadWithSearchQuery();
+    } else {
+      _loadWithFilter();
+    }
 
     return AllData.postings.length == 0
         ? NothingThere(textScreen: 'Du hast noch keine Buchung erstellt :(')

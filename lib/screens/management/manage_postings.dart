@@ -8,8 +8,15 @@ import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
 class ManagePostings extends StatelessWidget {
   final List<Object?> filters;
+  final bool search;
+  final String searchQuery;
 
-  ManagePostings({Key? key, this.filters = const []}) : super(key: key);
+  ManagePostings({
+    Key? key,
+    this.filters = const [],
+    this.search = false,
+    this.searchQuery = '',
+  }) : super(key: key);
 
   final List<Posting> _listPosting = [];
 
@@ -30,8 +37,8 @@ class ManagePostings extends StatelessWidget {
             _listPosting.add(element);
         } else if (_filterDate != null) {
           if (element.date!.isBefore(_filterDate.end.add(Duration(days: 1))) &&
-              (element.date!
-                  .isAfter(_filterDate.start) || element.date! == _filterDate.start)) {
+              (element.date!.isAfter(_filterDate.start) ||
+                  element.date! == _filterDate.start)) {
             _listPosting.add(element);
           }
         }
@@ -41,9 +48,32 @@ class ManagePostings extends StatelessWidget {
     }
   }
 
+  void _loadWithSearchQuery() {
+    _listPosting.clear();
+    AllData.postings.forEach((element) {
+      if (element.accountName!
+              .toLowerCase()
+              .contains(searchQuery.toLowerCase()) ||
+          element.title!.toLowerCase().contains(searchQuery.toLowerCase()) ||
+          element.amount!.toString().contains(searchQuery.toLowerCase()) ||
+          element.category!.title!
+              .toLowerCase()
+              .contains(searchQuery.toLowerCase()) ||
+          element.description!
+              .toLowerCase()
+              .contains(searchQuery.toLowerCase())) {
+        _listPosting.add(element);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    _loadWithFilter();
+    if (search) {
+      _loadWithSearchQuery();
+    } else {
+      _loadWithFilter();
+    }
 
     AllData.postings.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
 

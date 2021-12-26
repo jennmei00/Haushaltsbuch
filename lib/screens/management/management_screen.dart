@@ -15,7 +15,8 @@ class _ManagementScreenState extends State<ManagementScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<Object?> _filters = [];
-
+  bool _search = false;
+  TextEditingController _searchController = TextEditingController(text: '');
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
@@ -26,16 +27,43 @@ class _ManagementScreenState extends State<ManagementScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Verwaltung',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
+        title: !_search
+            ? Text(
+                'Verwaltung',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              )
+            : TextField(
+                onChanged: (query) {
+                  setState(() {});
+                },
+                autofocus: true,
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Suche',
+                  hintStyle: TextStyle(color: Colors.white30),
+                  border: UnderlineInputBorder(borderSide: BorderSide.none),
+                ),
+                style: TextStyle(color: Colors.white),
+              ),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.search),
-          ),
+          _search
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _searchController.text = '';
+                      _search = false;
+                    });
+                  },
+                  icon: Icon(Icons.clear))
+              : IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _search = true;
+                    });
+                  },
+                  icon: Icon(Icons.search),
+                ),
           IconButton(
             onPressed: () async {
               final result = await Navigator.of(context).pushNamed(
@@ -64,7 +92,18 @@ class _ManagementScreenState extends State<ManagementScreen>
       ),
       drawer: AppDrawer(),
       body: TabBarView(
-        children: [ManagePostings(filters: _filters), ManageTransfers(filters: _filters)],
+        children: [
+          ManagePostings(
+            filters: _filters,
+            search: _search,
+            searchQuery: _searchController.text,
+          ),
+          ManageTransfers(
+            filters: _filters,
+            search: _search,
+            searchQuery: _searchController.text,
+          )
+        ],
         controller: _tabController,
       ),
     );
