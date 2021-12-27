@@ -35,8 +35,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   final _formKey = GlobalKey<FormState>();
   String _selectedIcon = '';
 
-  List<ListItem> _accountTypeDropDownItems = [
-  ];
+  List<ListItem> _accountTypeDropDownItems = [];
 
   void _getAccountTypeDropDownItems() {
     if (AllData.accountTypes.length != 0) {
@@ -227,35 +226,72 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                         child: new Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              width: _selectedIcon == item ? 2.1 : 1.0,
-                              color: _selectedIcon == item
-                                  ? Theme.of(context).primaryColor
-                                  : Colors.grey.shade700,
-                            ),
-                            color: Colors.grey.shade200,
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: _selectedIcon == item
+                                  ? 5
+                                  : 5,
+                                color: _selectedIcon == item
+                                  ? _iconcolor.withOpacity(0.2)
+                                  : _iconcolor.withOpacity(0.08),
+                                spreadRadius: _selectedIcon == item
+                                  ? 2
+                                  : 1,
+                              )
+                            ],
+                            color: _selectedIcon == item
+                                  ? _iconcolor.withOpacity(0.12)
+                                  : null,
                           ),
                           // height: MediaQuery.of(context).size.width * 0.34,
                           // width: MediaQuery.of(context).size.width * 0.34,
                           child: Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: CircleAvatar(
-                                radius: MediaQuery.of(context).size.width * 0.1,
-                                backgroundColor: _iconcolor,
-                                child: FractionallySizedBox(
-                                  widthFactor: 0.6,
-                                  heightFactor: 0.6,
-                                  child: Image.asset(
-                                    item,
-                                    color: _iconcolor.computeLuminance() > 0.15
-                                        ? Colors.black
-                                        : Colors.white,
-                                  ),
-                                )),
+                            padding: const EdgeInsets.all(10),
+                            child: Container(
+                              child:
+                                  Image.asset(item, color: _iconcolor),
+                            ),
                           ),
                         ),
                       ))
                   .toList(),
+              // children: Globals.imagePaths
+              //     .map((item) => GestureDetector(
+              //           onTap: () => setState(() {
+              //             _selectedIcon = item;
+              //           }),
+              //           child: new Container(
+              //             decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(12),
+              //               border: Border.all(
+              //                 width: _selectedIcon == item ? 2.1 : 1.0,
+              //                 color: _selectedIcon == item
+              //                     ? Theme.of(context).primaryColor
+              //                     : Colors.grey.shade700,
+              //               ),
+              //               color: Colors.grey.shade200,
+              //             ),
+              //             // height: MediaQuery.of(context).size.width * 0.34,
+              //             // width: MediaQuery.of(context).size.width * 0.34,
+              //             child: Padding(
+              //               padding: const EdgeInsets.all(5),
+              //               child: CircleAvatar(
+              //                   radius: MediaQuery.of(context).size.width * 0.1,
+              //                   backgroundColor: _iconcolor,
+              //                   child: FractionallySizedBox(
+              //                     widthFactor: 0.6,
+              //                     heightFactor: 0.6,
+              //                     child: Image.asset(
+              //                       item,
+              //                       color: _iconcolor.computeLuminance() > 0.15
+              //                           ? Colors.black
+              //                           : Colors.white,
+              //                     ),
+              //                   )),
+              //             ),
+              //           ),
+              //         ))
+              //     .toList(),
             ),
           ],
         ),

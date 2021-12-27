@@ -34,9 +34,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       ),
       drawer: AppDrawer(),
       body: AllData.categories.length == 0
-          ? NothingThere(
-              textScreen:
-                  'Noch keine Kategorien vorhanden :(')
+          ? NothingThere(textScreen: 'Noch keine Kategorien vorhanden :(')
           : GridView.count(
               scrollDirection: Axis.vertical,
               childAspectRatio: MediaQuery.of(context).size.width /
@@ -46,42 +44,108 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
               mainAxisSpacing: 12,
               children: _categoryList
-                  .map((item) => InkWell(
-                        borderRadius: BorderRadius.circular(8),
-                        onTap: () => Navigator.of(context).pushNamed(
-                            NewCategorieScreen.routeName,
-                            arguments: item.id),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
-                          child: new Column(
+                  .map((item) => Container(
+                        // decoration: BoxDecoration(
+                        //   borderRadius: BorderRadius.circular(12),
+                        //   boxShadow: [
+                        //     BoxShadow(
+                        //       blurRadius: 5,
+                        //       color: item.color!.withOpacity(0.1),
+                        //       spreadRadius: 2,
+                        //     )
+                        //   ],
+                        //   color: item.color!.withOpacity(0.05),
+                        // ),
+                        child: InkWell(
+                          splashColor: item.color!.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(8),
+                          onTap: () => Navigator.of(context).pushNamed(
+                              NewCategorieScreen.routeName,
+                              arguments: item.id),
+                          child: Column(
                             children: [
-                              CircleAvatar(
-                                  radius:
-                                      MediaQuery.of(context).size.width * 0.1,
-                                  backgroundColor: item.color,
-                                  child: FractionallySizedBox(
-                                    widthFactor: 0.6,
-                                    heightFactor: 0.6,
-                                    child: Image.asset(
-                                      item.symbol!,
-                                      color:
-                                          item.color!.computeLuminance() > 0.2
-                                              ? Colors.black
-                                              : Colors.white,
-                                    ),
-                                  )),
-                              SizedBox(height: 4),
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 5,
+                                        color: item.color!.withOpacity(0.1),
+                                        spreadRadius: 2,
+                                      )
+                                    ],
+                                    color: item.color!.withOpacity(0.05),
+                                  ),
+                                  // width: 60,
+                                  // height: 60,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Image.asset(item.symbol!,
+                                        color: item.color!),
+                                  ),
+                                ),
+                              ),
+                              //SizedBox(height: 5),
                               Center(
-                                  child: Text(
-                                '${item.title}',
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: item.color),
-                                textAlign: TextAlign.center,
-                              )),
+                                // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
+                                //   scrollDirection: Axis.horizontal,
+                                child: Text(
+                                  '${item.title}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: item.color),
+                                  textAlign: TextAlign.center,
+                                ),
+                                // ),
+                              ),
                             ],
                           ),
                         ),
                       ))
                   .toList(),
+              // children: _categoryList
+              //     .map((item) => InkWell(
+              //           borderRadius: BorderRadius.circular(8),
+              //           onTap: () => Navigator.of(context).pushNamed(
+              //               NewCategorieScreen.routeName,
+              //               arguments: item.id),
+              //           child: Padding(
+              //             padding: const EdgeInsets.only(top: 5.0),
+              //             child: new Column(
+              //               children: [
+              //                 CircleAvatar(
+              //                     radius:
+              //                         MediaQuery.of(context).size.width * 0.1,
+              //                     backgroundColor: item.color,
+              //                     child: FractionallySizedBox(
+              //                       widthFactor: 0.6,
+              //                       heightFactor: 0.6,
+              //                       child: Image.asset(
+              //                         item.symbol!,
+              //                         color:
+              //                             item.color!.computeLuminance() > 0.2
+              //                                 ? Colors.black
+              //                                 : Colors.white,
+              //                       ),
+              //                     )),
+              //                 SizedBox(height: 4),
+              //                 Center(
+              //                     child: Text(
+              //                   '${item.title}',
+              //                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: item.color),
+              //                   textAlign: TextAlign.center,
+              //                 )),
+              //               ],
+              //             ),
+              //           ),
+              //         ))
+              //     .toList(),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(

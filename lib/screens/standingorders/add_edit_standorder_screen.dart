@@ -184,97 +184,13 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
             // Text('Konto wählen:'),
             // SizedBox(height: 10),
             DropDown(
-              dropdownItems: _accountDropDownItems,
               onChanged: (newValue) {
                 _selectedItem = newValue as ListItem;
                 setState(() {});
               },
+              dropdownItems: _accountDropDownItems,
               listItemValue: _selectedItem == null ? null : _selectedItem!.id,
               dropdownHintText: 'Konto',
-            ),
-            SizedBox(height: 20),
-            Text('Kategorie wählen:'),
-            SizedBox(height: 10),
-            //Kategorie -------------------------------------------
-            Container(
-              //height: 100,
-              // padding: EdgeInsets.all(20),
-              // color: Colors.grey[400]?.withOpacity(0.5),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: AllData.categories
-                      .map((item) => GestureDetector(
-                            onTap: () => setState(() {
-                              _selectedCategoryID = '${item.id}';
-                            }),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 4, right: 4),
-                              child: new Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    width: _selectedCategoryID == '${item.id}'
-                                        ? 2.1
-                                        : 1.0,
-                                    color: _selectedCategoryID == '${item.id}'
-                                        ? Theme.of(context).primaryColor
-                                        : Colors.grey.shade700,
-                                  ),
-                                  color: Colors.grey.shade200,
-                                ),
-                                height:
-                                    MediaQuery.of(context).size.width * 0.34,
-                                width: MediaQuery.of(context).size.width * 0.29,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 8, left: 5, right: 5),
-                                  child: new Column(
-                                    children: [
-                                      CircleAvatar(
-                                          radius: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1,
-                                          backgroundColor: item.color,
-                                          child: FractionallySizedBox(
-                                            widthFactor: 0.6,
-                                            heightFactor: 0.6,
-                                            child: Image.asset(
-                                              item.symbol!,
-                                              color: item.color!
-                                                          .computeLuminance() >
-                                                      0.2
-                                                  ? Colors.black
-                                                  : Colors.white,
-                                            ),
-                                          )),
-                                      SizedBox(height: 4),
-                                      Center(
-                                          child: Text(
-                                        '${item.title}',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: item.color),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ))
-
-                      // new CircleAvatar(
-                      //       radius: 40,
-                      //       backgroundColor: item.color,
-                      //       child: Text('${item.title}'),
-                      //     ))
-                      .toList(),
-                ),
-              ),
             ),
             SizedBox(height: 20),
             CustomTextField(
@@ -302,6 +218,145 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
               fieldname: 'description',
             ),
             SizedBox(height: 20),
+            Text('Kategorie wählen:'),
+            SizedBox(height: 10),
+            //Kategorie -------------------------------------------
+            Container(
+              height: 150,
+              // padding: EdgeInsets.all(20),
+              // color: Colors.grey[400]?.withOpacity(0.5),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: AllData.categories
+                      .map((item) => GestureDetector(
+                            onTap: () => setState(() {
+                              _selectedCategoryID = '${item.id}';
+                            }),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8, right: 8),
+                              child: new Container(
+                                width: MediaQuery.of(context).size.width * 0.30,
+                                height: 125,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius:
+                                          _selectedCategoryID == '${item.id}'
+                                              ? 5
+                                              : 5,
+                                      color: _selectedCategoryID == '${item.id}'
+                                          ? item.color!.withOpacity(0.2)
+                                          : item.color!.withOpacity(0.05),
+                                      spreadRadius:
+                                          _selectedCategoryID == '${item.id}'
+                                              ? 2
+                                              : 1,
+                                    )
+                                  ],
+                                  color: _selectedCategoryID == '${item.id}'
+                                      ? item.color!.withOpacity(0.12)
+                                      : null,
+                                ),
+                                // height: MediaQuery.of(context).size.width * 0.34,
+                                // width: MediaQuery.of(context).size.width * 0.34,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15, right: 15),
+                                        child: Container(
+                                          child: Image.asset(item.symbol!,
+                                              color: item.color!),
+                                        ),
+                                      ),
+                                      SizedBox(height: 4),
+                                      Center(
+                                          child: Text(
+                                        '${item.title}',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: item.color),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                  // children: AllData.categories
+                  //     .map((item) => GestureDetector(
+                  //           onTap: () => setState(() {
+                  //             _selectedCategoryID = '${item.id}';
+                  //           }),
+                  //           child: Padding(
+                  //             padding: const EdgeInsets.only(left: 4, right: 4),
+                  //             child: new Container(
+                  //               decoration: BoxDecoration(
+                  //                 borderRadius: BorderRadius.circular(12),
+                  //                 border: Border.all(
+                  //                   width: _selectedCategoryID == '${item.id}'
+                  //                       ? 2.1
+                  //                       : 1.0,
+                  //                   color: _selectedCategoryID == '${item.id}'
+                  //                       ? Theme.of(context).primaryColor
+                  //                       : Colors.grey.shade700,
+                  //                 ),
+                  //                 color: Colors.grey.shade200,
+                  //               ),
+                  //               height:
+                  //                   MediaQuery.of(context).size.width * 0.34,
+                  //               width: MediaQuery.of(context).size.width * 0.29,
+                  //               child: Padding(
+                  //                 padding: const EdgeInsets.only(
+                  //                     top: 8, left: 5, right: 5),
+                  //                 child: new Column(
+                  //                   children: [
+                  //                     CircleAvatar(
+                  //                         radius: MediaQuery.of(context)
+                  //                                 .size
+                  //                                 .width *
+                  //                             0.1,
+                  //                         backgroundColor: item.color,
+                  //                         child: FractionallySizedBox(
+                  //                           widthFactor: 0.6,
+                  //                           heightFactor: 0.6,
+                  //                           child: Image.asset(
+                  //                             item.symbol!,
+                  //                             color: item.color!
+                  //                                         .computeLuminance() >
+                  //                                     0.2
+                  //                                 ? Colors.black
+                  //                                 : Colors.white,
+                  //                           ),
+                  //                         )),
+                  //                     SizedBox(height: 4),
+                  //                     Center(
+                  //                         child: Text(
+                  //                       '${item.title}',
+                  //                       style: TextStyle(
+                  //                           fontSize: 14,
+                  //                           fontWeight: FontWeight.bold,
+                  //                           color: item.color),
+                  //                       textAlign: TextAlign.center,
+                  //                     )),
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ))
+                  //     .toList(),
+                ),
+              ),
+            ),
           ],
         ),
       ),

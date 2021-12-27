@@ -15,16 +15,22 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  List<AccountType> accountTypeList = [];
+  List<List<Object>> accountTypeList = [];
+
   var accountData = AllData.accounts;
   double totalBankBalance = 0;
   void _createAccountList() {
     accountData.forEach((ac) {
-      if (accountTypeList
-              .where((element) => element.id == ac.accountType!.id)
-              .length ==
+      if (accountTypeList.where((element) {
+            //check if accountType already in list
+            AccountType at = element[0] as AccountType;
+            return at.id == ac.accountType!.id;
+          }).length ==
           0) {
-        accountTypeList.add(ac.accountType as AccountType);
+        accountTypeList.add([
+          ac.accountType as AccountType,
+          _getTotalBankBalanceForSpecificAcType(ac.accountType!.title as String)
+        ]);
       }
     });
   }
@@ -34,6 +40,16 @@ class _AccountScreenState extends State<AccountScreen> {
       totalBankBalance += ac.bankBalance!;
     });
     totalBankBalance = double.parse((totalBankBalance).toStringAsFixed(2));
+  }
+
+  double _getTotalBankBalanceForSpecificAcType(String acType) {
+    double total = 0;
+    accountData.forEach((ac) {
+      if (ac.accountType!.title == acType) {
+        total += ac.bankBalance!;
+      }
+    });
+    return total;
   }
 
   Color _getColorBalance(double balance) {
@@ -76,7 +92,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Column(
                         children: [
                           Text(
@@ -91,7 +107,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           Text(
                             '$totalBankBalance €',
                             style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 color: _getColorBalance(totalBankBalance)),
                             textAlign: TextAlign.center,
@@ -99,14 +115,18 @@ class _AccountScreenState extends State<AccountScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    // SizedBox(
+                    //   height: 10,
+                    // ),
                     Expanded(
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: accountTypeList.length,
                         itemBuilder: (BuildContext context, int index) {
+                          AccountType itemAccountType =
+                              accountTypeList[index][0] as AccountType;
+                          String itemAccountTypeBalance =
+                              accountTypeList[index][1].toString();
                           return Card(
                             color: Colors.red[100],
                             child: ExpansionTile(
@@ -114,11 +134,18 @@ class _AccountScreenState extends State<AccountScreen> {
                               textColor: Colors.black,
                               iconColor: Colors.black,
                               initiallyExpanded: false,
-                              title: Text('${accountTypeList[index].title}'),
+                              title: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('${itemAccountType.title}'),
+                                  Text(itemAccountTypeBalance + ' €'),
+                                ],
+                              ),
                               children: AllData.accounts
                                   .where((element) =>
                                       element.accountType!.id ==
-                                      accountTypeList[index].id)
+                                      itemAccountType.id)
                                   .map((e) {
                                 return Dismissible(
                                   confirmDismiss: (DismissDirection direction) {
@@ -207,8 +234,21 @@ class _AccountScreenState extends State<AccountScreen> {
                                       margin: EdgeInsets.all(0),
                                       //color: ,
                                       child: ListTile(
-                                        title: Text(
-                                          '${e.title}',
+                                        title: Row(
+                                          children: [
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: Image.asset(e.symbol!,
+                                                  color: e.color!),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              '${e.title}',
+                                            ),
+                                          ],
                                         ),
                                         trailing: Text(
                                           '${e.bankBalance} €',

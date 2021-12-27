@@ -22,8 +22,8 @@ class _TransferScreenState extends State<TransferScreen> {
   TextEditingController _descriptionController =
       TextEditingController(text: '');
   late List<ListItem> _accountDropDownItems;
-  late ListItem _selectedAccountFrom;
-  late ListItem _selectedAccountTo;
+  ListItem? _selectedAccountFrom;
+  ListItem? _selectedAccountTo;
   final _formKey = GlobalKey<FormState>();
 
   void _getAccountDropDownItems() {
@@ -33,12 +33,12 @@ class _TransferScreenState extends State<TransferScreen> {
         _accountDropDownItems
             .add(ListItem(element.id.toString(), element.title.toString()));
       });
-      _selectedAccountFrom = _accountDropDownItems.first;
-      _selectedAccountTo = _accountDropDownItems.first;
+      //_selectedAccountFrom = _accountDropDownItems.first;
+      //_selectedAccountTo = _accountDropDownItems.first;
       setState(() {});
     } else {
-      _selectedAccountFrom = ListItem('', '');
-      _selectedAccountTo = ListItem('', '');
+      //_selectedAccountFrom = ListItem('', '');
+      //_selectedAccountTo = ListItem('', '');
     }
   }
 
@@ -65,18 +65,18 @@ class _TransferScreenState extends State<TransferScreen> {
                     id: Uuid().v1(),
                     description: _descriptionController.text,
                     accountFrom: AllData.accounts.firstWhere(
-                        (element) => element.id == _selectedAccountFrom.id),
+                        (element) => element.id == _selectedAccountFrom!.id),
                     accountTo: AllData.accounts.firstWhere(
-                        (element) => element.id == _selectedAccountTo.id),
+                        (element) => element.id == _selectedAccountTo!.id),
                     amount: double.parse(_amountController.text),
                     date: _dateTime,
                     accountFromName: AllData.accounts
                         .firstWhere(
-                            (element) => element.id == _selectedAccountFrom.id)
+                            (element) => element.id == _selectedAccountFrom!.id)
                         .title,
                     accountToName: AllData.accounts
                         .firstWhere(
-                            (element) => element.id == _selectedAccountTo.id)
+                            (element) => element.id == _selectedAccountTo!.id)
                         .title,
                   );
                   AllData.transfers.add(transfer);
@@ -136,7 +136,7 @@ class _TransferScreenState extends State<TransferScreen> {
             SizedBox(height: 20),
             DropDown(
               dropdownItems: _accountDropDownItems,
-              listItemValue: _selectedAccountFrom.id,
+              listItemValue: _selectedAccountFrom == null ? null : _selectedAccountFrom!.id,
               onChanged: (newValue) {
                 _selectedAccountFrom = newValue as ListItem;
                 setState(() {});
@@ -148,7 +148,7 @@ class _TransferScreenState extends State<TransferScreen> {
             SizedBox(height: 20),
             DropDown(
               dropdownItems: _accountDropDownItems,
-              listItemValue: _selectedAccountTo.id,
+              listItemValue: _selectedAccountTo == null ? null : _selectedAccountTo!.id,
               onChanged: (newValue) {
                 _selectedAccountTo = newValue as ListItem;
                 setState(() {});
