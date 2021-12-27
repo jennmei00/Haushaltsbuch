@@ -78,6 +78,7 @@ class ManageTransfers extends StatelessWidget {
 
   Widget _listViewWidget(Transfer transfer, BuildContext context) {
     return Dismissible(
+      
       confirmDismiss: (DismissDirection direction) {
         if (direction == DismissDirection.endToStart) {
           return showDialog(
@@ -153,7 +154,7 @@ class ManageTransfers extends StatelessWidget {
             title: Text(
                 '${transfer.accountFromName} => ${transfer.accountToName}'),
             subtitle: Text('${transfer.date}'),
-            trailing: Text('${transfer.amount}'),
+            trailing: Text('${transfer.amount}€'),
             childrenPadding: EdgeInsets.only(left: 30, bottom: 10, right: 10),
             expandedAlignment: Alignment.topLeft,
             children: [

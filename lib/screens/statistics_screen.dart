@@ -9,7 +9,7 @@ class StatisticsScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('Statistik'),
           centerTitle: true,
-          backgroundColor: Theme.of(context).primaryColor,
+          // backgroundColor: Theme.of(context).primaryColor,
         ),
         drawer: AppDrawer(),
       );

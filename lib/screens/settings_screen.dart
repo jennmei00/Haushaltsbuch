@@ -28,7 +28,7 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Einstellungen'),
         centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
+        // backgroundColor: Theme.of(context).primaryColor,
       ),
       body: ListView(
         physics: BouncingScrollPhysics(),

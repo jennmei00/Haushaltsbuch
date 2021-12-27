@@ -63,7 +63,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.type}'),
-        backgroundColor: Theme.of(context).primaryColor,
+        // backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -143,8 +143,10 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                           firstDate:
                               DateTime.now().subtract(Duration(days: 365)),
                           lastDate: DateTime.now().add(Duration(days: 365)),
-                        ).then((value) =>
-                            setState(() => _incomeDateTime = value!));
+                        ).then((value) {
+                          if (value != null)
+                            setState(() => _incomeDateTime = value);
+                        });
                       },
                     ),
                   ],

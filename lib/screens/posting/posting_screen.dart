@@ -15,7 +15,7 @@ class PostingScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('Buchen'),
           centerTitle: true,
-          backgroundColor: Theme.of(context).primaryColor,
+          // backgroundColor: Theme.of(context).primaryColor,
         ),
         drawer: AppDrawer(),
         body: FractionallySizedBox(

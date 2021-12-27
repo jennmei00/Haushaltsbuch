@@ -54,13 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Home',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
+      appBar: AppBar(
+        title: Text(
+          'Home',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),),
         drawer: AppDrawer(),
         body: Center(
           child: ElevatedButton(
