@@ -114,6 +114,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                   .map((item) => GestureDetector(
                         onTap: () => setState(() {
                           _selectedIcon = item;
+                          print(_selectedIcon);
                         }),
                         child: new Container(
                           decoration: BoxDecoration(
