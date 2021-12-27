@@ -7,6 +7,7 @@ import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
@@ -212,8 +213,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                             boxShadow: [
                               BoxShadow(
                                 blurRadius: 5,
-                                color:
-                                    _setCategory.color!.withOpacity(0.2),
+                                color: _setCategory.color!.withOpacity(0.2),
                                 spreadRadius: 2,
                               )
                             ],
@@ -273,77 +273,86 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                                     MediaQuery.of(context).size.width * 0.04,
                                 mainAxisSpacing: 12,
                                 children: AllData.categories
-                                    .map((item) => Column(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () => setState(() {
-                                                _selectedCategoryID =
-                                                    '${item.id}';
-                                                _selectedCategory = item;
-                                              }),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        blurRadius:
-                                                            _selectedCategoryID ==
-                                                                    '${item.id}'
-                                                                ? 5
-                                                                : 5,
-                                                        color:
-                                                            _selectedCategoryID ==
-                                                                    '${item.id}'
-                                                                ? item.color!
-                                                                    .withOpacity(
-                                                                        0.2)
-                                                                : item.color!
-                                                                    .withOpacity(
-                                                                        0.05),
-                                                        spreadRadius:
-                                                            _selectedCategoryID ==
-                                                                    '${item.id}'
-                                                                ? 2
-                                                                : 1,
-                                                      )
-                                                    ],
-                                                  ),
-                                                  // width: 60,
-                                                  // height: 60,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            12.0),
-                                                    child: Image.asset(
-                                                        item.symbol!,
-                                                        color: item.color!),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Center(
-                                              // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
-                                              //   scrollDirection: Axis.horizontal,
-                                              child: Text(
-                                                '${item.title}',
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: false,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: item.color),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                              // ),
-                                            ),
-                                          ],
-                                        ))
+                                    .map(
+                                      (item) => CategoryItem(
+                                        categoryItem: item,
+                                        selectedCatID: _selectedCategoryID,
+                                        onTapFunction: () => setState(() {
+                                               _selectedCategoryID =
+                                                   '${item.id}';
+                                               _selectedCategory = item;
+                                             }),
+                                      )
+                                      //Column(
+                                      //   children: [
+                                      //     GestureDetector(
+                                      //        onTap: () => setState(() {
+                                      //          _selectedCategoryID =
+                                      //              '${item.id}';
+                                      //          _selectedCategory = item;
+                                      //        }),
+                                      //       child: Padding(
+                                      //         padding:
+                                      //             const EdgeInsets.all(8.0),
+                                      //         child: Container(
+                                      //           decoration: BoxDecoration(
+                                      //             borderRadius:
+                                      //                 BorderRadius.circular(12),
+                                      //             boxShadow: [
+                                      //               BoxShadow(
+                                      //                 blurRadius:
+                                      //                     _selectedCategoryID ==
+                                      //                             '${item.id}'
+                                      //                         ? 5
+                                      //                         : 5,
+                                      //                 color:
+                                      //                     _selectedCategoryID ==
+                                      //                             '${item.id}'
+                                      //                         ? item.color!
+                                      //                             .withOpacity(
+                                      //                                 0.2)
+                                      //                         : item.color!
+                                      //                             .withOpacity(
+                                      //                                 0.05),
+                                      //                 spreadRadius:
+                                      //                     _selectedCategoryID ==
+                                      //                             '${item.id}'
+                                      //                         ? 2
+                                      //                         : 1,
+                                      //               )
+                                      //             ],
+                                      //           ),
+                                      //           // width: 60,
+                                      //           // height: 60,
+                                      //           child: Padding(
+                                      //             padding: const EdgeInsets.all(
+                                      //                 12.0),
+                                      //             child: Image.asset(
+                                      //                 item.symbol!,
+                                      //                 color: item.color!),
+                                      //           ),
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //     Center(
+                                      //       // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
+                                      //       //   scrollDirection: Axis.horizontal,
+                                      //       child: Text(
+                                      //         '${item.title}',
+                                      //         maxLines: 1,
+                                      //         overflow: TextOverflow.ellipsis,
+                                      //         softWrap: false,
+                                      //         style: TextStyle(
+                                      //             fontSize: 14,
+                                      //             fontWeight: FontWeight.bold,
+                                      //             color: item.color),
+                                      //         textAlign: TextAlign.center,
+                                      //       ),
+                                      //       // ),
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                    )
                                     .toList(),
                               ),
                             ),
