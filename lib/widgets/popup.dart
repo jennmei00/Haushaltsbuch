@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Popup extends StatelessWidget {
+class Popup extends StatefulWidget {
   final String title;
   final Widget body;
   final bool saveButton;
@@ -16,10 +16,15 @@ class Popup extends StatelessWidget {
   });
 
   @override
+  State<Popup> createState() => _PopupState();
+}
+
+class _PopupState extends State<Popup> {
+  @override
   Widget build(BuildContext context) {
     return Dialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(12),
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -45,30 +50,30 @@ class Popup extends StatelessWidget {
                 //         )),
                 //     ),
                   child:  Text(
-                      '$title',
+                      '${widget.title}',
                       //style: Theme.of(context).textTheme.headline4,
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                     
                 //   ],
                 // ),
               ),
-              body,
+              widget.body,
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    if (saveButton)
+                    if (widget.saveButton)
                       TextButton(
-                        onPressed: () => saveFunction!(),
+                        onPressed: () => widget.saveFunction!(),
                         child: Text(
                           'Speichern',
                           style: TextStyle(color: Colors.black),
                         ),
                       ),
-                    if (cancelButton)
+                    if (widget.cancelButton)
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(),
                         child: Text(

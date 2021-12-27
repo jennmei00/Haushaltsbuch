@@ -213,6 +213,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                                   GestureDetector(
                                     onTap: () => setState(() {
                                       _selectedCategoryID = '${item.id}';
+                                      print(_selectedCategoryID);
                                     }),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -285,77 +286,77 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             Text('Kategorie wählen:'),
             SizedBox(height: 10),
             //Kategorie -------------------------------------------
-            Container(
-              height: 195,
-              // color: Colors.grey[400]?.withOpacity(0.5),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: AllData.categories
-                      .map((item) => GestureDetector(
-                            onTap: () => setState(() {
-                              _selectedCategoryID = '${item.id}';
-                            }),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8, right: 8),
-                              child: new Container(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                height: 150,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius:
-                                          _selectedCategoryID == '${item.id}'
-                                              ? 5
-                                              : 5,
-                                      color: _selectedCategoryID == '${item.id}'
-                                          ? item.color!.withOpacity(0.2)
-                                          : item.color!.withOpacity(0.05),
-                                      spreadRadius:
-                                          _selectedCategoryID == '${item.id}'
-                                              ? 2
-                                              : 1,
-                                    )
-                                  ],
-                                  color: _selectedCategoryID == '${item.id}'
-                                      ? item.color!.withOpacity(0.12)
-                                      : null,
-                                ),
-                                // height: MediaQuery.of(context).size.width * 0.34,
-                                // width: MediaQuery.of(context).size.width * 0.34,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: Container(
-                                          child: Image.asset(item.symbol!,
-                                              color: item.color!),
-                                        ),
-                                      ),
-                                      //SizedBox(height: 4),
-                                      Center(
-                                          child: Text(
-                                        '${item.title}',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        softWrap: false,
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: item.color),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ))
-                      .toList(),
+            // Container(
+            //   height: 195,
+            //   // color: Colors.grey[400]?.withOpacity(0.5),
+            //   child: SingleChildScrollView(
+            //     scrollDirection: Axis.horizontal,
+            //     child: Row(
+            //       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: AllData.categories
+            //           .map((item) => GestureDetector(
+            //                 onTap: () => setState(() {
+            //                   _selectedCategoryID = '${item.id}';
+            //                 }),
+            //                 child: Padding(
+            //                   padding: const EdgeInsets.only(left: 8, right: 8),
+            //                   child: new Container(
+            //                     width: MediaQuery.of(context).size.width * 0.3,
+            //                     height: 150,
+            //                     decoration: BoxDecoration(
+            //                       borderRadius: BorderRadius.circular(12),
+            //                       boxShadow: [
+            //                         BoxShadow(
+            //                           blurRadius:
+            //                               _selectedCategoryID == '${item.id}'
+            //                                   ? 5
+            //                                   : 5,
+            //                           color: _selectedCategoryID == '${item.id}'
+            //                               ? item.color!.withOpacity(0.2)
+            //                               : item.color!.withOpacity(0.05),
+            //                           spreadRadius:
+            //                               _selectedCategoryID == '${item.id}'
+            //                                   ? 2
+            //                                   : 1,
+            //                         )
+            //                       ],
+            //                       color: _selectedCategoryID == '${item.id}'
+            //                           ? item.color!.withOpacity(0.12)
+            //                           : null,
+            //                     ),
+            //                     // height: MediaQuery.of(context).size.width * 0.34,
+            //                     // width: MediaQuery.of(context).size.width * 0.34,
+            //                     child: Padding(
+            //                       padding: const EdgeInsets.all(5),
+            //                       child: Column(
+            //                         children: [
+            //                           Padding(
+            //                             padding: const EdgeInsets.all(12.0),
+            //                             child: Container(
+            //                               child: Image.asset(item.symbol!,
+            //                                   color: item.color!),
+            //                             ),
+            //                           ),
+            //                           //SizedBox(height: 4),
+            //                           Center(
+            //                               child: Text(
+            //                             '${item.title}',
+            //                             maxLines: 1,
+            //                             overflow: TextOverflow.ellipsis,
+            //                             softWrap: false,
+            //                             style: TextStyle(
+            //                                 fontSize: 14,
+            //                                 fontWeight: FontWeight.bold,
+            //                                 color: item.color),
+            //                             textAlign: TextAlign.center,
+            //                           )),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ))
+            //           .toList(),
                   // children: AllData.categories
                   //     .map((item) => GestureDetector(
                   //           onTap: () => setState(() {
@@ -419,9 +420,9 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                   //           ),
                   //         ))
                   //     .toList(),
-                ),
-              ),
-            ),
+            //     ),
+            //   ),
+            // ),
             // Stack(
             //   children: [
             //     Container(

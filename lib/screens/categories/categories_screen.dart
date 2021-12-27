@@ -44,42 +44,39 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
               mainAxisSpacing: 12,
               children: _categoryList
-                  .map((item) => Container(
-                        // decoration: BoxDecoration(
-                        //   borderRadius: BorderRadius.circular(12),
-                        //   boxShadow: [
-                        //     BoxShadow(
-                        //       blurRadius: 5,
-                        //       color: item.color!.withOpacity(0.1),
-                        //       spreadRadius: 2,
-                        //     )
-                        //   ],
-                        //   color: item.color!.withOpacity(0.05),
-                        // ),
-                        child: InkWell(
-                          splashColor: item.color!.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(8),
-                          onTap: () => Navigator.of(context).pushNamed(
-                              NewCategorieScreen.routeName,
-                              arguments: item.id),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 5,
-                                        color: item.color!.withOpacity(0.1),
-                                        spreadRadius: 2,
-                                      )
-                                    ],
-                                    color: item.color!.withOpacity(0.05),
-                                  ),
-                                  // width: 60,
-                                  // height: 60,
+                  .map(
+                    (item) => //InkWell(
+                      // splashColor: item.color!.withOpacity(0.2),
+                      // borderRadius: BorderRadius.circular(8),
+                      // onTap: () => Navigator.of(context).pushNamed(
+                      //     NewCategorieScreen.routeName,
+                      //     arguments: item.id),
+                      Container(
+                      //child: Container(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 5,
+                                      color: item.color!.withOpacity(0.1),
+                                      spreadRadius: 2,
+                                    )
+                                  ],
+                                  color: item.color!.withOpacity(0.05),
+                                ),
+                                // width: 60,
+                                // height: 60,
+                                child: InkWell(
+                                  splashColor: item.color!.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(8),
+                                  onTap: () => Navigator.of(context).pushNamed(
+                                      NewCategorieScreen.routeName,
+                                      arguments: item.id),
                                   child: Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: Image.asset(item.symbol!,
@@ -87,27 +84,29 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              //SizedBox(height: 5),
-                              Center(
-                                // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
-                                //   scrollDirection: Axis.horizontal,
-                                child: Text(
-                                  '${item.title}',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: false,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: item.color),
-                                  textAlign: TextAlign.center,
-                                ),
-                                // ),
+                            ),
+                            //SizedBox(height: 5),
+                            Center(
+                              // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
+                              //   scrollDirection: Axis.horizontal,
+                              child: Text(
+                                '${item.title}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: false,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: item.color),
+                                textAlign: TextAlign.center,
                               ),
-                            ],
-                          ),
+                              // ),
+                            ),
+                          ],
                         ),
-                      ))
+                      ),
+                    //),
+                  )
                   .toList(),
               // children: _categoryList
               //     .map((item) => InkWell(
