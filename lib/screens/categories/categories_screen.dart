@@ -30,7 +30,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       appBar: AppBar(
         title: Text('Kategorien'),
         centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
+        // backgroundColor: Theme.of(context).primaryColor,
       ),
       drawer: AppDrawer(),
       body: AllData.categories.length == 0
@@ -148,7 +148,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
+        // backgroundColor: Theme.of(context).primaryColor,
         child: Icon(Icons.add),
         onPressed: () {
           Navigator.of(context)

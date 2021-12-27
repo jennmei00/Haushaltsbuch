@@ -18,7 +18,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
         appBar: AppBar(
           title: Text('Daueraufträge'),
           centerTitle: true,
-          backgroundColor: Theme.of(context).primaryColor,
+          // backgroundColor: Theme.of(context).primaryColor,
         ),
         drawer: AppDrawer(),
         floatingActionButton: FloatingActionButton(
@@ -27,7 +27,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                 .pushNamed(AddEditStandingOrder.routeName, arguments: '');
           },
           child: Icon(Icons.add),
-          backgroundColor: Theme.of(context).primaryColor,
+          // backgroundColor: Theme.of(context).primaryColor,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: AllData.standingOrders.length == 0

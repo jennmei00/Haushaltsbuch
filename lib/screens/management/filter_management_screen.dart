@@ -47,7 +47,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        // backgroundColor: Theme.of(context).primaryColor,
         title: Text('Filter'),
       ),
       bottomSheet: Container(
@@ -68,9 +68,10 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
             ElevatedButton(
               onPressed: () => Navigator.pop(context, []),
               child: Text('Zurücksetzen'),
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).primaryColor)),
+              // style: ButtonStyle(
+              //     backgroundColor: MaterialStateProperty.all(
+              //         Theme.of(context).primaryColor)
+              //         ),
             ),
             ElevatedButton(
               onPressed: () {
@@ -82,9 +83,9 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                 ]);
               },
               child: Text('Übernehmen'),
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).primaryColor)),
+              // style: ButtonStyle(
+              //     backgroundColor: MaterialStateProperty.all(
+              //         Theme.of(context).primaryColor)),
             )
           ],
         ),
@@ -138,7 +139,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                   ),
                   value: _filterSO,
                   onChanged: (val) => setState(() => _filterSO = val),
-                  activeColor: Theme.of(context).primaryColor,
+                  // activeColor: Theme.of(context).primaryColor,
                 ),
               ),
               Text(
@@ -172,8 +173,8 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                       .map((e) => ListTile(
                             title: Text('${e.title}'),
                             trailing: Checkbox(
-                              fillColor: MaterialStateProperty.all(
-                                  Theme.of(context).primaryColor),
+                              // fillColor: MaterialStateProperty.all(
+                              //     Theme.of(context).primaryColor),
                               value: _filterAccounts.contains(e),
                               onChanged: (val) {
                                 setState(() {

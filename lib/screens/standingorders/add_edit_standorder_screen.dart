@@ -79,7 +79,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        // backgroundColor: Theme.of(context).primaryColor,
         title: Text(widget.id == ''
             ? 'Dauerauftrag hinzufügen'
             : 'Dauerauftrag bearbeiten'),

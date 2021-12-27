@@ -61,7 +61,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.type}'),
-        backgroundColor: Theme.of(context).primaryColor,
+        // backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -141,8 +141,10 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                           firstDate:
                               DateTime.now().subtract(Duration(days: 365)),
                           lastDate: DateTime.now().add(Duration(days: 365)),
-                        ).then((value) =>
-                            setState(() => _incomeDateTime = value!));
+                        ).then((value) {
+                          if (value != null)
+                            setState(() => _incomeDateTime = value);
+                        });
                       },
                     ),
                   ],
@@ -357,69 +359,69 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             //                 ),
             //               ))
             //           .toList(),
-                  // children: AllData.categories
-                  //     .map((item) => GestureDetector(
-                  //           onTap: () => setState(() {
-                  //             _selectedCategoryID = '${item.id}';
-                  //           }),
-                  //           child: Padding(
-                  //             padding: const EdgeInsets.only(left: 4, right: 4),
-                  //             child: new Container(
-                  //               decoration: BoxDecoration(
-                  //                 borderRadius: BorderRadius.circular(12),
-                  //                 border: Border.all(
-                  //                   width: _selectedCategoryID == '${item.id}'
-                  //                       ? 2.1
-                  //                       : 1.0,
-                  //                   color: _selectedCategoryID == '${item.id}'
-                  //                       ? Theme.of(context).primaryColor
-                  //                       : Colors.grey.shade700,
-                  //                 ),
-                  //                 color: Colors.grey.shade200,
-                  //               ),
-                  //               height:
-                  //                   MediaQuery.of(context).size.width * 0.34,
-                  //               width: MediaQuery.of(context).size.width * 0.29,
-                  //               child: Padding(
-                  //                 padding: const EdgeInsets.only(
-                  //                     top: 8, left: 5, right: 5),
-                  //                 child: new Column(
-                  //                   children: [
-                  //                     CircleAvatar(
-                  //                         radius: MediaQuery.of(context)
-                  //                                 .size
-                  //                                 .width *
-                  //                             0.1,
-                  //                         backgroundColor: item.color,
-                  //                         child: FractionallySizedBox(
-                  //                           widthFactor: 0.6,
-                  //                           heightFactor: 0.6,
-                  //                           child: Image.asset(
-                  //                             item.symbol!,
-                  //                             color: item.color!
-                  //                                         .computeLuminance() >
-                  //                                     0.2
-                  //                                 ? Colors.black
-                  //                                 : Colors.white,
-                  //                           ),
-                  //                         )),
-                  //                     SizedBox(height: 4),
-                  //                     Center(
-                  //                         child: Text(
-                  //                       '${item.title}',
-                  //                       style: TextStyle(
-                  //                           fontSize: 14,
-                  //                           fontWeight: FontWeight.bold,
-                  //                           color: item.color),
-                  //                       textAlign: TextAlign.center,
-                  //                     )),
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ))
-                  //     .toList(),
+            // children: AllData.categories
+            //     .map((item) => GestureDetector(
+            //           onTap: () => setState(() {
+            //             _selectedCategoryID = '${item.id}';
+            //           }),
+            //           child: Padding(
+            //             padding: const EdgeInsets.only(left: 4, right: 4),
+            //             child: new Container(
+            //               decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(12),
+            //                 border: Border.all(
+            //                   width: _selectedCategoryID == '${item.id}'
+            //                       ? 2.1
+            //                       : 1.0,
+            //                   color: _selectedCategoryID == '${item.id}'
+            //                       ? Theme.of(context).primaryColor
+            //                       : Colors.grey.shade700,
+            //                 ),
+            //                 color: Colors.grey.shade200,
+            //               ),
+            //               height:
+            //                   MediaQuery.of(context).size.width * 0.34,
+            //               width: MediaQuery.of(context).size.width * 0.29,
+            //               child: Padding(
+            //                 padding: const EdgeInsets.only(
+            //                     top: 8, left: 5, right: 5),
+            //                 child: new Column(
+            //                   children: [
+            //                     CircleAvatar(
+            //                         radius: MediaQuery.of(context)
+            //                                 .size
+            //                                 .width *
+            //                             0.1,
+            //                         backgroundColor: item.color,
+            //                         child: FractionallySizedBox(
+            //                           widthFactor: 0.6,
+            //                           heightFactor: 0.6,
+            //                           child: Image.asset(
+            //                             item.symbol!,
+            //                             color: item.color!
+            //                                         .computeLuminance() >
+            //                                     0.2
+            //                                 ? Colors.black
+            //                                 : Colors.white,
+            //                           ),
+            //                         )),
+            //                     SizedBox(height: 4),
+            //                     Center(
+            //                         child: Text(
+            //                       '${item.title}',
+            //                       style: TextStyle(
+            //                           fontSize: 14,
+            //                           fontWeight: FontWeight.bold,
+            //                           color: item.color),
+            //                       textAlign: TextAlign.center,
+            //                     )),
+            //                   ],
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ))
+            //     .toList(),
             //     ),
             //   ),
             // ),

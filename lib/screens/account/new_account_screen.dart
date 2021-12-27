@@ -79,7 +79,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
             ? 'Neues Konto'
             : 'Konto bearbeiten'), //Text('${Globals.funktioniert}'),
         centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
+        // backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
             icon: Icon(Icons.save),

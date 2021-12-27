@@ -38,10 +38,10 @@ class CustomTextField extends StatelessWidget {
         //hintText: hintText,
         filled: true,
         // fillColor: Colors.grey[700]?.withOpacity(0.5),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.cyan),
-        ),
-        floatingLabelStyle: TextStyle(color: Colors.cyan),
+        // focusedBorder: UnderlineInputBorder(
+        //   // borderSide: BorderSide(color: Colors.cyan),
+        // ),
+        // floatingLabelStyle: TextStyle(color: Colors.cyan),
         // border: OutlineInputBorder(
         //   borderSide: BorderSide(),
         //   borderRadius: BorderRadius.circular(30),

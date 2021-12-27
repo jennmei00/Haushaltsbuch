@@ -72,7 +72,7 @@ class _AccountScreenState extends State<AccountScreen> {
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
+          // backgroundColor: Theme.of(context).primaryColor,
           child: Icon(Icons.add),
           onPressed: () {
             //print(accountData);
@@ -83,7 +83,8 @@ class _AccountScreenState extends State<AccountScreen> {
         appBar: AppBar(
             title: Text('Konten'),
             centerTitle: true,
-            backgroundColor: Theme.of(context).primaryColor),
+            // backgroundColor: Theme.of(context).primaryColor),
+        ),
         drawer: AppDrawer(),
         body: AllData.accounts.length == 0
             ? NothingThere(textScreen: 'Noch keine Konten vorhanden :(')
