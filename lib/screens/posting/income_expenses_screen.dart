@@ -223,47 +223,12 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 5,
-                                color: _setCategory.color!.withOpacity(0.2),
-                                spreadRadius: 2,
-                              )
-                            ],
-                            color: _setCategory.color!.withOpacity(0.12)),
-                        width: 60,
-                        height: 60,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Image.asset(_setCategory.symbol!,
-                              color: _setCategory.color!),
-                        ),
-                      ),
-                    ),
-                    Center(
-                      // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
-                      //   scrollDirection: Axis.horizontal,
-                      child: Text(
-                        '${_setCategory.title}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: false,
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: _setCategory.color),
-                        textAlign: TextAlign.center,
-                      ),
-                      // ),
-                    ),
-                  ],
+                Container(
+                  width: 100,
+                  height: 120,
+                  child: CategoryItem(
+                    categoryItem: _setCategory,
+                  ),
                 ),
                 ElevatedButton(
                   child: Text('Kategorie ändern'),
@@ -293,86 +258,17 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                                     MediaQuery.of(context).size.width * 0.04,
                                 mainAxisSpacing: 12,
                                 children: AllData.categories
-                                    .map((item) => CategoryItem(
-                                              categoryItem: item,
-                                              selectedCatID:
-                                                  _selectedCategoryID,
-                                              onTapFunction: () => setState(() {
-                                                _selectedCategoryID =
-                                                    '${item.id}';
-                                                _selectedCategory = item;
-                                              }),
-                                            )
-                                        //Column(
-                                        //   children: [
-                                        //     GestureDetector(
-                                        //        onTap: () => setState(() {
-                                        //          _selectedCategoryID =
-                                        //              '${item.id}';
-                                        //          _selectedCategory = item;
-                                        //        }),
-                                        //       child: Padding(
-                                        //         padding:
-                                        //             const EdgeInsets.all(8.0),
-                                        //         child: Container(
-                                        //           decoration: BoxDecoration(
-                                        //             borderRadius:
-                                        //                 BorderRadius.circular(12),
-                                        //             boxShadow: [
-                                        //               BoxShadow(
-                                        //                 blurRadius:
-                                        //                     _selectedCategoryID ==
-                                        //                             '${item.id}'
-                                        //                         ? 5
-                                        //                         : 5,
-                                        //                 color:
-                                        //                     _selectedCategoryID ==
-                                        //                             '${item.id}'
-                                        //                         ? item.color!
-                                        //                             .withOpacity(
-                                        //                                 0.2)
-                                        //                         : item.color!
-                                        //                             .withOpacity(
-                                        //                                 0.05),
-                                        //                 spreadRadius:
-                                        //                     _selectedCategoryID ==
-                                        //                             '${item.id}'
-                                        //                         ? 2
-                                        //                         : 1,
-                                        //               )
-                                        //             ],
-                                        //           ),
-                                        //           // width: 60,
-                                        //           // height: 60,
-                                        //           child: Padding(
-                                        //             padding: const EdgeInsets.all(
-                                        //                 12.0),
-                                        //             child: Image.asset(
-                                        //                 item.symbol!,
-                                        //                 color: item.color!),
-                                        //           ),
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //     Center(
-                                        //       // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
-                                        //       //   scrollDirection: Axis.horizontal,
-                                        //       child: Text(
-                                        //         '${item.title}',
-                                        //         maxLines: 1,
-                                        //         overflow: TextOverflow.ellipsis,
-                                        //         softWrap: false,
-                                        //         style: TextStyle(
-                                        //             fontSize: 14,
-                                        //             fontWeight: FontWeight.bold,
-                                        //             color: item.color),
-                                        //         textAlign: TextAlign.center,
-                                        //       ),
-                                        //       // ),
-                                        //     ),
-                                        //   ],
-                                        // ),
-                                        )
+                                    .map(
+                                      (item) => CategoryItem(
+                                        categoryItem: item,
+                                        selectedCatID: _selectedCategoryID,
+                                        onTapFunction: () => setState(() {
+                                               _selectedCategoryID =
+                                                   '${item.id}';
+                                               _selectedCategory = item;
+                                             }),
+                                      )
+                                    )
                                     .toList(),
                               ),
                             ),
@@ -391,146 +287,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               ],
             ),
             SizedBox(height: 20),
-            //Text('Kategorie wählen:'),
-            SizedBox(height: 10),
-            //Kategorie -------------------------------------------
-            // Container(
-            //   height: 195,
-            //   // color: Colors.grey[400]?.withOpacity(0.5),
-            //   child: SingleChildScrollView(
-            //     scrollDirection: Axis.horizontal,
-            //     child: Row(
-            //       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: AllData.categories
-            //           .map((item) => GestureDetector(
-            //                 onTap: () => setState(() {
-            //                   _selectedCategoryID = '${item.id}';
-            //                 }),
-            //                 child: Padding(
-            //                   padding: const EdgeInsets.only(left: 8, right: 8),
-            //                   child: new Container(
-            //                     width: MediaQuery.of(context).size.width * 0.3,
-            //                     height: 150,
-            //                     decoration: BoxDecoration(
-            //                       borderRadius: BorderRadius.circular(12),
-            //                       boxShadow: [
-            //                         BoxShadow(
-            //                           blurRadius:
-            //                               _selectedCategoryID == '${item.id}'
-            //                                   ? 5
-            //                                   : 5,
-            //                           color: _selectedCategoryID == '${item.id}'
-            //                               ? item.color!.withOpacity(0.2)
-            //                               : item.color!.withOpacity(0.05),
-            //                           spreadRadius:
-            //                               _selectedCategoryID == '${item.id}'
-            //                                   ? 2
-            //                                   : 1,
-            //                         )
-            //                       ],
-            //                       color: _selectedCategoryID == '${item.id}'
-            //                           ? item.color!.withOpacity(0.12)
-            //                           : null,
-            //                     ),
-            //                     // height: MediaQuery.of(context).size.width * 0.34,
-            //                     // width: MediaQuery.of(context).size.width * 0.34,
-            //                     child: Padding(
-            //                       padding: const EdgeInsets.all(5),
-            //                       child: Column(
-            //                         children: [
-            //                           Padding(
-            //                             padding: const EdgeInsets.all(12.0),
-            //                             child: Container(
-            //                               child: Image.asset(item.symbol!,
-            //                                   color: item.color!),
-            //                             ),
-            //                           ),
-            //                           //SizedBox(height: 4),
-            //                           Center(
-            //                               child: Text(
-            //                             '${item.title}',
-            //                             maxLines: 1,
-            //                             overflow: TextOverflow.ellipsis,
-            //                             softWrap: false,
-            //                             style: TextStyle(
-            //                                 fontSize: 14,
-            //                                 fontWeight: FontWeight.bold,
-            //                                 color: item.color),
-            //                             textAlign: TextAlign.center,
-            //                           )),
-            //                         ],
-            //                       ),
-            //                     ),
-            //                   ),
-            //                 ),
-            //               ))
-            //           .toList(),
-            // children: AllData.categories
-            //     .map((item) => GestureDetector(
-            //           onTap: () => setState(() {
-            //             _selectedCategoryID = '${item.id}';
-            //           }),
-            //           child: Padding(
-            //             padding: const EdgeInsets.only(left: 4, right: 4),
-            //             child: new Container(
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(12),
-            //                 border: Border.all(
-            //                   width: _selectedCategoryID == '${item.id}'
-            //                       ? 2.1
-            //                       : 1.0,
-            //                   color: _selectedCategoryID == '${item.id}'
-            //                       ? Theme.of(context).primaryColor
-            //                       : Colors.grey.shade700,
-            //                 ),
-            //                 color: Colors.grey.shade200,
-            //               ),
-            //               height:
-            //                   MediaQuery.of(context).size.width * 0.34,
-            //               width: MediaQuery.of(context).size.width * 0.29,
-            //               child: Padding(
-            //                 padding: const EdgeInsets.only(
-            //                     top: 8, left: 5, right: 5),
-            //                 child: new Column(
-            //                   children: [
-            //                     CircleAvatar(
-            //                         radius: MediaQuery.of(context)
-            //                                 .size
-            //                                 .width *
-            //                             0.1,
-            //                         backgroundColor: item.color,
-            //                         child: FractionallySizedBox(
-            //                           widthFactor: 0.6,
-            //                           heightFactor: 0.6,
-            //                           child: Image.asset(
-            //                             item.symbol!,
-            //                             color: item.color!
-            //                                         .computeLuminance() >
-            //                                     0.2
-            //                                 ? Colors.black
-            //                                 : Colors.white,
-            //                           ),
-            //                         )),
-            //                     SizedBox(height: 4),
-            //                     Center(
-            //                         child: Text(
-            //                       '${item.title}',
-            //                       style: TextStyle(
-            //                           fontSize: 14,
-            //                           fontWeight: FontWeight.bold,
-            //                           color: item.color),
-            //                       textAlign: TextAlign.center,
-            //                     )),
-            //                   ],
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ))
-            //     .toList(),
-            //     ),
-            //   ),
-            // ),
             // Stack(
             //   children: [
             //     Container(
