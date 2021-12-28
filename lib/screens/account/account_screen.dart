@@ -81,9 +81,9 @@ class _AccountScreenState extends State<AccountScreen> {
           },
         ),
         appBar: AppBar(
-            title: Text('Konten'),
-            centerTitle: true,
-            // backgroundColor: Theme.of(context).primaryColor),
+          title: Text('Konten'),
+          centerTitle: true,
+          // backgroundColor: Theme.of(context).primaryColor),
         ),
         drawer: AppDrawer(),
         body: AllData.accounts.length == 0

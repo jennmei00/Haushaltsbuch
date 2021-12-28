@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
@@ -34,6 +36,12 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   final _formKey = GlobalKey<FormState>();
   ListItem? _selectedItem;
   String _selectedCategoryID = '';
+  Category _setCategory = Category(
+      id: 'default',
+      symbol: 'assets/icons/food.png',
+      color: Colors.blue,
+      title: 'Defaultkat');
+  late Category _selectedCategory;
 
   // late
   List<ListItem> _accountDropDownItems = [];
@@ -218,144 +226,71 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
               fieldname: 'description',
             ),
             SizedBox(height: 20),
-            Text('Kategorie wählen:'),
-            SizedBox(height: 10),
-            //Kategorie -------------------------------------------
-            Container(
-              height: 150,
-              // padding: EdgeInsets.all(20),
-              // color: Colors.grey[400]?.withOpacity(0.5),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: AllData.categories
-                      .map((item) => GestureDetector(
-                            onTap: () => setState(() {
-                              _selectedCategoryID = '${item.id}';
-                            }),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8, right: 8),
-                              child: new Container(
-                                width: MediaQuery.of(context).size.width * 0.30,
-                                height: 125,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius:
-                                          _selectedCategoryID == '${item.id}'
-                                              ? 5
-                                              : 5,
-                                      color: _selectedCategoryID == '${item.id}'
-                                          ? item.color!.withOpacity(0.2)
-                                          : item.color!.withOpacity(0.05),
-                                      spreadRadius:
-                                          _selectedCategoryID == '${item.id}'
-                                              ? 2
-                                              : 1,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  width: 100,
+                  height: 120,
+                  child: CategoryItem(
+                    categoryItem: _setCategory,
+                  ),
+                ),
+                ElevatedButton(
+                  child: Text('Kategorie ändern'),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).primaryColor)),
+                  onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return StatefulBuilder(builder: (context, setState) {
+                          return Popup(
+                            title: 'Kategorien',
+                            body: Container(
+                              //color: Colors.blue,
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              height: MediaQuery.of(context).size.height * 0.48,
+                              width: MediaQuery.of(context).size.width * 1,
+                              child: GridView.count(
+                                scrollDirection: Axis.vertical,
+                                childAspectRatio: MediaQuery.of(context)
+                                        .size
+                                        .width /
+                                    (MediaQuery.of(context).size.height / 1.5),
+                                padding: EdgeInsets.all(10),
+                                crossAxisCount: 3,
+                                crossAxisSpacing:
+                                    MediaQuery.of(context).size.width * 0.04,
+                                mainAxisSpacing: 12,
+                                children: AllData.categories
+                                    .map(
+                                      (item) => CategoryItem(
+                                        categoryItem: item,
+                                        selectedCatID: _selectedCategoryID,
+                                        onTapFunction: () => setState(() {
+                                               _selectedCategoryID =
+                                                   '${item.id}';
+                                               _selectedCategory = item;
+                                             }),
+                                      )
                                     )
-                                  ],
-                                  color: _selectedCategoryID == '${item.id}'
-                                      ? item.color!.withOpacity(0.12)
-                                      : null,
-                                ),
-                                // height: MediaQuery.of(context).size.width * 0.34,
-                                // width: MediaQuery.of(context).size.width * 0.34,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15, right: 15),
-                                        child: Container(
-                                          child: Image.asset(item.symbol!,
-                                              color: item.color!),
-                                        ),
-                                      ),
-                                      SizedBox(height: 4),
-                                      Center(
-                                          child: Text(
-                                        '${item.title}',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: item.color),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                    ],
-                                  ),
-                                ),
+                                    .toList(),
                               ),
                             ),
-                          ))
-                      .toList(),
-                  // children: AllData.categories
-                  //     .map((item) => GestureDetector(
-                  //           onTap: () => setState(() {
-                  //             _selectedCategoryID = '${item.id}';
-                  //           }),
-                  //           child: Padding(
-                  //             padding: const EdgeInsets.only(left: 4, right: 4),
-                  //             child: new Container(
-                  //               decoration: BoxDecoration(
-                  //                 borderRadius: BorderRadius.circular(12),
-                  //                 border: Border.all(
-                  //                   width: _selectedCategoryID == '${item.id}'
-                  //                       ? 2.1
-                  //                       : 1.0,
-                  //                   color: _selectedCategoryID == '${item.id}'
-                  //                       ? Theme.of(context).primaryColor
-                  //                       : Colors.grey.shade700,
-                  //                 ),
-                  //                 color: Colors.grey.shade200,
-                  //               ),
-                  //               height:
-                  //                   MediaQuery.of(context).size.width * 0.34,
-                  //               width: MediaQuery.of(context).size.width * 0.29,
-                  //               child: Padding(
-                  //                 padding: const EdgeInsets.only(
-                  //                     top: 8, left: 5, right: 5),
-                  //                 child: new Column(
-                  //                   children: [
-                  //                     CircleAvatar(
-                  //                         radius: MediaQuery.of(context)
-                  //                                 .size
-                  //                                 .width *
-                  //                             0.1,
-                  //                         backgroundColor: item.color,
-                  //                         child: FractionallySizedBox(
-                  //                           widthFactor: 0.6,
-                  //                           heightFactor: 0.6,
-                  //                           child: Image.asset(
-                  //                             item.symbol!,
-                  //                             color: item.color!
-                  //                                         .computeLuminance() >
-                  //                                     0.2
-                  //                                 ? Colors.black
-                  //                                 : Colors.white,
-                  //                           ),
-                  //                         )),
-                  //                     SizedBox(height: 4),
-                  //                     Center(
-                  //                         child: Text(
-                  //                       '${item.title}',
-                  //                       style: TextStyle(
-                  //                           fontSize: 14,
-                  //                           fontWeight: FontWeight.bold,
-                  //                           color: item.color),
-                  //                       textAlign: TextAlign.center,
-                  //                     )),
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ))
-                  //     .toList(),
+                            saveButton: true,
+                            cancelButton: true,
+                            saveFunction: () {
+                              this.setState(() {
+                                _setCategory = _selectedCategory;
+                              });
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        });
+                      }),
                 ),
-              ),
+              ],
             ),
           ],
         ),

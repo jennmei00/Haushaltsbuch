@@ -30,7 +30,7 @@ class CategoryItem extends StatelessWidget {
                 boxShadow: [
                   if (!multiSelection) 
                   BoxShadow(
-                    blurRadius: selectedCatID == '${categoryItem.id}' ? 5 : 5,
+                    blurRadius: 5,
                     color: selectedCatID == '${categoryItem.id}'
                         ? categoryItem.color!.withOpacity(0.2)
                         : categoryItem.color!.withOpacity(0.05),
@@ -38,7 +38,7 @@ class CategoryItem extends StatelessWidget {
                   )
                   else if (multiSelection)
                   BoxShadow(
-                    blurRadius: selectedCatList!.contains(categoryItem) ? 5 : 5,
+                    blurRadius: 5,
                     color: selectedCatList!.contains(categoryItem)
                         ? categoryItem.color!.withOpacity(0.2)
                         : categoryItem.color!.withOpacity(0.05),
