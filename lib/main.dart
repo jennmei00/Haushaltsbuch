@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Haushaltsapp',
       theme: themeNotifier.getTheme(),
-      
+
       // theme: ThemeData(
       //   primaryColor: Colors.red[700],
       //   textTheme: TextTheme(),
@@ -68,24 +68,22 @@ class MyApp extends StatelessWidget {
         //posting
         PostingScreen.routeName: (context) => PostingScreen(),
         // IncomeScreen.routeName: (context) => IncomeScreen(),
-        TransferScreen.routeName: (context) => TransferScreen(),
+        // TransferScreen.routeName: (context) => TransferScreen(),
         //Account
         //NewAccountScreen.routeName: (context) => NewAccountScreen(),
         //Management
         ManagementScreen.routeName: (context) => ManagementScreen(),
-        // FilterManagementScreen.routeName: (context) => FilterManagementScreen(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == IncomeExpenseScreen.routeName) {
-          final args = settings.arguments as String;
+          print(settings.arguments.runtimeType);
+          final args = settings.arguments as List<String?>;
 
-          // Then, extract the required data from
-          // the arguments and pass the data to the
-          // correct screen.
           return MaterialPageRoute(
             builder: (context) {
               return IncomeExpenseScreen(
-                type: args,
+                type: args[0].toString(),
+                id: args[1].toString(),
               );
             },
           );
@@ -121,15 +119,19 @@ class MyApp extends StatelessWidget {
           );
         } else if (settings.name == FilterManagementScreen.routeName) {
           final args = settings.arguments as List<Object?>;
-
           return MaterialPageRoute(builder: (context) {
-            print(args);
             return FilterManagementScreen(
-              //filters: args,
+              filters: args,
+            );
+          });
+        } else if (settings.name == TransferScreen.routeName) {
+          final args = settings.arguments as String;
+          return MaterialPageRoute(builder: (context) {
+            return TransferScreen(
+              id: args,
             );
           });
         }
-
         assert(false, 'Need to implement ${settings.name}');
         return null;
       },

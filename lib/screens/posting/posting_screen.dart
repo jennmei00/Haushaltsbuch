@@ -7,9 +7,11 @@ class PostingScreen extends StatelessWidget {
   static final routeName = '/posting_screen';
   final urlBackgroundImageIncome =
       'https://images.unsplash.com/photo-1579621970795-87facc2f976d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80';
-  final urlBackgroundImageExpense = 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1612&q=80';
-  final urlBackroundImageTransfer = 'https://images.unsplash.com/photo-1523629619140-ee5b56cb3b23?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3114&q=80';
-  
+  final urlBackgroundImageExpense =
+      'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1612&q=80';
+  final urlBackroundImageTransfer =
+      'https://images.unsplash.com/photo-1523629619140-ee5b56cb3b23?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3114&q=80';
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -115,15 +117,15 @@ class PostingScreen extends StatelessWidget {
 
   void _income(BuildContext context) {
     Navigator.of(context)
-        .pushNamed(IncomeExpenseScreen.routeName, arguments: 'Einnahme');
+        .pushNamed(IncomeExpenseScreen.routeName, arguments: ['Einnahme', '']);
   }
 
   void _expense(BuildContext context) {
     Navigator.of(context)
-        .pushNamed(IncomeExpenseScreen.routeName, arguments: 'Ausgabe');
+        .pushNamed(IncomeExpenseScreen.routeName, arguments: ['Ausgabe', '']);
   }
 
   void _transfer(BuildContext context) {
-    Navigator.of(context).pushNamed(TransferScreen.routeName);
+    Navigator.of(context).pushNamed(TransferScreen.routeName, arguments: '');
   }
 }

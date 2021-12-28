@@ -11,6 +11,9 @@ import 'package:validators/validators.dart';
 
 class TransferScreen extends StatefulWidget {
   static final routeName = '/transfer_screen';
+  final String id;
+
+  TransferScreen({this.id = ''});
 
   @override
   _TransferScreenState createState() => _TransferScreenState();
@@ -136,7 +139,9 @@ class _TransferScreenState extends State<TransferScreen> {
             SizedBox(height: 20),
             DropDown(
               dropdownItems: _accountDropDownItems,
-              listItemValue: _selectedAccountFrom == null ? null : _selectedAccountFrom!.id,
+              listItemValue: _selectedAccountFrom == null
+                  ? null
+                  : _selectedAccountFrom!.id,
               onChanged: (newValue) {
                 _selectedAccountFrom = newValue as ListItem;
                 setState(() {});
@@ -148,7 +153,8 @@ class _TransferScreenState extends State<TransferScreen> {
             SizedBox(height: 20),
             DropDown(
               dropdownItems: _accountDropDownItems,
-              listItemValue: _selectedAccountTo == null ? null : _selectedAccountTo!.id,
+              listItemValue:
+                  _selectedAccountTo == null ? null : _selectedAccountTo!.id,
               onChanged: (newValue) {
                 _selectedAccountTo = newValue as ListItem;
                 setState(() {});

@@ -16,8 +16,9 @@ import 'package:validators/validators.dart';
 class IncomeExpenseScreen extends StatefulWidget {
   static final routeName = '/income_expense_screen';
   final String type;
+  final String id;
 
-  IncomeExpenseScreen({this.type = ''});
+  IncomeExpenseScreen({this.type = '', this.id = ''});
 
   @override
   _IncomeExpenseScreenState createState() => _IncomeExpenseScreenState();
@@ -37,7 +38,11 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   List<ListItem> _accountDropDownItems = [];
   //late ListItem _selectedItem;
   String _selectedCategoryID = '';
-  Category _selectedCategory = Category(id: 'default', symbol: 'assets/icons/food.png', color: Colors.blue, title: 'Defaultkat');
+  Category _selectedCategory = Category(
+      id: 'default',
+      symbol: 'assets/icons/food.png',
+      color: Colors.blue,
+      title: 'Defaultkat');
 
   void _getAccountDropDownItems() {
     //_selectedItem = ListItem('0', 'name');
@@ -52,9 +57,27 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     }
   }
 
+  void _getPostingsData() {
+    Posting posting =
+        AllData.postings.firstWhere((element) => element.id == widget.id);
+
+    _selectedItem =
+        _accountDropDownItems.firstWhere((element) => element.id == posting.account!.id);
+
+    _incomeDateTime = posting.date!;
+    _amountController.text = '${posting.amount}';
+    _titleController.text = '${posting.title}';
+    _descriptionController.text = '${posting.description}';
+    _selectedCategoryID = posting.category!.id!;
+    _selectedCategory = posting.category!;
+  }
+
   @override
   void initState() {
     _getAccountDropDownItems();
+    if (widget.id != '') {
+      _getPostingsData();
+    }
     super.initState();
   }
 
@@ -202,22 +225,22 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 5,
-                              color: _selectedCategory.color!.withOpacity(0.2),
-                              spreadRadius: 2,
-                            )
-                          ],
-                          color: _selectedCategory.color!.withOpacity(0.12)
-                        ),
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 5,
+                                color:
+                                    _selectedCategory.color!.withOpacity(0.2),
+                                spreadRadius: 2,
+                              )
+                            ],
+                            color: _selectedCategory.color!.withOpacity(0.12)),
                         width: 60,
                         height: 60,
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child:
-                              Image.asset(_selectedCategory.symbol!, color: _selectedCategory.color!),
+                          child: Image.asset(_selectedCategory.symbol!,
+                              color: _selectedCategory.color!),
                         ),
                       ),
                     ),
@@ -241,8 +264,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                 ),
                 ElevatedButton(
                   style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).primaryColor)),
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).primaryColor)),
                   onPressed: () => CustomDialog().customShowDialog(
                     context,
                     'Kategorien',
