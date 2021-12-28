@@ -7,9 +7,11 @@ import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
+import 'package:haushaltsbuch/widgets/popup.dart';
 import 'package:uuid/uuid.dart';
 import 'package:validators/validators.dart';
 
@@ -38,11 +40,12 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   List<ListItem> _accountDropDownItems = [];
   //late ListItem _selectedItem;
   String _selectedCategoryID = '';
-  Category _selectedCategory = Category(
+  Category _setCategory = Category(
       id: 'default',
       symbol: 'assets/icons/food.png',
       color: Colors.blue,
       title: 'Defaultkat');
+  late Category _selectedCategory;
 
   void _getAccountDropDownItems() {
     //_selectedItem = ListItem('0', 'name');
@@ -229,18 +232,17 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                             boxShadow: [
                               BoxShadow(
                                 blurRadius: 5,
-                                color:
-                                    _selectedCategory.color!.withOpacity(0.2),
+                                color: _setCategory.color!.withOpacity(0.2),
                                 spreadRadius: 2,
                               )
                             ],
-                            color: _selectedCategory.color!.withOpacity(0.12)),
+                            color: _setCategory.color!.withOpacity(0.12)),
                         width: 60,
                         height: 60,
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: Image.asset(_selectedCategory.symbol!,
-                              color: _selectedCategory.color!),
+                          child: Image.asset(_setCategory.symbol!,
+                              color: _setCategory.color!),
                         ),
                       ),
                     ),
@@ -248,14 +250,14 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                       // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
                       //   scrollDirection: Axis.horizontal,
                       child: Text(
-                        '${_selectedCategory.title}',
+                        '${_setCategory.title}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: _selectedCategory.color),
+                            color: _setCategory.color),
                         textAlign: TextAlign.center,
                       ),
                       // ),
@@ -263,105 +265,127 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                   ],
                 ),
                 ElevatedButton(
+                  child: Text('Kategorie ändern'),
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
                           Theme.of(context).primaryColor)),
-                  onPressed: () => CustomDialog().customShowDialog(
-                    context,
-                    'Kategorien',
-                    Container(
-                        //color: Colors.blue,
-                        padding: EdgeInsets.only(left: 5, right: 5),
-                        height: MediaQuery.of(context).size.height * 0.48,
-                        width: MediaQuery.of(context).size.width * 1,
-                        child: GridView.count(
-                          scrollDirection: Axis.vertical,
-                          childAspectRatio: MediaQuery.of(context).size.width /
-                              (MediaQuery.of(context).size.height / 1.5),
-                          padding: EdgeInsets.all(10),
-                          crossAxisCount: 3,
-                          crossAxisSpacing:
-                              MediaQuery.of(context).size.width * 0.04,
-                          mainAxisSpacing: 12,
-                          children: AllData.categories
-                              .map((item) => Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () => setState(() {
-                                          _selectedCategoryID = '${item.id}';
-                                          print(_selectedCategoryID);
-                                        }),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  blurRadius:
-                                                      _selectedCategoryID ==
-                                                              '${item.id}'
-                                                          ? 5
-                                                          : 5,
-                                                  color: _selectedCategoryID ==
-                                                          '${item.id}'
-                                                      ? item.color!
-                                                          .withOpacity(0.2)
-                                                      : item.color!
-                                                          .withOpacity(0.05),
-                                                  spreadRadius:
-                                                      _selectedCategoryID ==
-                                                              '${item.id}'
-                                                          ? 2
-                                                          : 1,
-                                                )
-                                              ],
-                                              color: _selectedCategoryID ==
-                                                      '${item.id}'
-                                                  ? item.color!
-                                                      .withOpacity(0.12)
-                                                  : null,
-                                            ),
-                                            // width: 60,
-                                            // height: 60,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(12.0),
-                                              child: Image.asset(item.symbol!,
-                                                  color: item.color!),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Center(
-                                        // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
-                                        //   scrollDirection: Axis.horizontal,
-                                        child: Text(
-                                          '${item.title}',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          softWrap: false,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: item.color),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        // ),
-                                      ),
-                                    ],
-                                  ))
-                              .toList(),
-                        )),
-                    true,
-                    true,
-                    () {
-                      setState(() {});
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  child: Text('Kategorie ändern'),
+                  onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return StatefulBuilder(builder: (context, setState) {
+                          return Popup(
+                            title: 'Kategorien',
+                            body: Container(
+                              //color: Colors.blue,
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              height: MediaQuery.of(context).size.height * 0.48,
+                              width: MediaQuery.of(context).size.width * 1,
+                              child: GridView.count(
+                                scrollDirection: Axis.vertical,
+                                childAspectRatio: MediaQuery.of(context)
+                                        .size
+                                        .width /
+                                    (MediaQuery.of(context).size.height / 1.5),
+                                padding: EdgeInsets.all(10),
+                                crossAxisCount: 3,
+                                crossAxisSpacing:
+                                    MediaQuery.of(context).size.width * 0.04,
+                                mainAxisSpacing: 12,
+                                children: AllData.categories
+                                    .map(
+                                      (item) => CategoryItem(
+                                        categoryItem: item,
+                                        selectedCatID: _selectedCategoryID,
+                                        onTapFunction: () => setState(() {
+                                               _selectedCategoryID =
+                                                   '${item.id}';
+                                               _selectedCategory = item;
+                                             }),
+                                      )
+                                      //Column(
+                                      //   children: [
+                                      //     GestureDetector(
+                                      //        onTap: () => setState(() {
+                                      //          _selectedCategoryID =
+                                      //              '${item.id}';
+                                      //          _selectedCategory = item;
+                                      //        }),
+                                      //       child: Padding(
+                                      //         padding:
+                                      //             const EdgeInsets.all(8.0),
+                                      //         child: Container(
+                                      //           decoration: BoxDecoration(
+                                      //             borderRadius:
+                                      //                 BorderRadius.circular(12),
+                                      //             boxShadow: [
+                                      //               BoxShadow(
+                                      //                 blurRadius:
+                                      //                     _selectedCategoryID ==
+                                      //                             '${item.id}'
+                                      //                         ? 5
+                                      //                         : 5,
+                                      //                 color:
+                                      //                     _selectedCategoryID ==
+                                      //                             '${item.id}'
+                                      //                         ? item.color!
+                                      //                             .withOpacity(
+                                      //                                 0.2)
+                                      //                         : item.color!
+                                      //                             .withOpacity(
+                                      //                                 0.05),
+                                      //                 spreadRadius:
+                                      //                     _selectedCategoryID ==
+                                      //                             '${item.id}'
+                                      //                         ? 2
+                                      //                         : 1,
+                                      //               )
+                                      //             ],
+                                      //           ),
+                                      //           // width: 60,
+                                      //           // height: 60,
+                                      //           child: Padding(
+                                      //             padding: const EdgeInsets.all(
+                                      //                 12.0),
+                                      //             child: Image.asset(
+                                      //                 item.symbol!,
+                                      //                 color: item.color!),
+                                      //           ),
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //     Center(
+                                      //       // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
+                                      //       //   scrollDirection: Axis.horizontal,
+                                      //       child: Text(
+                                      //         '${item.title}',
+                                      //         maxLines: 1,
+                                      //         overflow: TextOverflow.ellipsis,
+                                      //         softWrap: false,
+                                      //         style: TextStyle(
+                                      //             fontSize: 14,
+                                      //             fontWeight: FontWeight.bold,
+                                      //             color: item.color),
+                                      //         textAlign: TextAlign.center,
+                                      //       ),
+                                      //       // ),
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                            saveButton: true,
+                            cancelButton: true,
+                            saveFunction: () {
+                              this.setState(() {
+                                _setCategory = _selectedCategory;
+                              });
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        });
+                      }),
                 ),
               ],
             ),

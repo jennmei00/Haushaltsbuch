@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
+import 'package:haushaltsbuch/widgets/category_item.dart';
 // import 'package:haushaltsbuch/models/all_data.dart';
 
 class FilterManagementScreen extends StatefulWidget {
@@ -30,8 +31,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
       _filterDate = widget.filters[2] as DateTimeRange?;
       _filterSO = widget.filters[3] as bool;
 
-      if (_filterAccounts.length != 0)
-        _selectedAccounts = '';
+      if (_filterAccounts.length != 0) _selectedAccounts = '';
 
       _filterAccounts.forEach((e) {
         if (_filterAccounts.last == e)
@@ -150,9 +150,32 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    child: Text('Kategorieeen'),
                     width: double.infinity,
                     height: 300,
+                    //child: Text('Kategorieeen'),
+                    child: GridView.count(
+                      scrollDirection: Axis.vertical,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.5),
+                      padding: EdgeInsets.all(10),
+                      crossAxisCount: 3,
+                      crossAxisSpacing:
+                          MediaQuery.of(context).size.width * 0.04,
+                      mainAxisSpacing: 12,
+                      children: AllData.categories
+                          .map((item) => CategoryItem(
+                                categoryItem: item,
+                                selectedCatList: _filterCategories,
+                                multiSelection: true,
+                                onTapFunction: () => setState(() {
+                                  final isSelected = _filterCategories.contains(item);
+                                  isSelected
+                                    ? _filterCategories.remove(item)
+                                    : _filterCategories.add(item);
+                                 }),
+                              ))
+                          .toList(),
+                    ),
                   ),
                 ),
               ),
