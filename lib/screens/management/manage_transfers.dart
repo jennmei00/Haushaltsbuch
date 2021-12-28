@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
+import 'package:haushaltsbuch/screens/posting/transfer_screen.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
 class ManageTransfers extends StatelessWidget {
@@ -67,6 +68,8 @@ class ManageTransfers extends StatelessWidget {
       _loadWithFilter();
     }
 
+    AllData.transfers.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
+
     return AllData.postings.length == 0
         ? NothingThere(textScreen: 'Du hast noch keine Buchung erstellt :(')
         : ListView(
@@ -78,7 +81,6 @@ class ManageTransfers extends StatelessWidget {
 
   Widget _listViewWidget(Transfer transfer, BuildContext context) {
     return Dismissible(
-      
       confirmDismiss: (DismissDirection direction) {
         if (direction == DismissDirection.endToStart) {
           return showDialog(
@@ -101,7 +103,8 @@ class ManageTransfers extends StatelessWidget {
             },
           );
         } else {
-          print('In Bearbeitungsmodus springen');
+          Navigator.pushNamed(context, TransferScreen.routeName,
+              arguments: transfer.id);
           return Future.value(false);
         }
       },

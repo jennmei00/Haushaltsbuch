@@ -47,6 +47,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
       title: 'Defaultkat');
   late Category _selectedCategory;
   String? postingType;
+  bool _postingSwitch = false;
 
   void _getAccountDropDownItems() {
     //_selectedItem = ListItem('0', 'name');
@@ -73,7 +74,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     _titleController.text = '${posting.title}';
     _descriptionController.text = '${posting.description}';
     _setCategory = posting.category!;
-    postingType = posting.postingType == PostingType.expense ? 'Ausgabe' : 'Einnahme';
+    postingType =
+        posting.postingType == PostingType.expense ? 'Ausgabe' : 'Einnahme';
   }
 
   @override
@@ -89,61 +91,13 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(postingType != null ? '$postingType' : '${widget.type}'),
+        title: Text(
+            postingType != null ? '$postingType bearbeiten' : '${widget.type}'),
         // backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                if (_titleController.text != '' &&
-                    isFloat(_amountController.text))
-                //If Category is selected
-                {
-                  try {
-                    Posting posting = Posting(
-                      id: Uuid().v1(),
-                      title: _titleController.text,
-                      description: _descriptionController.text,
-                      account: AllData.accounts.firstWhere((element) =>
-                          element.id == _selectedItem!.id), //Ausgewähltes Konto
-                      amount: double.parse(_amountController.text),
-                      date: _incomeDateTime,
-                      postingType: widget.type == 'Einnahme'
-                          ? PostingType.income
-                          : PostingType.expense,
-                      category: AllData.categories.firstWhere((element) =>
-                          element.id ==
-                          _selectedCategoryID), //Ausgewählte Kategorie
-                      accountName: AllData.accounts
-                          .firstWhere(
-                              (element) => element.id == _selectedItem!.id)
-                          .title,
-                    );
-                    DBHelper.insert('Posting', posting.toMap()).then((value) =>
-                        Navigator.popAndPushNamed(
-                            context, PostingScreen.routeName));
-                    AllData.postings.add(posting);
-                  } catch (error) {
-                    print(error);
-                  }
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                      'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
-                      textAlign: TextAlign.center,
-                    ),
-                  ));
-                }
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    'Ups, da passt etwas noch nicht :(',
-                    textAlign: TextAlign.center,
-                  ),
-                ));
-              }
-            },
+            onPressed: () => _savePosting(),
           ),
         ],
       ),
@@ -258,17 +212,14 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                                     MediaQuery.of(context).size.width * 0.04,
                                 mainAxisSpacing: 12,
                                 children: AllData.categories
-                                    .map(
-                                      (item) => CategoryItem(
-                                        categoryItem: item,
-                                        selectedCatID: _selectedCategoryID,
-                                        onTapFunction: () => setState(() {
-                                               _selectedCategoryID =
-                                                   '${item.id}';
-                                               _selectedCategory = item;
-                                             }),
-                                      )
-                                    )
+                                    .map((item) => CategoryItem(
+                                          categoryItem: item,
+                                          selectedCatID: _selectedCategoryID,
+                                          onTapFunction: () => setState(() {
+                                            _selectedCategoryID = '${item.id}';
+                                            _selectedCategory = item;
+                                          }),
+                                        ))
                                     .toList(),
                               ),
                             ),
@@ -287,6 +238,32 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               ],
             ),
             SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  'Einnahme',
+                  style: TextStyle(color: Colors.green),
+                ),
+                Switch(
+                  value: _postingSwitch, onChanged: (val) {
+                    if (val) {
+                      //PostingType change to Ausgabe
+                    } else {
+                      //PostingType change to Einnahme
+                    }
+                  },
+                  activeColor: Colors.red,
+                  activeTrackColor: Colors.grey,
+                  inactiveThumbColor: Colors.green,
+                  inactiveTrackColor: Colors.grey,
+                ),
+                Text(
+                  'Ausgabe',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ],
+            )
             // Stack(
             //   children: [
             //     Container(
@@ -356,6 +333,55 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
         // ),
       ),
     );
+  }
+
+  void _savePosting() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        Posting posting = Posting(
+          id: widget.id != '' ? widget.id : Uuid().v1(),
+          title: _titleController.text,
+          description: _descriptionController.text,
+          account: AllData.accounts.firstWhere((element) =>
+              element.id == _selectedItem!.id), //Ausgewähltes Konto
+          amount: double.parse(_amountController.text),
+          date: _incomeDateTime,
+          postingType: widget.type == 'Einnahme'
+              ? PostingType.income
+              : PostingType.expense,
+          category: AllData.categories.firstWhere((element) =>
+              element.id == _selectedCategoryID), //Ausgewählte Kategorie
+          accountName: AllData.accounts
+              .firstWhere((element) => element.id == _selectedItem!.id)
+              .title,
+        );
+
+        if (widget.id == '') {
+          await DBHelper.insert('Posting', posting.toMap());
+        } else {
+          await DBHelper.update('Posting', posting.toMap(),
+              where: "ID = '${posting.id}'");
+          AllData.postings.removeWhere((element) => element.id == posting.id);
+        }
+
+        AllData.postings.add(posting);
+        Navigator.pop(context);
+      } catch (ex) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+            textAlign: TextAlign.center,
+          ),
+        ));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'Ups, da passt etwas noch nicht :(',
+          textAlign: TextAlign.center,
+        ),
+      ));
+    }
   }
 
   // void _repeatStandingorder() {

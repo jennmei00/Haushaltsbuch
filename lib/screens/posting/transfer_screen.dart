@@ -45,9 +45,27 @@ class _TransferScreenState extends State<TransferScreen> {
     }
   }
 
+  void _getPostingsData() {
+    Transfer transfer =
+        AllData.transfers.firstWhere((element) => element.id == widget.id);
+
+    _selectedAccountFrom = _accountDropDownItems
+        .firstWhere((element) => element.id == transfer.accountFrom!.id);
+    _selectedAccountTo = _accountDropDownItems
+        .firstWhere((element) => element.id == transfer.accountTo!.id);
+
+    _dateTime = transfer.date!;
+    _amountController.text = '${transfer.amount}';
+    _descriptionController.text = '${transfer.description}';
+  }
+
   @override
   void initState() {
     _getAccountDropDownItems();
+
+    if (widget.id != '') {
+      _getPostingsData();
+    }
     super.initState();
   }
 
@@ -60,49 +78,7 @@ class _TransferScreenState extends State<TransferScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                if (isFloat(_amountController.text) &&
-                    _selectedAccountFrom != _selectedAccountTo) {
-                  Transfer transfer = Transfer(
-                    id: Uuid().v1(),
-                    description: _descriptionController.text,
-                    accountFrom: AllData.accounts.firstWhere(
-                        (element) => element.id == _selectedAccountFrom!.id),
-                    accountTo: AllData.accounts.firstWhere(
-                        (element) => element.id == _selectedAccountTo!.id),
-                    amount: double.parse(_amountController.text),
-                    date: _dateTime,
-                    accountFromName: AllData.accounts
-                        .firstWhere(
-                            (element) => element.id == _selectedAccountFrom!.id)
-                        .title,
-                    accountToName: AllData.accounts
-                        .firstWhere(
-                            (element) => element.id == _selectedAccountTo!.id)
-                        .title,
-                  );
-                  AllData.transfers.add(transfer);
-                  DBHelper.insert('Transfer', transfer.toMap()).then((value) =>
-                      Navigator.popAndPushNamed(
-                          context, PostingScreen.routeName));
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                      'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
-                      textAlign: TextAlign.center,
-                    ),
-                  ));
-                }
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    'Ups, da passt etwas noch nicht :(',
-                    textAlign: TextAlign.center,
-                  ),
-                ));
-              }
-            },
+            onPressed: () => _saveTransfer(),
           ),
         ],
       ),
@@ -182,5 +158,53 @@ class _TransferScreenState extends State<TransferScreen> {
         ),
       ),
     );
+  }
+
+  void _saveTransfer() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        Transfer transfer = Transfer(
+          id: widget.id != '' ? widget.id : Uuid().v1(),
+          description: _descriptionController.text,
+          accountFrom: AllData.accounts
+              .firstWhere((element) => element.id == _selectedAccountFrom!.id),
+          accountTo: AllData.accounts
+              .firstWhere((element) => element.id == _selectedAccountTo!.id),
+          amount: double.parse(_amountController.text),
+          date: _dateTime,
+          accountFromName: AllData.accounts
+              .firstWhere((element) => element.id == _selectedAccountFrom!.id)
+              .title,
+          accountToName: AllData.accounts
+              .firstWhere((element) => element.id == _selectedAccountTo!.id)
+              .title,
+        );
+
+        if (widget.id == '') {
+          DBHelper.insert('Transfer', transfer.toMap());
+        } else {
+          await DBHelper.update('Transfer', transfer.toMap(),
+              where: "ID = '${transfer.id}'");
+          AllData.transfers.removeWhere((element) => element.id == transfer.id);
+        }
+
+          AllData.transfers.add(transfer);
+          Navigator.pop(context);
+      } catch (ex) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+            textAlign: TextAlign.center,
+          ),
+        ));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'Ups, da passt etwas noch nicht :(',
+          textAlign: TextAlign.center,
+        ),
+      ));
+    }
   }
 }

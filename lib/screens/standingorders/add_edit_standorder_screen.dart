@@ -353,11 +353,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
 
   void _saveStandingorder() async {
     if (_formKey.currentState!.validate()) {
-      // if (_titleController.text != '' &&
-      //     isFloat(_amountController.text))
-      // //If Category is selected
-      // //description kein muss!
-      // {
+     try {
       StandingOrder so = StandingOrder(
         id: widget.id != '' ? widget.id : Uuid().v1(),
         title: _titleController.text,
@@ -393,14 +389,14 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
       Navigator.of(context)
         ..pop()
         ..popAndPushNamed(StandingOrdersScreen.routeName);
-      // } else {
-      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //     content: Text(
-      //       'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
-      //       textAlign: TextAlign.center,
-      //     ),
-      //   ));
-      // }
+      } catch (ex) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+            textAlign: TextAlign.center,
+          ),
+        ));
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
