@@ -18,7 +18,7 @@ final lightTheme = ThemeData(
   toggleableActiveColor:  Colors.red[900], //for example: aktiveColor of the Switch-Widget
   indicatorColor: Colors.red[900], //for example: of the TabBar
   floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: Colors.red[900]),
-
+   
 );
 
 final darkTheme = ThemeData(

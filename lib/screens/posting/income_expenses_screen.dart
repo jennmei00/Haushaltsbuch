@@ -46,6 +46,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
       color: Colors.blue,
       title: 'Defaultkat');
   late Category _selectedCategory;
+  String? postingType;
 
   void _getAccountDropDownItems() {
     //_selectedItem = ListItem('0', 'name');
@@ -64,15 +65,15 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     Posting posting =
         AllData.postings.firstWhere((element) => element.id == widget.id);
 
-    _selectedItem =
-        _accountDropDownItems.firstWhere((element) => element.id == posting.account!.id);
+    _selectedItem = _accountDropDownItems
+        .firstWhere((element) => element.id == posting.account!.id);
 
     _incomeDateTime = posting.date!;
     _amountController.text = '${posting.amount}';
     _titleController.text = '${posting.title}';
     _descriptionController.text = '${posting.description}';
-    _selectedCategoryID = posting.category!.id!;
-    _selectedCategory = posting.category!;
+    _setCategory = posting.category!;
+    postingType = posting.postingType == PostingType.expense ? 'Ausgabe' : 'Einnahme';
   }
 
   @override
@@ -88,7 +89,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.type}'),
+        title: Text(postingType != null ? '$postingType' : '${widget.type}'),
         // backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
@@ -155,7 +156,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Tag der ${widget.type}:'),
+                Text('Datum:'),
                 Row(
                   children: [
                     Text(
@@ -292,86 +293,86 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                                     MediaQuery.of(context).size.width * 0.04,
                                 mainAxisSpacing: 12,
                                 children: AllData.categories
-                                    .map(
-                                      (item) => CategoryItem(
-                                        categoryItem: item,
-                                        selectedCatID: _selectedCategoryID,
-                                        onTapFunction: () => setState(() {
-                                               _selectedCategoryID =
-                                                   '${item.id}';
-                                               _selectedCategory = item;
-                                             }),
-                                      )
-                                      //Column(
-                                      //   children: [
-                                      //     GestureDetector(
-                                      //        onTap: () => setState(() {
-                                      //          _selectedCategoryID =
-                                      //              '${item.id}';
-                                      //          _selectedCategory = item;
-                                      //        }),
-                                      //       child: Padding(
-                                      //         padding:
-                                      //             const EdgeInsets.all(8.0),
-                                      //         child: Container(
-                                      //           decoration: BoxDecoration(
-                                      //             borderRadius:
-                                      //                 BorderRadius.circular(12),
-                                      //             boxShadow: [
-                                      //               BoxShadow(
-                                      //                 blurRadius:
-                                      //                     _selectedCategoryID ==
-                                      //                             '${item.id}'
-                                      //                         ? 5
-                                      //                         : 5,
-                                      //                 color:
-                                      //                     _selectedCategoryID ==
-                                      //                             '${item.id}'
-                                      //                         ? item.color!
-                                      //                             .withOpacity(
-                                      //                                 0.2)
-                                      //                         : item.color!
-                                      //                             .withOpacity(
-                                      //                                 0.05),
-                                      //                 spreadRadius:
-                                      //                     _selectedCategoryID ==
-                                      //                             '${item.id}'
-                                      //                         ? 2
-                                      //                         : 1,
-                                      //               )
-                                      //             ],
-                                      //           ),
-                                      //           // width: 60,
-                                      //           // height: 60,
-                                      //           child: Padding(
-                                      //             padding: const EdgeInsets.all(
-                                      //                 12.0),
-                                      //             child: Image.asset(
-                                      //                 item.symbol!,
-                                      //                 color: item.color!),
-                                      //           ),
-                                      //         ),
-                                      //       ),
-                                      //     ),
-                                      //     Center(
-                                      //       // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
-                                      //       //   scrollDirection: Axis.horizontal,
-                                      //       child: Text(
-                                      //         '${item.title}',
-                                      //         maxLines: 1,
-                                      //         overflow: TextOverflow.ellipsis,
-                                      //         softWrap: false,
-                                      //         style: TextStyle(
-                                      //             fontSize: 14,
-                                      //             fontWeight: FontWeight.bold,
-                                      //             color: item.color),
-                                      //         textAlign: TextAlign.center,
-                                      //       ),
-                                      //       // ),
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                    )
+                                    .map((item) => CategoryItem(
+                                              categoryItem: item,
+                                              selectedCatID:
+                                                  _selectedCategoryID,
+                                              onTapFunction: () => setState(() {
+                                                _selectedCategoryID =
+                                                    '${item.id}';
+                                                _selectedCategory = item;
+                                              }),
+                                            )
+                                        //Column(
+                                        //   children: [
+                                        //     GestureDetector(
+                                        //        onTap: () => setState(() {
+                                        //          _selectedCategoryID =
+                                        //              '${item.id}';
+                                        //          _selectedCategory = item;
+                                        //        }),
+                                        //       child: Padding(
+                                        //         padding:
+                                        //             const EdgeInsets.all(8.0),
+                                        //         child: Container(
+                                        //           decoration: BoxDecoration(
+                                        //             borderRadius:
+                                        //                 BorderRadius.circular(12),
+                                        //             boxShadow: [
+                                        //               BoxShadow(
+                                        //                 blurRadius:
+                                        //                     _selectedCategoryID ==
+                                        //                             '${item.id}'
+                                        //                         ? 5
+                                        //                         : 5,
+                                        //                 color:
+                                        //                     _selectedCategoryID ==
+                                        //                             '${item.id}'
+                                        //                         ? item.color!
+                                        //                             .withOpacity(
+                                        //                                 0.2)
+                                        //                         : item.color!
+                                        //                             .withOpacity(
+                                        //                                 0.05),
+                                        //                 spreadRadius:
+                                        //                     _selectedCategoryID ==
+                                        //                             '${item.id}'
+                                        //                         ? 2
+                                        //                         : 1,
+                                        //               )
+                                        //             ],
+                                        //           ),
+                                        //           // width: 60,
+                                        //           // height: 60,
+                                        //           child: Padding(
+                                        //             padding: const EdgeInsets.all(
+                                        //                 12.0),
+                                        //             child: Image.asset(
+                                        //                 item.symbol!,
+                                        //                 color: item.color!),
+                                        //           ),
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //     Center(
+                                        //       // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
+                                        //       //   scrollDirection: Axis.horizontal,
+                                        //       child: Text(
+                                        //         '${item.title}',
+                                        //         maxLines: 1,
+                                        //         overflow: TextOverflow.ellipsis,
+                                        //         softWrap: false,
+                                        //         style: TextStyle(
+                                        //             fontSize: 14,
+                                        //             fontWeight: FontWeight.bold,
+                                        //             color: item.color),
+                                        //         textAlign: TextAlign.center,
+                                        //       ),
+                                        //       // ),
+                                        //     ),
+                                        //   ],
+                                        // ),
+                                        )
                                     .toList(),
                               ),
                             ),
