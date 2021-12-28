@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
+import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
@@ -112,6 +113,8 @@ class ManagePostings extends StatelessWidget {
           );
         } else {
           print('In Bearbeitungsmodus springen');
+          Navigator.pushNamed(context, IncomeExpenseScreen.routeName,
+              arguments: ['', posting.id]);
           return Future.value(false);
         }
       },

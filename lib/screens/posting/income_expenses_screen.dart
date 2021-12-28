@@ -18,8 +18,9 @@ import 'package:validators/validators.dart';
 class IncomeExpenseScreen extends StatefulWidget {
   static final routeName = '/income_expense_screen';
   final String type;
+  final String id;
 
-  IncomeExpenseScreen({this.type = ''});
+  IncomeExpenseScreen({this.type = '', this.id = ''});
 
   @override
   _IncomeExpenseScreenState createState() => _IncomeExpenseScreenState();
@@ -59,9 +60,27 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     }
   }
 
+  void _getPostingsData() {
+    Posting posting =
+        AllData.postings.firstWhere((element) => element.id == widget.id);
+
+    _selectedItem =
+        _accountDropDownItems.firstWhere((element) => element.id == posting.account!.id);
+
+    _incomeDateTime = posting.date!;
+    _amountController.text = '${posting.amount}';
+    _titleController.text = '${posting.title}';
+    _descriptionController.text = '${posting.description}';
+    _selectedCategoryID = posting.category!.id!;
+    _selectedCategory = posting.category!;
+  }
+
   @override
   void initState() {
     _getAccountDropDownItems();
+    if (widget.id != '') {
+      _getPostingsData();
+    }
     super.initState();
   }
 
