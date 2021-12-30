@@ -75,6 +75,10 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     _setCategory = posting.category!;
     postingType =
         posting.postingType == PostingType.expense ? 'Ausgabe' : 'Einnahme';
+    if (posting.postingType == PostingType.expense)
+      _postingSwitch = true;
+    else
+      _postingSwitch = false;
   }
 
   @override
@@ -237,32 +241,33 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               ],
             ),
             SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  'Einnahme',
-                  style: TextStyle(color: Colors.green),
-                ),
-                Switch(
-                  value: _postingSwitch, onChanged: (val) {
-                    if (val) {
-                      //PostingType change to Ausgabe
-                    } else {
-                      //PostingType change to Einnahme
-                    }
-                  },
-                  activeColor: Colors.red,
-                  activeTrackColor: Colors.grey,
-                  inactiveThumbColor: Colors.green,
-                  inactiveTrackColor: Colors.grey,
-                ),
-                Text(
-                  'Ausgabe',
-                  style: TextStyle(color: Colors.red),
-                ),
-              ],
-            )
+            widget.id == ''
+                ? SizedBox()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        'Einnahme',
+                        style: TextStyle(color: Colors.green),
+                      ),
+                      Switch(
+                        value: _postingSwitch,
+                        onChanged: (val) {
+                          setState(() {
+                            _postingSwitch = val;
+                          });
+                        },
+                        activeColor: Colors.red,
+                        activeTrackColor: Colors.grey,
+                        inactiveThumbColor: Colors.green,
+                        inactiveTrackColor: Colors.grey,
+                      ),
+                      Text(
+                        'Ausgabe',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ],
+                  )
             // Stack(
             //   children: [
             //     Container(
@@ -345,16 +350,19 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               element.id == _selectedItem!.id), //Ausgewähltes Konto
           amount: double.parse(_amountController.text),
           date: _incomeDateTime,
-          postingType: widget.type == 'Einnahme'
-              ? PostingType.income
-              : PostingType.expense,
+          postingType: widget.id == ''
+              ? widget.type == 'Einnahme'
+                  ? PostingType.income
+                  : PostingType.expense
+              : _postingSwitch
+                  ? PostingType.expense
+                  : PostingType.income,
           category: AllData.categories.firstWhere((element) =>
-              element.id == _selectedCategoryID), //Ausgewählte Kategorie
+              element.id == _setCategory.id), //Ausgewählte Kategorie
           accountName: AllData.accounts
               .firstWhere((element) => element.id == _selectedItem!.id)
               .title,
         );
-
         if (widget.id == '') {
           await DBHelper.insert('Posting', posting.toMap());
         } else {

@@ -70,13 +70,12 @@ class ManagePostings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AllData.postings.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
     if (search) {
       _loadWithSearchQuery();
     } else {
       _loadWithFilter();
     }
-
-    AllData.postings.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
 
     return AllData.postings.length == 0
         ? NothingThere(textScreen: 'Du hast noch keine Buchung erstellt :(')
@@ -97,7 +96,7 @@ class ManagePostings extends StatelessWidget {
               return AlertDialog(
                 title: const Text("Buchung löschen"),
                 content: const Text(
-                    "Bist du sicher, dass die Buchung löschen willst?"),
+                    "Bist du sicher, dass du die Buchung löschen willst?"),
                 actions: <Widget>[
                   TextButton(
                       onPressed: () => Navigator.of(context).pop(true),

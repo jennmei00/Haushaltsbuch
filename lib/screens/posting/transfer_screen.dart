@@ -24,24 +24,17 @@ class _TransferScreenState extends State<TransferScreen> {
   TextEditingController _amountController = TextEditingController(text: '');
   TextEditingController _descriptionController =
       TextEditingController(text: '');
-  late List<ListItem> _accountDropDownItems;
+  List<ListItem> _accountDropDownItems = [];
   ListItem? _selectedAccountFrom;
   ListItem? _selectedAccountTo;
   final _formKey = GlobalKey<FormState>();
 
   void _getAccountDropDownItems() {
-    _accountDropDownItems = [ListItem('', '')];
     if (AllData.accounts.length != 0) {
       AllData.accounts.forEach((element) {
         _accountDropDownItems
             .add(ListItem(element.id.toString(), element.title.toString()));
       });
-      //_selectedAccountFrom = _accountDropDownItems.first;
-      //_selectedAccountTo = _accountDropDownItems.first;
-      setState(() {});
-    } else {
-      //_selectedAccountFrom = ListItem('', '');
-      //_selectedAccountTo = ListItem('', '');
     }
   }
 
@@ -208,7 +201,9 @@ class _TransferScreenState extends State<TransferScreen> {
         ));
       }
     } else {
-      if (_selectedAccountFrom == _selectedAccountTo && _selectedAccountTo != null && _selectedAccountFrom != null) {
+      if (_selectedAccountFrom == _selectedAccountTo &&
+          _selectedAccountTo != null &&
+          _selectedAccountFrom != null) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             'Die Konton müssen unterschiedlich sein :O',
