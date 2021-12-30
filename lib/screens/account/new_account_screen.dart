@@ -83,41 +83,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                if (_titleController.text != '' &&
-                    isFloat(_bankBalanceController.text)) {
-                  Account ac = Account(
-                    id: Uuid().v1(),
-                    title: _titleController.text,
-                    description: _descriptionController.text,
-                    bankBalance: double.parse(_bankBalanceController.text),
-                    color: _iconcolor,
-                    accountType: AllData.accountTypes.firstWhere(
-                        (element) => element.id == _selectedItem!.id),
-                    symbol: _selectedIcon,
-                  );
-                  DBHelper.insert('Account', ac.toMap()).then((value) =>
-                      Navigator.popAndPushNamed(
-                          context, AccountScreen.routeName));
-                  AllData.accounts.add(ac);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                      'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
-                      textAlign: TextAlign.center,
-                    ),
-                  ));
-                }
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    'Ups, da passt etwas noch nicht :(',
-                    textAlign: TextAlign.center,
-                  ),
-                ));
-              }
-            },
+            onPressed: () => _saveAccount(),
           )
         ],
       ),
@@ -317,5 +283,46 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     setState(() {
       _onchangedColor = color;
     });
+  }
+
+  void _saveAccount() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        Account ac = Account(
+          id: widget.id != '' ? widget.id : Uuid().v1(),
+          title: _titleController.text,
+          description: _descriptionController.text,
+          bankBalance: double.parse(_bankBalanceController.text),
+          color: _iconcolor,
+          accountType: AllData.accountTypes
+              .firstWhere((element) => element.id == _selectedItem!.id),
+          symbol: _selectedIcon,
+        );
+        if (widget.id == '') {
+          await DBHelper.insert('Account', ac.toMap());
+        } else {
+          await DBHelper.update('Account', ac.toMap(),
+              where: "ID = '${ac.id}'");
+          AllData.accounts.removeWhere((element) => element.id == ac.id);
+        }
+
+        AllData.accounts.add(ac);
+        Navigator.popAndPushNamed(context, AccountScreen.routeName);
+      } catch (ex) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+            textAlign: TextAlign.center,
+          ),
+        ));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'Ups, da passt etwas noch nicht :(',
+          textAlign: TextAlign.center,
+        ),
+      ));
+    }
   }
 }

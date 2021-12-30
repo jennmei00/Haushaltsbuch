@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
@@ -357,17 +358,30 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               : _postingSwitch
                   ? PostingType.expense
                   : PostingType.income,
-          category: AllData.categories.firstWhere((element) =>
-              element.id == _setCategory.id), //Ausgewählte Kategorie
+          category: _setCategory,
           accountName: AllData.accounts
               .firstWhere((element) => element.id == _selectedItem!.id)
               .title,
         );
+
         if (widget.id == '') {
+          //add function
           await DBHelper.insert('Posting', posting.toMap());
+          Account ac = AllData.accounts
+              .firstWhere((element) => element.id == posting.account!.id);
+          AllData.accounts.remove(ac);
+          if (posting.postingType == PostingType.income)
+            ac.bankBalance = ac.bankBalance! + posting.amount!;
+          else
+            ac.bankBalance = ac.bankBalance! - posting.amount!;
+          AllData.accounts.add(ac);
+          await DBHelper.update('Account', ac.toMap(),
+              where: "ID = '${ac.id}'");
         } else {
+          //edit function
           await DBHelper.update('Posting', posting.toMap(),
               where: "ID = '${posting.id}'");
+          //TODO
           AllData.postings.removeWhere((element) => element.id == posting.id);
         }
 
