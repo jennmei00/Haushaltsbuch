@@ -52,7 +52,8 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
       ),
       bottomSheet: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
+          
           boxShadow: [
             BoxShadow(
               color: Colors.black54,
@@ -185,8 +186,8 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
               // ),
               Card(
                 child: ExpansionTile(
-                  textColor: Colors.black,
-                  iconColor: Colors.black,
+                  //textColor: Colors.black,
+                  //iconColor: Colors.black,
                   title: Text(
                     'Konten',
                     style: TextStyle(fontWeight: FontWeight.bold),

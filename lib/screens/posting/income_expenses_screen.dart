@@ -190,9 +190,10 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                 ),
                 ElevatedButton(
                   child: Text('Kategorie ändern'),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Theme.of(context).primaryColor)),
+                  // style: ButtonStyle(
+                  //   backgroundColor: MaterialStateProperty.all(
+                  //       Theme.of(context).primaryColor),
+                  // ),
                   onPressed: () => showDialog(
                       context: context,
                       builder: (BuildContext context) {

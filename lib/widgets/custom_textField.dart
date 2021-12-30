@@ -46,6 +46,11 @@ class CustomTextField extends StatelessWidget {
         //   borderSide: BorderSide(),
         //   borderRadius: BorderRadius.circular(30),
         // )),
+        errorStyle: TextStyle(
+          color: Theme.of(context).colorScheme.error,
+        ),
+        focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.error)),
+        errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.error)),
       ),
       maxLength: this.fieldname == 'categoryName' ? 20 : null,
     );

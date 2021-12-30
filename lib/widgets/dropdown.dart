@@ -40,7 +40,6 @@ class DropDown extends StatelessWidget {
     //   _selectedItem =
     //       dropdownItems.firstWhere((element) => element.id == listItemValue);
 
-
     return //Container(
         //   decoration: BoxDecoration(
         //     borderRadius: BorderRadius.circular(3),
@@ -52,39 +51,46 @@ class DropDown extends StatelessWidget {
         //   padding: EdgeInsets.only(left: 12.0, right: 12.0),
         //height: 60,
         //child: DropdownButtonHideUnderline(
-      DropdownButtonHideUnderline(
-        child: DropdownButtonFormField(
-          hint: Text(dropdownHintText),
-          validator: (value) {
-            //ListItem item = value as ListItem;
-            //print(item.name);
-            print(value);
-            //if (item.name == '') {
-            if (value == null)
-              return 'Das ist ein Pflichtfeld';
-            //}
-          },
-          style: TextStyle(
-            fontSize: 20,
-            // color: Colors.grey[400],
-            color: Colors.grey[700],
-          ),
-          icon: Icon(Icons.arrow_drop_down),
-          iconEnabledColor: Colors.grey[600],
-          iconSize: 30,
-          value: listItemValue == null ? null : dropdownItems.firstWhere((element) => element.id == listItemValue),
-          items: _dropdownMenuItems,
-          onChanged: (newValue) => onChanged(newValue),
-          decoration: InputDecoration(
-            //labelStyle: TextStyle(fontSize: 20),
-            filled: true,
-            // fillColor: Colors.grey[700]?.withOpacity(0.5),
-            // focusedBorder: UnderlineInputBorder(
-            //   borderSide: BorderSide(color: Colors.cyan),
-            // ),
-          ),
+        DropdownButtonHideUnderline(
+      child: DropdownButtonFormField(
+        hint: Text(dropdownHintText),
+        validator: (value) {
+          //ListItem item = value as ListItem;
+          //print(item.name);
+          print(value);
+          //if (item.name == '') {
+          if (value == null) return 'Das ist ein Pflichtfeld';
+          //}
+        },
+        style: TextStyle(
+          fontSize: 20,
+          // color: Colors.grey[400],
+          color: Colors.grey[700],
         ),
-        //  ),
+        icon: Icon(Icons.arrow_drop_down),
+        iconEnabledColor: Colors.grey[600],
+        iconSize: 30,
+        value: listItemValue == null
+            ? null
+            : dropdownItems
+                .firstWhere((element) => element.id == listItemValue),
+        items: _dropdownMenuItems,
+        onChanged: (newValue) => onChanged(newValue),
+        decoration: InputDecoration(
+          //labelStyle: TextStyle(fontSize: 20),
+          filled: true,
+          errorStyle: TextStyle(
+            color: Theme.of(context).colorScheme.error,
+          ),
+          focusedErrorBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.error)),
+          errorBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.error)),
+        ),
+      ),
+      //  ),
       //),
     );
   }

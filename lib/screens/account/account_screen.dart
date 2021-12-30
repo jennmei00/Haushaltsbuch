@@ -3,7 +3,6 @@ import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
-import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
@@ -57,7 +56,7 @@ class _AccountScreenState extends State<AccountScreen> {
     if (balance < 0) {
       return Colors.red.shade900;
     } else {
-      return Colors.black;
+      return Theme.of(context).colorScheme.onSurface;//Colors.black;
     }
   }
 
@@ -130,11 +129,11 @@ class _AccountScreenState extends State<AccountScreen> {
                           String itemAccountTypeBalance =
                               accountTypeList[index][1].toString();
                           return Card(
-                            color: Colors.red[100],
+                            //color: Theme.of(context).colorScheme.secondaryVariant,
                             child: ExpansionTile(
                               //backgroundColor: Theme.of(context).primaryColor,
-                              textColor: Colors.black,
-                              iconColor: Colors.black,
+                              //textColor: Colors.black,
+                              //iconColor: Colors.black,
                               initiallyExpanded: false,
                               title: Row(
                                 mainAxisAlignment:
@@ -200,34 +199,41 @@ class _AccountScreenState extends State<AccountScreen> {
                                   },
                                   key: ValueKey<String>(e.id.toString()),
                                   background: Container(
-                                    color: Colors.orange,
+                                    //color: Colors.orange,
                                     child: Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: <Widget>[
-                                          Icon(Icons.edit, color: Colors.white),
+                                          Icon(
+                                            Icons.edit,
+                                            //color: Colors.white,
+                                          ),
                                           Text('Edit',
                                               style: TextStyle(
-                                                  color: Colors.white)),
+                                                  //color: Colors.white,
+                                                  )),
                                         ],
                                       ),
                                     ),
                                   ),
                                   secondaryBackground: Container(
-                                    color: Colors.red,
+                                    //color: Colors.red,
                                     child: Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: <Widget>[
-                                          Icon(Icons.delete,
-                                              color: Colors.white),
+                                          Icon(
+                                            Icons.delete,
+                                            //color: Colors.white,
+                                          ),
                                           Text('Move to trash',
                                               style: TextStyle(
-                                                  color: Colors.white)),
+                                                //color: Colors.white,
+                                              )),
                                         ],
                                       ),
                                     ),
@@ -346,11 +352,11 @@ class _AccountScreenState extends State<AccountScreen> {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Colors.cyan[100],
+                        //color: Colors.cyan[100],
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 10,
-                            color: Colors.cyan.shade100,
+                            //color: Colors.cyan.shade100,
                             spreadRadius: 5,
                           ),
                         ]),

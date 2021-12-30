@@ -25,15 +25,15 @@ class AppDrawer extends StatelessWidget {
                 child: Text(
                   'Menü',
                   style: TextStyle(
-                    //color: Colors.white,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                   ),
                 ),
               ),
-              // decoration: BoxDecoration(
-              //   color: Theme.of(context).primaryColor,
-              // ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
               
             ),
           ),
