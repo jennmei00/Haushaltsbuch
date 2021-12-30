@@ -161,7 +161,16 @@ class _TransferScreenState extends State<TransferScreen> {
   }
 
   void _saveTransfer() async {
-    if (_formKey.currentState!.validate()) {
+    // if (_selectedAccountFrom == _selectedAccountTo) {
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //       content: Text(
+    //         'Die Konton müssen unterschiedlich sein :O',
+    //         textAlign: TextAlign.center,
+    //       ),
+    //     ));
+    // }
+    if (_formKey.currentState!.validate() &&
+        _selectedAccountFrom != _selectedAccountTo) {
       try {
         Transfer transfer = Transfer(
           id: widget.id != '' ? widget.id : Uuid().v1(),
@@ -188,8 +197,8 @@ class _TransferScreenState extends State<TransferScreen> {
           AllData.transfers.removeWhere((element) => element.id == transfer.id);
         }
 
-          AllData.transfers.add(transfer);
-          Navigator.pop(context);
+        AllData.transfers.add(transfer);
+        Navigator.pop(context);
       } catch (ex) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
@@ -199,12 +208,21 @@ class _TransferScreenState extends State<TransferScreen> {
         ));
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          'Ups, da passt etwas noch nicht :(',
-          textAlign: TextAlign.center,
-        ),
-      ));
+      if (_selectedAccountFrom == _selectedAccountTo && _selectedAccountTo != null && _selectedAccountFrom != null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Die Konton müssen unterschiedlich sein :O',
+            textAlign: TextAlign.center,
+          ),
+        ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Ups, da passt etwas noch nicht :(',
+            textAlign: TextAlign.center,
+          ),
+        ));
+      }
     }
   }
 }

@@ -4,10 +4,10 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
-import 'package:haushaltsbuch/widgets/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
+import 'package:haushaltsbuch/widgets/popup.dart';
 import 'package:uuid/uuid.dart';
 import 'package:validators/validators.dart';
 import 'package:haushaltsbuch/services/globals.dart';
@@ -17,7 +17,7 @@ class NewAccountScreen extends StatefulWidget {
 
   final String id;
 
-  NewAccountScreen({this.id = ''}); 
+  NewAccountScreen({this.id = ''});
 
   @override
   _NewAccountScreenState createState() => _NewAccountScreenState();
@@ -186,19 +186,37 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                   style: TextStyle(fontSize: 20),
                 ),
                 IconButton(
-                  onPressed: () => CustomDialog().customShowDialog(
-                    context,
-                    'ColorPicker',
-                    ColorPickerClass(_colorChanged, _iconcolor),
-                    true,
-                    true,
-                    () {
-                      setState(() {
-                        _iconcolor = _onchangedColor;
-                      });
-                      Navigator.of(context).pop();
-                    },
-                  ),
+                  onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return StatefulBuilder(builder: (context, setState) {
+                          return Popup(
+                            title: 'ColorPicker',
+                            body: ColorPickerClass(_colorChanged, _iconcolor),
+                            saveButton: true,
+                            cancelButton: true,
+                            saveFunction: () {
+                              this.setState(() {
+                                _iconcolor = _onchangedColor;
+                              });
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        });
+                      }),
+                  // CustomDialog().customShowDialog(
+                  //   context,
+                  //   'ColorPicker',
+                  //   ColorPickerClass(_colorChanged, _iconcolor),
+                  //   true,
+                  //   true,
+                  //   () {
+                  //     setState(() {
+                  //       _iconcolor = _onchangedColor;
+                  //     });
+                  //     Navigator.of(context).pop();
+                  //   },
+                  // ),
                   icon: Icon(
                     Icons.color_lens,
                     color: _iconcolor,
@@ -228,28 +246,23 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                blurRadius: _selectedIcon == item
-                                  ? 5
-                                  : 5,
+                                blurRadius: _selectedIcon == item ? 5 : 5,
                                 color: _selectedIcon == item
-                                  ? _iconcolor.withOpacity(0.2)
-                                  : _iconcolor.withOpacity(0.08),
-                                spreadRadius: _selectedIcon == item
-                                  ? 2
-                                  : 1,
+                                    ? _iconcolor.withOpacity(0.2)
+                                    : _iconcolor.withOpacity(0.08),
+                                spreadRadius: _selectedIcon == item ? 2 : 1,
                               )
                             ],
                             color: _selectedIcon == item
-                                  ? _iconcolor.withOpacity(0.12)
-                                  : null,
+                                ? _iconcolor.withOpacity(0.12)
+                                : null,
                           ),
                           // height: MediaQuery.of(context).size.width * 0.34,
                           // width: MediaQuery.of(context).size.width * 0.34,
                           child: Padding(
                             padding: const EdgeInsets.all(10),
                             child: Container(
-                              child:
-                                  Image.asset(item, color: _iconcolor),
+                              child: Image.asset(item, color: _iconcolor),
                             ),
                           ),
                         ),

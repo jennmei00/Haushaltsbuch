@@ -8,7 +8,6 @@ import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
-import 'package:haushaltsbuch/widgets/custom_dialog.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';

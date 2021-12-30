@@ -3,10 +3,10 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
-import 'package:haushaltsbuch/widgets/custom_dialog.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
+import 'package:haushaltsbuch/widgets/popup.dart';
 import 'package:uuid/uuid.dart';
 
 class NewCategorieScreen extends StatefulWidget {
@@ -78,19 +78,24 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                   style: TextStyle(fontSize: 20),
                 ),
                 IconButton(
-                  onPressed: () => CustomDialog().customShowDialog(
-                    context,
-                    'ColorPicker',
-                    ColorPickerClass(_colorChanged, _iconcolor),
-                    true,
-                    true,
-                    () {
-                      setState(() {
-                        _iconcolor = _onchangedColor;
-                      });
-                      Navigator.of(context).pop();
-                    },
-                  ),
+                  onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return StatefulBuilder(builder: (context, setState) {
+                          return Popup(
+                            title: 'ColorPicker', //warum funktioniert das hier nicht, wenn als title da 'Color Picker' mit Leerzeichen steht bzw. generell was anderes???
+                            body: ColorPickerClass(_colorChanged, _iconcolor),
+                            saveButton: true,
+                            cancelButton: true,
+                            saveFunction: () {
+                              this.setState(() {
+                                _iconcolor = _onchangedColor;
+                              });
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        });
+                      }),
                   icon: Icon(
                     Icons.color_lens,
                     color: _iconcolor,
