@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
@@ -183,10 +184,26 @@ class _TransferScreenState extends State<TransferScreen> {
         );
 
         if (widget.id == '') {
+          //add function
           DBHelper.insert('Transfer', transfer.toMap());
+          Account acFrom = AllData.accounts
+              .firstWhere((element) => element.id == transfer.accountFrom!.id);
+          Account acTo = AllData.accounts
+              .firstWhere((element) => element.id == transfer.accountTo!.id);
+          AllData.accounts.remove(acFrom);
+          AllData.accounts.remove(acTo);
+          acFrom.bankBalance = acFrom.bankBalance! - transfer.amount!;
+          acTo.bankBalance = acTo.bankBalance! + transfer.amount!;
+          AllData.accounts.addAll([acTo, acFrom]);
+          await DBHelper.update('Account', acFrom.toMap(),
+              where: "ID = '${acFrom.id}'");
+          await DBHelper.update('Account', acTo.toMap(),
+              where: "ID = '${acTo.id}'");
         } else {
+          //edit function
           await DBHelper.update('Transfer', transfer.toMap(),
               where: "ID = '${transfer.id}'");
+          //TODO
           AllData.transfers.removeWhere((element) => element.id == transfer.id);
         }
 

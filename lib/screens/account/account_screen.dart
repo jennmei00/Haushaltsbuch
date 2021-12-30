@@ -3,6 +3,7 @@ import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
@@ -184,13 +185,18 @@ class _AccountScreenState extends State<AccountScreen> {
                                     }
                                   },
                                   onDismissed: (DismissDirection direction) {
-                                    // AllData.standingOrders.remove(item);
-                                    // DBHelper.delete('StandingOrder',
-                                    //     where: "ID = '${item.id}'");
+                                    // if (direction ==
+                                    //     DismissDirection.endToStart) {
+                                    //   AllData.standingOrders.remove(e);
 
-                                    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    //     content: Text('Dauerauftrag wurde gelöscht')));
-                                    // setState(() {});
+                                    //   DBHelper.delete('StandingOrder',
+                                    //       where: "ID = '${e.id}'");
+                                    //   ScaffoldMessenger.of(context)
+                                    //       .showSnackBar(SnackBar(
+                                    //           content: Text(
+                                    //               'Dauerauftrag wurde gelöscht')));
+                                    //   setState(() {});
+                                    // }
                                   },
                                   key: ValueKey<String>(e.id.toString()),
                                   background: Container(
