@@ -62,13 +62,13 @@ class ManageTransfers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AllData.transfers.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
+
     if (search) {
       _loadWithSearchQuery();
     } else {
       _loadWithFilter();
     }
-
-    AllData.transfers.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
 
     return AllData.postings.length == 0
         ? NothingThere(textScreen: 'Du hast noch keine Buchung erstellt :(')

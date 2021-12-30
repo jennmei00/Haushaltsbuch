@@ -66,7 +66,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     _dateTime = so.begin!;
     _selectedItem = _accountDropDownItems
         .firstWhere((element) => element.id == so.account!.id);
-    //Category
+    _setCategory = so.category!;
     _amountController.text = so.amount!.toString();
     _titleController.text = so.title!;
     _descriptionController.text = so.description!;
@@ -361,7 +361,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         amount: double.parse(_amountController.text),
         account: AllData.accounts
             .firstWhere((element) => element.id == _selectedItem!.id),
-        // category: , //Kategorie auswahl
+        category: _setCategory,
         begin: _dateTime,
         postingType: PostingType.values[_groupValue_buchungsart],
         // repetition: Repetition.values[], //Repetitionvalue abfragen
