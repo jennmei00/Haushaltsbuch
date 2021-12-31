@@ -31,7 +31,11 @@ class StandingOrder {
     map['ID'] = this.id;
     map['PostingType'] = this.postingType!.index;
     map['Begin'] = this.begin!.toIso8601String();
-    map['Repetition'] = this.repetition;
+    map['Repetition'] = this.repetition == Repetition.monthly
+        ? 'monatlcih'
+        : this.repetition == Repetition.weekly
+            ? 'wöchentlich'
+            : 'jährlich';
     map['Title'] = this.title;
     map['Description'] = this.description;
     map['Amount'] = this.amount;
@@ -56,7 +60,11 @@ class StandingOrder {
           ? null
           : PostingType.values[data['PostingType'] as int],
       begin: DateTime.parse(data['Begin']),
-      repetition: data['Repetition'],
+      repetition: data['Repetition'] == 'monatlich'
+          ? Repetition.monthly
+          : data['Repetition'] == 'wöchentlich'
+              ? Repetition.weekly
+              : Repetition.yearly,
       title: data['Title'],
       description: data['Description'],
       amount: data['Amount'],
@@ -66,7 +74,7 @@ class StandingOrder {
               where: "ID = '${data['CategoryID']}'")),
       account: data['AccountID'] == null
           ? null
-          :  await Account().fromDB(await DBHelper.getOneData('Account',
+          : await Account().fromDB(await DBHelper.getOneData('Account',
               where: "ID = '${data['AccountID']}'")),
     );
     return standingOrder;

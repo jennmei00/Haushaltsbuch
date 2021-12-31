@@ -61,7 +61,11 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   void _getStandingOrderData() {
     StandingOrder so =
         AllData.standingOrders.firstWhere((element) => element.id == widget.id);
-    // _repeatValue = Repetition.values(so.repetition!.index);
+    _repeatValue = so.repetition == Repetition.monthly
+        ? 'monatlcih'
+        : so.repetition == Repetition.weekly
+            ? 'wöchentlich'
+            : 'jährlich';
     _groupValue_buchungsart = so.postingType!.index;
     _dateTime = so.begin!;
     _selectedItem = _accountDropDownItems
@@ -264,17 +268,14 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                                     MediaQuery.of(context).size.width * 0.04,
                                 mainAxisSpacing: 12,
                                 children: AllData.categories
-                                    .map(
-                                      (item) => CategoryItem(
-                                        categoryItem: item,
-                                        selectedCatID: _selectedCategoryID,
-                                        onTapFunction: () => setState(() {
-                                               _selectedCategoryID =
-                                                   '${item.id}';
-                                               _selectedCategory = item;
-                                             }),
-                                      )
-                                    )
+                                    .map((item) => CategoryItem(
+                                          categoryItem: item,
+                                          selectedCatID: _selectedCategoryID,
+                                          onTapFunction: () => setState(() {
+                                            _selectedCategoryID = '${item.id}';
+                                            _selectedCategory = item;
+                                          }),
+                                        ))
                                     .toList(),
                               ),
                             ),
@@ -353,42 +354,46 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
 
   void _saveStandingorder() async {
     if (_formKey.currentState!.validate()) {
-     try {
-      StandingOrder so = StandingOrder(
-        id: widget.id != '' ? widget.id : Uuid().v1(),
-        title: _titleController.text,
-        description: _descriptionController.text,
-        amount: double.parse(_amountController.text),
-        account: AllData.accounts
-            .firstWhere((element) => element.id == _selectedItem!.id),
-        category: _setCategory,
-        begin: _dateTime,
-        postingType: PostingType.values[_groupValue_buchungsart],
-        // repetition: Repetition.values[], //Repetitionvalue abfragen
-      );
+      try {
+        StandingOrder so = StandingOrder(
+          id: widget.id != '' ? widget.id : Uuid().v1(),
+          title: _titleController.text,
+          description: _descriptionController.text,
+          amount: double.parse(_amountController.text),
+          account: AllData.accounts
+              .firstWhere((element) => element.id == _selectedItem!.id),
+          category: _setCategory,
+          begin: _dateTime,
+          postingType: PostingType.values[_groupValue_buchungsart],
+          repetition: _repeatValue == 'monatlich'
+              ? Repetition.monthly
+              : _repeatValue == 'wöchentlich'
+                  ? Repetition.weekly
+                  : Repetition.yearly,
+        );
 
-      // StandingOrderPosting sop = StandingOrderPosting(
-      //     id: Uuid().v1(), date: _dateTime, standingOrder: so);
+        // StandingOrderPosting sop = StandingOrderPosting(
+        //     id: Uuid().v1(), date: _dateTime, standingOrder: so);
 
-      if (widget.id == '') {
-        await DBHelper.insert('Standingorder', so.toMap());
-        // await DBHelper.insert('StandingorderPosting', sop.toMap());
-      } else {
-        await DBHelper.update('Standingorder', so.toMap(),
-            where: "ID = '${so.id}'");
-        // await DBHelper.update('StandingorderPosting', sop.toMap(),
-        //     where: "ID = '${so.id}'");
+        if (widget.id == '') {
+          await DBHelper.insert('Standingorder', so.toMap());
+          // await DBHelper.insert('StandingorderPosting', sop.toMap());
+        } else {
+          await DBHelper.update('Standingorder', so.toMap(),
+              where: "ID = '${so.id}'");
+          // await DBHelper.update('StandingorderPosting', sop.toMap(),
+          //     where: "ID = '${so.id}'");
 
-        AllData.standingOrders.removeWhere((element) => element.id == so.id);
-        // AllData.standingOrderPostings
-        //     .removeWhere((element) => element.id == sop.id);
-      }
-      AllData.standingOrders.add(so);
-      // AllData.standingOrderPostings.add(sop);
+          AllData.standingOrders.removeWhere((element) => element.id == so.id);
+          // AllData.standingOrderPostings
+          //     .removeWhere((element) => element.id == sop.id);
+        }
+        AllData.standingOrders.add(so);
+        // AllData.standingOrderPostings.add(sop);
 
-      Navigator.of(context)
-        ..pop()
-        ..popAndPushNamed(StandingOrdersScreen.routeName);
+        Navigator.of(context)
+          ..pop()
+          ..popAndPushNamed(StandingOrdersScreen.routeName);
       } catch (ex) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
