@@ -29,6 +29,9 @@ class _TransferScreenState extends State<TransferScreen> {
   ListItem? _selectedAccountFrom;
   ListItem? _selectedAccountTo;
   final _formKey = GlobalKey<FormState>();
+  Account? _oldAccountFrom;
+  Account? _oldAccountTo;
+  double? _oldAmount;
 
   void _getAccountDropDownItems() {
     if (AllData.accounts.length != 0) {
@@ -51,6 +54,10 @@ class _TransferScreenState extends State<TransferScreen> {
     _dateTime = transfer.date!;
     _amountController.text = '${transfer.amount}';
     _descriptionController.text = '${transfer.description}';
+
+    _oldAccountFrom = transfer.accountFrom;
+    _oldAccountTo = transfer.accountTo;
+    _oldAmount = transfer.amount;
   }
 
   @override
@@ -186,26 +193,42 @@ class _TransferScreenState extends State<TransferScreen> {
         if (widget.id == '') {
           //add function
           DBHelper.insert('Transfer', transfer.toMap());
-          Account acFrom = AllData.accounts
-              .firstWhere((element) => element.id == transfer.accountFrom!.id);
-          Account acTo = AllData.accounts
-              .firstWhere((element) => element.id == transfer.accountTo!.id);
-          AllData.accounts.remove(acFrom);
-          AllData.accounts.remove(acTo);
-          acFrom.bankBalance = acFrom.bankBalance! - transfer.amount!;
-          acTo.bankBalance = acTo.bankBalance! + transfer.amount!;
-          AllData.accounts.addAll([acTo, acFrom]);
-          await DBHelper.update('Account', acFrom.toMap(),
-              where: "ID = '${acFrom.id}'");
-          await DBHelper.update('Account', acTo.toMap(),
-              where: "ID = '${acTo.id}'");
         } else {
           //edit function
           await DBHelper.update('Transfer', transfer.toMap(),
               where: "ID = '${transfer.id}'");
-          //TODO
           AllData.transfers.removeWhere((element) => element.id == transfer.id);
+
+          AllData.accounts
+              .removeWhere((element) => element.id == _oldAccountFrom!.id);
+          AllData.accounts
+              .removeWhere((element) => element.id == _oldAccountTo!.id);
+
+          _oldAccountFrom!.bankBalance =
+              _oldAccountFrom!.bankBalance! + _oldAmount!;
+          _oldAccountTo!.bankBalance =
+              _oldAccountTo!.bankBalance! - _oldAmount!;
+          AllData.accounts.addAll([_oldAccountFrom!, _oldAccountTo!]);
+
+          await DBHelper.update('Account', _oldAccountFrom!.toMap(),
+              where: "ID = '${_oldAccountFrom!.id}'");
+          await DBHelper.update('Account', _oldAccountTo!.toMap(),
+              where: "ID = '${_oldAccountTo!.id}'");
         }
+
+        Account acFrom = AllData.accounts
+            .firstWhere((element) => element.id == transfer.accountFrom!.id);
+        Account acTo = AllData.accounts
+            .firstWhere((element) => element.id == transfer.accountTo!.id);
+        AllData.accounts.removeWhere((element) => element.id == acFrom.id);
+        AllData.accounts.removeWhere((element) => element.id == acTo.id);
+        acFrom.bankBalance = acFrom.bankBalance! - transfer.amount!;
+        acTo.bankBalance = acTo.bankBalance! + transfer.amount!;
+        AllData.accounts.addAll([acTo, acFrom]);
+        await DBHelper.update('Account', acFrom.toMap(),
+            where: "ID = '${acFrom.id}'");
+        await DBHelper.update('Account', acTo.toMap(),
+            where: "ID = '${acTo.id}'");
 
         AllData.transfers.add(transfer);
         Navigator.pop(context);

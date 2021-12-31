@@ -48,6 +48,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   late Category _selectedCategory;
   String? postingType;
   bool _postingSwitch = false;
+  Account? _oldAccount;
+  double? _oldAmount;
 
   void _getAccountDropDownItems() {
     //_selectedItem = ListItem('0', 'name');
@@ -80,6 +82,9 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
       _postingSwitch = true;
     else
       _postingSwitch = false;
+
+    _oldAccount = posting.account;
+    _oldAmount = posting.amount;
   }
 
   @override
@@ -382,7 +387,45 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
           //edit function
           await DBHelper.update('Posting', posting.toMap(),
               where: "ID = '${posting.id}'");
-          //TODO
+
+          Account ac = AllData.accounts
+              .firstWhere((element) => element.id == posting.account!.id);
+          AllData.accounts.removeWhere((element) => element.id == ac.id);
+
+          if (_oldAccount == posting.account) {
+            //if account didnt change
+            if (_postingSwitch) //expense
+              ac.bankBalance =
+                  ac.bankBalance! + (_oldAmount! - posting.amount!);
+            else //income
+              ac.bankBalance =
+                  ac.bankBalance! - (_oldAmount! - posting.amount!);
+          } else {
+            //if account changed
+            AllData.accounts
+                .removeWhere((element) => element.id == _oldAccount!.id);
+            if (_postingSwitch) {
+              //expense
+
+              ac.bankBalance = ac.bankBalance! - posting.amount!;
+              _oldAccount!.bankBalance =
+                  _oldAccount!.bankBalance! + _oldAmount!;
+            } else {
+              //income
+              ac.bankBalance = ac.bankBalance! + posting.amount!;
+              _oldAccount!.bankBalance =
+                  _oldAccount!.bankBalance! - _oldAmount!;
+            }
+
+            await DBHelper.update('Account', _oldAccount!.toMap(),
+                where: "ID = '${_oldAccount!.id}'");
+            AllData.accounts.add(_oldAccount!);
+          }
+
+          await DBHelper.update('Account', ac.toMap(),
+              where: "ID = '${ac.id}'");
+
+          AllData.accounts.add(ac);
           AllData.postings.removeWhere((element) => element.id == posting.id);
         }
 
