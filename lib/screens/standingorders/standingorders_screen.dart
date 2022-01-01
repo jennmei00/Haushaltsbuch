@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
@@ -16,7 +17,6 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
   @override
   Widget build(BuildContext context) {
     // AllData.standingOrders.sort((obj, obj2) => obj.begin!.compareTo(obj2.begin!));
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Daueraufträge'),

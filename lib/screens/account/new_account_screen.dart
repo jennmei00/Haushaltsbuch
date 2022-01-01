@@ -68,6 +68,9 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     if (widget.id != '') {
       _getAccountData();
     }
+    else {
+      _selectedIcon = Globals.imagePaths[0];
+    }
     super.initState();
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
@@ -30,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _selectedIcon = '';
   String _selectedCategoryID = '';
 
-  void _getTotalBankBalance() {
+  void _getTotalBankBalance() async{
     accountData.forEach((ac) {
       totalBankBalance += ac.bankBalance!;
     });
@@ -52,7 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+    
+
     return Scaffold(
       //backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(

@@ -45,55 +45,104 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double bottomSheetSize = MediaQuery.of(context).size.height * 0.09;
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Theme.of(context).primaryColor,
         title: Text('Filter'),
       ),
-      bottomSheet: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black54,
-              blurRadius: 15.0,
-              offset: Offset(0.0, 3),
-            ),
-          ],
+      bottomSheet: BottomSheet(
+        enableDrag: false,
+        backgroundColor: Colors.blue[300],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30.0)),
         ),
-        height: 60,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, []),
-              child: Text('Zurücksetzen'),
-              // style: ButtonStyle(
-              //     backgroundColor: MaterialStateProperty.all(
-              //         Theme.of(context).primaryColor)
-              //         ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context, [
-                  _filterAccounts,
-                  _filterCategories,
-                  _filterDate,
-                  _filterSO
-                ]);
-              },
-              child: Text('Übernehmen'),
-              // style: ButtonStyle(
-              //     backgroundColor: MaterialStateProperty.all(
-              //         Theme.of(context).primaryColor)),
-            )
-          ],
+        onClosing: () {},
+        builder: (context) => Container(
+          // color: Colors.red,
+          height: bottomSheetSize,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),
+                              color: Colors.red),
+        
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, []),
+                child: Text('Zurücksetzen'),
+                // style: ButtonStyle(
+                //     backgroundColor: MaterialStateProperty.all(
+                //         Theme.of(context).primaryColor)
+                //         ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context, [
+                    _filterAccounts,
+                    _filterCategories,
+                    _filterDate,
+                    _filterSO
+                  ]);
+                },
+                child: Text('Übernehmen'),
+                // style: ButtonStyle(
+                //     backgroundColor: MaterialStateProperty.all(
+                //         Theme.of(context).primaryColor)),
+              )
+            ],
+          ),
         ),
       ),
+      //Container(
+      //color: Colors.yellow,
+      // decoration: BoxDecoration(
+      //     //color: Theme.of(context).colorScheme.surface,
+      //     // boxShadow: [
+      //     //   BoxShadow(
+      //     //     color: Colors.black54,
+      //     //     blurRadius: 15.0,
+      //     //     offset: Offset(0.0, 3),
+      //     //   ),
+      //     // ],
+      //     border: Border.all(
+      //       color: Colors.red,
+      //     ),
+      // borderRadius: BorderRadius.all(Radius.circular(20))
+      //     //borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+      // ),
+      // height: MediaQuery.of(context).size.height * 0.1, //60,
+      // child: Row(
+      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //   children: [
+      //     ElevatedButton(
+      //       onPressed: () => Navigator.pop(context, []),
+      //       child: Text('Zurücksetzen'),
+      //       // style: ButtonStyle(
+      //       //     backgroundColor: MaterialStateProperty.all(
+      //       //         Theme.of(context).primaryColor)
+      //       //         ),
+      //     ),
+      //     ElevatedButton(
+      //       onPressed: () {
+      //         Navigator.pop(context, [
+      //           _filterAccounts,
+      //           _filterCategories,
+      //           _filterDate,
+      //           _filterSO
+      //         ]);
+      //       },
+      //       child: Text('Übernehmen'),
+      //       // style: ButtonStyle(
+      //       //     backgroundColor: MaterialStateProperty.all(
+      //       //         Theme.of(context).primaryColor)),
+      //     )
+      //   ],
+      // ),
+      //),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.only(
+              left: 8.0, right: 8.0, top: 8.0, bottom: bottomSheetSize + 8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -169,11 +218,12 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                                 selectedCatList: _filterCategories,
                                 multiSelection: true,
                                 onTapFunction: () => setState(() {
-                                  final isSelected = _filterCategories.contains(item);
+                                  final isSelected =
+                                      _filterCategories.contains(item);
                                   isSelected
-                                    ? _filterCategories.remove(item)
-                                    : _filterCategories.add(item);
-                                 }),
+                                      ? _filterCategories.remove(item)
+                                      : _filterCategories.add(item);
+                                }),
                               ))
                           .toList(),
                     ),

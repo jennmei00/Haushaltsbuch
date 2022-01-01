@@ -37,6 +37,9 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
       _iconcolor = cat.color as Color;
       _selectedIcon = cat.symbol == null ? '' : cat.symbol!;
     }
+    else {
+      _selectedIcon = Globals.imagePaths[0];
+    }
     // _getImageList();
     // print(imagePaths);
     super.initState();
@@ -197,9 +200,9 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                       padding: MaterialStateProperty.all(EdgeInsets.zero),
                     ),
                     onPressed: () {
-                      AllData.categories
-                          .removeWhere((element) => element.id == widget.id);
-                      DBHelper.delete('Category', where: "ID = '${widget.id}'");
+                      // AllData.categories
+                      //     .removeWhere((element) => element.id == widget.id);
+                      // DBHelper.delete('Category', where: "ID = '${widget.id}'");
 
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Kategorie wurde gelöscht')));

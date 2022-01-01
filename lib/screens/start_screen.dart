@@ -32,6 +32,8 @@ Future<void> _getImageList(BuildContext context) async {
 
   Map<dynamic, dynamic> manifestMap = json.decode(manifestContent);
 
+  print(manifestMap);
+
   Globals.imagePaths = manifestMap.keys
       .where((key) => key.contains('assets/icons/')).toList();
 }

@@ -6,7 +6,7 @@ final ColorScheme colorSchemeLight = ColorScheme.light(
   primaryVariant: Color(0xffbc477b),
   secondary: Color(
       0xff757575), //Color(0xff0097a7), //for example background of loatingActionButton of the AppBAr
-  secondaryVariant: Color(0xffe0e0e0), //Color(0xffb2ebf2),//56c8d8),
+  secondaryVariant: Color(0xffeeeeee), //Color(0xffb2ebf2),//56c8d8),
   background: Colors.white, //(0xffFCE4EC),
   onSecondary: Colors.white,
   //surface: //for example backgroundcolor of the snackbar

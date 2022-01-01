@@ -242,9 +242,9 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ),
                 ElevatedButton(
                   child: Text('Kategorie ändern'),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Theme.of(context).primaryColor)),
+                  // style: ButtonStyle(
+                  //     backgroundColor: MaterialStateProperty.all(
+                  //         Theme.of(context).colorScheme.primary)),
                   onPressed: () => showDialog(
                       context: context,
                       builder: (BuildContext context) {

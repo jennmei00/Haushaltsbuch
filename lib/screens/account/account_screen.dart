@@ -6,6 +6,7 @@ import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountScreen extends StatefulWidget {
   static final routeName = '/account_screen';
@@ -16,6 +17,7 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   List<List<Object>> accountTypeList = [];
+  late bool isDarkmode;
 
   var accountData = AllData.accounts;
   double totalBankBalance = 0;
@@ -60,19 +62,27 @@ class _AccountScreenState extends State<AccountScreen> {
     }
   }
 
+  void _getThemeMode() async {
+    var prefs = await SharedPreferences.getInstance();
+    isDarkmode = prefs.getBool('darkMode')!;
+  }
+
   @override
   void initState() {
     _createAccountList();
     _getTotalBankBalance();
+    _getThemeMode();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      //backgroundColor: Theme.of(context).colorScheme.background,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
-          // backgroundColor: Theme.of(context).primaryColor,
+          //backgroundColor: Theme.of(context).primaryColor,
           child: Icon(Icons.add),
           onPressed: () {
             //print(accountData);
@@ -129,9 +139,10 @@ class _AccountScreenState extends State<AccountScreen> {
                           String itemAccountTypeBalance =
                               accountTypeList[index][1].toString();
                           return Card(
-                            //color: Theme.of(context).colorScheme.secondaryVariant,
+                            elevation: 3,
+                            color: Theme.of(context).colorScheme.secondaryVariant,
                             child: ExpansionTile(
-                              //backgroundColor: Theme.of(context).primaryColor,
+                              //collapsedBackgroundColor: Theme.of(context).colorScheme.secondaryVariant,
                               //textColor: Colors.black,
                               //iconColor: Colors.black,
                               initiallyExpanded: false,
@@ -199,7 +210,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   },
                                   key: ValueKey<String>(e.id.toString()),
                                   background: Container(
-                                    //color: Colors.orange,
+                                    color: Colors.orange,
                                     child: Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: Row(
@@ -219,7 +230,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     ),
                                   ),
                                   secondaryBackground: Container(
-                                    //color: Colors.red,
+                                    color: Colors.red,
                                     child: Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: Row(

@@ -57,6 +57,8 @@ flutter:
   assets:
     - assets/fonts/
     - assets/icons/
+    - assets/icons/category_icons/
+    - assets/icons/accounttype_icons/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
