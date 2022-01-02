@@ -3,6 +3,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
@@ -92,7 +93,13 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                     "Bist du sicher, dass du den Dauerauftrag löschen willst?"),
                 actions: <Widget>[
                   TextButton(
-                      onPressed: () => Navigator.of(context).pop(true),
+                      onPressed: () async {
+                        AllData.standingOrders
+                            .removeWhere((element) => element.id == item.id);
+                        await DBHelper.delete('StandingOrder',
+                            where: "ID = '${item.id}'");
+                        Navigator.of(context).pop(true);
+                      },
                       child: const Text("Löschen")),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
