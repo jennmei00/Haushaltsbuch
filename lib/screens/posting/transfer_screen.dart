@@ -54,7 +54,7 @@ class _TransferScreenState extends State<TransferScreen> {
           .firstWhere((element) => element.id == transfer.accountTo!.id);
 
     _dateTime = transfer.date!;
-    _amountController.text = '${transfer.amount}';
+    _amountController.text = '${transfer.amount!.toStringAsFixed(2)}';
     _descriptionController.text = '${transfer.description}';
 
     _oldAccountFrom = transfer.accountFrom;

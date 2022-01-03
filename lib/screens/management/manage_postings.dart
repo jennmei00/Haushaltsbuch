@@ -193,11 +193,11 @@ class ManagePostings extends StatelessWidget {
               subtitle: Text('${posting.accountName}'),
               trailing: posting.postingType == PostingType.income
                   ? Text(
-                      '+ ${posting.amount!}€',
+                      '+ ${posting.amount!.toStringAsFixed(2)}€',
                       style: TextStyle(color: Colors.green),
                     )
                   : Text(
-                      '- ${posting.amount!}€',
+                      '- ${posting.amount!.toStringAsFixed(2)}€',
                       style: TextStyle(color: Colors.red),
                     ),
               childrenPadding: EdgeInsets.only(left: 30, bottom: 10, right: 10),

@@ -125,7 +125,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             height: 10,
                           ),
                           Text(
-                            '$totalBankBalance €',
+                            '${totalBankBalance.toStringAsFixed(2)} €',
                             style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
@@ -146,7 +146,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           AccountType itemAccountType =
                               accountTypeList[index][0] as AccountType;
                           String itemAccountTypeBalance =
-                              accountTypeList[index][1].toString();
+                              double.parse(accountTypeList[index][1].toString()).toStringAsFixed(2);
                           return Card(
                             elevation: 3,
                             color:
@@ -188,7 +188,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                                         builder: (context) {
                                                           return AlertDialog(
                                                             title: const Text(
-                                                                "Verknüfungen löschen"),
+                                                                "Verknüpfung löschen"),
                                                             content: const Text(
                                                                 "Willst du die Buchungen zu diesem Konto löschen?\n(Daueraufträge werden automatisch gelöscht)"),
                                                             actions: <Widget>[
@@ -310,7 +310,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                           ],
                                         ),
                                         trailing: Text(
-                                          '${e.bankBalance} €',
+                                          '${e.bankBalance!.toStringAsFixed(2)} €',
                                           style: TextStyle(
                                               color: _getColorBalance(
                                                   e.bankBalance!)),
@@ -331,7 +331,6 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   void _showAccountDetails(Account account) {
-    print(account.symbol);
     showDialog(
         context: context,
         builder: (BuildContext context) {

@@ -183,7 +183,7 @@ class ManageTransfers extends StatelessWidget {
             title: Text(
                 '${transfer.accountFromName} => ${transfer.accountToName}'),
             subtitle: Text('${transfer.date}'),
-            trailing: Text('${transfer.amount}€'),
+            trailing: Text('${transfer.amount!.toStringAsFixed(2)}€'),
             childrenPadding: EdgeInsets.only(left: 30, bottom: 10, right: 10),
             expandedAlignment: Alignment.topLeft,
             children: [

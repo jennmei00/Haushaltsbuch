@@ -71,7 +71,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     _selectedItem = _accountDropDownItems
         .firstWhere((element) => element.id == so.account!.id);
     _setCategory = so.category!;
-    _amountController.text = so.amount!.toString();
+    _amountController.text = so.amount!.toStringAsFixed(2);
     _titleController.text = so.title!;
     _descriptionController.text = so.description!;
   }

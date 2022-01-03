@@ -63,11 +63,26 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
       body: AllData.standingOrders.length == 0
           ? NothingThere(textScreen: 'Noch keine Daueraufträge vorhanden :(')
           : ListView(children: [
-              Text('Wöchentlich'),
+              _soWeekly.length == 0
+                  ? SizedBox()
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Wöchentlich'),
+                    ),
               Column(children: _soWeekly.map((e) => _soCard(e)).toList()),
-              Text('Monatlich'),
+              _soMonthly.length == 0
+                  ? SizedBox()
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Monatlich'),
+                    ),
               Column(children: _soMonthly.map((e) => _soCard(e)).toList()),
-              Text('Jährlich'),
+              _soYearly.length == 0
+                  ? SizedBox()
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Jährlich'),
+                    ),
               Column(children: _soYearly.map((e) => _soCard(e)).toList()),
             ]
               // AllData.standingOrders.map((item) => _soCard(item)).toList(),
@@ -113,7 +128,6 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
       },
       key: ValueKey<String>(item.id.toString()),
       onDismissed: (DismissDirection direction) {
-        print(direction);
         if (direction == DismissDirection.endToStart) {
           // AllData.standingOrders.remove(item);
           // DBHelper.delete('StandingOrder',
@@ -172,11 +186,11 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
             ),
             trailing: item.postingType == PostingType.income
                 ? Text(
-                    '+ ${item.amount!}€',
+                    '+ ${item.amount!.toStringAsFixed(2)}€',
                     style: TextStyle(color: Colors.green),
                   )
                 : Text(
-                    '- ${item.amount!}€',
+                    '- ${item.amount!.toStringAsFixed(2)}€',
                     style: TextStyle(color: Colors.red),
                   ),
             childrenPadding: EdgeInsets.only(left: 30, bottom: 10, right: 10),

@@ -54,7 +54,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
         AllData.accounts.firstWhere((element) => element.id == widget.id);
     // _repeatValue = Repetition.values(so.repetition!.index);
     _titleController.text = ac.title!;
-    _bankBalanceController.text = ac.bankBalance!.toString();
+    _bankBalanceController.text = ac.bankBalance!.toStringAsFixed(2);
     _descriptionController.text = ac.description!;
     _selectedItem = _accountTypeDropDownItems
         .firstWhere((element) => element.id == ac.accountType!.id);

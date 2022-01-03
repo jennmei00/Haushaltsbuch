@@ -57,7 +57,6 @@ class DropDown extends StatelessWidget {
         validator: (value) {
           //ListItem item = value as ListItem;
           //print(item.name);
-          print(value);
           //if (item.name == '') {
           if (value == null) return 'Das ist ein Pflichtfeld';
           //}

@@ -97,7 +97,6 @@ class MyApp extends StatelessWidget {
       },
       onGenerateRoute: (settings) {
         if (settings.name == IncomeExpenseScreen.routeName) {
-          print(settings.arguments.runtimeType);
           final args = settings.arguments as List<String?>;
 
           return MaterialPageRoute(

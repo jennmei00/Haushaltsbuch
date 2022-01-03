@@ -75,7 +75,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   
 
     _incomeDateTime = posting.date!;
-    _amountController.text = '${posting.amount}';
+    _amountController.text = '${posting.amount!.toStringAsFixed(2)}';
     _titleController.text = '${posting.title}';
     _descriptionController.text = '${posting.description}';
     _setCategory = posting.category!;
