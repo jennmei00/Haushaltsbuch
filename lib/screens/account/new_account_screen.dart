@@ -69,7 +69,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       _getAccountData();
     }
     else {
-      _selectedIcon = Globals.imagePaths[0];
+      _selectedIcon = Globals.imagePathsAccountIcons[0];
     }
     super.initState();
   }
@@ -160,7 +160,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                       builder: (BuildContext context) {
                         return StatefulBuilder(builder: (context, setState) {
                           return Popup(
-                            title: 'ColorPicker',
+                            title: 'Color Picker',
                             body: ColorPickerClass(_colorChanged, _iconcolor),
                             saveButton: true,
                             cancelButton: true,
@@ -205,7 +205,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
               crossAxisCount: 4,
               crossAxisSpacing: MediaQuery.of(context).size.width * 0.02,
               mainAxisSpacing: 20,
-              children: Globals.imagePaths
+              children: Globals.imagePathsAccountIcons
                   .map((item) => GestureDetector(
                         onTap: () => setState(() {
                           _selectedIcon = item;

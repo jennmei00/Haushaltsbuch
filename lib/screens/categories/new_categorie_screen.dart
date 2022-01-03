@@ -38,7 +38,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
       _selectedIcon = cat.symbol == null ? '' : cat.symbol!;
     }
     else {
-      _selectedIcon = Globals.imagePaths[0];
+      _selectedIcon = Globals.imagePathsCategoryIcons[0];
     }
     // _getImageList();
     // print(imagePaths);
@@ -118,7 +118,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
               crossAxisCount: 4,
               crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
               mainAxisSpacing: 20,
-              children: Globals.imagePaths
+              children: Globals.imagePathsCategoryIcons
                   .map((item) => GestureDetector(
                         onTap: () => setState(() {
                           _selectedIcon = item;

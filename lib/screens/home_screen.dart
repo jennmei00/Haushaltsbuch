@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _selectedIcon = '';
   String _selectedCategoryID = '';
 
-  void _getTotalBankBalance() async{
+  void _getTotalBankBalance() {
     accountData.forEach((ac) {
       totalBankBalance += ac.bankBalance!;
     });

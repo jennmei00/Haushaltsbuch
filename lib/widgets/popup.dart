@@ -49,13 +49,13 @@ class _PopupState extends State<Popup> {
                 //           ),
                 //         )),
                 //     ),
-                  child:  Text(
-                      '${widget.title}',
-                      //style: Theme.of(context).textTheme.headline4,
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                    
+                child: Text(
+                  '${widget.title}',
+                  style: Theme.of(context).textTheme.headline4,
+                  //style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+
                 //   ],
                 // ),
               ),
@@ -66,19 +66,17 @@ class _PopupState extends State<Popup> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     if (widget.saveButton)
-                      TextButton(
+                      ElevatedButton(
                         onPressed: () => widget.saveFunction!(),
                         child: Text(
                           'Speichern',
-                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                     if (widget.cancelButton)
-                      TextButton(
+                      ElevatedButton(
                         onPressed: () => Navigator.of(context).pop(),
                         child: Text(
                           'Abbrechen',
-                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                   ],

@@ -34,8 +34,11 @@ Future<void> _getImageList(BuildContext context) async {
 
   print(manifestMap);
 
-  Globals.imagePaths = manifestMap.keys
-      .where((key) => key.contains('assets/icons/')).toList();
+  Globals.imagePathsCategoryIcons = manifestMap.keys
+      .where((key) => key.contains('assets/icons/category_icons')).toList();
+
+  Globals.imagePathsAccountIcons = manifestMap.keys
+      .where((key) => key.contains('assets/icons/account_icons')).toList();
 }
 
 class _StartScreenState extends State<StartScreen> {

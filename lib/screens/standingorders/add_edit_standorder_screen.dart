@@ -38,7 +38,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   String _selectedCategoryID = '';
   Category _setCategory = Category(
       id: 'default',
-      symbol: 'assets/icons/food.png',
+      symbol: 'assets/icons/category_icons/food.png',
       color: Colors.blue,
       title: 'Defaultkat');
   late Category _selectedCategory;
