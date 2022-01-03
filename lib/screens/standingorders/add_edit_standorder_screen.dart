@@ -78,8 +78,9 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
 
   @override
   void initState() {
-    // DBHelper.delete('Account');
-
+    AllData.categories.sort((a, b) {
+      return a.title!.toLowerCase().compareTo(b.title!.toLowerCase());
+    });
     _getAccountDropDownItems();
     if (widget.id != '') {
       _getStandingOrderData();

@@ -72,7 +72,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
       _selectedItem = _accountDropDownItems
           .firstWhere((element) => element.id == posting.account!.id);
     }
-  
 
     _incomeDateTime = posting.date!;
     _amountController.text = '${posting.amount!.toStringAsFixed(2)}';
@@ -92,6 +91,10 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
 
   @override
   void initState() {
+    AllData.categories.sort((a, b) {
+      return a.title!.toLowerCase().compareTo(b.title!.toLowerCase());
+    });
+
     _getAccountDropDownItems();
     if (widget.id != '') {
       _getPostingsData();
@@ -158,7 +161,9 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               listItemValue: _selectedItem == null ? null : _selectedItem!.id,
               dropdownHintText: 'Konto',
             ),
-            _selectedItem == null && widget.id != '' ? Text('Das eigentliche Konto wurde gelöscht') : SizedBox(),
+            _selectedItem == null && widget.id != ''
+                ? Text('Das eigentliche Konto wurde gelöscht')
+                : SizedBox(),
             SizedBox(height: 20),
             CustomTextField(
               labelText: 'Betrag',
@@ -406,26 +411,25 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                   ac.bankBalance! - (_oldAmount! - posting.amount!);
           } else {
             //if account changed
-            if(_oldAccount != null) {
+            if (_oldAccount != null) {
+              AllData.accounts
+                  .removeWhere((element) => element.id == _oldAccount!.id);
+              if (_postingSwitch) {
+                //expense
 
-            AllData.accounts
-                .removeWhere((element) => element.id == _oldAccount!.id);
-            if (_postingSwitch) {
-              //expense
+                ac.bankBalance = ac.bankBalance! - posting.amount!;
+                _oldAccount!.bankBalance =
+                    _oldAccount!.bankBalance! + _oldAmount!;
+              } else {
+                //income
+                ac.bankBalance = ac.bankBalance! + posting.amount!;
+                _oldAccount!.bankBalance =
+                    _oldAccount!.bankBalance! - _oldAmount!;
+              }
 
-              ac.bankBalance = ac.bankBalance! - posting.amount!;
-              _oldAccount!.bankBalance =
-                  _oldAccount!.bankBalance! + _oldAmount!;
-            } else {
-              //income
-              ac.bankBalance = ac.bankBalance! + posting.amount!;
-              _oldAccount!.bankBalance =
-                  _oldAccount!.bankBalance! - _oldAmount!;
-            }
-
-            await DBHelper.update('Account', _oldAccount!.toMap(),
-                where: "ID = '${_oldAccount!.id}'");
-            AllData.accounts.add(_oldAccount!);
+              await DBHelper.update('Account', _oldAccount!.toMap(),
+                  where: "ID = '${_oldAccount!.id}'");
+              AllData.accounts.add(_oldAccount!);
             }
           }
 

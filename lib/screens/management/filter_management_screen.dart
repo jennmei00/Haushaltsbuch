@@ -25,6 +25,10 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
 
   @override
   void initState() {
+    AllData.categories.sort((a, b) {
+      return a.title!.toLowerCase().compareTo(b.title!.toLowerCase());
+    });
+
     if (widget.filters.length != 0) {
       _filterAccounts = widget.filters[0] as List<Account>;
       _filterCategories = widget.filters[1] as List<Category>;
@@ -61,9 +65,9 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
         builder: (context) => Container(
           // color: Colors.red,
           height: bottomSheetSize,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),
-                              color: Colors.red),
-        
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30), color: Colors.red),
+
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
