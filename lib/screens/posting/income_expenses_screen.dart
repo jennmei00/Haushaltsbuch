@@ -68,8 +68,11 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     Posting posting =
         AllData.postings.firstWhere((element) => element.id == widget.id);
 
-    _selectedItem = _accountDropDownItems
-        .firstWhere((element) => element.id == posting.account!.id);
+    if (posting.account != null) {
+      _selectedItem = _accountDropDownItems
+          .firstWhere((element) => element.id == posting.account!.id);
+    }
+  
 
     _incomeDateTime = posting.date!;
     _amountController.text = '${posting.amount}';
@@ -155,6 +158,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               listItemValue: _selectedItem == null ? null : _selectedItem!.id,
               dropdownHintText: 'Konto',
             ),
+            _selectedItem == null && widget.id != '' ? Text('Das eigentliche Konto wurde gelöscht') : SizedBox(),
             SizedBox(height: 20),
             CustomTextField(
               labelText: 'Betrag',
@@ -402,6 +406,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                   ac.bankBalance! - (_oldAmount! - posting.amount!);
           } else {
             //if account changed
+            if(_oldAccount != null) {
+
             AllData.accounts
                 .removeWhere((element) => element.id == _oldAccount!.id);
             if (_postingSwitch) {
@@ -420,6 +426,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             await DBHelper.update('Account', _oldAccount!.toMap(),
                 where: "ID = '${_oldAccount!.id}'");
             AllData.accounts.add(_oldAccount!);
+            }
           }
 
           await DBHelper.update('Account', ac.toMap(),

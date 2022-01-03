@@ -46,10 +46,12 @@ class _TransferScreenState extends State<TransferScreen> {
     Transfer transfer =
         AllData.transfers.firstWhere((element) => element.id == widget.id);
 
-    _selectedAccountFrom = _accountDropDownItems
-        .firstWhere((element) => element.id == transfer.accountFrom!.id);
-    _selectedAccountTo = _accountDropDownItems
-        .firstWhere((element) => element.id == transfer.accountTo!.id);
+    if (transfer.accountFrom != null)
+      _selectedAccountFrom = _accountDropDownItems
+          .firstWhere((element) => element.id == transfer.accountFrom!.id);
+    if (transfer.accountTo != null)
+      _selectedAccountTo = _accountDropDownItems
+          .firstWhere((element) => element.id == transfer.accountTo!.id);
 
     _dateTime = transfer.date!;
     _amountController.text = '${transfer.amount}';
@@ -125,6 +127,12 @@ class _TransferScreenState extends State<TransferScreen> {
               },
               dropdownHintText: 'Von Konto',
             ),
+            _selectedAccountFrom == null && widget.id != ''
+                ? Text(
+                    'Das eigentliche Konto wurde gelöscht',
+                    style: TextStyle(color: Colors.red),
+                  )
+                : SizedBox(),
             SizedBox(height: 20),
             Icon(Icons.arrow_downward_rounded, size: 60),
             SizedBox(height: 20),
@@ -138,6 +146,12 @@ class _TransferScreenState extends State<TransferScreen> {
               },
               dropdownHintText: 'Zu Konto',
             ),
+            _selectedAccountTo == null && widget.id != ''
+                ? Text(
+                    'Das eigentliche Konto wurde gelöscht',
+                    style: TextStyle(color: Colors.red),
+                  )
+                : SizedBox(),
             SizedBox(height: 20),
             CustomTextField(
               labelText: 'Betrag',
@@ -199,21 +213,23 @@ class _TransferScreenState extends State<TransferScreen> {
               where: "ID = '${transfer.id}'");
           AllData.transfers.removeWhere((element) => element.id == transfer.id);
 
-          AllData.accounts
-              .removeWhere((element) => element.id == _oldAccountFrom!.id);
-          AllData.accounts
-              .removeWhere((element) => element.id == _oldAccountTo!.id);
-
-          _oldAccountFrom!.bankBalance =
-              _oldAccountFrom!.bankBalance! + _oldAmount!;
-          _oldAccountTo!.bankBalance =
-              _oldAccountTo!.bankBalance! - _oldAmount!;
-          AllData.accounts.addAll([_oldAccountFrom!, _oldAccountTo!]);
-
-          await DBHelper.update('Account', _oldAccountFrom!.toMap(),
-              where: "ID = '${_oldAccountFrom!.id}'");
-          await DBHelper.update('Account', _oldAccountTo!.toMap(),
-              where: "ID = '${_oldAccountTo!.id}'");
+          if (_oldAccountFrom != null) {
+            AllData.accounts
+                .removeWhere((element) => element.id == _oldAccountFrom!.id);
+            _oldAccountFrom!.bankBalance =
+                _oldAccountFrom!.bankBalance! + _oldAmount!;
+            await DBHelper.update('Account', _oldAccountFrom!.toMap(),
+                where: "ID = '${_oldAccountFrom!.id}'");
+          }
+          if (_oldAccountTo != null) {
+            AllData.accounts
+                .removeWhere((element) => element.id == _oldAccountTo!.id);
+            _oldAccountTo!.bankBalance =
+                _oldAccountTo!.bankBalance! - _oldAmount!;
+            AllData.accounts.addAll([_oldAccountFrom!, _oldAccountTo!]);
+            await DBHelper.update('Account', _oldAccountTo!.toMap(),
+                where: "ID = '${_oldAccountTo!.id}'");
+          }
         }
 
         Account acFrom = AllData.accounts

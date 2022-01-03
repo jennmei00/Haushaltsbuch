@@ -60,8 +60,10 @@ class Posting {
       amount: data['Amount'],
       title: data['Title'],
       description: data['Description'],
-      account: await Account().fromDB(
-          await DBHelper.getOneData('Account', where: "ID = '${data['AccountID']}'")),
+      account: data['AccountID'] == null
+          ? null
+          : await Account().fromDB(await DBHelper.getOneData('Account',
+              where: "ID = '${data['AccountID']}'")),
       accountName: data['AccountName'],
       category: Category().fromDB(await DBHelper.getOneData('Category',
           where: "ID = '${data['CategoryID']}'")),

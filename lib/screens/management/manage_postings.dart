@@ -102,16 +102,20 @@ class ManagePostings extends StatelessWidget {
                   TextButton(
                       onPressed: () async {
                         try {
-                          Account ac = AllData.accounts.firstWhere(
-                              (element) => element.id == posting.account!.id);
-                          AllData.accounts.remove(ac);
-                          if (posting.postingType == PostingType.income)
-                            ac.bankBalance = ac.bankBalance! - posting.amount!;
-                          else
-                            ac.bankBalance = ac.bankBalance! + posting.amount!;
-                          AllData.accounts.add(ac);
-                          await DBHelper.update('Account', ac.toMap(),
-                              where: "ID = '${ac.id}'");
+                          if (posting.account != null) {
+                            Account ac = AllData.accounts.firstWhere(
+                                (element) => element.id == posting.account!.id);
+                            AllData.accounts.remove(ac);
+                            if (posting.postingType == PostingType.income)
+                              ac.bankBalance =
+                                  ac.bankBalance! - posting.amount!;
+                            else
+                              ac.bankBalance =
+                                  ac.bankBalance! + posting.amount!;
+                            AllData.accounts.add(ac);
+                            await DBHelper.update('Account', ac.toMap(),
+                                where: "ID = '${ac.id}'");
+                          }
 
                           AllData.postings.removeWhere(
                               (element) => element.id == posting.id);
@@ -119,6 +123,7 @@ class ManagePostings extends StatelessWidget {
                               where: "ID = '${posting.id}'");
                         } catch (ex) {
                           //Fehlermeldung ausgeben
+                          print(ex);
                         }
 
                         Navigator.of(context).pop(true);

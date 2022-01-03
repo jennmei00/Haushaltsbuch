@@ -3,6 +3,8 @@ import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
+import 'package:haushaltsbuch/models/posting.dart';
+import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
@@ -60,7 +62,7 @@ class _AccountScreenState extends State<AccountScreen> {
     if (balance < 0) {
       return Colors.red.shade900;
     } else {
-      return Theme.of(context).colorScheme.onSurface;//Colors.black;
+      return Theme.of(context).colorScheme.onSurface; //Colors.black;
     }
   }
 
@@ -85,9 +87,8 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      //backgroundColor: Theme.of(context).colorScheme.background,
+        //backgroundColor: Theme.of(context).colorScheme.background,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           //backgroundColor: Theme.of(context).primaryColor,
@@ -148,7 +149,8 @@ class _AccountScreenState extends State<AccountScreen> {
                               accountTypeList[index][1].toString();
                           return Card(
                             elevation: 3,
-                            color: Theme.of(context).colorScheme.secondaryVariant,
+                            color:
+                                Theme.of(context).colorScheme.secondaryVariant,
                             child: ExpansionTile(
                               //collapsedBackgroundColor: Theme.of(context).colorScheme.secondaryVariant,
                               //textColor: Colors.black,
@@ -175,15 +177,40 @@ class _AccountScreenState extends State<AccountScreen> {
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            title:
-                                                const Text("Buchung löschen"),
+                                            title: const Text("Konto löschen"),
                                             content: const Text(
-                                                "Bist du sicher, dass die Buchung löschen willst?"),
+                                                "Bist du sicher, dass du das Konto löschen willst?"),
                                             actions: <Widget>[
                                               TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.of(context)
-                                                          .pop(true),
+                                                  onPressed: () {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return AlertDialog(
+                                                            title: const Text(
+                                                                "Verknüfungen löschen"),
+                                                            content: const Text(
+                                                                "Willst du die Buchungen zu diesem Konto löschen?\n(Daueraufträge werden automatisch gelöscht)"),
+                                                            actions: <Widget>[
+                                                              TextButton(
+                                                                  onPressed: () =>
+                                                                      _deleteAccount(
+                                                                          true,
+                                                                          e),
+                                                                  child: const Text(
+                                                                      "Löschen")),
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    _deleteAccount(
+                                                                        false,
+                                                                        e),
+                                                                child: const Text(
+                                                                    "Nur Konto"),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        });
+                                                  },
                                                   child: const Text("Löschen")),
                                               TextButton(
                                                 onPressed: () =>
@@ -251,8 +278,8 @@ class _AccountScreenState extends State<AccountScreen> {
                                           ),
                                           Text('Move to trash',
                                               style: TextStyle(
-                                                //color: Colors.white,
-                                              )),
+                                                  //color: Colors.white,
+                                                  )),
                                         ],
                                       ),
                                     ),
@@ -369,10 +396,10 @@ class _AccountScreenState extends State<AccountScreen> {
                 Center(
                   child: Container(
                     padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        //color: Colors.cyan[100],
-                        boxShadow: [
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(8),
+                            //color: Colors.cyan[100],
+                            boxShadow: [
                           BoxShadow(
                             blurRadius: 10,
                             //color: Colors.cyan.shade100,
@@ -402,5 +429,94 @@ class _AccountScreenState extends State<AccountScreen> {
             cancelButton: false,
           );
         });
+  }
+
+  void _deleteAccount(bool withPostings, Account account) async {
+    if (withPostings) {
+      //Delete Postings
+      AllData.postings.removeWhere((element) =>
+          element.account != null ? element.account!.id == account.id : false);
+      await DBHelper.delete('Posting', where: "AccountID = '${account.id}'");
+    } else {
+      //Account from postings to null
+      List<Posting> accountPostings = AllData.postings
+          .where((element) => element.account != null
+              ? element.account!.id == account.id
+              : false)
+          .toList();
+
+      accountPostings.forEach((posting) async {
+        AllData
+            .postings[AllData.postings
+                .indexWhere((element) => element.id == posting.id)]
+            .account = null;
+
+        posting.account = null;
+
+        await DBHelper.update('Posting', posting.toMap(),
+            where: "ID = '${posting.id}'");
+      });
+
+      //Transfer Account to null
+      List<Transfer> accountTransfersFrom = [];
+      accountTransfersFrom.addAll(AllData.transfers.where((element) =>
+          element.accountFrom == null
+              ? false
+              : element.accountFrom!.id == account.id));
+
+      List<Transfer> accountTransfersTo = [];
+      accountTransfersTo.addAll(AllData.transfers.where((element) =>
+          element.accountTo == null
+              ? false
+              : element.accountTo!.id == account.id));
+
+      accountTransfersFrom.forEach((transfer) async {
+        AllData
+            .transfers[AllData.transfers.indexWhere((element) =>
+                element.accountFrom == null
+                    ? false
+                    : element.accountFrom!.id == transfer.accountFrom!.id)]
+            .accountFrom = null;
+
+        if (transfer.accountFrom != null) {
+          if (transfer.accountFrom!.id == account.id)
+            transfer.accountFrom = null;
+        }
+
+        await DBHelper.update('Transfer', transfer.toMap(),
+            where: "ID = '${transfer.id}'");
+      });
+
+      accountTransfersTo.forEach((transfer) async {
+        AllData
+            .transfers[AllData.transfers.indexWhere((element) =>
+                element.accountTo == null
+                    ? false
+                    : element.accountTo!.id == transfer.accountTo!.id)]
+            .accountTo = null;
+            
+        if (transfer.accountTo != null) {
+          if (transfer.accountTo!.id == account.id)
+            transfer.accountTo = null;
+        }
+
+        await DBHelper.update('Transfer', transfer.toMap(),
+            where: "ID = '${transfer.id}'");
+      });
+    }
+
+    //Delete StandingOrders
+    AllData.standingOrders.removeWhere((element) =>
+        element.account == null ? false : element.account!.id == account.id);
+    await DBHelper.delete('StandingOrder',
+        where: "AccountID = '${account.id}'");
+
+    //Delete Account
+    AllData.accounts.removeWhere((element) => element.id == account.id);
+    await DBHelper.delete('Account', where: "ID = '${account.id}'");
+
+    Navigator.of(context)
+      ..pop()
+      ..pop(true);
   }
 }

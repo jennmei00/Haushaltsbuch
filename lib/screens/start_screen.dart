@@ -25,14 +25,12 @@ Future<void> _getImageList(BuildContext context) async {
   //Im DefaultAssetBundle stehen irgendiwe alle ASSETS im JSON-Format drinnen.
   //und mit dem key.contains(...) hole ich nur die aus dem ordner assets/icons/ raus
 
-    print('in getImageList 1');
+
 
   String manifestContent =
       await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
 
   Map<dynamic, dynamic> manifestMap = json.decode(manifestContent);
-
-  print(manifestMap);
 
   Globals.imagePathsCategoryIcons = manifestMap.keys
       .where((key) => key.contains('assets/icons/category_icons')).toList();
@@ -45,6 +43,8 @@ class _StartScreenState extends State<StartScreen> {
   late Future<bool> _loadData;
 
   Future<bool> _getAllData() async {
+    // await DBHelper.delete('Transfer');
+
     await _getImageList(widget.ctx as BuildContext);
     AllData.accounts = Account().listFromDB(await DBHelper.getData('Account'));
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
+import 'package:haushaltsbuch/models/posting.dart';
+import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
@@ -36,8 +38,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
       _titleController.text = '${cat.title}';
       _iconcolor = cat.color as Color;
       _selectedIcon = cat.symbol == null ? '' : cat.symbol!;
-    }
-    else {
+    } else {
       _selectedIcon = Globals.imagePathsCategoryIcons[0];
     }
     // _getImageList();
@@ -47,6 +48,8 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.id);
+
     return Scaffold(
       appBar: AppBar(
         title:
@@ -86,7 +89,8 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                       builder: (BuildContext context) {
                         return StatefulBuilder(builder: (context, setState) {
                           return Popup(
-                            title: 'ColorPicker', //warum funktioniert das hier nicht, wenn als title da 'Color Picker' mit Leerzeichen steht bzw. generell was anderes???
+                            title:
+                                'ColorPicker', //warum funktioniert das hier nicht, wenn als title da 'Color Picker' mit Leerzeichen steht bzw. generell was anderes???
                             body: ColorPickerClass(_colorChanged, _iconcolor),
                             saveButton: true,
                             cancelButton: true,
@@ -191,7 +195,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
             ),
             Row(),
             SizedBox(height: 20),
-            widget.id == ''
+            widget.id == '' || widget.id == 'default'
                 ? SizedBox()
                 : TextButton(
                     style: ButtonStyle(
@@ -200,9 +204,29 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                       padding: MaterialStateProperty.all(EdgeInsets.zero),
                     ),
                     onPressed: () {
-                      // AllData.categories
-                      //     .removeWhere((element) => element.id == widget.id);
-                      // DBHelper.delete('Category', where: "ID = '${widget.id}'");
+                      AllData.postings.forEach((element) async {
+                        Posting newPosting = element;
+                        newPosting.category = AllData.categories
+                            .firstWhere((element) => element.id == 'default');
+                        await DBHelper.update('Posting', newPosting.toMap(),
+                            where: "ID = '${element.id}'");
+                        AllData.postings[AllData.postings.indexWhere(
+                                (posting) => posting.id == element.id)] =
+                            newPosting;
+                      });
+                      AllData.standingOrders.forEach((element) async {
+                        StandingOrder newSO = element;
+                        newSO.category = AllData.categories
+                            .firstWhere((element) => element.id == 'default');
+                        await DBHelper.update('StandingOrder', newSO.toMap(),
+                            where: "ID = '${element.id}'");
+                        AllData.standingOrders[AllData.standingOrders
+                            .indexWhere((so) => so.id == element.id)] = newSO;
+                      });
+
+                      AllData.categories
+                          .removeWhere((element) => element.id == widget.id);
+                      DBHelper.delete('Category', where: "ID = '${widget.id}'");
 
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Kategorie wurde gelöscht')));

@@ -28,8 +28,9 @@ class Transfer {
     map['Date'] = this.date!.toIso8601String();
     map['Amount'] = this.amount;
     map['Description'] = this.description;
-    map['AccountFromID'] = this.accountFrom!.id;
-    map['AccountToID'] = this.accountTo!.id;
+    map['AccountFromID'] =
+        this.accountFrom == null ? null : this.accountFrom!.id;
+    map['AccountToID'] = this.accountTo == null ? null : this.accountTo!.id;
     map['AccountFromName'] = this.accountFromName;
     map['AccountToName'] = this.accountToName;
     return map;
@@ -50,10 +51,14 @@ class Transfer {
       date: DateTime.parse(data['Date']),
       description: data['Description'],
       amount: data['Amount'],
-      accountFrom: await Account().fromDB(await DBHelper.getOneData('Account',
-          where: "ID = '${data['AccountFromID']}'")),
-      accountTo: await Account().fromDB(await DBHelper.getOneData('Account',
-          where: "ID = '${data['AccountToID']}'")),
+      accountFrom: data['AccountFromID'] == null
+          ? null
+          : await Account().fromDB(await DBHelper.getOneData('Account',
+              where: "ID = '${data['AccountFromID']}'")),
+      accountTo: data['AccountToID'] == null
+          ? null
+          : await Account().fromDB(await DBHelper.getOneData('Account',
+              where: "ID = '${data['AccountToID']}'")),
       accountFromName: data['AccountFromName'],
       accountToName: data['AccountToName'],
     );
