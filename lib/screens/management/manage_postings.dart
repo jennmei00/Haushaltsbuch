@@ -5,6 +5,7 @@ import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
 class ManagePostings extends StatelessWidget {
@@ -99,7 +100,29 @@ class ManagePostings extends StatelessWidget {
                     "Bist du sicher, dass du die Buchung löschen willst?"),
                 actions: <Widget>[
                   TextButton(
-                      onPressed: () => Navigator.of(context).pop(true),
+                      onPressed: () async {
+                        try {
+                          Account ac = AllData.accounts.firstWhere(
+                              (element) => element.id == posting.account!.id);
+                          AllData.accounts.remove(ac);
+                          if (posting.postingType == PostingType.income)
+                            ac.bankBalance = ac.bankBalance! - posting.amount!;
+                          else
+                            ac.bankBalance = ac.bankBalance! + posting.amount!;
+                          AllData.accounts.add(ac);
+                          await DBHelper.update('Account', ac.toMap(),
+                              where: "ID = '${ac.id}'");
+
+                          AllData.postings.removeWhere(
+                              (element) => element.id == posting.id);
+                          await DBHelper.delete('Posting',
+                              where: "ID = '${posting.id}'");
+                        } catch (ex) {
+                          //Fehlermeldung ausgeben
+                        }
+
+                        Navigator.of(context).pop(true);
+                      },
                       child: const Text("Löschen")),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),

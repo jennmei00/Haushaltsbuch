@@ -59,7 +59,10 @@ flutter:
     # - assets/icons/
     - assets/icons/category_icons/
     - assets/icons/account_icons/
+<<<<<<< HEAD
 
+=======
+>>>>>>> 68b748bf45c136ae56a10aaac91d989c49096dda
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

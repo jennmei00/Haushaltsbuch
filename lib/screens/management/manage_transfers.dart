@@ -3,6 +3,7 @@ import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/posting/transfer_screen.dart';
+import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
 class ManageTransfers extends StatelessWidget {
@@ -92,7 +93,32 @@ class ManageTransfers extends StatelessWidget {
                     "Bist du sicher, dass die Buchung löschen willst?"),
                 actions: <Widget>[
                   TextButton(
-                      onPressed: () => Navigator.of(context).pop(true),
+                      onPressed: () async {
+                        Account acFrom = AllData.accounts.firstWhere(
+                            (element) =>
+                                element.id == transfer.accountFrom!.id);
+                        Account acTo = AllData.accounts.firstWhere(
+                            (element) => element.id == transfer.accountTo!.id);
+                        AllData.accounts
+                            .removeWhere((element) => element.id == acFrom.id);
+                        AllData.accounts
+                            .removeWhere((element) => element.id == acTo.id);
+                        acFrom.bankBalance =
+                            acFrom.bankBalance! + transfer.amount!;
+                        acTo.bankBalance = acTo.bankBalance! - transfer.amount!;
+                        AllData.accounts.addAll([acTo, acFrom]);
+                        await DBHelper.update('Account', acFrom.toMap(),
+                            where: "ID = '${acFrom.id}'");
+                        await DBHelper.update('Account', acTo.toMap(),
+                            where: "ID = '${acTo.id}'");
+
+                        AllData.transfers.removeWhere(
+                            (element) => element.id == transfer.id);
+                        DBHelper.delete('Transfer',
+                            where: "ID = '${transfer.id}'");
+
+                        Navigator.of(context).pop(true);
+                      },
                       child: const Text("Löschen")),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
