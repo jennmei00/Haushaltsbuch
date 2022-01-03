@@ -108,7 +108,9 @@ class _TransferScreenState extends State<TransferScreen> {
                           firstDate:
                               DateTime.now().subtract(Duration(days: 365)),
                           lastDate: DateTime.now().add(Duration(days: 365)),
-                        ).then((value) => setState(() => _dateTime = value!));
+                        ).then((value) {
+                          if (value != null) setState(() => _dateTime = value);
+                        });
                       },
                     ),
                   ],

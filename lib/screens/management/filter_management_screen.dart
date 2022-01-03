@@ -52,32 +52,33 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
     double bottomSheetSize = MediaQuery.of(context).size.height * 0.09;
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Theme.of(context).primaryColor,
         title: Text('Filter'),
       ),
       bottomSheet: BottomSheet(
         enableDrag: false,
-        backgroundColor: Colors.blue[300],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30.0)),
-        ),
+        // backgroundColor: Colors.red,
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
+        // ),
         onClosing: () {},
         builder: (context) => Container(
-          // color: Colors.red,
+          // color: Colors.transparent,
           height: bottomSheetSize,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30), color: Colors.red),
-
+          // decoration: BoxDecoration(
+          //   borderRadius: BorderRadius.circular(30),
+          //   // color: Colors.red,
+          // ),
+          //  decoration: new BoxDecoration(
+          //               color: Colors.white,
+          //               borderRadius: new BorderRadius.only(
+          //                   topLeft: const Radius.circular(30.0),
+          //                   topRight: const Radius.circular(30.0))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                 onPressed: () => Navigator.pop(context, []),
                 child: Text('Zurücksetzen'),
-                // style: ButtonStyle(
-                //     backgroundColor: MaterialStateProperty.all(
-                //         Theme.of(context).primaryColor)
-                //         ),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -89,9 +90,6 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                   ]);
                 },
                 child: Text('Übernehmen'),
-                // style: ButtonStyle(
-                //     backgroundColor: MaterialStateProperty.all(
-                //         Theme.of(context).primaryColor)),
               )
             ],
           ),
@@ -280,7 +278,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                       .toList(),
                 ),
               ),
-              SizedBox(height: 60)
+              // SizedBox(height: 60)
             ],
           ),
         ),
