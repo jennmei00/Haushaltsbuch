@@ -65,24 +65,51 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
           : ListView(children: [
               _soWeekly.length == 0
                   ? SizedBox()
-                  : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Wöchentlich'),
+                  : Card(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+                        child: Text(
+                          'Wöchentlich',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                      ),
+                      color: Theme.of(context).colorScheme.primaryVariant,
                     ),
               Column(children: _soWeekly.map((e) => _soCard(e)).toList()),
               _soMonthly.length == 0
                   ? SizedBox()
-                  : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Monatlich'),
+                  : Card(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+                        child: Text(
+                          'Monatlich',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                      ),
+                      color: Theme.of(context).colorScheme.primaryVariant,
                     ),
               Column(children: _soMonthly.map((e) => _soCard(e)).toList()),
               _soYearly.length == 0
                   ? SizedBox()
-                  : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Jährlich'),
+                  : Card(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+                      child: Text(
+                        'Jährlich',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onPrimary),
+                      ),
                     ),
+                    color: Theme.of(context).colorScheme.primaryVariant,
+                  ),
               Column(children: _soYearly.map((e) => _soCard(e)).toList()),
             ]
               // AllData.standingOrders.map((item) => _soCard(item)).toList(),
@@ -186,11 +213,11 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
             ),
             trailing: item.postingType == PostingType.income
                 ? Text(
-                    '+ ${item.amount!.toStringAsFixed(2)}€',
+                    '+ ${item.amount!.toStringAsFixed(2)} €',
                     style: TextStyle(color: Colors.green),
                   )
                 : Text(
-                    '- ${item.amount!.toStringAsFixed(2)}€',
+                    '- ${item.amount!.toStringAsFixed(2)} €',
                     style: TextStyle(color: Colors.red),
                   ),
             childrenPadding: EdgeInsets.only(left: 30, bottom: 10, right: 10),

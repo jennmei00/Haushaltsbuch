@@ -71,8 +71,8 @@ class ManageTransfers extends StatelessWidget {
       _loadWithFilter();
     }
 
-    return AllData.postings.length == 0
-        ? NothingThere(textScreen: 'Du hast noch keine Buchung erstellt :(')
+    return AllData.transfers.length == 0
+        ? NothingThere(textScreen: 'Du hast noch keine Umbuchung erstellt :(')
         : ListView(
             children: _listTransfer.map((Transfer e) {
               return _listViewWidget(e, context);
@@ -94,6 +94,7 @@ class ManageTransfers extends StatelessWidget {
                 actions: <Widget>[
                   TextButton(
                       onPressed: () async {
+                        try{
                         Account acFrom = AllData.accounts.firstWhere(
                             (element) =>
                                 element.id == transfer.accountFrom!.id);
@@ -116,6 +117,9 @@ class ManageTransfers extends StatelessWidget {
                             (element) => element.id == transfer.id);
                         DBHelper.delete('Transfer',
                             where: "ID = '${transfer.id}'");
+                        } catch(ex) {
+                          print(ex);
+                        }
 
                         Navigator.of(context).pop(true);
                       },
@@ -183,7 +187,7 @@ class ManageTransfers extends StatelessWidget {
             title: Text(
                 '${transfer.accountFromName} => ${transfer.accountToName}'),
             subtitle: Text('${transfer.date}'),
-            trailing: Text('${transfer.amount!.toStringAsFixed(2)}€'),
+            trailing: Text('${transfer.amount!.toStringAsFixed(2)} €'),
             childrenPadding: EdgeInsets.only(left: 30, bottom: 10, right: 10),
             expandedAlignment: Alignment.topLeft,
             children: [

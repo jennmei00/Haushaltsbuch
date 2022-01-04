@@ -31,6 +31,7 @@ final lightTheme = ThemeData(
 final ColorScheme colorSchemeDark = ColorScheme.dark(
   secondary: Color(0xff45ADA8),
   primary: Color(0xff78AD68),
+  primaryVariant: Color(0xffa8df97),
   // secondaryVariant: Color(0xffbc477b),
   // secondary: Color(0xff560027),
 );
