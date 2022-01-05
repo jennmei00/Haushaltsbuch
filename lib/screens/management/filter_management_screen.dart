@@ -3,6 +3,7 @@ import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
+import 'package:intl/intl.dart';
 // import 'package:haushaltsbuch/models/all_data.dart';
 
 class FilterManagementScreen extends StatefulWidget {
@@ -52,7 +53,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
     double bottomSheetSize = MediaQuery.of(context).size.height * 0.09;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Filter'),
+        title: Text('Verwaltungsfilter'),
       ),
       bottomSheet: BottomSheet(
         enableDrag: false,
@@ -148,43 +149,54 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                ' Datum',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
               Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(children: [
-                    Text(_filterDate == null
-                        ? 'Datum auswählen'
-                        : '${_filterDate!.start.day}. ${_filterDate!.start.month}. ${_filterDate!.start.year} bis ' +
-                            '${_filterDate!.end.day}. ${_filterDate!.end.month}. ${_filterDate!.end.year}'),
-                    IconButton(
-                      onPressed: () async {
-                        final picked = await showDateRangePicker(
-                          context: context,
-                          lastDate: new DateTime(2022),
-                          firstDate: new DateTime(2021),
-                        );
-
-                        setState(() {
-                          _filterDate = picked;
-                        });
-                      },
-                      icon: Icon(
-                        Icons.calendar_today,
+                elevation: 5,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 16),
+                      child: Text(
+                        'Datum',
+                        style:
+                            TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        textAlign: TextAlign.left,
                       ),
                     ),
-                  ]),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: [
+                        Text(_filterDate == null
+                            ? 'Zum Auswählen klicken'
+                            // : '${_filterDate!.start.day}. ${_filterDate!.start.month}. ${_filterDate!.start.year} bis ' +
+                            //     '${_filterDate!.end.day}. ${_filterDate!.end.month}. ${_filterDate!.end.year}'),
+                            : '${DateFormat.yMMMd().format(_filterDate!.start)} - ' + '${DateFormat.yMMMd().format(_filterDate!.end)}'),
+                        IconButton(
+                          onPressed: () async {
+                            final picked = await showDateRangePicker(
+                              context: context,
+                              lastDate: new DateTime(2022),
+                              firstDate: new DateTime(2021),
+                            );
+
+                            setState(() {
+                              _filterDate = picked;
+                            });
+                          },
+                          icon: Icon(
+                            Icons.calendar_today,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ]),
+                    ),
+                  ],
                 ),
               ),
-              // Text(
-              //   'Dauerauftrag',
-              //   style: TextStyle(fontWeight: FontWeight.bold),
-              // ),
               Card(
+                elevation: 5,
                 child: SwitchListTile(
+                  activeColor: Theme.of(context).colorScheme.primary,
                   title: Text(
                     'Dauerauftrag',
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -194,42 +206,53 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                   // activeColor: Theme.of(context).primaryColor,
                 ),
               ),
-              Text(
-                ' Kategorien',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
               Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: double.infinity,
-                    height: 300,
-                    //child: Text('Kategorieeen'),
-                    child: GridView.count(
-                      scrollDirection: Axis.vertical,
-                      childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 1.5),
-                      padding: EdgeInsets.all(10),
-                      crossAxisCount: 3,
-                      crossAxisSpacing:
-                          MediaQuery.of(context).size.width * 0.04,
-                      mainAxisSpacing: 12,
-                      children: AllData.categories
-                          .map((item) => CategoryItem(
-                                categoryItem: item,
-                                selectedCatList: _filterCategories,
-                                multiSelection: true,
-                                onTapFunction: () => setState(() {
-                                  final isSelected =
-                                      _filterCategories.contains(item);
-                                  isSelected
-                                      ? _filterCategories.remove(item)
-                                      : _filterCategories.add(item);
-                                }),
-                              ))
-                          .toList(),
+                elevation: 5,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 16, top: 18),
+                      width: double.infinity,
+                      child: Text(
+                        'Kategorien',
+                        style:
+                            TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: double.infinity,
+                        height: 300,
+                        //child: Text('Kategorieeen'),
+                        child: GridView.count(
+                          scrollDirection: Axis.vertical,
+                          childAspectRatio: MediaQuery.of(context).size.width /
+                              (MediaQuery.of(context).size.height / 1.5),
+                          padding: EdgeInsets.all(10),
+                          crossAxisCount: 3,
+                          crossAxisSpacing:
+                              MediaQuery.of(context).size.width * 0.04,
+                          mainAxisSpacing: 12,
+                          children: AllData.categories
+                              .map((item) => CategoryItem(
+                                    categoryItem: item,
+                                    selectedCatList: _filterCategories,
+                                    multiSelection: true,
+                                    onTapFunction: () => setState(() {
+                                      final isSelected =
+                                          _filterCategories.contains(item);
+                                      isSelected
+                                          ? _filterCategories.remove(item)
+                                          : _filterCategories.add(item);
+                                    }),
+                                  ))
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               // Text(
@@ -237,6 +260,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
               //   style: TextStyle(fontWeight: FontWeight.bold),
               // ),
               Card(
+                elevation: 5,
                 child: ExpansionTile(
                   //textColor: Colors.black,
                   //iconColor: Colors.black,

@@ -94,30 +94,32 @@ class ManageTransfers extends StatelessWidget {
                 actions: <Widget>[
                   TextButton(
                       onPressed: () async {
-                        try{
-                        Account acFrom = AllData.accounts.firstWhere(
-                            (element) =>
-                                element.id == transfer.accountFrom!.id);
-                        Account acTo = AllData.accounts.firstWhere(
-                            (element) => element.id == transfer.accountTo!.id);
-                        AllData.accounts
-                            .removeWhere((element) => element.id == acFrom.id);
-                        AllData.accounts
-                            .removeWhere((element) => element.id == acTo.id);
-                        acFrom.bankBalance =
-                            acFrom.bankBalance! + transfer.amount!;
-                        acTo.bankBalance = acTo.bankBalance! - transfer.amount!;
-                        AllData.accounts.addAll([acTo, acFrom]);
-                        await DBHelper.update('Account', acFrom.toMap(),
-                            where: "ID = '${acFrom.id}'");
-                        await DBHelper.update('Account', acTo.toMap(),
-                            where: "ID = '${acTo.id}'");
+                        try {
+                          Account acFrom = AllData.accounts.firstWhere(
+                              (element) =>
+                                  element.id == transfer.accountFrom!.id);
+                          Account acTo = AllData.accounts.firstWhere(
+                              (element) =>
+                                  element.id == transfer.accountTo!.id);
+                          AllData.accounts.removeWhere(
+                              (element) => element.id == acFrom.id);
+                          AllData.accounts
+                              .removeWhere((element) => element.id == acTo.id);
+                          acFrom.bankBalance =
+                              acFrom.bankBalance! + transfer.amount!;
+                          acTo.bankBalance =
+                              acTo.bankBalance! - transfer.amount!;
+                          AllData.accounts.addAll([acTo, acFrom]);
+                          await DBHelper.update('Account', acFrom.toMap(),
+                              where: "ID = '${acFrom.id}'");
+                          await DBHelper.update('Account', acTo.toMap(),
+                              where: "ID = '${acTo.id}'");
 
-                        AllData.transfers.removeWhere(
-                            (element) => element.id == transfer.id);
-                        DBHelper.delete('Transfer',
-                            where: "ID = '${transfer.id}'");
-                        } catch(ex) {
+                          AllData.transfers.removeWhere(
+                              (element) => element.id == transfer.id);
+                          DBHelper.delete('Transfer',
+                              where: "ID = '${transfer.id}'");
+                        } catch (ex) {
                           print(ex);
                         }
 
@@ -184,8 +186,14 @@ class ManageTransfers extends StatelessWidget {
         child: Card(
           child: ExpansionTile(
             textColor: Colors.black,
-            title: Text(
-                '${transfer.accountFromName} => ${transfer.accountToName}'),
+            title: Row(
+              children: [
+                Text(
+                    '${transfer.accountFromName}  '),
+                Icon(Icons.arrow_right_alt),
+                Text('  ${transfer.accountToName}'),
+              ],
+            ),
             subtitle: Text('${transfer.date}'),
             trailing: Text('${transfer.amount!.toStringAsFixed(2)} €'),
             childrenPadding: EdgeInsets.only(left: 30, bottom: 10, right: 10),

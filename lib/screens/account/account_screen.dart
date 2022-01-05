@@ -10,6 +10,7 @@ import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -21,7 +22,6 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   List<List<Object>> accountTypeList = [];
-  late bool isDarkmode;
 
   var accountData = AllData.accounts;
   double totalBankBalance = 0;
@@ -66,22 +66,10 @@ class _AccountScreenState extends State<AccountScreen> {
     }
   }
 
-  void _getThemeMode() async {
-    var prefs = await SharedPreferences.getInstance();
-    isDarkmode = prefs.getBool('darkMode')!;
-
-    // DBHelper.update('Category', Category(
-    //   id: 'default',
-    //   symbol: 'assets/icons/category_icons/food.png',
-    //   color: Colors.blue,
-    //   title: 'Defaultkat').toMap(), where: "ID = 'default'");
-  }
-
   @override
   void initState() {
     _createAccountList();
     _getTotalBankBalance();
-    _getThemeMode();
     super.initState();
   }
 
@@ -116,7 +104,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       child: Column(
                         children: [
                           Text(
-                            'Gesamtes Vermögen:',
+                            'Alle Konten',
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
@@ -125,7 +113,8 @@ class _AccountScreenState extends State<AccountScreen> {
                             height: 10,
                           ),
                           Text(
-                            '${totalBankBalance.toStringAsFixed(2)} €',
+                            //'${totalBankBalance.toStringAsFixed(2)} €',
+                            '${NumberFormat.currency(locale: "de", symbol: "€").format(totalBankBalance)}',
                             style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,

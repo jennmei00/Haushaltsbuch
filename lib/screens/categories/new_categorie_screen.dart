@@ -9,6 +9,7 @@ import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class NewCategorieScreen extends StatefulWidget {
@@ -25,7 +26,7 @@ class NewCategorieScreen extends StatefulWidget {
 class _NewCategorieScreenState extends State<NewCategorieScreen> {
   TextEditingController _titleController = TextEditingController(text: '');
 
-  Color _iconcolor = Colors.black;
+  late Color _iconcolor;
   Color _onchangedColor = Colors.black;
   final _formKey = GlobalKey<FormState>();
   String _selectedIcon = '';
@@ -37,9 +38,10 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
           AllData.categories.firstWhere((element) => element.id == widget.id);
       _titleController.text = '${cat.title}';
       _iconcolor = cat.color as Color;
-      _selectedIcon = cat.symbol == null ? '' : cat.symbol!;
+      //_selectedIcon = cat.symbol == null ? '' : cat.symbol!;
     } else {
       _selectedIcon = Globals.imagePathsCategoryIcons[0];
+      _iconcolor = Globals.isDarkmode ? Colors.white : Colors.black;
     }
     // _getImageList();
     // print(imagePaths);
@@ -48,6 +50,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title:
@@ -118,8 +121,8 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
               shrinkWrap: true,
               padding: EdgeInsets.all(8),
               crossAxisCount: 4,
-              crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
-              mainAxisSpacing: 20,
+              crossAxisSpacing: MediaQuery.of(context).size.width * 0.07,
+              mainAxisSpacing: 24,
               children: Globals.imagePathsCategoryIcons
                   .map((item) => GestureDetector(
                         onTap: () => setState(() {
@@ -133,7 +136,10 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                                 blurRadius: _selectedIcon == item ? 5 : 5,
                                 color: _selectedIcon == item
                                     ? _iconcolor.withOpacity(0.2)
-                                    : _iconcolor.withOpacity(0.08),
+                                    : Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withOpacity(0.08),
                                 spreadRadius: _selectedIcon == item ? 2 : 1,
                               )
                             ],
@@ -146,7 +152,12 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(12),
                             child: Container(
-                              child: Image.asset(item, color: _iconcolor),
+                              child: Image.asset(
+                                item,
+                                color: _selectedIcon == item
+                                    ? _iconcolor
+                                    : Theme.of(context).colorScheme.onSurface,
+                              ),
                             ),
                           ),
                         ),

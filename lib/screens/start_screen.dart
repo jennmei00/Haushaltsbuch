@@ -11,6 +11,7 @@ import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({Key? key, this.ctx}) : super(key: key);
@@ -37,6 +38,12 @@ Future<void> _getImageList(BuildContext context) async {
 
   Globals.imagePathsAccountIcons = manifestMap.keys
       .where((key) => key.contains('assets/icons/account_icons')).toList();
+}
+
+Future<void> _getThemeMode() async {
+    var prefs = await SharedPreferences.getInstance();
+    Globals.isDarkmode = prefs.getBool('darkMode')!;
+  
 }
 
 class _StartScreenState extends State<StartScreen> {
@@ -73,6 +80,7 @@ class _StartScreenState extends State<StartScreen> {
   @override
   void initState() {
     _loadData = _getAllData();
+    _getThemeMode();
     super.initState();
   }
 
