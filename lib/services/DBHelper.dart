@@ -20,6 +20,7 @@ class DBHelper {
   static Future<void> deleteDatabse() async {
     final dbPath = await sql.getDatabasesPath();
     await sql.deleteDatabase('$dbPath/Haushaltsbuch.db');
+    _database = null;
   }
 
   //Functions
