@@ -19,6 +19,7 @@ import 'package:haushaltsbuch/services/theme.dart';
 import 'package:haushaltsbuch/services/theme_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,9 +29,11 @@ void main() {
   ]);
   SharedPreferences.getInstance().then((prefs) {
     var darkModeOn = prefs.getBool('darkMode') ?? true;
-    runApp(ChangeNotifierProvider(
-      create: (_) => ThemeNotifier(darkModeOn ? darkTheme : lightTheme),
-      child: MyApp(),
+    runApp(Phoenix(
+      child: ChangeNotifierProvider(
+        create: (_) => ThemeNotifier(darkModeOn ? darkTheme : lightTheme),
+        child: MyApp(),
+      ),
     ));
   });
   // runApp(MyApp());
@@ -56,15 +59,15 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Haushaltsapp',
-      theme: themeNotifier.getTheme(), 
-        //ThemeData(
+      theme: themeNotifier.getTheme(),
+      //ThemeData(
       //   primaryColor: colorSchemeLight.primary,
       //   colorScheme: colorSchemeLight.copyWith(secondary: colorSchemeLight.secondary),
       //   backgroundColor: colorSchemeLight.background,
       //   //primarySwatch: MaterialColor(0xffad1457, color),
       //   //brightness: Brightness.light,
       // ),
-      //themeNotifier.getTheme(), 
+      //themeNotifier.getTheme(),
 
       // theme: ThemeData(
       //   primaryColor: Colors.red[700],

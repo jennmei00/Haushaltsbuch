@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/theme.dart';
@@ -71,18 +72,18 @@ class SettingsScreen extends StatelessWidget {
                           "Bist du WIRKLICH sicher, dass du ALLE Daten löschen willst?"),
                       actions: <Widget>[
                         TextButton(
-                            onPressed: () {
-                              
+                            onPressed: ()async {
                               // AllData.accountTypes = [];
                               // AllData.accounts = [];
                               // AllData.categories = [];
                               // AllData.postings = [];
-                              // AllData.standingOrderPostings = [];
                               // AllData.standingOrders = [];
                               // AllData.transfers = [];
-                              DBHelper.deleteDatabse();
+
+                             await DBHelper.deleteDatabse();
 
                               Navigator.of(context).pop(true);
+                              Phoenix.rebirth(context);
                             },
                             child: const Text("Löschen")),
                         TextButton(

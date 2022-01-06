@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
@@ -11,7 +12,7 @@ class DBHelper {
     return _database ??=
         await sql.openDatabase(path.join(dbPath, 'Haushaltsbuch.db'),
             onCreate: _createTables,
-            //onUpgrade: _upgradeTables,
+            // onUpgrade: _upgradeTables,
             version: 1);
   }
 
@@ -205,6 +206,8 @@ class DBHelper {
         "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Bargeldkonto')");
     await db.execute(
         "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Sonstiges Konto')");
+        await db.execute(
+        "INSERT INTO Category VALUES('default', 'Standard', 'assets/icons/category_icons/money-2.png', ${Colors.teal.value.toString()})");
   }
 
   /////////////COPY - PASTE ---- Verstehe ich nicht ganz (wenn ich Tabelle Upgrade, Lösche ich Database und create Tabellen neu 'O')
@@ -212,9 +215,16 @@ class DBHelper {
   // static Future<void> _upgradeTables(
   //     sql.Database db, int oldVersion, int newVersion) async {
   //   // //ab Version 2
+  //   print(newVersion);
+  //   print(oldVersion);
   //   if(oldVersion < 2 && newVersion == 2) {
   //     try{
-  //       db.execute('ALTER TABLE Auftraege ');
+
+  //     //    Category _setCategory = Category(
+  //     // id: 'default',
+  //     // symbol: 'assets/icons/category_icons/food.png',
+  //     // color: Colors.blue,
+  //     // title: 'Defaultkat');
   //     }
   //     catch(e) {
   //       print(e);

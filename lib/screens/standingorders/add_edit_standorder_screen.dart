@@ -36,11 +36,8 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   final _formKey = GlobalKey<FormState>();
   ListItem? _selectedItem;
   String _selectedCategoryID = '';
-  Category _setCategory = Category(
-      id: 'default',
-      symbol: 'assets/icons/category_icons/food.png',
-      color: Colors.blue,
-      title: 'Defaultkat');
+  Category _setCategory =
+      AllData.categories.firstWhere((element) => element.id == 'default');
   late Category _selectedCategory;
 
   // late
