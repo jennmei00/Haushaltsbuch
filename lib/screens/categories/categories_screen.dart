@@ -60,25 +60,25 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 5,
-                                      color: item.color!.withOpacity(0.1),
-                                      spreadRadius: 2,
-                                    )
-                                  ],
-                                  color: item.color!.withOpacity(0.05),
+                                  // boxShadow: [
+                                  //   BoxShadow(
+                                  //     blurRadius: 5,
+                                  //     color: item.color!.withOpacity(0.1),
+                                  //     spreadRadius: 2,
+                                  //   )
+                                  // ],
+                                  color: item.color!.withOpacity(0.18),//withOpacity(0.05),
                                 ),
                                 // width: 60,
                                 // height: 60,
                                 child: InkWell(
                                   splashColor: item.color!.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(12),
                                   onTap: () => Navigator.of(context).pushNamed(
                                       NewCategorieScreen.routeName,
                                       arguments: item.id),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(12.0),
+                                    padding: const EdgeInsets.all(16.0),
                                     child: Image.asset(item.symbol!,
                                         color: item.color!),
                                   ),

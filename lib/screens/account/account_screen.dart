@@ -7,6 +7,7 @@ import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
@@ -139,8 +140,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   .toStringAsFixed(2);
                           return Card(
                             elevation: 3,
-                            color:
-                                Theme.of(context).colorScheme.secondaryVariant,
+                            color: Globals.isDarkmode ? null : Color(0xffeeeeee),
                             child: ExpansionTile(
                               //collapsedBackgroundColor: Theme.of(context).colorScheme.secondaryVariant,
                               //textColor: Colors.black,
