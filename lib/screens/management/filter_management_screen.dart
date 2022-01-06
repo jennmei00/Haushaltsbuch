@@ -158,8 +158,8 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                       padding: EdgeInsets.only(left: 16),
                       child: Text(
                         'Datum',
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -170,13 +170,14 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                             ? 'Zum Auswählen klicken'
                             // : '${_filterDate!.start.day}. ${_filterDate!.start.month}. ${_filterDate!.start.year} bis ' +
                             //     '${_filterDate!.end.day}. ${_filterDate!.end.month}. ${_filterDate!.end.year}'),
-                            : '${DateFormat.yMMMd().format(_filterDate!.start)} - ' + '${DateFormat.yMMMd().format(_filterDate!.end)}'),
+                            : '${DateFormat.yMMMd().format(_filterDate!.start)} - ' +
+                                '${DateFormat.yMMMd().format(_filterDate!.end)}'),
                         IconButton(
                           onPressed: () async {
                             final picked = await showDateRangePicker(
                               context: context,
-                              lastDate: new DateTime(2022),
-                              firstDate: new DateTime(2021),
+                              firstDate: AllData.postings.first.date!,
+                              lastDate: DateTime.now().add(Duration(days: 30)),
                             );
 
                             setState(() {
@@ -215,8 +216,8 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                       width: double.infinity,
                       child: Text(
                         'Kategorien',
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                         textAlign: TextAlign.left,
                       ),
                     ),
