@@ -71,6 +71,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
             //physics: NeverScrollableScrollPhysics(),//BouncingScrollPhysics(),
             //padding: const EdgeInsets.all(10.0),
             children: [
+              SizedBox(height: 10),
               CustomTextField(
                 labelText: 'Kategoriename',
                 hintText: '',
@@ -128,8 +129,8 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                   shrinkWrap: true,
                   padding: EdgeInsets.all(8),
                   crossAxisCount: 4,
-                  crossAxisSpacing: MediaQuery.of(context).size.width * 0.07,
-                  mainAxisSpacing: 24,
+                  crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
+                  mainAxisSpacing: 20,
                   children: Globals.imagePathsCategoryIcons
                       .map((item) => GestureDetector(
                             onTap: () => setState(() {
@@ -209,7 +210,6 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                   //     .toList(),
                 ),
               ),
-              Row(),
               SizedBox(height: 20),
               widget.id == '' || widget.id == 'default'
                   ? SizedBox()

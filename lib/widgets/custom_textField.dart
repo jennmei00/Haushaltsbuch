@@ -34,9 +34,9 @@ class CustomTextField extends StatelessWidget {
       },
       decoration: InputDecoration(
         labelText: this.labelText,
-        labelStyle: TextStyle(fontSize: 20),
+        //labelStyle: TextStyle(fontSize: 20),
         //hintText: hintText,
-        filled: true,
+        // filled: true,
         // fillColor: Colors.grey[700]?.withOpacity(0.5),
         // focusedBorder: UnderlineInputBorder(
         //   // borderSide: BorderSide(color: Colors.cyan),
@@ -46,11 +46,11 @@ class CustomTextField extends StatelessWidget {
         //   borderSide: BorderSide(),
         //   borderRadius: BorderRadius.circular(30),
         // )),
-        errorStyle: TextStyle(
-          color: Theme.of(context).colorScheme.error,
-        ),
-        focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.error)),
-        errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.error)),
+        // errorStyle: TextStyle(
+        //   color: Theme.of(context).colorScheme.error,
+        // ),
+        // focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.error)),
+        // errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.error)),
       ),
       maxLength: this.fieldname == 'categoryName' ? 20 : null,
     );

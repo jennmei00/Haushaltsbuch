@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
+import 'package:haushaltsbuch/services/input_theme.dart';
 
 // ignore: must_be_immutable
 class DropDown extends StatelessWidget {
@@ -53,6 +54,7 @@ class DropDown extends StatelessWidget {
         //child: DropdownButtonHideUnderline(
         DropdownButtonHideUnderline(
       child: DropdownButtonFormField(
+        //itemHeight: 20,
         hint: Text(dropdownHintText),
         validator: (value) {
           //ListItem item = value as ListItem;
@@ -61,11 +63,11 @@ class DropDown extends StatelessWidget {
           if (value == null) return 'Das ist ein Pflichtfeld';
           //}
         },
-        style: TextStyle(
-          fontSize: 20,
-          // color: Colors.grey[400],
-          color: Colors.grey[700],
-        ),
+        // style: TextStyle(
+        //   fontSize: 20,
+        //   // color: Colors.grey[400],
+        //   color: Colors.grey[700],
+        // ),
         icon: Icon(Icons.arrow_drop_down),
         iconEnabledColor: Colors.grey[600],
         iconSize: 30,
@@ -75,19 +77,19 @@ class DropDown extends StatelessWidget {
                 .firstWhere((element) => element.id == listItemValue),
         items: _dropdownMenuItems,
         onChanged: (newValue) => onChanged(newValue),
-        decoration: InputDecoration(
-          //labelStyle: TextStyle(fontSize: 20),
-          filled: true,
-          errorStyle: TextStyle(
-            color: Theme.of(context).colorScheme.error,
-          ),
-          focusedErrorBorder: UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Theme.of(context).colorScheme.error)),
-          errorBorder: UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Theme.of(context).colorScheme.error)),
-        ),
+        // decoration: InputDecoration(
+        //   //labelStyle: TextStyle(fontSize: 20),
+        //   filled: true,
+        //   errorStyle: TextStyle(
+        //     color: Theme.of(context).colorScheme.error,
+        //   ),
+        //   focusedErrorBorder: UnderlineInputBorder(
+        //       borderSide:
+        //           BorderSide(color: Theme.of(context).colorScheme.error)),
+        //   errorBorder: UnderlineInputBorder(
+        //       borderSide:
+        //           BorderSide(color: Theme.of(context).colorScheme.error)),
+        // ),
       ),
       //  ),
       //),

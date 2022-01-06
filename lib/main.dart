@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
@@ -60,22 +61,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Haushaltsapp',
       theme: themeNotifier.getTheme(),
-      //ThemeData(
-      //   primaryColor: colorSchemeLight.primary,
-      //   colorScheme: colorSchemeLight.copyWith(secondary: colorSchemeLight.secondary),
-      //   backgroundColor: colorSchemeLight.background,
-      //   //primarySwatch: MaterialColor(0xffad1457, color),
-      //   //brightness: Brightness.light,
-      // ),
-      //themeNotifier.getTheme(),
-
-      // theme: ThemeData(
-      //   primaryColor: Colors.red[700],
-      //   textTheme: TextTheme(),
-      //   buttonTheme: ButtonThemeData()
-      // ),
-      // themeMode: ThemeMode.system,
-      // darkTheme: MyThemes.darkTheme,
       home: StartScreen(ctx: context),
       // HomeScreen(),
       routes: {

@@ -67,8 +67,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     _getAccountTypeDropDownItems();
     if (widget.id != '') {
       _getAccountData();
-    }
-    else {
+    } else {
       _selectedIcon = Globals.imagePathsAccountIcons[0];
     }
     super.initState();
@@ -92,70 +91,69 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       ),
       body: Form(
         key: _formKey,
-        child: ListView(
-          physics: BouncingScrollPhysics(),
+        child: Padding(
           padding: const EdgeInsets.all(10.0),
-          // body: SingleChildScrollView(
-          //   physics: BouncingScrollPhysics(),
-          //   child: Form(
-          //     key: _formKey,
-          //     child: Padding(
-          //       padding: const EdgeInsets.all(10.0),
-          //       child: Column(
-          //         crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CustomTextField(
-              labelText: 'Konto',
-              hintText: 'Kontoname',
-              controller: _titleController,
-              mandatory: true,
-              fieldname: 'account',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CustomTextField(
-              labelText: 'Kontostand',
-              hintText: 'Aktueller Kontostand',
-              controller: _bankBalanceController,
-              keyboardType: TextInputType.number,
-              mandatory: true,
-              fieldname: 'accountBalance',
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            CustomTextField(
-              labelText: 'Beschreibung',
-              hintText: 'Kontobeschreibung',
-              controller: _descriptionController,
-              mandatory: false,
-              fieldname: 'description',
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            DropDown(
-              onChanged: (newValue) {
-                _selectedItem = newValue as ListItem;
-                setState(() {});
-              },
-              dropdownItems: _accountTypeDropDownItems,
-              listItemValue: _selectedItem == null ? null : _selectedItem!.id,
-              dropdownHintText: 'Kontoart',
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Iconfarbe auswählen: ',
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              CustomTextField(
+                labelText: 'Konto',
+                hintText: 'Kontoname',
+                controller: _titleController,
+                mandatory: true,
+                fieldname: 'account',
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CustomTextField(
+                labelText: 'Kontostand',
+                hintText: 'Aktueller Kontostand',
+                controller: _bankBalanceController,
+                keyboardType: TextInputType.number,
+                mandatory: true,
+                fieldname: 'accountBalance',
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CustomTextField(
+                labelText: 'Beschreibung',
+                hintText: 'Kontobeschreibung',
+                controller: _descriptionController,
+                mandatory: false,
+                fieldname: 'description',
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              DropDown(
+                onChanged: (newValue) {
+                  _selectedItem = newValue as ListItem;
+                  setState(() {});
+                },
+                dropdownItems: _accountTypeDropDownItems,
+                listItemValue: _selectedItem == null ? null : _selectedItem!.id,
+                dropdownHintText: 'Kontoart',
+              ),
+              SizedBox(height: 10),
+              // Divider(),
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  'Iconfarbe',
                   style: TextStyle(fontSize: 20),
                 ),
-                IconButton(
-                  onPressed: () => showDialog(
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: GestureDetector(
+                  //Iconbutton(
+                  //highlightColor: Colors.transparent,
+                  onTap: () => showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return StatefulBuilder(builder: (context, setState) {
@@ -173,109 +171,110 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                           );
                         });
                       }),
-                  // CustomDialog().customShowDialog(
-                  //   context,
-                  //   'ColorPicker',
-                  //   ColorPickerClass(_colorChanged, _iconcolor),
-                  //   true,
-                  //   true,
-                  //   () {
-                  //     setState(() {
-                  //       _iconcolor = _onchangedColor;
-                  //     });
-                  //     Navigator.of(context).pop();
-                  //   },
-                  // ),
-                  icon: Icon(
+                  child: Icon(
                     Icons.color_lens,
                     color: _iconcolor,
+                    size: MediaQuery.of(context).size.width * 0.14,
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Icon wählen: ',
-              style: TextStyle(fontSize: 20),
-            ),
-            GridView.count(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.all(8),
-              crossAxisCount: 4,
-              crossAxisSpacing: MediaQuery.of(context).size.width * 0.02,
-              mainAxisSpacing: 20,
-              children: Globals.imagePathsAccountIcons
-                  .map((item) => GestureDetector(
-                        onTap: () => setState(() {
-                          _selectedIcon = item;
-                        }),
-                        child: new Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: _selectedIcon == item ? 5 : 5,
+              ),
+              SizedBox(height: 10),
+              Divider(),
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  'Icon',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              SizedBox(height: 10),
+              Expanded(
+                child: GridView.count(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: EdgeInsets.all(8),
+                  crossAxisCount: 4,
+                  crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
+                  mainAxisSpacing: 20,
+                  children: Globals.imagePathsAccountIcons
+                      .map((item) => GestureDetector(
+                            onTap: () => setState(() {
+                              _selectedIcon = item;
+                            }),
+                            child: new Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //     blurRadius: _selectedIcon == item ? 5 : 5,
+                                //     color: _selectedIcon == item
+                                //         ? _iconcolor.withOpacity(0.2)
+                                //         : _iconcolor.withOpacity(0.08),
+                                //     spreadRadius: _selectedIcon == item ? 2 : 1,
+                                //   )
+                                // ],
                                 color: _selectedIcon == item
-                                    ? _iconcolor.withOpacity(0.2)
-                                    : _iconcolor.withOpacity(0.08),
-                                spreadRadius: _selectedIcon == item ? 2 : 1,
-                              )
-                            ],
-                            color: _selectedIcon == item
-                                ? _iconcolor.withOpacity(0.12)
-                                : null,
-                          ),
-                          // height: MediaQuery.of(context).size.width * 0.34,
-                          // width: MediaQuery.of(context).size.width * 0.34,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Container(
-                              child: Image.asset(item, color: _iconcolor),
+                                    ? _iconcolor.withOpacity(0.18)
+                                    : null,
+                              ),
+                              // height: MediaQuery.of(context).size.width * 0.34,
+                              // width: MediaQuery.of(context).size.width * 0.34,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Container(
+                                  child: Image.asset(
+                                    item,
+                                    color: _selectedIcon == item
+                                          ? _iconcolor
+                                          : Colors.grey.shade500//_iconcolor,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ))
-                  .toList(),
-              // children: Globals.imagePaths
-              //     .map((item) => GestureDetector(
-              //           onTap: () => setState(() {
-              //             _selectedIcon = item;
-              //           }),
-              //           child: new Container(
-              //             decoration: BoxDecoration(
-              //               borderRadius: BorderRadius.circular(12),
-              //               border: Border.all(
-              //                 width: _selectedIcon == item ? 2.1 : 1.0,
-              //                 color: _selectedIcon == item
-              //                     ? Theme.of(context).primaryColor
-              //                     : Colors.grey.shade700,
-              //               ),
-              //               color: Colors.grey.shade200,
-              //             ),
-              //             // height: MediaQuery.of(context).size.width * 0.34,
-              //             // width: MediaQuery.of(context).size.width * 0.34,
-              //             child: Padding(
-              //               padding: const EdgeInsets.all(5),
-              //               child: CircleAvatar(
-              //                   radius: MediaQuery.of(context).size.width * 0.1,
-              //                   backgroundColor: _iconcolor,
-              //                   child: FractionallySizedBox(
-              //                     widthFactor: 0.6,
-              //                     heightFactor: 0.6,
-              //                     child: Image.asset(
-              //                       item,
-              //                       color: _iconcolor.computeLuminance() > 0.15
-              //                           ? Colors.black
-              //                           : Colors.white,
-              //                     ),
-              //                   )),
-              //             ),
-              //           ),
-              //         ))
-              //     .toList(),
-            ),
-          ],
+                          ))
+                      .toList(),
+                  // children: Globals.imagePaths
+                  //     .map((item) => GestureDetector(
+                  //           onTap: () => setState(() {
+                  //             _selectedIcon = item;
+                  //           }),
+                  //           child: new Container(
+                  //             decoration: BoxDecoration(
+                  //               borderRadius: BorderRadius.circular(12),
+                  //               border: Border.all(
+                  //                 width: _selectedIcon == item ? 2.1 : 1.0,
+                  //                 color: _selectedIcon == item
+                  //                     ? Theme.of(context).primaryColor
+                  //                     : Colors.grey.shade700,
+                  //               ),
+                  //               color: Colors.grey.shade200,
+                  //             ),
+                  //             // height: MediaQuery.of(context).size.width * 0.34,
+                  //             // width: MediaQuery.of(context).size.width * 0.34,
+                  //             child: Padding(
+                  //               padding: const EdgeInsets.all(5),
+                  //               child: CircleAvatar(
+                  //                   radius: MediaQuery.of(context).size.width * 0.1,
+                  //                   backgroundColor: _iconcolor,
+                  //                   child: FractionallySizedBox(
+                  //                     widthFactor: 0.6,
+                  //                     heightFactor: 0.6,
+                  //                     child: Image.asset(
+                  //                       item,
+                  //                       color: _iconcolor.computeLuminance() > 0.15
+                  //                           ? Colors.black
+                  //                           : Colors.white,
+                  //                     ),
+                  //                   )),
+                  //             ),
+                  //           ),
+                  //         ))
+                  //     .toList(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
