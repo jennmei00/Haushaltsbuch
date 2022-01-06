@@ -93,38 +93,7 @@ class ManageTransfers extends StatelessWidget {
                     "Bist du sicher, dass die Buchung löschen willst?"),
                 actions: <Widget>[
                   TextButton(
-                      onPressed: () async {
-                        try {
-                          Account acFrom = AllData.accounts.firstWhere(
-                              (element) =>
-                                  element.id == transfer.accountFrom!.id);
-                          Account acTo = AllData.accounts.firstWhere(
-                              (element) =>
-                                  element.id == transfer.accountTo!.id);
-                          AllData.accounts.removeWhere(
-                              (element) => element.id == acFrom.id);
-                          AllData.accounts
-                              .removeWhere((element) => element.id == acTo.id);
-                          acFrom.bankBalance =
-                              acFrom.bankBalance! + transfer.amount!;
-                          acTo.bankBalance =
-                              acTo.bankBalance! - transfer.amount!;
-                          AllData.accounts.addAll([acTo, acFrom]);
-                          await DBHelper.update('Account', acFrom.toMap(),
-                              where: "ID = '${acFrom.id}'");
-                          await DBHelper.update('Account', acTo.toMap(),
-                              where: "ID = '${acTo.id}'");
-
-                          AllData.transfers.removeWhere(
-                              (element) => element.id == transfer.id);
-                          DBHelper.delete('Transfer',
-                              where: "ID = '${transfer.id}'");
-                        } catch (ex) {
-                          print(ex);
-                        }
-
-                        Navigator.of(context).pop(true);
-                      },
+                      onPressed: () => _deleteTransfer(context, transfer),
                       child: const Text("Löschen")),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
@@ -188,8 +157,7 @@ class ManageTransfers extends StatelessWidget {
             textColor: Colors.black,
             title: Row(
               children: [
-                Text(
-                    '${transfer.accountFromName}  '),
+                Text('${transfer.accountFromName}  '),
                 Icon(Icons.arrow_right_alt),
                 Text('  ${transfer.accountToName}'),
               ],
@@ -205,5 +173,39 @@ class ManageTransfers extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _deleteTransfer(BuildContext context, Transfer transfer) async {
+    try {
+      Account? acFrom = transfer.accountFrom == null
+          ? null
+          : AllData.accounts
+              .firstWhere((element) => element.id == transfer.accountFrom!.id);
+      Account? acTo = transfer.accountTo == null
+          ? null
+          : AllData.accounts
+              .firstWhere((element) => element.id == transfer.accountTo!.id);
+      if (acFrom != null) {
+        AllData.accounts.removeWhere((element) => element.id == acFrom.id);
+        acFrom.bankBalance = acFrom.bankBalance! + transfer.amount!;
+        await DBHelper.update('Account', acFrom.toMap(),
+            where: "ID = '${acFrom.id}'");
+        AllData.accounts.add(acFrom);
+      }
+      if (acTo != null) {
+        AllData.accounts.removeWhere((element) => element.id == acTo.id);
+        acTo.bankBalance = acTo.bankBalance! - transfer.amount!;
+        await DBHelper.update('Account', acTo.toMap(),
+            where: "ID = '${acTo.id}'");
+        AllData.accounts.add(acTo);
+      }
+
+      AllData.transfers.removeWhere((element) => element.id == transfer.id);
+      DBHelper.delete('Transfer', where: "ID = '${transfer.id}'");
+    } catch (ex) {
+      print(ex);
+    }
+
+    Navigator.of(context).pop(true);
   }
 }

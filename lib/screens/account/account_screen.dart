@@ -135,7 +135,8 @@ class _AccountScreenState extends State<AccountScreen> {
                           AccountType itemAccountType =
                               accountTypeList[index][0] as AccountType;
                           String itemAccountTypeBalance =
-                              double.parse(accountTypeList[index][1].toString()).toStringAsFixed(2);
+                              double.parse(accountTypeList[index][1].toString())
+                                  .toStringAsFixed(2);
                           return Card(
                             elevation: 3,
                             color:
@@ -444,54 +445,51 @@ class _AccountScreenState extends State<AccountScreen> {
         await DBHelper.update('Posting', posting.toMap(),
             where: "ID = '${posting.id}'");
       });
-
-      //Transfer Account to null
-      List<Transfer> accountTransfersFrom = [];
-      accountTransfersFrom.addAll(AllData.transfers.where((element) =>
-          element.accountFrom == null
-              ? false
-              : element.accountFrom!.id == account.id));
-
-      List<Transfer> accountTransfersTo = [];
-      accountTransfersTo.addAll(AllData.transfers.where((element) =>
-          element.accountTo == null
-              ? false
-              : element.accountTo!.id == account.id));
-
-      accountTransfersFrom.forEach((transfer) async {
-        AllData
-            .transfers[AllData.transfers.indexWhere((element) =>
-                element.accountFrom == null
-                    ? false
-                    : element.accountFrom!.id == transfer.accountFrom!.id)]
-            .accountFrom = null;
-
-        if (transfer.accountFrom != null) {
-          if (transfer.accountFrom!.id == account.id)
-            transfer.accountFrom = null;
-        }
-
-        await DBHelper.update('Transfer', transfer.toMap(),
-            where: "ID = '${transfer.id}'");
-      });
-
-      accountTransfersTo.forEach((transfer) async {
-        AllData
-            .transfers[AllData.transfers.indexWhere((element) =>
-                element.accountTo == null
-                    ? false
-                    : element.accountTo!.id == transfer.accountTo!.id)]
-            .accountTo = null;
-            
-        if (transfer.accountTo != null) {
-          if (transfer.accountTo!.id == account.id)
-            transfer.accountTo = null;
-        }
-
-        await DBHelper.update('Transfer', transfer.toMap(),
-            where: "ID = '${transfer.id}'");
-      });
     }
+    //Transfer Account to null
+    List<Transfer> accountTransfersFrom = [];
+    accountTransfersFrom.addAll(AllData.transfers.where((element) =>
+        element.accountFrom == null
+            ? false
+            : element.accountFrom!.id == account.id));
+
+    List<Transfer> accountTransfersTo = [];
+    accountTransfersTo.addAll(AllData.transfers.where((element) =>
+        element.accountTo == null
+            ? false
+            : element.accountTo!.id == account.id));
+
+    accountTransfersFrom.forEach((transfer) async {
+      AllData
+          .transfers[AllData.transfers.indexWhere((element) =>
+              element.accountFrom == null
+                  ? false
+                  : element.accountFrom!.id == transfer.accountFrom!.id)]
+          .accountFrom = null;
+
+      if (transfer.accountFrom != null) {
+        if (transfer.accountFrom!.id == account.id) transfer.accountFrom = null;
+      }
+
+      await DBHelper.update('Transfer', transfer.toMap(),
+          where: "ID = '${transfer.id}'");
+    });
+
+    accountTransfersTo.forEach((transfer) async {
+      AllData
+          .transfers[AllData.transfers.indexWhere((element) =>
+              element.accountTo == null
+                  ? false
+                  : element.accountTo!.id == transfer.accountTo!.id)]
+          .accountTo = null;
+
+      if (transfer.accountTo != null) {
+        if (transfer.accountTo!.id == account.id) transfer.accountTo = null;
+      }
+
+      await DBHelper.update('Transfer', transfer.toMap(),
+          where: "ID = '${transfer.id}'");
+    });
 
     //Delete StandingOrders
     AllData.standingOrders.removeWhere((element) =>
