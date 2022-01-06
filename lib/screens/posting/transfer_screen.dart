@@ -7,6 +7,7 @@ import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:validators/validators.dart';
 
@@ -98,7 +99,8 @@ class _TransferScreenState extends State<TransferScreen> {
                 Row(
                   children: [
                     Text(
-                        '${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
+                      '${DateFormat.yMMMd().format(_dateTime)}'),
+                        //'${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
                     IconButton(
                       icon: Icon(Icons.date_range),
                       onPressed: () {

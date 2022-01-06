@@ -38,7 +38,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
           AllData.categories.firstWhere((element) => element.id == widget.id);
       _titleController.text = '${cat.title}';
       _iconcolor = cat.color as Color;
-      //_selectedIcon = cat.symbol == null ? '' : cat.symbol!;
+      _selectedIcon = cat.symbol == null ? '' : cat.symbol!;
     } else {
       _selectedIcon = Globals.imagePathsCategoryIcons[0];
       _iconcolor = Globals.isDarkmode ? Colors.teal : Colors.black;
@@ -112,7 +112,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                       child: Icon(
                         Icons.color_lens,
                         color: _iconcolor,
-                        size: MediaQuery.of(context).size.width * 0.14,
+                        size: MediaQuery.of(context).size.width * 0.12,
                       ),
                     ),
               ),
@@ -123,6 +123,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                 'Icon',
                 style: TextStyle(fontSize: 20),
               ),
+              SizedBox(height: 10,),
               Expanded(
                 child: GridView.count(
                   physics: BouncingScrollPhysics(),//NeverScrollableScrollPhysics(),
@@ -159,13 +160,11 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                               // width: MediaQuery.of(context).size.width * 0.34,
                               child: Padding(
                                 padding: const EdgeInsets.all(12),
-                                child: Container(
-                                  child: Image.asset(
-                                    item,
-                                    color: _selectedIcon == item
-                                        ? _iconcolor
-                                        : Colors.grey.shade500 //Theme.of(context).colorScheme.onSurface,
-                                  ),
+                                child: Image.asset(
+                                  item,
+                                  color: _selectedIcon == item
+                                      ? _iconcolor
+                                      : Colors.grey.shade500 //Theme.of(context).colorScheme.onSurface,
                                 ),
                               ),
                             ),
@@ -211,50 +210,52 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                 ),
               ),
               SizedBox(height: 20),
-              widget.id == '' || widget.id == 'default'
-                  ? SizedBox()
-                  : TextButton(
-                      style: ButtonStyle(
-                        alignment: Alignment.centerLeft,
-                        // textStyle: TextStyle(),
-                        padding: MaterialStateProperty.all(EdgeInsets.zero),
-                      ),
-                      onPressed: () {
-                        AllData.postings.forEach((element) async {
-                          Posting newPosting = element;
-                          newPosting.category = AllData.categories
-                              .firstWhere((element) => element.id == 'default');
-                          await DBHelper.update('Posting', newPosting.toMap(),
-                              where: "ID = '${element.id}'");
-                          AllData.postings[AllData.postings.indexWhere(
-                                  (posting) => posting.id == element.id)] =
-                              newPosting;
-                        });
-                        AllData.standingOrders.forEach((element) async {
-                          StandingOrder newSO = element;
-                          newSO.category = AllData.categories
-                              .firstWhere((element) => element.id == 'default');
-                          await DBHelper.update('StandingOrder', newSO.toMap(),
-                              where: "ID = '${element.id}'");
-                          AllData.standingOrders[AllData.standingOrders
-                              .indexWhere((so) => so.id == element.id)] = newSO;
-                        });
+              // widget.id == '' || widget.id == 'default'
+              //     ? SizedBox()
+              //     : ElevatedButton(
+              //         style: ButtonStyle(
+              //           alignment: Alignment.centerLeft,
+              //           // textStyle: TextStyle(),
+              //           padding: MaterialStateProperty.all(EdgeInsets.only(left: 10, right: 10)),
+              //           backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.error),
+              //         ),
+              //         onPressed: () {
+              //           AllData.postings.forEach((element) async {
+              //             Posting newPosting = element;
+              //             newPosting.category = AllData.categories
+              //                 .firstWhere((element) => element.id == 'default');
+              //             await DBHelper.update('Posting', newPosting.toMap(),
+              //                 where: "ID = '${element.id}'");
+              //             AllData.postings[AllData.postings.indexWhere(
+              //                     (posting) => posting.id == element.id)] =
+              //                 newPosting;
+              //           });
+              //           AllData.standingOrders.forEach((element) async {
+              //             StandingOrder newSO = element;
+              //             newSO.category = AllData.categories
+              //                 .firstWhere((element) => element.id == 'default');
+              //             await DBHelper.update('StandingOrder', newSO.toMap(),
+              //                 where: "ID = '${element.id}'");
+              //             AllData.standingOrders[AllData.standingOrders
+              //                 .indexWhere((so) => so.id == element.id)] = newSO;
+              //           });
         
-                        AllData.categories
-                            .removeWhere((element) => element.id == widget.id);
-                        DBHelper.delete('Category', where: "ID = '${widget.id}'");
+              //           AllData.categories
+              //               .removeWhere((element) => element.id == widget.id);
+              //           DBHelper.delete('Category', where: "ID = '${widget.id}'");
         
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Kategorie wurde gelöscht')));
+              //           ScaffoldMessenger.of(context).showSnackBar(
+              //               SnackBar(content: Text('Kategorie wurde gelöscht')));
         
-                        Navigator.of(context)
-                          ..pop()
-                          ..popAndPushNamed(CategoriesScreen.routeName);
-                      },
-                      child: Text(
-                        'Kategorie löschen',
-                        style: TextStyle(color: Colors.red),
-                      )),
+              //           Navigator.of(context)
+              //             ..pop()
+              //             ..popAndPushNamed(CategoriesScreen.routeName);
+              //         },
+              //         child: Text(
+              //           'Kategorie löschen',
+              //           style: TextStyle(color: Theme.of(context).colorScheme.onError),
+              //         )),
+              //         SizedBox(height: 10),
             ],
           ),
         ),

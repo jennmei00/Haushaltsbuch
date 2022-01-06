@@ -44,7 +44,7 @@ class _AccountScreenState extends State<AccountScreen> {
     accountData.forEach((ac) {
       totalBankBalance += ac.bankBalance!;
     });
-    totalBankBalance = double.parse((totalBankBalance).toStringAsFixed(2));
+    //totalBankBalance = double.parse((totalBankBalance).toStringAsFixed(2));
   }
 
   double _getTotalBankBalanceForSpecificAcType(String acType) {
@@ -104,8 +104,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         children: [
                           Text(
                             'Alle Konten',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.headline6,
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(
@@ -133,7 +132,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           AccountType itemAccountType =
                               accountTypeList[index][0] as AccountType;
-                          String itemAccountTypeBalance =
+                          String itemAccountTypeBalance = 
                               double.parse(accountTypeList[index][1].toString())
                                   .toStringAsFixed(2);
                           return Card(
@@ -149,7 +148,8 @@ class _AccountScreenState extends State<AccountScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('${itemAccountType.title}'),
-                                  Text(itemAccountTypeBalance + ' €'),
+                                  Text('${NumberFormat.currency(locale: "de", symbol: "€").format(accountTypeList[index][1])}'),
+                                  //Text(itemAccountTypeBalance + ' €'),
                                 ],
                               ),
                               children: AllData.accounts
@@ -298,7 +298,8 @@ class _AccountScreenState extends State<AccountScreen> {
                                           ],
                                         ),
                                         trailing: Text(
-                                          '${e.bankBalance!.toStringAsFixed(2)} €',
+                                          '${NumberFormat.currency(locale: "de", symbol: "€").format(e.bankBalance)}',
+                                          //'${e.bankBalance!.toStringAsFixed(2)} €',
                                           style: TextStyle(
                                               color: _getColorBalance(
                                                   e.bankBalance!)),
@@ -501,6 +502,6 @@ class _AccountScreenState extends State<AccountScreen> {
 
     Navigator.of(context)
       ..pop()
-      ..pop(true);
+      ..popAndPushNamed(AccountScreen.routeName);
   }
 }

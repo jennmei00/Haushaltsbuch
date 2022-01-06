@@ -6,7 +6,9 @@ import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
+import 'package:intl/intl.dart';
 
 class ManagePostings extends StatelessWidget {
   final List<Object?> filters;
@@ -188,24 +190,40 @@ class ManagePostings extends StatelessWidget {
           },
           child: Card(
             child: ExpansionTile(
-              textColor: Colors.black,
+              //textColor: Colors.black,
+              leading: Container(
+                padding: EdgeInsets.all(4),
+                // decoration: BoxDecoration(
+                // borderRadius: BorderRadius.circular(12),
+                // color: posting.category!.color!.withOpacity(0.20),
+                // ),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Image.asset(
+                    posting.category!.symbol!,
+                    color: posting.category!.color!,
+                  ),
+                ),
+              ),
               title: Text('${posting.title}'),
               subtitle: Text('${posting.accountName}'),
               trailing: posting.postingType == PostingType.income
                   ? Text(
-                      '+ ${posting.amount!.toStringAsFixed(2)} €',
+                      '+ ${NumberFormat.currency(locale: "de", symbol: "€").format(posting.amount!)}',
+                      //'+ ${posting.amount!.toStringAsFixed(2)} €',
                       style: TextStyle(color: Colors.green),
                     )
                   : Text(
-                      '- ${posting.amount!.toStringAsFixed(2)} €',
+                      '- ${NumberFormat.currency(locale: "de", symbol: "€").format(posting.amount!)}',
+                      //'- ${posting.amount!.toStringAsFixed(2)} €',
                       style: TextStyle(color: Colors.red),
                     ),
               childrenPadding: EdgeInsets.only(left: 30, bottom: 10, right: 10),
               expandedAlignment: Alignment.topLeft,
               children: [
-                Text('Date: ${posting.date}'),
-                Text('Description: ${posting.description}'),
-                Text('Category: ${posting.category?.title}'),
+                Text('Datum: ${DateFormat.yMMMd().format(posting.date!)}'),
+                Text('Beschreibung: ${posting.description}'),
+                Text('Kategorie: ${posting.category?.title}'),
               ],
             ),
           )),

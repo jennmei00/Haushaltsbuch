@@ -12,6 +12,7 @@ import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:validators/validators.dart';
 
@@ -125,7 +126,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                 Row(
                   children: [
                     Text(
-                        '${_incomeDateTime.day}. ${_incomeDateTime.month}. ${_incomeDateTime.year}'),
+                        '${DateFormat.yMMMd().format(_incomeDateTime)}',),
+                        //'${_incomeDateTime.day}. ${_incomeDateTime.month}. ${_incomeDateTime.year}'),
                     IconButton(
                       icon: Icon(Icons.date_range),
                       onPressed: () {

@@ -151,47 +151,56 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
             children: [
               Card(
                 elevation: 5,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 16),
-                      child: Text(
-                        'Datum',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(children: [
-                        Text(_filterDate == null
-                            ? 'Zum Auswählen klicken'
-                            // : '${_filterDate!.start.day}. ${_filterDate!.start.month}. ${_filterDate!.start.year} bis ' +
-                            //     '${_filterDate!.end.day}. ${_filterDate!.end.month}. ${_filterDate!.end.year}'),
-                            : '${DateFormat.yMMMd().format(_filterDate!.start)} - ' +
-                                '${DateFormat.yMMMd().format(_filterDate!.end)}'),
-                        IconButton(
-                          onPressed: () async {
-                            final picked = await showDateRangePicker(
-                              context: context,
-                              firstDate: AllData.postings.first.date!,
-                              lastDate: DateTime.now().add(Duration(days: 30)),
-                            );
-
-                            setState(() {
-                              _filterDate = picked;
-                            });
-                          },
-                          icon: Icon(
-                            Icons.calendar_today,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          'Datum',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                          textAlign: TextAlign.left,
                         ),
-                      ]),
-                    ),
-                  ],
+                      ),
+                      Expanded(
+                        child: Text(
+                          _filterDate == null
+                              ? 'Zum Auswählen klicken'
+                              // : '${_filterDate!.start.day}. ${_filterDate!.start.month}. ${_filterDate!.start.year} bis ' +
+                              //     '${_filterDate!.end.day}. ${_filterDate!.end.month}. ${_filterDate!.end.year}'),
+                              : '${DateFormat.yMMMd().format(_filterDate!.start)} - ' +
+                                  '\n ${DateFormat.yMMMd().format(_filterDate!.end)}',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          softWrap: false,
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      IconButton(
+                        onPressed: () async {
+                          final picked = await showDateRangePicker(
+                            context: context,
+                            firstDate: AllData.postings.length == 0
+                                ? DateTime.now().subtract(Duration(days: 30))
+                                : AllData.postings.first.date!,
+                            lastDate: DateTime.now().add(Duration(days: 30)),
+                          );
+
+                          setState(() {
+                            _filterDate = picked;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.calendar_today,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Card(
@@ -200,7 +209,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                   activeColor: Theme.of(context).colorScheme.primary,
                   title: Text(
                     'Dauerauftrag',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   value: _filterSO,
                   onChanged: (val) => setState(() => _filterSO = val),
@@ -232,7 +241,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                           childAspectRatio: MediaQuery.of(context).size.width /
                               (MediaQuery.of(context).size.height / 1.5),
                           padding: EdgeInsets.all(10),
-                          crossAxisCount: 3,
+                          crossAxisCount: 4,
                           crossAxisSpacing:
                               MediaQuery.of(context).size.width * 0.04,
                           mainAxisSpacing: 12,

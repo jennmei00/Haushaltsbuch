@@ -14,7 +14,7 @@ class InputTheme {
   }
 
   InputDecorationTheme theme(colorScheme) => InputDecorationTheme(
-    contentPadding: EdgeInsets.all(18),
+    contentPadding: EdgeInsets.all(14),
     isDense: false,
     // labelStyle: TextStyle(
     //   fontSize: 18,

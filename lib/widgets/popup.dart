@@ -24,7 +24,7 @@ class _PopupState extends State<Popup> {
   Widget build(BuildContext context) {
     return Dialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(5),
         ),
         child: SingleChildScrollView(
           child: Column(

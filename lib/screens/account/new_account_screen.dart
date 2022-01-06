@@ -91,190 +91,187 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       ),
       body: Form(
         key: _formKey,
-        child: Padding(
+        child: ListView(
           padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10,
+          physics: BouncingScrollPhysics(),
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            CustomTextField(
+              labelText: 'Konto',
+              hintText: 'Kontoname',
+              controller: _titleController,
+              mandatory: true,
+              fieldname: 'account',
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            CustomTextField(
+              labelText: 'Kontostand',
+              hintText: 'Aktueller Kontostand',
+              controller: _bankBalanceController,
+              keyboardType: TextInputType.number,
+              mandatory: true,
+              fieldname: 'accountBalance',
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            CustomTextField(
+              labelText: 'Beschreibung',
+              hintText: 'Kontobeschreibung',
+              controller: _descriptionController,
+              mandatory: false,
+              fieldname: 'description',
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            DropDown(
+              onChanged: (newValue) {
+                _selectedItem = newValue as ListItem;
+                setState(() {});
+              },
+              dropdownItems: _accountTypeDropDownItems,
+              listItemValue: _selectedItem == null ? null : _selectedItem!.id,
+              dropdownHintText: 'Kontoart',
+            ),
+            SizedBox(height: 10),
+            // Divider(),
+            SizedBox(height: 10),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Iconfarbe',
+                style: TextStyle(fontSize: 20),
               ),
-              CustomTextField(
-                labelText: 'Konto',
-                hintText: 'Kontoname',
-                controller: _titleController,
-                mandatory: true,
-                fieldname: 'account',
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              CustomTextField(
-                labelText: 'Kontostand',
-                hintText: 'Aktueller Kontostand',
-                controller: _bankBalanceController,
-                keyboardType: TextInputType.number,
-                mandatory: true,
-                fieldname: 'accountBalance',
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              CustomTextField(
-                labelText: 'Beschreibung',
-                hintText: 'Kontobeschreibung',
-                controller: _descriptionController,
-                mandatory: false,
-                fieldname: 'description',
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              DropDown(
-                onChanged: (newValue) {
-                  _selectedItem = newValue as ListItem;
-                  setState(() {});
-                },
-                dropdownItems: _accountTypeDropDownItems,
-                listItemValue: _selectedItem == null ? null : _selectedItem!.id,
-                dropdownHintText: 'Kontoart',
-              ),
-              SizedBox(height: 10),
-              // Divider(),
-              SizedBox(height: 10),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Iconfarbe',
-                  style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: GestureDetector(
+                //Iconbutton(
+                //highlightColor: Colors.transparent,
+                onTap: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return StatefulBuilder(builder: (context, setState) {
+                        return Popup(
+                          title: 'Color Picker',
+                          body: ColorPickerClass(_colorChanged, _iconcolor),
+                          saveButton: true,
+                          cancelButton: true,
+                          saveFunction: () {
+                            this.setState(() {
+                              _iconcolor = _onchangedColor;
+                            });
+                            Navigator.of(context).pop();
+                          },
+                        );
+                      });
+                    }),
+                child: Icon(
+                  Icons.color_lens,
+                  color: _iconcolor,
+                  size: MediaQuery.of(context).size.width * 0.14,
                 ),
               ),
-              SizedBox(
-                width: double.infinity,
-                child: GestureDetector(
-                  //Iconbutton(
-                  //highlightColor: Colors.transparent,
-                  onTap: () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return StatefulBuilder(builder: (context, setState) {
-                          return Popup(
-                            title: 'Color Picker',
-                            body: ColorPickerClass(_colorChanged, _iconcolor),
-                            saveButton: true,
-                            cancelButton: true,
-                            saveFunction: () {
-                              this.setState(() {
-                                _iconcolor = _onchangedColor;
-                              });
-                              Navigator.of(context).pop();
-                            },
-                          );
-                        });
-                      }),
-                  child: Icon(
-                    Icons.color_lens,
-                    color: _iconcolor,
-                    size: MediaQuery.of(context).size.width * 0.14,
-                  ),
-                ),
+            ),
+            SizedBox(height: 10),
+            Divider(),
+            SizedBox(height: 10),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Icon',
+                style: TextStyle(fontSize: 20),
               ),
-              SizedBox(height: 10),
-              Divider(),
-              SizedBox(height: 10),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Icon',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              SizedBox(height: 10),
-              Expanded(
-                child: GridView.count(
-                  physics: BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(8),
-                  crossAxisCount: 4,
-                  crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
-                  mainAxisSpacing: 20,
-                  children: Globals.imagePathsAccountIcons
-                      .map((item) => GestureDetector(
-                            onTap: () => setState(() {
-                              _selectedIcon = item;
-                            }),
-                            child: new Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                // boxShadow: [
-                                //   BoxShadow(
-                                //     blurRadius: _selectedIcon == item ? 5 : 5,
-                                //     color: _selectedIcon == item
-                                //         ? _iconcolor.withOpacity(0.2)
-                                //         : _iconcolor.withOpacity(0.08),
-                                //     spreadRadius: _selectedIcon == item ? 2 : 1,
-                                //   )
-                                // ],
+            ),
+            SizedBox(height: 10),
+            GridView.count(
+              physics: NeverScrollableScrollPhysics(),//BouncingScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.all(8),
+              crossAxisCount: 4,
+              crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
+              mainAxisSpacing: 20,
+              children: Globals.imagePathsAccountIcons
+                  .map((item) => GestureDetector(
+                        onTap: () => setState(() {
+                          _selectedIcon = item;
+                        }),
+                        child: new Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     blurRadius: _selectedIcon == item ? 5 : 5,
+                            //     color: _selectedIcon == item
+                            //         ? _iconcolor.withOpacity(0.2)
+                            //         : _iconcolor.withOpacity(0.08),
+                            //     spreadRadius: _selectedIcon == item ? 2 : 1,
+                            //   )
+                            // ],
+                            color: _selectedIcon == item
+                                ? _iconcolor.withOpacity(0.18)
+                                : null,
+                          ),
+                          // height: MediaQuery.of(context).size.width * 0.34,
+                          // width: MediaQuery.of(context).size.width * 0.34,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Container(
+                              child: Image.asset(
+                                item,
                                 color: _selectedIcon == item
-                                    ? _iconcolor.withOpacity(0.18)
-                                    : null,
-                              ),
-                              // height: MediaQuery.of(context).size.width * 0.34,
-                              // width: MediaQuery.of(context).size.width * 0.34,
-                              child: Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Container(
-                                  child: Image.asset(
-                                    item,
-                                    color: _selectedIcon == item
-                                          ? _iconcolor
-                                          : Colors.grey.shade500//_iconcolor,
-                                  ),
-                                ),
+                                      ? _iconcolor
+                                      : Colors.grey.shade500//_iconcolor,
                               ),
                             ),
-                          ))
-                      .toList(),
-                  // children: Globals.imagePaths
-                  //     .map((item) => GestureDetector(
-                  //           onTap: () => setState(() {
-                  //             _selectedIcon = item;
-                  //           }),
-                  //           child: new Container(
-                  //             decoration: BoxDecoration(
-                  //               borderRadius: BorderRadius.circular(12),
-                  //               border: Border.all(
-                  //                 width: _selectedIcon == item ? 2.1 : 1.0,
-                  //                 color: _selectedIcon == item
-                  //                     ? Theme.of(context).primaryColor
-                  //                     : Colors.grey.shade700,
-                  //               ),
-                  //               color: Colors.grey.shade200,
-                  //             ),
-                  //             // height: MediaQuery.of(context).size.width * 0.34,
-                  //             // width: MediaQuery.of(context).size.width * 0.34,
-                  //             child: Padding(
-                  //               padding: const EdgeInsets.all(5),
-                  //               child: CircleAvatar(
-                  //                   radius: MediaQuery.of(context).size.width * 0.1,
-                  //                   backgroundColor: _iconcolor,
-                  //                   child: FractionallySizedBox(
-                  //                     widthFactor: 0.6,
-                  //                     heightFactor: 0.6,
-                  //                     child: Image.asset(
-                  //                       item,
-                  //                       color: _iconcolor.computeLuminance() > 0.15
-                  //                           ? Colors.black
-                  //                           : Colors.white,
-                  //                     ),
-                  //                   )),
-                  //             ),
-                  //           ),
-                  //         ))
-                  //     .toList(),
-                ),
-              ),
-            ],
-          ),
+                          ),
+                        ),
+                      ))
+                  .toList(),
+              // children: Globals.imagePaths
+              //     .map((item) => GestureDetector(
+              //           onTap: () => setState(() {
+              //             _selectedIcon = item;
+              //           }),
+              //           child: new Container(
+              //             decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(12),
+              //               border: Border.all(
+              //                 width: _selectedIcon == item ? 2.1 : 1.0,
+              //                 color: _selectedIcon == item
+              //                     ? Theme.of(context).primaryColor
+              //                     : Colors.grey.shade700,
+              //               ),
+              //               color: Colors.grey.shade200,
+              //             ),
+              //             // height: MediaQuery.of(context).size.width * 0.34,
+              //             // width: MediaQuery.of(context).size.width * 0.34,
+              //             child: Padding(
+              //               padding: const EdgeInsets.all(5),
+              //               child: CircleAvatar(
+              //                   radius: MediaQuery.of(context).size.width * 0.1,
+              //                   backgroundColor: _iconcolor,
+              //                   child: FractionallySizedBox(
+              //                     widthFactor: 0.6,
+              //                     heightFactor: 0.6,
+              //                     child: Image.asset(
+              //                       item,
+              //                       color: _iconcolor.computeLuminance() > 0.15
+              //                           ? Colors.black
+              //                           : Colors.white,
+              //                     ),
+              //                   )),
+              //             ),
+              //           ),
+              //         ))
+              //     .toList(),
+            ),
+          ],
         ),
       ),
     );
