@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/posting/transfer_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
 class ManageTransfers extends StatelessWidget {
@@ -154,7 +155,6 @@ class ManageTransfers extends StatelessWidget {
         },
         child: Card(
           child: ExpansionTile(
-            textColor: Colors.black,
             title: Row(
               children: [
                 Text('${transfer.accountFromName}  '),
@@ -162,12 +162,28 @@ class ManageTransfers extends StatelessWidget {
                 Text('  ${transfer.accountToName}'),
               ],
             ),
-            subtitle: Text('${transfer.date}'),
-            trailing: Text('${transfer.amount!.toStringAsFixed(2)} €'),
-            childrenPadding: EdgeInsets.only(left: 30, bottom: 10, right: 10),
+            subtitle: Text(
+              formatDate(transfer.date!),
+              style: TextStyle(color: Colors.grey.shade400),
+            ),
+            trailing: Text(formatCurrency(transfer.amount!)),
+            childrenPadding:
+                EdgeInsets.only(left: 10, bottom: 10, right: 10, top: 5),
             expandedAlignment: Alignment.topLeft,
             children: [
-              Text('No more Data here :('),
+              transfer.description != ''
+                  ? Text(
+                      '${transfer.description}',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      softWrap: false,
+                    )
+                  : Text(
+                      'Keine Beschreibung...',
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      ),
+                    )
             ],
           ),
         ),

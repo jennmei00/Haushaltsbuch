@@ -132,9 +132,6 @@ class _AccountScreenState extends State<AccountScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           AccountType itemAccountType =
                               accountTypeList[index][0] as AccountType;
-                          String itemAccountTypeBalance = 
-                              double.parse(accountTypeList[index][1].toString())
-                                  .toStringAsFixed(2);
                           return Card(
                             elevation: 3,
                             color: Globals.isDarkmode ? null : Color(0xffeeeeee),

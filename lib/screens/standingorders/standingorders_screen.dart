@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
@@ -98,18 +99,18 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
               _soYearly.length == 0
                   ? SizedBox()
                   : Card(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          right: 4.0, top: 6.0, bottom: 4.0, left: 12),
-                      child: Text(
-                        'Jährlich',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onPrimary),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+                        child: Text(
+                          'Jährlich',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onPrimary),
+                        ),
                       ),
+                      color: Theme.of(context).colorScheme.primaryVariant,
                     ),
-                    color: Theme.of(context).colorScheme.primaryVariant,
-                  ),
               Column(children: _soYearly.map((e) => _soCard(e)).toList()),
             ]
               // AllData.standingOrders.map((item) => _soCard(item)).toList(),
@@ -205,52 +206,72 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
         // },
         child: Card(
           child: ExpansionTile(
-            textColor: Colors.black,
+            leading: Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: item.category!.color!.withOpacity(0.20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset(
+                  item.category!.symbol!,
+                  color: item.category!.color!,
+                ),
+              ),
+            ),
             title: Text(item.title!),
             subtitle: Text(
               item.account != null ? '${item.account!.title}' : '',
-              style: TextStyle(color: Colors.grey[600]),
+              style: TextStyle(color: Colors.grey[400]),
             ),
             trailing: item.postingType == PostingType.income
                 ? Text(
-                    '+ ${item.amount!.toStringAsFixed(2)} €',
+                    '+ ' + formatCurrency(item.amount!),
                     style: TextStyle(color: Colors.green),
                   )
                 : Text(
-                    '- ${item.amount!.toStringAsFixed(2)} €',
+                    '- ' + formatCurrency(item.amount!),
                     style: TextStyle(color: Colors.red),
                   ),
-            childrenPadding: EdgeInsets.only(left: 30, bottom: 10, right: 10),
+            childrenPadding:
+                EdgeInsets.only(left: 20, bottom: 10, right: 10, top: 10),
             expandedAlignment: Alignment.topLeft,
             children: [
-              Row(
+              Table(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  TableRow(
                     children: [
-                      Text('Kategorie: '),
-                      Text('Beginn: '),
-                      Text('Wiederholung:'),
-                      item.description == ''
-                          ? SizedBox()
-                          : Text('Beschreibung:'),
+                      Text('Kategorie:'),
+                      Text('${item.category!.title}'),
                     ],
                   ),
-                  SizedBox(width: 50),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  TableRow(
                     children: [
-                      Text('${item.category!.title}'),
-                      Text(
-                          '${item.begin!.day}.${item.begin!.month}.${item.begin!.year}'),
-                      Text('${item.repetition}'),
-                      item.description == ''
-                          ? SizedBox()
-                          : Text('${item.description}'),
+                      Text('Beginn:'),
+                      Text(formatDate(item.begin!)),
                     ],
-                  )
+                  ),
+                  TableRow(
+                    children: [
+                      Text('Wiederholung:'),
+                      Text(formatRepetition(item.repetition!)),
+                    ],
+                  ),
+                  if (item.description != '')
+                    TableRow(
+                      children: [
+                        Text('Beschreibung:'),
+                        Text(
+                          '${item.description}',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          softWrap: false,
+                        ),
+                      ],
+                    )
                 ],
-              ),
+              )
             ],
           ),
         ),

@@ -27,6 +27,15 @@ class CategoryItem extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: multiSelection
+                    ? (selectedCatList!.contains(categoryItem)
+                        ? categoryItem.color!
+                        : Colors.transparent)
+                    : (selectedCatID == '${categoryItem.id}'
+                        ? categoryItem.color!
+                        : Colors.transparent),
+                ),
                 // boxShadow: [
                 //   if (!multiSelection)
                 //     BoxShadow(

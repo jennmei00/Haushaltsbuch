@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
+import 'package:haushaltsbuch/services/theme.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:intl/intl.dart';
 // import 'package:haushaltsbuch/models/all_data.dart';
@@ -157,7 +158,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: EdgeInsets.only(left: 10),
+                        padding: EdgeInsets.only(left: 8),
                         child: Text(
                           'Datum',
                           style: TextStyle(
@@ -186,7 +187,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                             context: context,
                             firstDate: AllData.postings.length == 0
                                 ? DateTime.now().subtract(Duration(days: 30))
-                                : AllData.postings.first.date!,
+                                : AllData.postings.last.date!,
                             lastDate: DateTime.now().add(Duration(days: 30)),
                           );
 
@@ -240,11 +241,11 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                           scrollDirection: Axis.vertical,
                           childAspectRatio: MediaQuery.of(context).size.width /
                               (MediaQuery.of(context).size.height / 1.5),
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(4),
                           crossAxisCount: 4,
                           crossAxisSpacing:
-                              MediaQuery.of(context).size.width * 0.04,
-                          mainAxisSpacing: 12,
+                              MediaQuery.of(context).size.width * 0.02,
+                          mainAxisSpacing: 2,
                           children: AllData.categories
                               .map((item) => CategoryItem(
                                     categoryItem: item,

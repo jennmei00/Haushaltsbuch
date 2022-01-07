@@ -6,6 +6,7 @@ import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 import 'package:intl/intl.dart';
@@ -73,7 +74,7 @@ class ManagePostings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AllData.postings.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
+    AllData.postings.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
     if (search) {
       _loadWithSearchQuery();
     } else {
@@ -190,13 +191,12 @@ class ManagePostings extends StatelessWidget {
           },
           child: Card(
             child: ExpansionTile(
-              //textColor: Colors.black,
               leading: Container(
-                padding: EdgeInsets.all(4),
-                // decoration: BoxDecoration(
-                // borderRadius: BorderRadius.circular(12),
-                // color: posting.category!.color!.withOpacity(0.20),
-                // ),
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: posting.category!.color!.withOpacity(0.20),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Image.asset(
@@ -205,25 +205,63 @@ class ManagePostings extends StatelessWidget {
                   ),
                 ),
               ),
+              // leading: CircleAvatar(
+              //   backgroundColor: Colors.transparent,
+              //   child: FractionallySizedBox(
+              //     widthFactor: 0.6,
+              //     heightFactor: 0.6,
+              //     child: Image.asset(
+              //       posting.category!.symbol!,
+              //       color: posting.category!.color!,
+              //     ),
+              //   ),
+              // ),
               title: Text('${posting.title}'),
-              subtitle: Text('${posting.accountName}'),
+              subtitle: Text(
+                '${posting.accountName}',
+                style: TextStyle(color: Colors.grey.shade400),
+              ),
               trailing: posting.postingType == PostingType.income
                   ? Text(
-                      '+ ${NumberFormat.currency(locale: "de", symbol: "€").format(posting.amount!)}',
-                      //'+ ${posting.amount!.toStringAsFixed(2)} €',
+                      '+ ' + formatCurrency(posting.amount!),
                       style: TextStyle(color: Colors.green),
                     )
                   : Text(
-                      '- ${NumberFormat.currency(locale: "de", symbol: "€").format(posting.amount!)}',
-                      //'- ${posting.amount!.toStringAsFixed(2)} €',
+                      '- ' + formatCurrency(posting.amount!),
                       style: TextStyle(color: Colors.red),
                     ),
-              childrenPadding: EdgeInsets.only(left: 30, bottom: 10, right: 10),
+              childrenPadding:
+                  EdgeInsets.only(left: 20, bottom: 10, right: 10, top: 10),
               expandedAlignment: Alignment.topLeft,
               children: [
-                Text('Datum: ${DateFormat.yMMMd().format(posting.date!)}'),
-                Text('Beschreibung: ${posting.description}'),
-                Text('Kategorie: ${posting.category?.title}'),
+                Table(
+                children: [
+                  TableRow(
+                    children: [
+                      Text('Kategorie:'),
+                      Text('${posting.category!.title}'),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      Text('Datum:'),
+                      Text(formatDate(posting.date!)),
+                    ],
+                  ),
+                  if (posting.description != '')
+                    TableRow(
+                      children: [
+                        Text('Beschreibung:'),
+                        Text(
+                          '${posting.description}',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          softWrap: false,
+                        ),
+                      ],
+                    )
+                ],
+              )
               ],
             ),
           )),
