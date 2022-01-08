@@ -256,7 +256,7 @@ class ManagePostings extends StatelessWidget {
                         Text(
                           '${posting.description}',
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
+                          maxLines: 4,
                           softWrap: false,
                         ),
                       ],

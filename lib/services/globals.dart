@@ -5,6 +5,7 @@ class Globals {
 
   static late List<dynamic> imagePathsCategoryIcons;
   static late List<dynamic> imagePathsAccountIcons;
+  //static late List<dynamic> otherIcons;
 
   static late bool isDarkmode;
 

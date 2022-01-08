@@ -28,7 +28,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
   TextEditingController _titleController = TextEditingController(text: '');
 
   late Color _iconcolor;
-  Color _onchangedColor = Colors.black;
+  Color _onchangedColor = Globals.isDarkmode ? Globals.customSwatchDarkMode.keys.first : Globals.customSwatchLightMode.keys.first;
   final _formKey = GlobalKey<FormState>();
   String _selectedIcon = '';
 
@@ -45,7 +45,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
 
     } else {
       _selectedIcon = Globals.imagePathsCategoryIcons[0];
-      _iconcolor = Globals.isDarkmode ? Colors.teal : Colors.black;
+      _iconcolor = Globals.isDarkmode ? Globals.customSwatchDarkMode.keys.first : Globals.customSwatchLightMode.keys.first;
     }
     // _getImageList();
     // print(imagePaths);

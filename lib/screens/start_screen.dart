@@ -38,6 +38,9 @@ Future<void> _getImageList(BuildContext context) async {
 
   Globals.imagePathsAccountIcons = manifestMap.keys
       .where((key) => key.contains('assets/icons/account_icons')).toList();
+
+  // Globals.otherIcons = manifestMap.keys
+  //     .where((key) => key.contains('assets/icons/other_icons')).toList();
 }
 
 Future<void> _getThemeMode() async {

@@ -139,7 +139,14 @@ class _TransferScreenState extends State<TransferScreen> {
                   )
                 : SizedBox(),
             SizedBox(height: 20),
-            Icon(Icons.arrow_downward_rounded, size: 60),
+            Container(
+              height: 65,
+              //width: 65,
+              child: Image.asset(
+                'assets/icons/other_icons/arrow.png',
+                color: Theme.of(context).colorScheme.primaryVariant.withOpacity(0.8),
+              ),
+            ),//Icon(Icons.arrow_downward_rounded, size: 60),
             SizedBox(height: 20),
             DropDown(
               dropdownItems: _accountDropDownItems,

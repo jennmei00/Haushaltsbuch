@@ -60,7 +60,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   Color _getColorBalance(double balance) {
     if (balance < 0) {
-      return Colors.red.shade900;
+      return Colors.red;
     } else {
       return Theme.of(context).colorScheme.onSurface; //Colors.black;
     }

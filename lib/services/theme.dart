@@ -29,11 +29,6 @@ final TextTheme textTheme = TextTheme(
       fontSize: 11, fontWeight: FontWeight.w400, letterSpacing: 1.5),
 );
 
-InputDecorationTheme myInputDecorationTheme(thememode) {
-  InputDecorationTheme inputDecorationTheme = InputDecorationTheme();
-  return inputDecorationTheme;
-}
-
 final ColorScheme colorSchemeLight = ColorScheme.light(
   primary: Color(
       0xff880e4f), //I think this is the mainColor, for example the backgroundcolor of the appbar or the color of the progressindicator
@@ -68,8 +63,6 @@ final lightTheme = ThemeData(
   //   color: Color(0xffeeeeee),
   // ),
   inputDecorationTheme: InputTheme().theme(colorSchemeLight),
-  
-  
 );
 
 final ColorScheme colorSchemeDark = ColorScheme.dark(
@@ -96,4 +89,5 @@ final darkTheme = ThemeData(
     backgroundColor: colorSchemeDark.secondary,
   ),
   toggleableActiveColor: colorSchemeDark.secondary,
+  inputDecorationTheme: InputTheme().theme(colorSchemeDark),
 );
