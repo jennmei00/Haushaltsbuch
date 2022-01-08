@@ -53,6 +53,7 @@ class CustomTextField extends StatelessWidget {
         // errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.error)),
       ),
       maxLength: this.fieldname == 'categoryName' ? 20 : null,
+      maxLines: this.fieldname == 'description' ? 2 : 1,
     );
   }
 }

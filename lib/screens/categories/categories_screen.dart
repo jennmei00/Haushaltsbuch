@@ -5,6 +5,8 @@ import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/globals.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
@@ -49,7 +51,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               children: _categoryList
                   .map(
                     (item) => //InkWell(
-                        // splashColor: item.color!.withOpacity(0.2),
+                        // splashColor: getColor(item.color!).withOpacity(0.2),
                         // borderRadius: BorderRadius.circular(8),
                         // onTap: () => Navigator.of(context).pushNamed(
                         //     NewCategorieScreen.routeName,
@@ -66,17 +68,17 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 // boxShadow: [
                                 //   BoxShadow(
                                 //     blurRadius: 5,
-                                //     color: item.color!.withOpacity(0.1),
+                                //     color: getColor(item.color!).withOpacity(0.1),
                                 //     spreadRadius: 2,
                                 //   )
                                 // ],
-                                color: item.color!
+                                color: getColor(item.color!)
                                     .withOpacity(0.18), //withOpacity(0.05),
                               ),
                               // width: 60,
                               // height: 60,
                               child: InkWell(
-                                splashColor: item.color!.withOpacity(0.2),
+                                splashColor: getColor(item.color!).withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(12),
                                 onTap: () => Navigator.of(context).pushNamed(
                                     NewCategorieScreen.routeName,
@@ -158,7 +160,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Image.asset(item.symbol!,
-                                      color: item.color!),
+                                      color: getColor(item.color!)),
                                 ),
                               ),
                             ),
@@ -175,7 +177,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color: item.color),
+                                  color: getColor(item.color!)),
                               textAlign: TextAlign.center,
                             ),
                             // ),
@@ -206,7 +208,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               //                       child: Image.asset(
               //                         item.symbol!,
               //                         color:
-              //                             item.color!.computeLuminance() > 0.2
+              //                             getColor(item.color!).computeLuminance() > 0.2
               //                                 ? Colors.black
               //                                 : Colors.white,
               //                       ),

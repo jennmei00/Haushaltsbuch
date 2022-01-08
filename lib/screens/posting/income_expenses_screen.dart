@@ -8,6 +8,7 @@ import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
@@ -41,7 +42,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   List<ListItem> _accountDropDownItems = [];
   //late ListItem _selectedItem;
   String _selectedCategoryID = '';
-  Category _setCategory = AllData.categories.firstWhere((element) => element.id == 'default');
+  Category _setCategory =
+      AllData.categories.firstWhere((element) => element.id == 'default');
   late Category _selectedCategory;
   String? postingType;
   bool _postingSwitch = false;
@@ -122,29 +124,32 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Datum:'),
-                Row(
-                  children: [
-                    Text(
-                        '${DateFormat.yMMMd().format(_incomeDateTime)}',),
-                        //'${_incomeDateTime.day}. ${_incomeDateTime.month}. ${_incomeDateTime.year}'),
-                    IconButton(
-                      icon: Icon(Icons.date_range),
-                      onPressed: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: _incomeDateTime,
-                          firstDate:
-                              DateTime.now().subtract(Duration(days: 365)),
-                          lastDate: DateTime.now().add(Duration(days: 365)),
-                        ).then((value) {
-                          if (value != null)
-                            setState(() => _incomeDateTime = value);
-                        });
-                      },
-                    ),
-                  ],
-                ),
+                // Text('Datum:'),
+                // Row(
+                //   children: [
+                //     Text(
+                //       '${DateFormat.yMMMd().format(_incomeDateTime)}',
+                //     ),
+                //     //'${_incomeDateTime.day}. ${_incomeDateTime.month}. ${_incomeDateTime.year}'),
+                //     IconButton(
+                //       icon: Icon(Icons.date_range),
+                //       onPressed: () {
+                //         showDatePicker(
+                //           context: context,
+                //           initialDate: _incomeDateTime,
+                //           firstDate:
+                //               DateTime.now().subtract(Duration(days: 365)),
+                //           lastDate: DateTime.now().add(Duration(days: 365)),
+                //         ).then(
+                //           (value) {
+                //             if (value != null)
+                //               setState(() => _incomeDateTime = value);
+                //           },
+                //         );
+                //       },
+                //     ),
+                //   ],
+                // ),
               ],
             ),
             SizedBox(height: 20),
@@ -255,10 +260,39 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               ],
             ),
             SizedBox(height: 20),
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('Datum:'),
+                Row(
+                  children: [
+                    Text(formatDate(_incomeDateTime)),
+                    IconButton(
+                        icon: Icon(Icons.date_range),
+                        onPressed: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate: _incomeDateTime,
+                            firstDate:
+                                DateTime.now().subtract(Duration(days: 365)),
+                            lastDate: DateTime.now().add(Duration(days: 365)),
+                          ).then(
+                            (value) {
+                              if (value != null)
+                                setState(() => _incomeDateTime = value);
+                            },
+                          );
+                        }),
+                  ],
+                ),
+              ],
+            ),
+            widget.id == '' ? SizedBox() : Divider(),
             widget.id == ''
                 ? SizedBox()
                 : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
                         'Einnahme',

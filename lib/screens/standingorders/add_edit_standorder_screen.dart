@@ -7,6 +7,7 @@ import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
@@ -26,7 +27,8 @@ class AddEditStandingOrder extends StatefulWidget {
 
 class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   DateTime _dateTime = DateTime.now();
-  String _repeatValue = 'monatlich';
+  // String _repeatValue = 'monatlich';
+  Repetition _repeatValue = Repetition.monthly;
   // ignore: non_constant_identifier_names
   int _groupValue_buchungsart = 0;
   TextEditingController _amountController = TextEditingController(text: '');
@@ -58,11 +60,12 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   void _getStandingOrderData() {
     StandingOrder so =
         AllData.standingOrders.firstWhere((element) => element.id == widget.id);
-    _repeatValue = so.repetition == Repetition.monthly
-        ? 'monatlcih'
-        : so.repetition == Repetition.weekly
-            ? 'wöchentlich'
-            : 'jährlich';
+    // _repeatValue = so.repetition == Repetition.monthly
+    //     ? 'monatlcih'
+    //     : so.repetition == Repetition.weekly
+    //         ? 'wöchentlich'
+    //         : 'jährlich';
+    _repeatValue = so.repetition!;
     _groupValue_buchungsart = so.postingType!.index;
     _dateTime = so.begin!;
     _selectedItem = _accountDropDownItems
@@ -106,6 +109,9 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
           physics: BouncingScrollPhysics(),
           padding: const EdgeInsets.all(10.0),
           children: [
+            SizedBox(
+              height: 10,
+            ),
             FractionallySizedBox(
               widthFactor: 0.9,
               child: CupertinoSlidingSegmentedControl(
@@ -121,78 +127,40 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 groupValue: _groupValue_buchungsart,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Beginn:'),
-                Row(
-                  children: [
-                    Text(
-                        '${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
-                    IconButton(
-                      icon: Icon(Icons.date_range),
-                      onPressed: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: _dateTime,
-                          firstDate:
-                              DateTime.now().subtract(Duration(days: 365)),
-                          lastDate: DateTime.now().add(Duration(days: 365)),
-                        ).then((value) => setState(() => _dateTime = value!));
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Wiederholung'),
-                TextButton(
-                  onPressed: () => _repeatStandingorder(),
-                  child: Text('$_repeatValue'),
-                ),
-              ],
-            ),
-            Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Text('Tag der ${widget.type}:'),
-                Row(
-                  children: [
-                    // Text(
-                    //     '${_incomeDateTime.day}. ${_incomeDateTime.month}. ${_incomeDateTime.year}'),
-                    // IconButton(
-                    //   icon: Icon(Icons.date_range),
-                    //   onPressed: () {
-                    //     showDatePicker(
-                    //       context: context,
-                    //       initialDate: _incomeDateTime,
-                    //       firstDate:
-                    //           DateTime.now().subtract(Duration(days: 365)),
-                    //       lastDate: DateTime.now().add(Duration(days: 365)),
-                    //     ).then((value) =>
-                    //         setState(() => _incomeDateTime = value!));
-                    //   },
-                    // ),
-                  ],
-                ),
-              ],
-            ),
-            // SizedBox(height: 10),
-            // DropDown(
-            //   dropdownItems: _accountDropDownItems,
-            //   listItemValue:  _selectedItem.id,
-            //   onChanged: (newValue) {
-            //     _selectedItem = newValue as ListItem;
-            //     setState(() {});
-            //   },
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text('Beginn:'),
+            //     Row(
+            //       children: [
+            //         Text(formatDate(_dateTime)),
+            //         IconButton(
+            //           icon: Icon(Icons.date_range),
+            //           onPressed: () {
+            //             showDatePicker(
+            //               context: context,
+            //               initialDate: _dateTime,
+            //               firstDate:
+            //                   DateTime.now().subtract(Duration(days: 365)),
+            //               lastDate: DateTime.now().add(Duration(days: 365)),
+            //             ).then((value) => setState(() => _dateTime = value!));
+            //           },
+            //         ),
+            //       ],
+            //     ),
+            //   ],
             // ),
-            // SizedBox(height: 20),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text('Wiederholung'),
+            //     TextButton(
+            //       onPressed: () => _repeatStandingorder(),
+            //       child: Text('$_repeatValue'),
+            //     ),
+            //   ],
+            // ),
             SizedBox(height: 20),
-            // Text('Konto wählen:'),
-            // SizedBox(height: 10),
             DropDown(
               onChanged: (newValue) {
                 _selectedItem = newValue as ListItem;
@@ -291,6 +259,44 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ),
               ],
             ),
+            SizedBox(
+              height: 10,
+            ),
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('Beginn:'),
+                Row(
+                  children: [
+                    Text(formatDate(_dateTime)),
+                    IconButton(
+                      icon: Icon(Icons.date_range),
+                      onPressed: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: _dateTime,
+                          firstDate:
+                              DateTime.now().subtract(Duration(days: 365)),
+                          lastDate: DateTime.now().add(Duration(days: 365)),
+                        ).then((value) => setState(() => _dateTime = value!));
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('Wiederholung:'),
+                TextButton(
+                  onPressed: () => _repeatStandingorder(),
+                  child: Text('${formatRepetition(_repeatValue)}'),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -303,72 +309,111 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         builder: (BuildContext context) {
           return Popup(
             title: 'Wiederholung',
-            body: Column(children: [
-              TextButton(
-                onPressed: () => _repeatValuePressed(0),
-                child: Text('wöchentlich'),
-                style: TextButton.styleFrom(
-                  primary: Colors.black,
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(children: [
+                // TextButton(
+                //   onPressed: () => _repeatValuePressed(0),
+                //   child: Text('wöchentlich'),
+                //   style: TextButton.styleFrom(
+                //     primary: Colors.black,
+                //   ),
+                // ),
+                // TextButton(
+                //   onPressed: () => _repeatValuePressed(1),
+                //   child: Text('monatlich'),
+                //   style: TextButton.styleFrom(
+                //     primary: Colors.black,
+                //   ),
+                // ),
+                // TextButton(
+                //   onPressed: () => _repeatValuePressed(2),
+                //   child: Text('jährlich'),
+                //   style: TextButton.styleFrom(
+                //     primary: Colors.black,
+                //   ),
+                // ),
+                RadioListTile<Repetition>(
+                  title: Text('Wöchentlich'),
+                  value: Repetition.weekly,
+                  groupValue: _repeatValue,
+                  onChanged: (val) {
+                    setState(() {
+                      _repeatValue = val!;
+                    });
+                    Navigator.pop(context, true);
+                  },
                 ),
-              ),
-              TextButton(
-                onPressed: () => _repeatValuePressed(1),
-                child: Text('monatlich'),
-                style: TextButton.styleFrom(
-                  primary: Colors.black,
+                Divider(),
+                RadioListTile<Repetition>(
+                  title: Text('Monatlich'),
+                  value: Repetition.monthly,
+                  groupValue: _repeatValue,
+                  onChanged: (val) {
+                    setState(() {
+                      _repeatValue = val!;
+                    });
+                    Navigator.pop(context, true);
+                  },
                 ),
-              ),
-              TextButton(
-                onPressed: () => _repeatValuePressed(2),
-                child: Text('jährlich'),
-                style: TextButton.styleFrom(
-                  primary: Colors.black,
+                Divider(),
+                RadioListTile<Repetition>(
+                  title: Text('Jährlich'),
+                  value: Repetition.yearly,
+                  groupValue: _repeatValue,
+                  onChanged: (val) {
+                    setState(() {
+                      _repeatValue = val!;
+                    });
+                    Navigator.pop(context, true);
+                  },
                 ),
-              ),
-            ]),
-            saveButton: true,
+              ]),
+            ),
+            saveButton: false,
             cancelButton: true,
           );
         });
   }
 
-  void _repeatValuePressed(int value) {
-    switch (value) {
-      case 0:
-        _repeatValue = 'wöchentlich';
-        break;
-      case 1:
-        _repeatValue = 'monatlich';
-        break;
-      case 2:
-        _repeatValue = 'jährlich';
-        break;
-      default:
-        return;
-    }
-    this.setState(() {});
-    Navigator.pop(context, true);
-  }
+  // void _repeatValuePressed(int value) {
+  //   switch (value) {
+  //     case 0:
+  //       _repeatValue = 'wöchentlich';
+  //       break;
+  //     case 1:
+  //       _repeatValue = 'monatlich';
+  //       break;
+  //     case 2:
+  //       _repeatValue = 'jährlich';
+  //       break;
+  //     default:
+  //       return;
+  //   }
+  //   this.setState(() {});
+  //   Navigator.pop(context, true);
+  // }
 
   void _saveStandingorder() async {
     if (_formKey.currentState!.validate()) {
       try {
         StandingOrder so = StandingOrder(
-          id: widget.id != '' ? widget.id : Uuid().v1(),
-          title: _titleController.text,
-          description: _descriptionController.text,
-          amount: double.parse(_amountController.text),
-          account: AllData.accounts
-              .firstWhere((element) => element.id == _selectedItem!.id),
-          category: _setCategory,
-          begin: _dateTime,
-          postingType: PostingType.values[_groupValue_buchungsart],
-          repetition: _repeatValue == 'monatlich'
-              ? Repetition.monthly
-              : _repeatValue == 'wöchentlich'
-                  ? Repetition.weekly
-                  : Repetition.yearly,
-        );
+            id: widget.id != '' ? widget.id : Uuid().v1(),
+            title: _titleController.text,
+            description: _descriptionController.text,
+            amount: double.parse(_amountController.text),
+            account: AllData.accounts
+                .firstWhere((element) => element.id == _selectedItem!.id),
+            category: _setCategory,
+            begin: _dateTime,
+            postingType: PostingType.values[_groupValue_buchungsart],
+            repetition: _repeatValue
+            //  _repeatValue == 'monatlich'
+            //     ? Repetition.monthly
+            //     : _repeatValue == 'wöchentlich'
+            //         ? Repetition.weekly
+            //         : Repetition.yearly,
+            );
 
         // StandingOrderPosting sop = StandingOrderPosting(
         //     id: Uuid().v1(), date: _dateTime, standingOrder: so);

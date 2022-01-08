@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/posting/transfer_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
@@ -122,7 +123,7 @@ class ManageTransfers extends StatelessWidget {
       },
       direction: DismissDirection.horizontal,
       background: Container(
-        color: Colors.orange,
+        color: Globals.isDarkmode ? Globals.dismissibleEditColorLDark : Globals.dismissibleEditColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
@@ -135,7 +136,7 @@ class ManageTransfers extends StatelessWidget {
         ),
       ),
       secondaryBackground: Container(
-        color: Colors.red,
+        color: Globals.isDarkmode ? Globals.dismissibleDeleteColorDark : Globals.dismissibleDeleteColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(

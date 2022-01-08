@@ -6,6 +6,7 @@ import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
@@ -158,7 +159,7 @@ class ManagePostings extends StatelessWidget {
       },
       direction: DismissDirection.horizontal,
       background: Container(
-        color: Colors.orange,
+        color: Globals.isDarkmode ? Globals.dismissibleEditColorLDark : Globals.dismissibleEditColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
@@ -171,7 +172,7 @@ class ManagePostings extends StatelessWidget {
         ),
       ),
       secondaryBackground: Container(
-        color: Colors.red,
+        color: Globals.isDarkmode ? Globals.dismissibleDeleteColorDark : Globals.dismissibleDeleteColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
@@ -195,13 +196,13 @@ class ManagePostings extends StatelessWidget {
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: posting.category!.color!.withOpacity(0.20),
+                  color: getColor(posting.category!.color!).withOpacity(0.20),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Image.asset(
                     posting.category!.symbol!,
-                    color: posting.category!.color!,
+                    color: getColor(posting.category!.color!),
                   ),
                 ),
               ),
@@ -212,7 +213,7 @@ class ManagePostings extends StatelessWidget {
               //     heightFactor: 0.6,
               //     child: Image.asset(
               //       posting.category!.symbol!,
-              //       color: posting.category!.color!,
+              //       color: getColor(posting.category!.color!),
               //     ),
               //   ),
               // ),

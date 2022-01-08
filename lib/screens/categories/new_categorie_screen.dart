@@ -6,6 +6,7 @@ import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
@@ -39,6 +40,9 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
       _titleController.text = '${cat.title}';
       _iconcolor = cat.color as Color;
       _selectedIcon = cat.symbol == null ? '' : cat.symbol!;
+      
+      
+
     } else {
       _selectedIcon = Globals.imagePathsCategoryIcons[0];
       _iconcolor = Globals.isDarkmode ? Colors.teal : Colors.black;
@@ -276,7 +280,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
         Category cat = Category(
           id: widget.id != '' ? widget.id : Uuid().v1(),
           title: _titleController.text,
-          color: _iconcolor,
+          color: getColorToSave(_iconcolor),
           symbol: _selectedIcon,
         );
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/category.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 
 class CategoryItem extends StatelessWidget {
   final Category categoryItem;
@@ -30,10 +31,10 @@ class CategoryItem extends StatelessWidget {
                 border: Border.all(
                   color: multiSelection
                     ? (selectedCatList!.contains(categoryItem)
-                        ? categoryItem.color!
+                        ? getColor(categoryItem.color!)
                         : Colors.transparent)
                     : (selectedCatID == '${categoryItem.id}'
-                        ? categoryItem.color!
+                        ? getColor(categoryItem.color!)
                         : Colors.transparent),
                 ),
                 // boxShadow: [
@@ -41,8 +42,8 @@ class CategoryItem extends StatelessWidget {
                 //     BoxShadow(
                 //       blurRadius: 5,
                 //       color: selectedCatID == '${categoryItem.id}'
-                //           ? categoryItem.color!.withOpacity(0.2)
-                //           : categoryItem.color!.withOpacity(0.05),
+                //           ? getColor(categoryItem.color!).withOpacity(0.2)
+                //           : getColor(categoryItem.color!).withOpacity(0.05),
                 //       spreadRadius:
                 //           selectedCatID == '${categoryItem.id}' ? 2 : 1,
                 //     )
@@ -50,26 +51,26 @@ class CategoryItem extends StatelessWidget {
                 //     BoxShadow(
                 //       blurRadius: 5,
                 //       color: selectedCatList!.contains(categoryItem)
-                //           ? categoryItem.color!.withOpacity(0.2)
-                //           : categoryItem.color!.withOpacity(0.05),
+                //           ? getColor(categoryItem.color!).withOpacity(0.2)
+                //           : getColor(categoryItem.color!).withOpacity(0.05),
                 //       spreadRadius:
                 //           selectedCatList!.contains(categoryItem) ? 2 : 1,
                 //     )
                 // ],
                 color: multiSelection
                     ? (selectedCatList!.contains(categoryItem)
-                        ? categoryItem.color!.withOpacity(0.25)
-                        : categoryItem.color!.withOpacity(0.08))
+                        ? getColor(categoryItem.color!).withOpacity(0.25)
+                        : getColor(categoryItem.color!).withOpacity(0.08))
                     : (selectedCatID == '${categoryItem.id}'
-                        ? categoryItem.color!.withOpacity(0.25)
-                        : categoryItem.color!.withOpacity(0.08)),
+                        ? getColor(categoryItem.color!).withOpacity(0.25)
+                        : getColor(categoryItem.color!).withOpacity(0.08)),
               ),
               // width: 60,
               // height: 60,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Image.asset(categoryItem.symbol!,
-                    color: categoryItem.color!),
+                    color: getColor(categoryItem.color!)),
               ),
             ),
           ),
@@ -85,7 +86,7 @@ class CategoryItem extends StatelessWidget {
             style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: categoryItem.color),
+                color: getColor(categoryItem.color!)),
             textAlign: TextAlign.center,
           ),
           // ),

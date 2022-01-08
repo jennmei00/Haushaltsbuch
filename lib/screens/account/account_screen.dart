@@ -7,6 +7,7 @@ import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
@@ -114,7 +115,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             //'${totalBankBalance.toStringAsFixed(2)} €',
                             '${NumberFormat.currency(locale: "de", symbol: "€").format(totalBankBalance)}',
                             style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: _getColorBalance(totalBankBalance)),
                             textAlign: TextAlign.center,
@@ -134,7 +135,8 @@ class _AccountScreenState extends State<AccountScreen> {
                               accountTypeList[index][0] as AccountType;
                           return Card(
                             elevation: 3,
-                            color: Globals.isDarkmode ? null : Color(0xffeeeeee),
+                            color:
+                                Globals.isDarkmode ? null : Color(0xffeeeeee),
                             child: ExpansionTile(
                               //collapsedBackgroundColor: Theme.of(context).colorScheme.secondaryVariant,
                               //textColor: Colors.black,
@@ -145,7 +147,8 @@ class _AccountScreenState extends State<AccountScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('${itemAccountType.title}'),
-                                  Text('${NumberFormat.currency(locale: "de", symbol: "€").format(accountTypeList[index][1])}'),
+                                  Text(
+                                      '${NumberFormat.currency(locale: "de", symbol: "€").format(accountTypeList[index][1])}'),
                                   //Text(itemAccountTypeBalance + ' €'),
                                 ],
                               ),
@@ -230,7 +233,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   },
                                   key: ValueKey<String>(e.id.toString()),
                                   background: Container(
-                                    color: Colors.orange,
+                                    color: Globals.isDarkmode ? Globals.dismissibleEditColorLDark : Globals.dismissibleEditColorLight,
                                     child: Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: Row(
@@ -239,18 +242,18 @@ class _AccountScreenState extends State<AccountScreen> {
                                         children: <Widget>[
                                           Icon(
                                             Icons.edit,
-                                            //color: Colors.white,
+                                            color: Colors.white,
                                           ),
                                           Text('Edit',
                                               style: TextStyle(
-                                                  //color: Colors.white,
+                                                  color: Colors.white,
                                                   )),
                                         ],
                                       ),
                                     ),
                                   ),
                                   secondaryBackground: Container(
-                                    color: Colors.red,
+                                    color: Globals.isDarkmode ? Globals.dismissibleDeleteColorDark : Globals.dismissibleDeleteColorLight,
                                     child: Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: Row(
@@ -259,11 +262,11 @@ class _AccountScreenState extends State<AccountScreen> {
                                         children: <Widget>[
                                           Icon(
                                             Icons.delete,
-                                            //color: Colors.white,
+                                            color: Colors.white,
                                           ),
                                           Text('Move to trash',
                                               style: TextStyle(
-                                                  //color: Colors.white,
+                                                  color: Colors.white,
                                                   )),
                                         ],
                                       ),
@@ -278,22 +281,40 @@ class _AccountScreenState extends State<AccountScreen> {
                                       margin: EdgeInsets.all(0),
                                       //color: ,
                                       child: ListTile(
-                                        title: Row(
-                                          children: [
-                                            Container(
-                                              width: 30,
-                                              height: 30,
-                                              child: Image.asset(e.symbol!,
-                                                  color: e.color!),
+                                        leading: Padding(
+                                          padding: const EdgeInsets.all(4),
+                                          child: Container(
+                                            padding: EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              color: getColor(e.color!).withOpacity(0.20),
                                             ),
-                                            SizedBox(
-                                              width: 10,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(4.0),
+                                              child: Image.asset(
+                                                e.symbol!,
+                                                color: getColor(e.color!),
+                                              ),
                                             ),
+                                          ),
+                                        ),
+                                        title: //Row(
+                                          //children: [
+                                            // Container(
+                                            //   width: 30,
+                                            //   height: 30,
+                                            //   child: Image.asset(e.symbol!,
+                                            //       color: getColor(e.color!)),
+                                            // ),
+                                            // SizedBox(
+                                            //   width: 10,
+                                            // ),
                                             Text(
                                               '${e.title}',
                                             ),
-                                          ],
-                                        ),
+                                          //],
+                                        //),
                                         trailing: Text(
                                           '${NumberFormat.currency(locale: "de", symbol: "€").format(e.bankBalance)}',
                                           //'${e.bankBalance!.toStringAsFixed(2)} €',

@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/enums.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 import 'package:intl/intl.dart';
 
 String formatDate(DateTime date) {
@@ -7,24 +9,21 @@ String formatDate(DateTime date) {
 }
 
 String formatCurrency(double amount) {
-  var formattedCurrency = NumberFormat.currency(locale: "de", symbol: "€").format(amount);
+  var formattedCurrency =
+      NumberFormat.currency(locale: "de", symbol: "€").format(amount);
   return '$formattedCurrency';
 }
 
 String formatRepetition(Repetition repetition) {
   if (repetition == Repetition.monthly) {
     return 'Monatlich';
-  }
-  else if (repetition == Repetition.weekly) {
+  } else if (repetition == Repetition.weekly) {
     return 'Wöchentlich';
-  }
-  else if (repetition == Repetition.yearly) {
+  } else if (repetition == Repetition.yearly) {
     return 'Jährlich';
-  }
-  else if (repetition == Repetition.weekly) {
+  } else if (repetition == Repetition.weekly) {
     return 'Täglich';
-  }
-  else {
+  } else {
     return '';
   }
 }
@@ -32,17 +31,52 @@ String formatRepetition(Repetition repetition) {
 Repetition getRepetitionFromString(String repetition) {
   if (repetition == 'Monatlich') {
     return Repetition.monthly;
-  }
-  else if (repetition == 'Wöchentlich') {
+  } else if (repetition == 'Wöchentlich') {
     return Repetition.weekly;
-  }
-  else if (repetition == 'Jährlich') {
+  } else if (repetition == 'Jährlich') {
     return Repetition.yearly;
-  }
-  else if (repetition == 'Täglich') {
+  } else if (repetition == 'Täglich') {
+    return Repetition.daily;
+  } else {
     return Repetition.daily;
   }
-  else {
-    return Repetition.daily;
+}
+
+Color getLightColorFromDarkColor(Color color) {
+  ColorSwatch<Object> darkColorKey = Globals.customSwatchDarkMode.keys
+      .firstWhere((element) => element.value == color.value);
+
+  Color lightColor = Globals.customSwatchLightMode.keys.firstWhere((element) =>
+      Globals.customSwatchLightMode[element] ==
+      Globals.customSwatchDarkMode[darkColorKey]);
+
+  return lightColor;
+}
+
+Color getDarkColorFromLightColor(Color color) {
+  ColorSwatch<Object> lightColorKey = Globals.customSwatchLightMode.keys
+      .firstWhere((element) => element.value == color.value);
+
+  Color darkColor = Globals.customSwatchDarkMode.keys.firstWhere((element) =>
+      Globals.customSwatchDarkMode[element] ==
+      Globals.customSwatchLightMode[lightColorKey]);
+
+  return darkColor;
+}
+
+Color getColor(Color color) {
+  Color lightColor = color;
+  if (Globals.isDarkmode) {
+    return getDarkColorFromLightColor(lightColor);
+  } else {
+    return lightColor;
+  }
+}
+
+Color getColorToSave(Color color) {
+  if (Globals.isDarkmode) {
+    return getLightColorFromDarkColor(color);
+  } else {
+    return color;
   }
 }

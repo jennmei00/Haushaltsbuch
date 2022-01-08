@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
@@ -173,7 +174,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
       },
       direction: DismissDirection.horizontal,
       background: Container(
-        color: Colors.orange,
+        color: Globals.isDarkmode ? Globals.dismissibleEditColorLDark : Globals.dismissibleEditColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
@@ -186,7 +187,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
         ),
       ),
       secondaryBackground: Container(
-        color: Colors.red,
+        color: Globals.isDarkmode ? Globals.dismissibleDeleteColorDark : Globals.dismissibleDeleteColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
@@ -210,13 +211,13 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
               padding: EdgeInsets.all(5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: item.category!.color!.withOpacity(0.20),
+                color: getColor(item.category!.color!).withOpacity(0.20),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Image.asset(
                   item.category!.symbol!,
-                  color: item.category!.color!,
+                  color: getColor(item.category!.color!),
                 ),
               ),
             ),

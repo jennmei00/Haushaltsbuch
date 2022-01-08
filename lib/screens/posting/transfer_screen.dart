@@ -5,6 +5,7 @@ import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:intl/intl.dart';
@@ -92,33 +93,33 @@ class _TransferScreenState extends State<TransferScreen> {
           physics: BouncingScrollPhysics(),
           padding: const EdgeInsets.all(10.0),
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Datum:'),
-                Row(
-                  children: [
-                    Text(
-                      '${DateFormat.yMMMd().format(_dateTime)}'),
-                        //'${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
-                    IconButton(
-                      icon: Icon(Icons.date_range),
-                      onPressed: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: _dateTime,
-                          firstDate:
-                              DateTime.now().subtract(Duration(days: 365)),
-                          lastDate: DateTime.now().add(Duration(days: 365)),
-                        ).then((value) {
-                          if (value != null) setState(() => _dateTime = value);
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text('Datum:'),
+            //     Row(
+            //       children: [
+            //         Text(
+            //           '${DateFormat.yMMMd().format(_dateTime)}'),
+            //             //'${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
+            //         IconButton(
+            //           icon: Icon(Icons.date_range),
+            //           onPressed: () {
+            //             showDatePicker(
+            //               context: context,
+            //               initialDate: _dateTime,
+            //               firstDate:
+            //                   DateTime.now().subtract(Duration(days: 365)),
+            //               lastDate: DateTime.now().add(Duration(days: 365)),
+            //             ).then((value) {
+            //               if (value != null) setState(() => _dateTime = value);
+            //             });
+            //           },
+            //         ),
+            //       ],
+            //     ),
+            //   ],
+            // ),
             SizedBox(height: 20),
             DropDown(
               dropdownItems: _accountDropDownItems,
@@ -173,6 +174,36 @@ class _TransferScreenState extends State<TransferScreen> {
               mandatory: false,
               fieldname: 'description',
             ),
+            SizedBox(height: 20,),
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('Datum:'),
+                Row(
+                  children: [
+                    Text(formatDate(_dateTime)),
+                    IconButton(
+                        icon: Icon(Icons.date_range),
+                        onPressed: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate: _dateTime,
+                            firstDate:
+                                DateTime.now().subtract(Duration(days: 365)),
+                            lastDate: DateTime.now().add(Duration(days: 365)),
+                          ).then(
+                            (value) {
+                              if (value != null)
+                                setState(() => _dateTime = value);
+                            },
+                          );
+                        }),
+                  ],
+                ),
+              ],
+            ),
+            Divider(),
           ],
         ),
       ),
