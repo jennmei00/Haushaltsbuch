@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Popup extends StatefulWidget {
-  final String title;
+  final String? title;
   final Widget body;
   final bool saveButton;
   final bool cancelButton;
@@ -29,26 +29,9 @@ class _PopupState extends State<Popup> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              if (widget.title != '')
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 25, 15, 15),
-                // child: Stack(
-                //   //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     //CircleAvatar(child:Icon(Icons.ac_unit)),
-                //     Positioned(
-                //       height: MediaQuery.of(context).size.width * 0.1,
-                //       left: -20,
-                //       child: CircleAvatar(
-                //         backgroundColor: Colors.lightGreen.shade400,
-                //         radius: MediaQuery.of(context).size.width * 0.1,
-                //         child: FractionallySizedBox(
-                //           widthFactor: 0.65,
-                //           heightFactor: 0.65,
-                //           child: Image.asset(
-                //             'assets/icons/money-bag.png',
-                //           ),
-                //         )),
-                //     ),
                 child: Text(
                   '${widget.title}',
                   style: Theme.of(context).textTheme.headline5,
