@@ -170,9 +170,9 @@ class ManageTransfers extends StatelessWidget {
                   end: Alignment(
                       0.8, 0.0), // 10% of the width, so there are ten blinds.
                   colors: <Color>[
-                    getAccountColorFromAccountName(transfer.accountFromName!)
+                    getColor(getAccountColorFromAccountName(transfer.accountFromName!))
                         .withOpacity(0.35),
-                    getAccountColorFromAccountName(transfer.accountToName!)
+                    getColor(getAccountColorFromAccountName(transfer.accountToName!))
                         .withOpacity(0.35)
                   ],
                 ),
@@ -189,10 +189,10 @@ class ManageTransfers extends StatelessWidget {
                       end: Alignment(1.0, 0.0),
                       colors: <Color>[
                         //Colors.red, Colors.green
-                        getAccountColorFromAccountName(
-                                transfer.accountFromName!)
+                        getColor(getAccountColorFromAccountName(
+                                transfer.accountFromName!))
                             .withOpacity(0.8), 
-                        getAccountColorFromAccountName(transfer.accountToName!)
+                        getColor(getAccountColorFromAccountName(transfer.accountToName!))
                             .withOpacity(0.8)
                       ],
                     ).createShader(bounds);
@@ -203,12 +203,10 @@ class ManageTransfers extends StatelessWidget {
             ),
             title: Row(
               children: [
-                Text('${transfer.accountFromName}  '),
-                Icon(Icons.arrow_right_alt),
                 Expanded(
                   child: Text(
-                    '  ${transfer.accountToName}',
-                    overflow: TextOverflow.ellipsis,
+                    '${transfer.accountFromName}\t\u{279F}\t${transfer.accountToName}',
+                    overflow: TextOverflow.fade,
                     maxLines: 1,
                     softWrap: false,
                   ),
