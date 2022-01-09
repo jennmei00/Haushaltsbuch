@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
-import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
-import 'package:haushaltsbuch/widgets/nothing_there.dart';
-import 'package:haushaltsbuch/widgets/popup.dart';
-
-import 'categories/new_categorie_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static final routeName = '/home_screen';
@@ -27,10 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   double totalBankBalance = 0;
 
-  //wieder loeschen
-  String _selectedIcon = '';
-  String _selectedCategoryID = '';
-
   void _getTotalBankBalance() {
     accountData.forEach((ac) {
       totalBankBalance += ac.bankBalance!;
@@ -38,17 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
     totalBankBalance = double.parse((totalBankBalance).toStringAsFixed(2));
   }
 
-  final List<Category> _categoryList = AllData.categories; //Test
-
   @override
   void initState() {
     _getTotalBankBalance();
-    //wieder loeschen
-    if (widget.id != '') {
-      Category cat = AllData.categories
-          as Category; //.firstWhere((element) => element.id == widget.id);
-      _selectedIcon = cat.symbol == null ? '' : cat.symbol!;
-    }
     super.initState();
   }
 

@@ -8,9 +8,7 @@ import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
-import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
-import 'package:intl/intl.dart';
 
 class ManagePostings extends StatelessWidget {
   final List<Object?> filters;

@@ -123,7 +123,9 @@ class ManageTransfers extends StatelessWidget {
       },
       direction: DismissDirection.horizontal,
       background: Container(
-        color: Globals.isDarkmode ? Globals.dismissibleEditColorLDark : Globals.dismissibleEditColorLight,
+        color: Globals.isDarkmode
+            ? Globals.dismissibleEditColorLDark
+            : Globals.dismissibleEditColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
@@ -136,7 +138,9 @@ class ManageTransfers extends StatelessWidget {
         ),
       ),
       secondaryBackground: Container(
-        color: Globals.isDarkmode ? Globals.dismissibleDeleteColorDark : Globals.dismissibleDeleteColorLight,
+        color: Globals.isDarkmode
+            ? Globals.dismissibleDeleteColorDark
+            : Globals.dismissibleDeleteColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
@@ -156,11 +160,59 @@ class ManageTransfers extends StatelessWidget {
         },
         child: Card(
           child: ExpansionTile(
+            leading: Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                //color: getColor(posting.category!.color!).withOpacity(0.20),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment(
+                      0.8, 0.0), // 10% of the width, so there are ten blinds.
+                  colors: <Color>[
+                    getAccountColorFromAccountName(transfer.accountFromName!)
+                        .withOpacity(0.35),
+                    getAccountColorFromAccountName(transfer.accountToName!)
+                        .withOpacity(0.35)
+                  ],
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: ShaderMask(
+                  child: Image(
+                    image: AssetImage('assets/icons/other_icons/transfer.png'),
+                  ),
+                  shaderCallback: (Rect bounds) {
+                    return LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment(1.0, 0.0),
+                      colors: <Color>[
+                        //Colors.red, Colors.green
+                        getAccountColorFromAccountName(
+                                transfer.accountFromName!)
+                            .withOpacity(0.8), 
+                        getAccountColorFromAccountName(transfer.accountToName!)
+                            .withOpacity(0.8)
+                      ],
+                    ).createShader(bounds);
+                  },
+                  blendMode: BlendMode.srcATop,
+                ),
+              ),
+            ),
             title: Row(
               children: [
                 Text('${transfer.accountFromName}  '),
                 Icon(Icons.arrow_right_alt),
-                Text('  ${transfer.accountToName}'),
+                Expanded(
+                  child: Text(
+                    '  ${transfer.accountToName}',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    softWrap: false,
+                  ),
+                ),
               ],
             ),
             subtitle: Text(
