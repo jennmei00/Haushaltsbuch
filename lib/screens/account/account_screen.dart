@@ -71,7 +71,6 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   void initState() {
     AllData.accounts.sort((obj, obj2) => obj2.title!.compareTo(obj.title!));
-    print(AllData.accounts.first.title);
     _createAccountList();
     _getTotalBankBalance();
     super.initState();

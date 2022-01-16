@@ -193,10 +193,10 @@ class DBHelper {
     //     'CREATE TABLE StandingOrderPosting(ID TEXT, Date TEXT, StandingOrderID TEXT, ' +
     //         'FOREIGN KEY(StandingOrderID) REFERENCES StandingOrder(ID))');
 
-    await db
-        .execute("INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Sparkonto')");
-    await db
-        .execute("INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Girokonto')");
+    await db.execute(
+        "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Sparkonto')");
+    await db.execute(
+        "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Girokonto')");
     await db.execute(
         "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Tagesgeldkonto')");
     await db.execute(
@@ -207,8 +207,44 @@ class DBHelper {
         "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Bargeldkonto')");
     await db.execute(
         "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Sonstiges Konto')");
-        await db.execute(
-        "INSERT INTO Category VALUES('default', 'Standard', 'assets/icons/category_icons/money-2.png', ${Colors.teal.value.toString()})");
+    await db.execute(
+        "INSERT INTO Category VALUES('default', 'Sonstiges', 'assets/icons/category_icons/money-2.png', ${Colors.teal.value.toString()})");
+    await db.execute(
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Handyvertrag', 'assets/icons/category_icons/smartphone.png', ${Color(0xff373737).value.toString()})");
+    await db.execute(
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Versicherung', 'assets/icons/category_icons/insurance.png', ${Color(0xff006978).value.toString()})");
+    // await db.execute(
+    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Videostreaming', 'assets/icons/category_icons/video-streaming.png', ${Color(0xFFc62828).value.toString()})");
+    // await db.execute(
+    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Musikstreaming', 'assets/icons/category_icons/musical-note.png', ${Color(0xff4a0072).value.toString()})");
+    await db.execute(
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Lebensmittel', 'assets/icons/category_icons/diet.png', ${Color(0xff558b2f).value.toString()})");
+    await db.execute(
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Drogerie', 'assets/icons/category_icons/shampoo.png', ${Color(0xFFad1457).value.toString()})");
+    await db.execute(
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Tanken', 'assets/icons/category_icons/gas-station.png', ${Color(0xff616161).value.toString()})");
+    // await db.execute(
+    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Urlaub', 'assets/icons/category_icons/holiday.png', ${Color(0xff0277bd).value.toString()})");
+    await db.execute(
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Kleidung', 'assets/icons/category_icons/wardrobe.png', ${Color(0xFF78002e).value.toString()})");
+    // await db.execute(
+    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Apotheke', 'assets/icons/category_icons/medicine.png', ${Color(0xff004c40).value.toString()})");
+    await db.execute(
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Auto', 'assets/icons/category_icons/car.png', ${Color(0xff004ba0).value.toString()})");
+    // await db.execute(
+    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Haustier', 'assets/icons/category_icons/paw.png', ${Color(0xff5d4037).value.toString()})");
+    // await db.execute(
+    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Restaurant', 'assets/icons/category_icons/restaurant.png', ${Color(0xff004ba0).value.toString()})");
+    // await db.execute(
+    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Frisör', 'assets/icons/category_icons/scissors.png', ${Color(0xff455a64).value.toString()})");
+    await db.execute(
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Wohnen', 'assets/icons/category_icons/living-room.png', ${Color(0xffc67100).value.toString()})");
+    await db.execute(
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Freizeit', 'assets/icons/category_icons/park.png', ${Color(0xff00600f).value.toString()})");
+    await db.execute(
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Miete', 'assets/icons/category_icons/contract.png', ${Color(0xff00838f).value.toString()})");
+    await db.execute(
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Lohn', 'assets/icons/category_icons/salary.png', ${Color(0xff9e9d24).value.toString()})");
   }
 
   /////////////COPY - PASTE ---- Verstehe ich nicht ganz (wenn ich Tabelle Upgrade, Lösche ich Database und create Tabellen neu 'O')

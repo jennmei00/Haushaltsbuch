@@ -118,7 +118,9 @@ class ManageTransfers extends StatelessWidget {
       _loadWithFilter();
     }
     _listofListViewWidgets = [];
-    _fillListViewWidgetList(context);
+    if (_listTransfer.length != 0) {
+      _fillListViewWidgetList(context);
+    }
 
     return AllData.transfers.length == 0
         ? NothingThere(textScreen: 'Du hast noch keine Umbuchung erstellt :(')
@@ -218,9 +220,11 @@ class ManageTransfers extends StatelessWidget {
                   end: Alignment(
                       0.8, 0.0), // 10% of the width, so there are ten blinds.
                   colors: <Color>[
-                    getColor(getAccountColorFromAccountName(transfer.accountFromName!))
+                    getColor(getAccountColorFromAccountName(
+                            transfer.accountFromName!))
                         .withOpacity(0.35),
-                    getColor(getAccountColorFromAccountName(transfer.accountToName!))
+                    getColor(getAccountColorFromAccountName(
+                            transfer.accountToName!))
                         .withOpacity(0.35)
                   ],
                 ),
@@ -239,8 +243,9 @@ class ManageTransfers extends StatelessWidget {
                         //Colors.red, Colors.green
                         getColor(getAccountColorFromAccountName(
                                 transfer.accountFromName!))
-                            .withOpacity(0.8), 
-                        getColor(getAccountColorFromAccountName(transfer.accountToName!))
+                            .withOpacity(0.8),
+                        getColor(getAccountColorFromAccountName(
+                                transfer.accountToName!))
                             .withOpacity(0.8)
                       ],
                     ).createShader(bounds);

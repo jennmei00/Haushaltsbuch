@@ -126,7 +126,9 @@ class ManagePostings extends StatelessWidget {
       _loadWithFilter();
     }
     _listofListViewWidgets = [];
-    _fillListViewWidgetList(context);
+    if (_listPosting.length != 0) {
+      _fillListViewWidgetList(context);
+    }
 
     return AllData.postings.length == 0
         ? NothingThere(textScreen: 'Du hast noch keine Buchung erstellt :(')

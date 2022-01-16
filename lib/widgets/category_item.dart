@@ -24,7 +24,7 @@ class CategoryItem extends StatelessWidget {
         GestureDetector(
           onTap: onTapFunction != null ? () => onTapFunction!() : () {},
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(6.0),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),

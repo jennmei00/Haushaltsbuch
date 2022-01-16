@@ -54,6 +54,7 @@ class _StartScreenState extends State<StartScreen> {
 
   Future<bool> _getAllData() async {
     // await DBHelper.delete('Transfer');
+    // await DBHelper.deleteDatabse();
 
     await _getImageList(widget.ctx as BuildContext);
     AllData.accounts = Account().listFromDB(await DBHelper.getData('Account'));

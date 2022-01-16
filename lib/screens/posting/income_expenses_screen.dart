@@ -250,7 +250,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                                 childAspectRatio: MediaQuery.of(context)
                                         .size
                                         .width /
-                                    (MediaQuery.of(context).size.height / 1.5),
+                                    (MediaQuery.of(context).size.height / 1.6),
                                 padding: EdgeInsets.all(10),
                                 crossAxisCount: 3,
                                 crossAxisSpacing:
