@@ -25,6 +25,7 @@ class _AccountScreenState extends State<AccountScreen> {
   List<List<Object>> accountTypeList = [];
 
   var accountData = AllData.accounts;
+  
   double totalBankBalance = 0;
   void _createAccountList() {
     accountData.forEach((ac) {
@@ -69,6 +70,8 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   void initState() {
+    AllData.accounts.sort((obj, obj2) => obj2.title!.compareTo(obj.title!));
+    print(AllData.accounts.first.title);
     _createAccountList();
     _getTotalBankBalance();
     super.initState();
@@ -76,6 +79,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //accountTypeList.sort((obj, obj2) => obj2.compareTo(obj));
     return Scaffold(
         //backgroundColor: Theme.of(context).colorScheme.background,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -97,7 +101,7 @@ class _AccountScreenState extends State<AccountScreen> {
         body: AllData.accounts.length == 0
             ? NothingThere(textScreen: 'Noch keine Konten vorhanden :(')
             : Padding(
-                padding: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(0),
                 child: Column(
                   children: [
                     Padding(

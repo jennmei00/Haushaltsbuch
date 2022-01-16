@@ -10,6 +10,11 @@ String formatDate(DateTime date) {
   return '$formattedDate';
 }
 
+String formatDateMY(DateTime date) {
+  var formattedDate = DateFormat.yMMMM().format(date);
+  return '$formattedDate';
+}
+
 String formatCurrency(double amount) {
   var formattedCurrency =
       NumberFormat.currency(locale: "de", symbol: "€").format(amount);

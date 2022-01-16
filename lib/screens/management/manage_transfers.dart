@@ -21,6 +21,8 @@ class ManageTransfers extends StatelessWidget {
   }) : super(key: key);
 
   final List<Transfer> _listTransfer = [];
+  int currentMonthHelper = 0;
+  List<Widget> _listofListViewWidgets = [];
 
   void _loadWithFilter() {
     _listTransfer.clear();
@@ -63,22 +65,68 @@ class ManageTransfers extends StatelessWidget {
     });
   }
 
+  void _fillListViewWidgetList(BuildContext context) {
+    currentMonthHelper = _listTransfer.first.date!.month;
+    _listofListViewWidgets.add(
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.only(
+              right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+          child: Text(
+            formatDateMY(_listTransfer.first.date!),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onPrimary),
+          ),
+        ),
+        color: Theme.of(context).colorScheme.primaryVariant,
+      ),
+    );
+    for (int i = 0; i < _listTransfer.length; i++) {
+      //check if month has changed
+      if (_listTransfer[i].date!.month == currentMonthHelper) {
+        _listofListViewWidgets.add(_listViewWidget(_listTransfer[i], context));
+      } else {
+        currentMonthHelper = _listTransfer[i].date!.month;
+        _listofListViewWidgets.add(
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+              child: Text(
+                formatDateMY(_listTransfer[i].date!),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.onPrimary),
+              ),
+            ),
+            color: Theme.of(context).colorScheme.primaryVariant,
+          ),
+        );
+        _listofListViewWidgets.add(_listViewWidget(_listTransfer[i], context));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    AllData.transfers.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
+    AllData.transfers.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
 
     if (search) {
       _loadWithSearchQuery();
     } else {
       _loadWithFilter();
     }
+    _listofListViewWidgets = [];
+    _fillListViewWidgetList(context);
 
     return AllData.transfers.length == 0
         ? NothingThere(textScreen: 'Du hast noch keine Umbuchung erstellt :(')
         : ListView(
-            children: _listTransfer.map((Transfer e) {
-              return _listViewWidget(e, context);
-            }).toList(),
+            children: _listofListViewWidgets.map((e) => e).toList(),
+            // _listTransfer.map((Transfer e) {
+            //   return _listViewWidget(e, context);
+            // }).toList(),
           );
   }
 

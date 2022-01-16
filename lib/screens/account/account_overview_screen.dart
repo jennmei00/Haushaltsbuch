@@ -183,7 +183,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                 child: Text(
                   'Umsätze',
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: _accountColor),
+                      fontWeight: FontWeight.bold, color: getColor(_accountColor)),
                 ),
               ),
             if (_listPostingsTransfers.length != 0)
@@ -229,7 +229,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                 softWrap: false,
               ),
               subtitle: Text(
-                '${listObj.accountName}',
+                '${formatDate(listObj.date!)}',
                 style: TextStyle(color: Colors.grey.shade400),
               ),
               trailing: listObj.postingType == PostingType.income
