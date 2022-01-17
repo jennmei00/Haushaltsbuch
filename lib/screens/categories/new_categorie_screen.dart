@@ -28,7 +28,9 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
   TextEditingController _titleController = TextEditingController(text: '');
 
   late Color _iconcolor;
-  Color _onchangedColor = Globals.isDarkmode ? Globals.customSwatchDarkMode.keys.first : Globals.customSwatchLightMode.keys.first;
+  Color _onchangedColor = Globals.isDarkmode
+      ? Globals.customSwatchDarkMode.keys.first
+      : Globals.customSwatchLightMode.keys.first;
   final _formKey = GlobalKey<FormState>();
   String _selectedIcon = '';
 
@@ -40,12 +42,11 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
       _titleController.text = '${cat.title}';
       _iconcolor = cat.color as Color;
       _selectedIcon = cat.symbol == null ? '' : cat.symbol!;
-      
-      
-
     } else {
       _selectedIcon = Globals.imagePathsCategoryIcons[0];
-      _iconcolor = Globals.isDarkmode ? Globals.customSwatchDarkMode.keys.first : Globals.customSwatchLightMode.keys.first;
+      _iconcolor = Globals.isDarkmode
+          ? Globals.customSwatchDarkMode.keys.first
+          : Globals.customSwatchLightMode.keys.first;
     }
     // _getImageList();
     // print(imagePaths);
@@ -54,7 +55,6 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         title:
@@ -92,33 +92,33 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
               ),
               SizedBox(
                 width: double.infinity,
-                child: GestureDetector( //Iconbutton(
+                child: GestureDetector(
+                  //Iconbutton(
                   //highlightColor: Colors.transparent,
-                      onTap: () => showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return StatefulBuilder(builder: (context, setState) {
-                              return Popup(
-                                title:
-                                    'Color Picker',
-                                body: ColorPickerClass(_colorChanged, _iconcolor),
-                                saveButton: true,
-                                cancelButton: true,
-                                saveFunction: () {
-                                  this.setState(() {
-                                    _iconcolor = _onchangedColor;
-                                  });
-                                  Navigator.of(context).pop();
-                                },
-                              );
-                            });
-                          }),
-                      child: Icon(
-                        Icons.color_lens,
-                        color: _iconcolor,
-                        size: MediaQuery.of(context).size.width * 0.12,
-                      ),
-                    ),
+                  onTap: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return StatefulBuilder(builder: (context, setState) {
+                          return Popup(
+                            title: 'Color Picker',
+                            body: ColorPickerClass(_colorChanged, _iconcolor),
+                            saveButton: true,
+                            cancelButton: true,
+                            saveFunction: () {
+                              this.setState(() {
+                                _iconcolor = _onchangedColor;
+                              });
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        });
+                      }),
+                  child: Icon(
+                    Icons.color_lens,
+                    color: _iconcolor,
+                    size: MediaQuery.of(context).size.width * 0.12,
+                  ),
+                ),
               ),
               SizedBox(height: 10),
               Divider(),
@@ -127,10 +127,13 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                 'Icon',
                 style: TextStyle(fontSize: 20),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Expanded(
                 child: GridView.count(
-                  physics: BouncingScrollPhysics(),//NeverScrollableScrollPhysics(),
+                  physics:
+                      BouncingScrollPhysics(), //NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   padding: EdgeInsets.all(8),
                   crossAxisCount: 4,
@@ -164,12 +167,12 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                               // width: MediaQuery.of(context).size.width * 0.34,
                               child: Padding(
                                 padding: const EdgeInsets.all(12),
-                                child: Image.asset(
-                                  item,
-                                  color: _selectedIcon == item
-                                      ? _iconcolor
-                                      : Colors.grey.shade500 //Theme.of(context).colorScheme.onSurface,
-                                ),
+                                child: Image.asset(item,
+                                    color: _selectedIcon == item
+                                        ? _iconcolor
+                                        : Colors.grey
+                                            .shade500 //Theme.of(context).colorScheme.onSurface,
+                                    ),
                               ),
                             ),
                           ))
@@ -243,14 +246,14 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
               //             AllData.standingOrders[AllData.standingOrders
               //                 .indexWhere((so) => so.id == element.id)] = newSO;
               //           });
-        
+
               //           AllData.categories
               //               .removeWhere((element) => element.id == widget.id);
               //           DBHelper.delete('Category', where: "ID = '${widget.id}'");
-        
+
               //           ScaffoldMessenger.of(context).showSnackBar(
               //               SnackBar(content: Text('Kategorie wurde gelöscht')));
-        
+
               //           Navigator.of(context)
               //             ..pop()
               //             ..popAndPushNamed(CategoriesScreen.routeName);
@@ -276,38 +279,48 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
 
   void _saveCategory() async {
     if (_formKey.currentState!.validate()) {
-      if (_selectedIcon != '') {
-        Category cat = Category(
-          id: widget.id != '' ? widget.id : Uuid().v1(),
-          title: _titleController.text,
-          color: getColorToSave(_iconcolor),
-          symbol: _selectedIcon,
-        );
+      try {
+        if (_selectedIcon != '') {
+          Category cat = Category(
+            id: widget.id != '' ? widget.id : Uuid().v1(),
+            title: _titleController.text,
+            color: getColorToSave(_iconcolor),
+            symbol: _selectedIcon,
+          );
 
-        if (widget.id == '') {
-          await DBHelper.insert('Category', cat.toMap());
+          if (widget.id == '') {
+            await DBHelper.insert('Category', cat.toMap());
+          } else {
+            await DBHelper.update('Category', cat.toMap(),
+                where: "ID = '${cat.id}'");
+            AllData.categories.removeWhere((element) => element.id == cat.id);
+          }
+
+          AllData.categories.add(cat);
+          Navigator.of(context)
+            ..pop()
+            ..popAndPushNamed(CategoriesScreen.routeName);
+          // } else {
+          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          //     content: Text(
+          //       'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+          //       textAlign: TextAlign.center,
+          //     ),
+          //   ));
+          // }
+
         } else {
-          await DBHelper.update('Category', cat.toMap(),
-              where: "ID = '${cat.id}'");
-          AllData.categories.removeWhere((element) => element.id == cat.id);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              'Bitte wähle noch ein Symbol aus :)',
+              textAlign: TextAlign.center,
+            ),
+          ));
         }
-
-        AllData.categories.add(cat);
-        Navigator.of(context)
-          ..pop()
-          ..popAndPushNamed(CategoriesScreen.routeName);
-        // } else {
-        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     content: Text(
-        //       'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
-        //       textAlign: TextAlign.center,
-        //     ),
-        //   ));
-        // }
-      } else {
+      } catch (ex) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            'Bitte wähle noch ein Symbol aus :)',
+            'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
             textAlign: TextAlign.center,
           ),
         ));
