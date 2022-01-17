@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
+import 'package:haushaltsbuch/screens/account/account_overview_screen.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
@@ -24,6 +25,7 @@ class _AccountScreenState extends State<AccountScreen> {
   List<List<Object>> accountTypeList = [];
 
   var accountData = AllData.accounts;
+  
   double totalBankBalance = 0;
   void _createAccountList() {
     accountData.forEach((ac) {
@@ -60,7 +62,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   Color _getColorBalance(double balance) {
     if (balance < 0) {
-      return Colors.red.shade900;
+      return Colors.red;
     } else {
       return Theme.of(context).colorScheme.onSurface; //Colors.black;
     }
@@ -68,6 +70,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   void initState() {
+    AllData.accounts.sort((obj, obj2) => obj2.title!.compareTo(obj.title!));
     _createAccountList();
     _getTotalBankBalance();
     super.initState();
@@ -75,6 +78,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //accountTypeList.sort((obj, obj2) => obj2.compareTo(obj));
     return Scaffold(
         //backgroundColor: Theme.of(context).colorScheme.background,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -96,7 +100,7 @@ class _AccountScreenState extends State<AccountScreen> {
         body: AllData.accounts.length == 0
             ? NothingThere(textScreen: 'Noch keine Konten vorhanden :(')
             : Padding(
-                padding: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(0),
                 child: Column(
                   children: [
                     Padding(
@@ -233,7 +237,9 @@ class _AccountScreenState extends State<AccountScreen> {
                                   },
                                   key: ValueKey<String>(e.id.toString()),
                                   background: Container(
-                                    color: Globals.isDarkmode ? Globals.dismissibleEditColorLDark : Globals.dismissibleEditColorLight,
+                                    color: Globals.isDarkmode
+                                        ? Globals.dismissibleEditColorLDark
+                                        : Globals.dismissibleEditColorLight,
                                     child: Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: Row(
@@ -246,14 +252,16 @@ class _AccountScreenState extends State<AccountScreen> {
                                           ),
                                           Text('Edit',
                                               style: TextStyle(
-                                                  color: Colors.white,
-                                                  )),
+                                                color: Colors.white,
+                                              )),
                                         ],
                                       ),
                                     ),
                                   ),
                                   secondaryBackground: Container(
-                                    color: Globals.isDarkmode ? Globals.dismissibleDeleteColorDark : Globals.dismissibleDeleteColorLight,
+                                    color: Globals.isDarkmode
+                                        ? Globals.dismissibleDeleteColorDark
+                                        : Globals.dismissibleDeleteColorLight,
                                     child: Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: Row(
@@ -266,14 +274,18 @@ class _AccountScreenState extends State<AccountScreen> {
                                           ),
                                           Text('Move to trash',
                                               style: TextStyle(
-                                                  color: Colors.white,
-                                                  )),
+                                                color: Colors.white,
+                                              )),
                                         ],
                                       ),
                                     ),
                                   ),
                                   child: GestureDetector(
-                                    onTap: () => _showAccountDetails(e),
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed(
+                                          AccountOverviewScreen.routeName,
+                                          arguments: e.id);
+                                    }, //=> _showAccountDetails(e),
                                     child: Card(
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.zero,
@@ -288,10 +300,12 @@ class _AccountScreenState extends State<AccountScreen> {
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(12),
-                                              color: getColor(e.color!).withOpacity(0.20),
+                                              color: getColor(e.color!)
+                                                  .withOpacity(0.20),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.all(4.0),
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
                                               child: Image.asset(
                                                 e.symbol!,
                                                 color: getColor(e.color!),
@@ -300,7 +314,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                           ),
                                         ),
                                         title: //Row(
-                                          //children: [
+                                            //children: [
                                             // Container(
                                             //   width: 30,
                                             //   height: 30,
@@ -311,9 +325,9 @@ class _AccountScreenState extends State<AccountScreen> {
                                             //   width: 10,
                                             // ),
                                             Text(
-                                              '${e.title}',
-                                            ),
-                                          //],
+                                          '${e.title}',
+                                        ),
+                                        //],
                                         //),
                                         trailing: Text(
                                           '${NumberFormat.currency(locale: "de", symbol: "€").format(e.bankBalance)}',

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
@@ -49,6 +50,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   bool _postingSwitch = false;
   Account? _oldAccount;
   double? _oldAmount;
+  int _groupValue_buchungsart = 0;
 
   void _getAccountDropDownItems() {
     //_selectedItem = ListItem('0', 'name');
@@ -79,6 +81,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     _setCategory = posting.category!;
     postingType =
         posting.postingType == PostingType.expense ? 'Ausgabe' : 'Einnahme';
+    _groupValue_buchungsart = posting.postingType!.index;
     if (posting.postingType == PostingType.expense)
       _postingSwitch = true;
     else
@@ -151,6 +154,26 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                 //   ],
                 // ),
               ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            widget.id == '' ? SizedBox(height: 0,) :
+            FractionallySizedBox(
+              widthFactor: 0.9,
+              child: CupertinoSlidingSegmentedControl(
+                children: <Object, Widget>{
+                  0: Text('Einnahme'),
+                  1: Text('Ausgabe')
+                },
+                onValueChanged: (val) {
+                  setState(() {
+                    _groupValue_buchungsart = val as int;
+                    postingType = PostingType.values[_groupValue_buchungsart] == PostingType.expense ? 'Ausgabe' : 'Einnahme';
+                  });
+                },
+                groupValue: _groupValue_buchungsart,
+              ),
             ),
             SizedBox(height: 20),
             // Text('Konto wählen:'),
@@ -227,7 +250,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                                 childAspectRatio: MediaQuery.of(context)
                                         .size
                                         .width /
-                                    (MediaQuery.of(context).size.height / 1.5),
+                                    (MediaQuery.of(context).size.height / 1.6),
                                 padding: EdgeInsets.all(10),
                                 crossAxisCount: 3,
                                 crossAxisSpacing:
@@ -288,34 +311,35 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                 ),
               ],
             ),
-            widget.id == '' ? SizedBox() : Divider(),
-            widget.id == ''
-                ? SizedBox()
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        'Einnahme',
-                        style: TextStyle(color: Colors.green),
-                      ),
-                      Switch(
-                        value: _postingSwitch,
-                        onChanged: (val) {
-                          setState(() {
-                            _postingSwitch = val;
-                          });
-                        },
-                        activeColor: Colors.red,
-                        activeTrackColor: Colors.grey,
-                        inactiveThumbColor: Colors.green,
-                        inactiveTrackColor: Colors.grey,
-                      ),
-                      Text(
-                        'Ausgabe',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    ],
-                  )
+            Divider(),
+            // widget.id == '' ? SizedBox() : Divider(),
+            // widget.id == ''
+            //     ? SizedBox()
+            //     : Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //         children: [
+            //           Text(
+            //             'Einnahme',
+            //             style: TextStyle(color: Colors.green),
+            //           ),
+            //           Switch(
+            //             value: _postingSwitch,
+            //             onChanged: (val) {
+            //               setState(() {
+            //                 _postingSwitch = val;
+            //               });
+            //             },
+            //             activeColor: Colors.red,
+            //             activeTrackColor: Colors.grey,
+            //             inactiveThumbColor: Colors.green,
+            //             inactiveTrackColor: Colors.grey,
+            //           ),
+            //           Text(
+            //             'Ausgabe',
+            //             style: TextStyle(color: Colors.red),
+            //           ),
+            //         ],
+            //       )
             // Stack(
             //   children: [
             //     Container(
@@ -402,9 +426,9 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               ? widget.type == 'Einnahme'
                   ? PostingType.income
                   : PostingType.expense
-              : _postingSwitch
-                  ? PostingType.expense
-                  : PostingType.income,
+              : PostingType.values[_groupValue_buchungsart], //_postingSwitch
+                  // ? PostingType.expense
+                  // : PostingType.income,
           category: _setCategory,
           accountName: AllData.accounts
               .firstWhere((element) => element.id == _selectedItem!.id)

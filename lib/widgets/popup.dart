@@ -69,6 +69,8 @@ class _PopupState extends State<Popup> {
                           'Speichern',
                         ),
                       ),
+                    if (widget.saveButton && widget.cancelButton) 
+                      SizedBox(width: 5,),
                     if (widget.cancelButton)
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(),

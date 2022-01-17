@@ -8,9 +8,8 @@ import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
-import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
-import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 
 class ManagePostings extends StatelessWidget {
   final List<Object?> filters;
@@ -25,6 +24,8 @@ class ManagePostings extends StatelessWidget {
   }) : super(key: key);
 
   final List<Posting> _listPosting = [];
+  int currentMonthHelper = 0;
+  List<Widget> _listofListViewWidgets = [];
 
   void _loadWithFilter() {
     _listPosting.clear();
@@ -73,6 +74,49 @@ class ManagePostings extends StatelessWidget {
     });
   }
 
+  void _fillListViewWidgetList(BuildContext context) {
+    currentMonthHelper = _listPosting.first.date!.month;
+    _listofListViewWidgets.add(
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.only(
+              right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+          child: Text(
+            formatDateMY(_listPosting.first.date!),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onPrimary),
+          ),
+        ),
+        color: Theme.of(context).colorScheme.primaryVariant,
+      ),
+    );
+    for (int i = 0; i < _listPosting.length; i++) {
+      //check if month has changed
+      if (_listPosting[i].date!.month == currentMonthHelper) {
+        _listofListViewWidgets.add(_listViewWidget(_listPosting[i], context));
+      } else {
+        currentMonthHelper = _listPosting[i].date!.month;
+        _listofListViewWidgets.add(
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+              child: Text(
+                formatDateMY(_listPosting[i].date!),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.onPrimary),
+              ),
+            ),
+            color: Theme.of(context).colorScheme.primaryVariant,
+          ),
+        );
+        _listofListViewWidgets.add(_listViewWidget(_listPosting[i], context));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     AllData.postings.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
@@ -81,13 +125,15 @@ class ManagePostings extends StatelessWidget {
     } else {
       _loadWithFilter();
     }
+    _listofListViewWidgets = [];
+    if (_listPosting.length != 0) {
+      _fillListViewWidgetList(context);
+    }
 
     return AllData.postings.length == 0
         ? NothingThere(textScreen: 'Du hast noch keine Buchung erstellt :(')
         : ListView(
-            children: _listPosting.map((Posting e) {
-              return _listViewWidget(e, context);
-            }).toList(),
+            children: _listofListViewWidgets.map((e) => e).toList(),
           );
   }
 
@@ -159,7 +205,9 @@ class ManagePostings extends StatelessWidget {
       },
       direction: DismissDirection.horizontal,
       background: Container(
-        color: Globals.isDarkmode ? Globals.dismissibleEditColorLDark : Globals.dismissibleEditColorLight,
+        color: Globals.isDarkmode
+            ? Globals.dismissibleEditColorLDark
+            : Globals.dismissibleEditColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
@@ -172,7 +220,9 @@ class ManagePostings extends StatelessWidget {
         ),
       ),
       secondaryBackground: Container(
-        color: Globals.isDarkmode ? Globals.dismissibleDeleteColorDark : Globals.dismissibleDeleteColorLight,
+        color: Globals.isDarkmode
+            ? Globals.dismissibleDeleteColorDark
+            : Globals.dismissibleDeleteColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
@@ -236,33 +286,33 @@ class ManagePostings extends StatelessWidget {
               expandedAlignment: Alignment.topLeft,
               children: [
                 Table(
-                children: [
-                  TableRow(
-                    children: [
-                      Text('Kategorie:'),
-                      Text('${posting.category!.title}'),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Text('Datum:'),
-                      Text(formatDate(posting.date!)),
-                    ],
-                  ),
-                  if (posting.description != '')
+                  children: [
                     TableRow(
                       children: [
-                        Text('Beschreibung:'),
-                        Text(
-                          '${posting.description}',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          softWrap: false,
-                        ),
+                        Text('Kategorie:'),
+                        Text('${posting.category!.title}'),
                       ],
-                    )
-                ],
-              )
+                    ),
+                    TableRow(
+                      children: [
+                        Text('Datum:'),
+                        Text(formatDate(posting.date!)),
+                      ],
+                    ),
+                    if (posting.description != '')
+                      TableRow(
+                        children: [
+                          Text('Beschreibung:'),
+                          Text(
+                            '${posting.description}',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 4,
+                            softWrap: false,
+                          ),
+                        ],
+                      )
+                  ],
+                )
               ],
             ),
           )),

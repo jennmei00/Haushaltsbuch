@@ -21,6 +21,8 @@ class ManageTransfers extends StatelessWidget {
   }) : super(key: key);
 
   final List<Transfer> _listTransfer = [];
+  int currentMonthHelper = 0;
+  List<Widget> _listofListViewWidgets = [];
 
   void _loadWithFilter() {
     _listTransfer.clear();
@@ -63,22 +65,70 @@ class ManageTransfers extends StatelessWidget {
     });
   }
 
+  void _fillListViewWidgetList(BuildContext context) {
+    currentMonthHelper = _listTransfer.first.date!.month;
+    _listofListViewWidgets.add(
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.only(
+              right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+          child: Text(
+            formatDateMY(_listTransfer.first.date!),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onPrimary),
+          ),
+        ),
+        color: Theme.of(context).colorScheme.primaryVariant,
+      ),
+    );
+    for (int i = 0; i < _listTransfer.length; i++) {
+      //check if month has changed
+      if (_listTransfer[i].date!.month == currentMonthHelper) {
+        _listofListViewWidgets.add(_listViewWidget(_listTransfer[i], context));
+      } else {
+        currentMonthHelper = _listTransfer[i].date!.month;
+        _listofListViewWidgets.add(
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+              child: Text(
+                formatDateMY(_listTransfer[i].date!),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.onPrimary),
+              ),
+            ),
+            color: Theme.of(context).colorScheme.primaryVariant,
+          ),
+        );
+        _listofListViewWidgets.add(_listViewWidget(_listTransfer[i], context));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    AllData.transfers.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
+    AllData.transfers.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
 
     if (search) {
       _loadWithSearchQuery();
     } else {
       _loadWithFilter();
     }
+    _listofListViewWidgets = [];
+    if (_listTransfer.length != 0) {
+      _fillListViewWidgetList(context);
+    }
 
     return AllData.transfers.length == 0
         ? NothingThere(textScreen: 'Du hast noch keine Umbuchung erstellt :(')
         : ListView(
-            children: _listTransfer.map((Transfer e) {
-              return _listViewWidget(e, context);
-            }).toList(),
+            children: _listofListViewWidgets.map((e) => e).toList(),
+            // _listTransfer.map((Transfer e) {
+            //   return _listViewWidget(e, context);
+            // }).toList(),
           );
   }
 
@@ -123,7 +173,9 @@ class ManageTransfers extends StatelessWidget {
       },
       direction: DismissDirection.horizontal,
       background: Container(
-        color: Globals.isDarkmode ? Globals.dismissibleEditColorLDark : Globals.dismissibleEditColorLight,
+        color: Globals.isDarkmode
+            ? Globals.dismissibleEditColorLDark
+            : Globals.dismissibleEditColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
@@ -136,7 +188,9 @@ class ManageTransfers extends StatelessWidget {
         ),
       ),
       secondaryBackground: Container(
-        color: Globals.isDarkmode ? Globals.dismissibleDeleteColorDark : Globals.dismissibleDeleteColorLight,
+        color: Globals.isDarkmode
+            ? Globals.dismissibleDeleteColorDark
+            : Globals.dismissibleDeleteColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
@@ -156,11 +210,60 @@ class ManageTransfers extends StatelessWidget {
         },
         child: Card(
           child: ExpansionTile(
+            leading: Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                //color: getColor(posting.category!.color!).withOpacity(0.20),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment(
+                      0.8, 0.0), // 10% of the width, so there are ten blinds.
+                  colors: <Color>[
+                    getColor(getAccountColorFromAccountName(
+                            transfer.accountFromName!))
+                        .withOpacity(0.35),
+                    getColor(getAccountColorFromAccountName(
+                            transfer.accountToName!))
+                        .withOpacity(0.35)
+                  ],
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: ShaderMask(
+                  child: Image(
+                    image: AssetImage('assets/icons/other_icons/transfer.png'),
+                  ),
+                  shaderCallback: (Rect bounds) {
+                    return LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment(1.0, 0.0),
+                      colors: <Color>[
+                        //Colors.red, Colors.green
+                        getColor(getAccountColorFromAccountName(
+                                transfer.accountFromName!))
+                            .withOpacity(0.8),
+                        getColor(getAccountColorFromAccountName(
+                                transfer.accountToName!))
+                            .withOpacity(0.8)
+                      ],
+                    ).createShader(bounds);
+                  },
+                  blendMode: BlendMode.srcATop,
+                ),
+              ),
+            ),
             title: Row(
               children: [
-                Text('${transfer.accountFromName}  '),
-                Icon(Icons.arrow_right_alt),
-                Text('  ${transfer.accountToName}'),
+                Expanded(
+                  child: Text(
+                    '${transfer.accountFromName}\t\u{279F}\t${transfer.accountToName}',
+                    overflow: TextOverflow.fade,
+                    maxLines: 1,
+                    softWrap: false,
+                  ),
+                ),
               ],
             ),
             subtitle: Text(

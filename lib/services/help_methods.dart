@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/account.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:intl/intl.dart';
 
 String formatDate(DateTime date) {
   var formattedDate = DateFormat.yMMMd().format(date);
+  return '$formattedDate';
+}
+
+String formatDateMY(DateTime date) {
+  var formattedDate = DateFormat.yMMMM().format(date);
   return '$formattedDate';
 }
 
@@ -26,6 +33,12 @@ String formatRepetition(Repetition repetition) {
   } else {
     return '';
   }
+}
+
+Color getAccountColorFromAccountName(String accountName) {
+  Account ac = AllData.accounts.firstWhere((element) => element.title == accountName);
+  Color accountColor = ac.color!;
+  return accountColor;
 }
 
 Repetition getRepetitionFromString(String repetition) {

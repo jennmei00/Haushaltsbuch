@@ -10,7 +10,6 @@ import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
 import 'package:uuid/uuid.dart';
-import 'package:validators/validators.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 
 class NewAccountScreen extends StatefulWidget {
@@ -31,8 +30,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       TextEditingController(text: '');
   TextEditingController _descriptionController =
       TextEditingController(text: '');
-  Color _iconcolor = Colors.black;
-  Color _onchangedColor = Colors.black;
+  Color _iconcolor = Globals.isDarkmode ? Globals.customSwatchDarkMode.keys.first : Globals.customSwatchLightMode.keys.first;
+  Color _onchangedColor = Globals.isDarkmode ? Globals.customSwatchDarkMode.keys.first : Globals.customSwatchLightMode.keys.first;
   final _formKey = GlobalKey<FormState>();
   String _selectedIcon = '';
 
@@ -59,7 +58,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     _descriptionController.text = ac.description!;
     _selectedItem = _accountTypeDropDownItems
         .firstWhere((element) => element.id == ac.accountType!.id);
-    _iconcolor = ac.color!;
+    _iconcolor = Globals.isDarkmode ? getDarkColorFromLightColor(ac.color!) : ac.color!;
     _selectedIcon = ac.symbol!;
   }
 

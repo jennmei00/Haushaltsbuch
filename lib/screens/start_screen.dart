@@ -38,6 +38,9 @@ Future<void> _getImageList(BuildContext context) async {
 
   Globals.imagePathsAccountIcons = manifestMap.keys
       .where((key) => key.contains('assets/icons/account_icons')).toList();
+
+  // Globals.otherIcons = manifestMap.keys
+  //     .where((key) => key.contains('assets/icons/other_icons')).toList();
 }
 
 Future<void> _getThemeMode() async {
@@ -51,6 +54,7 @@ class _StartScreenState extends State<StartScreen> {
 
   Future<bool> _getAllData() async {
     // await DBHelper.delete('Transfer');
+    // await DBHelper.deleteDatabse();
 
     await _getImageList(widget.ctx as BuildContext);
     AllData.accounts = Account().listFromDB(await DBHelper.getData('Account'));
