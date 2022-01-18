@@ -140,6 +140,18 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                       onPressed: () async {
                         AllData.standingOrders
                             .removeWhere((element) => element.id == item.id);
+
+                        AllData.postings
+                            .where((element) => element.standingOrder == null
+                                ? false
+                                : element.standingOrder?.id == element.id)
+                            .forEach((posting) async {
+                          posting.standingOrder = null;
+                          await DBHelper.update('Posting', posting.toMap(),
+                              where: "ID = '${posting.id}'");
+                          AllData.postings[AllData.postings.indexWhere((e) => e.id == posting.id)].standingOrder = null;
+                        });
+
                         await DBHelper.delete('StandingOrder',
                             where: "ID = '${item.id}'");
                         Navigator.of(context).pop(true);
@@ -174,7 +186,9 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
       },
       direction: DismissDirection.horizontal,
       background: Container(
-        color: Globals.isDarkmode ? Globals.dismissibleEditColorLDark : Globals.dismissibleEditColorLight,
+        color: Globals.isDarkmode
+            ? Globals.dismissibleEditColorLDark
+            : Globals.dismissibleEditColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
@@ -187,7 +201,9 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
         ),
       ),
       secondaryBackground: Container(
-        color: Globals.isDarkmode ? Globals.dismissibleDeleteColorDark : Globals.dismissibleDeleteColorLight,
+        color: Globals.isDarkmode
+            ? Globals.dismissibleDeleteColorDark
+            : Globals.dismissibleDeleteColorLight,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Row(
