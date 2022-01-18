@@ -76,9 +76,12 @@ class Posting {
       accountName: data['AccountName'],
       category: Category().fromDB(await DBHelper.getOneData('Category',
           where: "ID = '${data['CategoryID']}'")),
-      isStandingOrder:
-          data['IsStandingOrder'] == null ? false : data['IsStandingOrder'],
-      standingOrder: data['StandingOrderID'] == null
+      isStandingOrder: data['IsStandingOrder'] == null
+          ? false
+          : data['IsStandingOrder'] == 0
+              ? false
+              : true,
+      standingOrder: data['StandingOrderID'] == ''
           ? null
           : await StandingOrder().fromDB(await DBHelper.getOneData(
               'StandingOrder',

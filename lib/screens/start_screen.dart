@@ -12,7 +12,9 @@ import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({Key? key, this.ctx}) : super(key: key);
@@ -81,31 +83,74 @@ class _StartScreenState extends State<StartScreen> {
   }
 
   Future<void> _updateStandingOrderPostings() async {
-    //Vorher postings nach Datum sortieren
-    AllData.standingOrders.forEach((element) {
-      //isStandingOrder BOOL //StandingOrder STRING
+    AllData.postings.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
 
-      //wenn 31. dann letzter Tag von allen
-      //bei 29, 30 oder 31. wenn Februar ist, dann letzer Tag
+    AllData.standingOrders.forEach((element) async {
+      Posting lastPosting = AllData.postings.lastWhere((elementPosting) =>
+          elementPosting.standingOrder == null
+              ? false
+              : elementPosting.standingOrder?.id == element.id);
+      DateTime date = lastPosting.date as DateTime;
 
-      // Posting posting = AllData.postings.lastWhere(
-      //     (elementPosting) => elementPosting.standingOrder.id == element.id);
-      //IF WÖchentlich
-      // if (element.repetition == Repetition.weekly) {
-      //   Duration difference = DateTime.now().difference(posting.date!);
+      if (element.repetition == Repetition.weekly) {
+        Duration difference = DateTime.now().difference(lastPosting.date!);
+        if (difference.inDays / 7 > 1) {
+          int missing = (difference.inDays / 7).floor();
 
-      //   if (difference.inDays / 7 > 1) {
-      //     //abrunden
-      //     //Fehlende Buchung (Datum + RepetitionTime) nachtragen (Kontostand nicht vergessen zu ändern)
-      //   }
-      // }
-
-      //ELSE IF Monatlich
-      //evtl. mit Schleife
-
-      //ELSE IF Jahr
-      
+          for (var i = 0; i < missing; i++) {
+            date = date.add(Duration(days: 7));
+            await _addPosting(element, date);
+          }
+        }
+      } else if (element.repetition == Repetition.monthly) {
+        int i = 1;
+        while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
+          await _addPosting(element, Jiffy(date).add(months: i).dateTime);
+          i++;
+        }
+      } else if (element.repetition == Repetition.yearly) {
+        int i = 1;
+        while (Jiffy(date).add(years: i).dateTime.isBefore(DateTime.now())) {
+          await _addPosting(element, Jiffy(date).add(years: i).dateTime);
+          i++;
+        }
+      } 
     });
+  }
+
+  Future<void> _addPosting(StandingOrder element, DateTime date) async {
+    Posting p = Posting(
+      id: Uuid().v1(),
+      title: element.title,
+      description: element.description,
+      account: element.account,
+      amount: element.amount,
+      date: date,
+      postingType: element.postingType,
+      category: element.category,
+      accountName: element.account?.title,
+      standingOrder: element,
+      isStandingOrder: true,
+    );
+
+    AllData.postings.add(p);
+    await DBHelper.insert('Posting', p.toMap());
+
+    //update AccountAmount
+    Account ac =
+        AllData.accounts.firstWhere((element) => element.id == p.account!.id);
+    if (p.postingType == PostingType.income)
+      AllData
+          .accounts[
+              AllData.accounts.indexWhere((element) => element.id == ac.id)]
+          .bankBalance = ac.bankBalance! + p.amount!;
+    else
+      AllData
+          .accounts[
+              AllData.accounts.indexWhere((element) => element.id == ac.id)]
+          .bankBalance = ac.bankBalance! - p.amount!;
+
+    await DBHelper.update('Account', ac.toMap(), where: "ID = '${ac.id}'");
   }
 
   @override

@@ -35,7 +35,7 @@ dependencies:
   intl: ^0.17.0
   flutter_phoenix: ^1.0.0
   syncfusion_flutter_charts: ^19.4.41
-  syncfusion_flutter_datepicker: ^19.4.41
+  jiffy: ^5.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
