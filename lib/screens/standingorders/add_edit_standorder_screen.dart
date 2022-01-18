@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
+import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
@@ -276,8 +278,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                         showDatePicker(
                           context: context,
                           initialDate: _dateTime,
-                          firstDate:
-                              DateTime.now().subtract(Duration(days: 365)),
+                          firstDate: DateTime.now(),
                           lastDate: DateTime.now().add(Duration(days: 365)),
                         ).then((value) => setState(() => _dateTime = value!));
                       },
@@ -420,6 +421,41 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
 
         if (widget.id == '') {
           await DBHelper.insert('Standingorder', so.toMap());
+          if (so.begin == DateTime.now()) {
+            Posting p = Posting(
+              id: Uuid().v1(),
+              title: so.title,
+              description: so.description,
+              account: so.account,
+              amount: so.amount,
+              date: so.begin,
+              postingType: so.postingType,
+              category: so.category,
+              accountName: so.account?.title,
+              standingOrder: so,
+              isStandingOrder: true,
+            );
+
+            AllData.postings.add(p);
+            await DBHelper.insert('Posting', p.toMap());
+
+            //update AccountAmount
+            Account ac = AllData.accounts
+                .firstWhere((element) => element.id == p.account!.id);
+            if (p.postingType == PostingType.income)
+              AllData
+                  .accounts[AllData.accounts
+                      .indexWhere((element) => element.id == ac.id)]
+                  .bankBalance = ac.bankBalance! + p.amount!;
+            else
+              AllData
+                  .accounts[AllData.accounts
+                      .indexWhere((element) => element.id == ac.id)]
+                  .bankBalance = ac.bankBalance! - p.amount!;
+
+            await DBHelper.update('Account', ac.toMap(),
+                where: "ID = '${ac.id}'");
+          }
           // await DBHelper.insert('StandingorderPosting', sop.toMap());
         } else {
           await DBHelper.update('Standingorder', so.toMap(),
