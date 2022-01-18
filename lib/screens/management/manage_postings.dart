@@ -36,18 +36,22 @@ class ManagePostings extends StatelessWidget {
       bool _filterSO = filters[3] as bool;
 
       AllData.postings.forEach((element) {
-        if (_filterAccounts.any((val) => val.id == element.account!.id) ||
-            _filterCategories.any((val) => val.id == element.category!.id)) {
+        if ((_filterAccounts.length == 0
+                ? true
+                : _filterAccounts
+                    .any((val) => val.id == element.account!.id)) &&
+            (_filterCategories.length == 0
+                ? true
+                : _filterCategories
+                    .any((val) => val.id == element.category!.id)) &&
+            (_filterSO ? element.isStandingOrder! : true) &&
+            (_filterDate == null
+                ? true
+                : (element.date!
+                        .isBefore(_filterDate.end.add(Duration(days: 1))) &&
+                    (element.date!.isAfter(_filterDate.start) ||
+                        element.date! == _filterDate.start)))) {
           _listPosting.add(element);
-        } else if (_filterSO) {
-          if (element.description!.contains('Dauerauftrag'))
-            _listPosting.add(element);
-        } else if (_filterDate != null) {
-          if (element.date!.isBefore(_filterDate.end.add(Duration(days: 1))) &&
-              (element.date!.isAfter(_filterDate.start) ||
-                  element.date! == _filterDate.start)) {
-            _listPosting.add(element);
-          }
         }
       });
     } else {

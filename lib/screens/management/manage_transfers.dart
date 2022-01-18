@@ -31,15 +31,19 @@ class ManageTransfers extends StatelessWidget {
       DateTimeRange? _filterDate = filters[2] as DateTimeRange?;
 
       AllData.transfers.forEach((element) {
-        if (_filterAccounts.any((val) => val.id == element.accountFrom!.id) ||
-            _filterAccounts.any((val) => val.id == element.accountTo!.id)) {
+        if ((_filterAccounts.length == 0
+                ? true
+                : _filterAccounts
+                        .any((val) => val.id == element.accountFrom!.id) ||
+                    _filterAccounts
+                        .any((val) => val.id == element.accountTo!.id)) &&
+            (_filterDate == null
+                ? true
+                : (element.date!
+                        .isBefore(_filterDate.end.add(Duration(days: 1))) &&
+                    (element.date!.isAfter(_filterDate.start) ||
+                        element.date! == _filterDate.start)))) {
           _listTransfer.add(element);
-        } else if (_filterDate != null) {
-          if (element.date!.isBefore(_filterDate.end.add(Duration(days: 1))) &&
-              (element.date!.isAfter(_filterDate.start) ||
-                  element.date! == _filterDate.start)) {
-            _listTransfer.add(element);
-          }
         }
       });
     } else {
