@@ -158,23 +158,30 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             SizedBox(
               height: 10,
             ),
-            widget.id == '' ? SizedBox(height: 0,) :
-            FractionallySizedBox(
-              widthFactor: 0.9,
-              child: CupertinoSlidingSegmentedControl(
-                children: <Object, Widget>{
-                  0: Text('Einnahme'),
-                  1: Text('Ausgabe')
-                },
-                onValueChanged: (val) {
-                  setState(() {
-                    _groupValue_buchungsart = val as int;
-                    postingType = PostingType.values[_groupValue_buchungsart] == PostingType.expense ? 'Ausgabe' : 'Einnahme';
-                  });
-                },
-                groupValue: _groupValue_buchungsart,
-              ),
-            ),
+            widget.id == ''
+                ? SizedBox(
+                    height: 0,
+                  )
+                : FractionallySizedBox(
+                    widthFactor: 0.9,
+                    child: CupertinoSlidingSegmentedControl(
+                      children: <Object, Widget>{
+                        0: Text('Einnahme'),
+                        1: Text('Ausgabe')
+                      },
+                      onValueChanged: (val) {
+                        setState(() {
+                          _groupValue_buchungsart = val as int;
+                          postingType =
+                              PostingType.values[_groupValue_buchungsart] ==
+                                      PostingType.expense
+                                  ? 'Ausgabe'
+                                  : 'Einnahme';
+                        });
+                      },
+                      groupValue: _groupValue_buchungsart,
+                    ),
+                  ),
             SizedBox(height: 20),
             // Text('Konto wählen:'),
             // SizedBox(height: 10),
@@ -427,12 +434,14 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                   ? PostingType.income
                   : PostingType.expense
               : PostingType.values[_groupValue_buchungsart], //_postingSwitch
-                  // ? PostingType.expense
-                  // : PostingType.income,
+          // ? PostingType.expense
+          // : PostingType.income,
           category: _setCategory,
           accountName: AllData.accounts
               .firstWhere((element) => element.id == _selectedItem!.id)
               .title,
+          standingOrder: null,
+          isStandingOrder: false,
         );
 
         if (widget.id == '') {

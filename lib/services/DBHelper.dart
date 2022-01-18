@@ -173,7 +173,8 @@ class DBHelper {
     //Posting
     await db.execute(
         'CREATE TABLE Posting(ID TEXT, PostingType INTEGER, Date TEXT, Amount REAL, ' +
-            'Title TEXT, Description TEXT, AccountName TEXT, AccountID TEXT, CategoryID TEXT, FOREIGN KEY(AccountID) REFERENCES Account(ID), ' +
+            'Title TEXT, Description TEXT, AccountName TEXT, AccountID TEXT, CategoryID TEXT, StandingOrderID TEXT, IsStandingOrder BOOLEAN, ' +
+            'FOREIGN KEY(AccountID) REFERENCES Account(ID), FOREIGN KEY(StandingOrderID) REFERENCES StandingOrder(ID), ' +
             'FOREIGN KEY(CategoryID) REFERENCES Category(ID))');
 
     //Transfer

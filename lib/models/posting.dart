@@ -1,6 +1,7 @@
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
+import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 
 class Posting {
@@ -13,6 +14,8 @@ class Posting {
   Account? account;
   String? accountName;
   Category? category;
+  bool? isStandingOrder;
+  StandingOrder? standingOrder;
 
   Posting({
     this.id,
@@ -24,6 +27,8 @@ class Posting {
     this.account,
     this.accountName,
     this.category,
+    this.isStandingOrder,
+    this.standingOrder,
   });
 
   Map<String, dynamic> toMap() {
@@ -38,6 +43,10 @@ class Posting {
     map['AccountID'] = this.account == null ? null : this.account!.id;
     map['AccountName'] = this.accountName;
     map['CategoryID'] = this.category == null ? null : this.category!.id;
+    map['IsStandingOrder'] =
+        this.isStandingOrder == null ? false : this.isStandingOrder;
+    map['StandingOrderID'] =
+        this.standingOrder == null ? '' : this.standingOrder?.id;
     return map;
   }
 
@@ -67,6 +76,13 @@ class Posting {
       accountName: data['AccountName'],
       category: Category().fromDB(await DBHelper.getOneData('Category',
           where: "ID = '${data['CategoryID']}'")),
+      isStandingOrder:
+          data['IsStandingOrder'] == null ? false : data['IsStandingOrder'],
+      standingOrder: data['StandingOrderID'] == null
+          ? null
+          : await StandingOrder().fromDB(await DBHelper.getOneData(
+              'StandingOrder',
+              where: "ID = '${data['StandingOrderID']}'")),
     );
     return posting;
   }

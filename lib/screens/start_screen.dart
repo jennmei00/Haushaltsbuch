@@ -5,6 +5,7 @@ import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
+import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
@@ -26,32 +27,30 @@ Future<void> _getImageList(BuildContext context) async {
   //Im DefaultAssetBundle stehen irgendiwe alle ASSETS im JSON-Format drinnen.
   //und mit dem key.contains(...) hole ich nur die aus dem ordner assets/icons/ raus
 
-
-
   String manifestContent =
       await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
 
   Map<dynamic, dynamic> manifestMap = json.decode(manifestContent);
 
   Globals.imagePathsCategoryIcons = manifestMap.keys
-      .where((key) => key.contains('assets/icons/category_icons')).toList();
+      .where((key) => key.contains('assets/icons/category_icons'))
+      .toList();
 
   Globals.imagePathsAccountIcons = manifestMap.keys
-      .where((key) => key.contains('assets/icons/account_icons')).toList();
+      .where((key) => key.contains('assets/icons/account_icons'))
+      .toList();
 
   // Globals.otherIcons = manifestMap.keys
   //     .where((key) => key.contains('assets/icons/other_icons')).toList();
 }
 
 Future<void> _getThemeMode() async {
-    var prefs = await SharedPreferences.getInstance();
-    Globals.isDarkmode = prefs.getBool('darkMode')!;
-  
+  var prefs = await SharedPreferences.getInstance();
+  Globals.isDarkmode = prefs.getBool('darkMode')!;
 }
 
 class _StartScreenState extends State<StartScreen> {
   late Future<bool> _loadData;
-
   Future<bool> _getAllData() async {
     // await DBHelper.delete('Transfer');
     // await DBHelper.deleteDatabse();
@@ -76,9 +75,37 @@ class _StartScreenState extends State<StartScreen> {
     AllData.transfers =
         Transfer().listFromDB(await DBHelper.getData('Transfer'));
 
-
+    _updateStandingOrderPostings();
 
     return Future.value(true);
+  }
+
+  Future<void> _updateStandingOrderPostings() async {
+    //Vorher postings nach Datum sortieren
+    AllData.standingOrders.forEach((element) {
+      //isStandingOrder BOOL //StandingOrder STRING
+
+      //wenn 31. dann letzter Tag von allen
+      //bei 29, 30 oder 31. wenn Februar ist, dann letzer Tag
+
+      // Posting posting = AllData.postings.lastWhere(
+      //     (elementPosting) => elementPosting.standingOrder.id == element.id);
+      //IF WÖchentlich
+      // if (element.repetition == Repetition.weekly) {
+      //   Duration difference = DateTime.now().difference(posting.date!);
+
+      //   if (difference.inDays / 7 > 1) {
+      //     //abrunden
+      //     //Fehlende Buchung (Datum + RepetitionTime) nachtragen (Kontostand nicht vergessen zu ändern)
+      //   }
+      // }
+
+      //ELSE IF Monatlich
+      //evtl. mit Schleife
+
+      //ELSE IF Jahr
+      
+    });
   }
 
   @override
