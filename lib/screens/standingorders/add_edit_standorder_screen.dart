@@ -280,7 +280,12 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                           initialDate: _dateTime,
                           firstDate: DateTime.now(),
                           lastDate: DateTime.now().add(Duration(days: 365)),
-                        ).then((value) => setState(() => _dateTime = value!));
+                        ).then(
+                          (value) {
+                            if (value != null)
+                              setState(() => _dateTime = value);
+                          },
+                        );
                       },
                     ),
                   ],
