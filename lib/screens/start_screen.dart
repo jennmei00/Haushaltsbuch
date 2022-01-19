@@ -77,7 +77,7 @@ class _StartScreenState extends State<StartScreen> {
     AllData.transfers =
         Transfer().listFromDB(await DBHelper.getData('Transfer'));
 
-    _updateStandingOrderPostings();
+    await _updateStandingOrderPostings();
 
     return Future.value(true);
   }
@@ -86,35 +86,89 @@ class _StartScreenState extends State<StartScreen> {
     AllData.postings.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
 
     AllData.standingOrders.forEach((element) async {
-      Posting lastPosting = AllData.postings.lastWhere((elementPosting) =>
-          elementPosting.standingOrder == null
-              ? false
-              : elementPosting.standingOrder?.id == element.id);
-      DateTime date = lastPosting.date as DateTime;
+      Posting? lastPosting = AllData.postings.length == 0
+          ? null
+          : AllData.postings.lastWhere((elementPosting) =>
+              elementPosting.standingOrder == null
+                  ? false
+                  : elementPosting.standingOrder?.id == element.id);
 
       if (element.repetition == Repetition.weekly) {
-        Duration difference = DateTime.now().difference(lastPosting.date!);
-        if (difference.inDays / 7 > 1) {
+        DateTime? date;
+        if (lastPosting != null)
+          date = lastPosting.date as DateTime;
+        else
+          date = element.begin!.subtract(Duration(days: 7));
+        Duration difference = DateTime.now().difference(date);
+        if (difference.inDays / 7 >= 1) {
           int missing = (difference.inDays / 7).floor();
 
           for (var i = 0; i < missing; i++) {
-            date = date.add(Duration(days: 7));
+            date = date!.add(Duration(days: 7));
             await _addPosting(element, date);
           }
         }
       } else if (element.repetition == Repetition.monthly) {
+        DateTime? date;
+        if (lastPosting != null)
+          date = lastPosting.date;
+        else {
+          if (element.begin!.isBefore(DateTime.now())) {
+            await _addPosting(element, element.begin!);
+          }
+          date = element.begin!;
+        }
         int i = 1;
         while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
           await _addPosting(element, Jiffy(date).add(months: i).dateTime);
           i++;
         }
+      } else if (element.repetition == Repetition.quarterly) {
+        DateTime? date;
+        if (lastPosting != null)
+          date = lastPosting.date;
+        else {
+          if (element.begin!.isBefore(DateTime.now())) {
+            await _addPosting(element, element.begin!);
+          }
+          date = element.begin!;
+        }
+        int i = 3;
+        while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
+          await _addPosting(element, Jiffy(date).add(months: i).dateTime);
+          i += 3;
+        }
+      } else if (element.repetition == Repetition.halfYearly) {
+        DateTime? date;
+        if (lastPosting != null)
+          date = lastPosting.date;
+        else {
+          if (element.begin!.isBefore(DateTime.now())) {
+            await _addPosting(element, element.begin!);
+          }
+          date = element.begin!;
+        }
+        int i = 6;
+        while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
+          await _addPosting(element, Jiffy(date).add(months: i).dateTime);
+          i += 6;
+        }
       } else if (element.repetition == Repetition.yearly) {
+        DateTime? date;
+        if (lastPosting != null)
+          date = lastPosting.date;
+        else {
+          if (element.begin!.isBefore(DateTime.now())) {
+            await _addPosting(element, element.begin!);
+          }
+          date = element.begin!;
+        }
         int i = 1;
         while (Jiffy(date).add(years: i).dateTime.isBefore(DateTime.now())) {
           await _addPosting(element, Jiffy(date).add(years: i).dateTime);
           i++;
         }
-      } 
+      }
     });
   }
 

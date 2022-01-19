@@ -2,6 +2,7 @@ import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 
 class StandingOrder {
   String? id;
@@ -31,11 +32,7 @@ class StandingOrder {
     map['ID'] = this.id;
     map['PostingType'] = this.postingType!.index;
     map['Begin'] = this.begin!.toIso8601String();
-    map['Repetition'] = this.repetition == Repetition.monthly
-        ? 'monatlcih'
-        : this.repetition == Repetition.weekly
-            ? 'wöchentlich'
-            : 'jährlich';
+    map['Repetition'] = formatRepetition(this.repetition!);
     map['Title'] = this.title;
     map['Description'] = this.description;
     map['Amount'] = this.amount;
@@ -60,11 +57,7 @@ class StandingOrder {
           ? null
           : PostingType.values[data['PostingType'] as int],
       begin: DateTime.parse(data['Begin']),
-      repetition: data['Repetition'] == 'monatlich'
-          ? Repetition.monthly
-          : data['Repetition'] == 'wöchentlich'
-              ? Repetition.weekly
-              : Repetition.yearly,
+      repetition: getRepetitionFromString(data['Repetition']),
       title: data['Title'],
       description: data['Description'],
       amount: data['Amount'],

@@ -28,15 +28,18 @@ String formatRepetition(Repetition repetition) {
     return 'Wöchentlich';
   } else if (repetition == Repetition.yearly) {
     return 'Jährlich';
-  } else if (repetition == Repetition.weekly) {
-    return 'Täglich';
+  } else if (repetition == Repetition.quarterly) {
+    return 'Vierteljährlich';
+  } else if (repetition == Repetition.halfYearly) {
+    return 'Halbjährlich';
   } else {
     return '';
   }
 }
 
 Color getAccountColorFromAccountName(String accountName) {
-  Account ac = AllData.accounts.firstWhere((element) => element.title == accountName);
+  Account ac =
+      AllData.accounts.firstWhere((element) => element.title == accountName);
   Color accountColor = ac.color!;
   return accountColor;
 }
@@ -48,10 +51,12 @@ Repetition getRepetitionFromString(String repetition) {
     return Repetition.weekly;
   } else if (repetition == 'Jährlich') {
     return Repetition.yearly;
-  } else if (repetition == 'Täglich') {
-    return Repetition.daily;
+  } else if (repetition == 'Vierteljährlich') {
+    return Repetition.quarterly;
+  } else if (repetition == 'Halbjährlich') {
+    return Repetition.halfYearly;
   } else {
-    return Repetition.daily;
+    return Repetition.monthly;
   }
 }
 

@@ -20,6 +20,8 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
   List<StandingOrder> _soWeekly = [];
   List<StandingOrder> _soMonthly = [];
   List<StandingOrder> _soYearly = [];
+  List<StandingOrder> _soQuarterly = [];
+  List<StandingOrder> _soHalfYearly = [];
 
   void _sortStandingorder() {
     _soWeekly.addAll(AllData.standingOrders
@@ -36,6 +38,16 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
         .where((element) => element.repetition == Repetition.yearly)
         .toList());
     _soYearly.sort((obj, obj2) => obj.begin!.compareTo(obj2.begin!));
+
+    _soQuarterly.addAll(AllData.standingOrders
+        .where((element) => element.repetition == Repetition.quarterly)
+        .toList());
+    _soQuarterly.sort((obj, obj2) => obj.begin!.compareTo(obj2.begin!));
+
+    _soHalfYearly.addAll(AllData.standingOrders
+        .where((element) => element.repetition == Repetition.halfYearly)
+        .toList());
+    _soHalfYearly.sort((obj, obj2) => obj.begin!.compareTo(obj2.begin!));
   }
 
   @override
@@ -97,6 +109,38 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                       color: Theme.of(context).colorScheme.primaryVariant,
                     ),
               Column(children: _soMonthly.map((e) => _soCard(e)).toList()),
+              _soQuarterly.length == 0
+                  ? SizedBox()
+                  : Card(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+                        child: Text(
+                          'Vierteljährlich',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                      ),
+                      color: Theme.of(context).colorScheme.primaryVariant,
+                    ),
+              Column(children: _soQuarterly.map((e) => _soCard(e)).toList()),
+              _soHalfYearly.length == 0
+                  ? SizedBox()
+                  : Card(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+                        child: Text(
+                          'Halbjährlich',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                      ),
+                      color: Theme.of(context).colorScheme.primaryVariant,
+                    ),
+              Column(children: _soHalfYearly.map((e) => _soCard(e)).toList()),
               _soYearly.length == 0
                   ? SizedBox()
                   : Card(
@@ -149,7 +193,10 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                           posting.standingOrder = null;
                           await DBHelper.update('Posting', posting.toMap(),
                               where: "ID = '${posting.id}'");
-                          AllData.postings[AllData.postings.indexWhere((e) => e.id == posting.id)].standingOrder = null;
+                          AllData
+                              .postings[AllData.postings
+                                  .indexWhere((e) => e.id == posting.id)]
+                              .standingOrder = null;
                         });
 
                         await DBHelper.delete('StandingOrder',

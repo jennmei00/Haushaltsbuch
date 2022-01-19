@@ -43,8 +43,11 @@ class Posting {
     map['AccountID'] = this.account == null ? null : this.account!.id;
     map['AccountName'] = this.accountName;
     map['CategoryID'] = this.category == null ? null : this.category!.id;
-    map['IsStandingOrder'] =
-        this.isStandingOrder == null ? false : this.isStandingOrder;
+    map['IsStandingOrder'] = this.isStandingOrder == null
+        ? false
+        : this.isStandingOrder == true
+            ? 1
+            : 0;
     map['StandingOrderID'] =
         this.standingOrder == null ? '' : this.standingOrder?.id;
     return map;

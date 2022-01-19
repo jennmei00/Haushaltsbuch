@@ -364,6 +364,30 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ),
                 Divider(),
                 RadioListTile<Repetition>(
+                  title: Text('Vierteljährlich'),
+                  value: Repetition.quarterly,
+                  groupValue: _repeatValue,
+                  onChanged: (val) {
+                    setState(() {
+                      _repeatValue = val!;
+                    });
+                    Navigator.pop(context, true);
+                  },
+                ),
+                Divider(),
+                RadioListTile<Repetition>(
+                  title: Text('Halbjährlich'),
+                  value: Repetition.halfYearly,
+                  groupValue: _repeatValue,
+                  onChanged: (val) {
+                    setState(() {
+                      _repeatValue = val!;
+                    });
+                    Navigator.pop(context, true);
+                  },
+                ),
+                Divider(),
+                RadioListTile<Repetition>(
                   title: Text('Jährlich'),
                   value: Repetition.yearly,
                   groupValue: _repeatValue,
@@ -426,7 +450,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
 
         if (widget.id == '') {
           await DBHelper.insert('Standingorder', so.toMap());
-          if (so.begin == DateTime.now()) {
+          if (so.begin!.isBefore(DateTime.now())) {
             Posting p = Posting(
               id: Uuid().v1(),
               title: so.title,

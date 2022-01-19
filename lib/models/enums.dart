@@ -4,8 +4,9 @@ enum PostingType {
 }
 
 enum Repetition {
-  daily,
   weekly,
   monthly,
+  quarterly,
+  halfYearly,
   yearly,
 }
