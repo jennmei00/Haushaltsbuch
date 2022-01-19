@@ -88,14 +88,17 @@ class _StartScreenState extends State<StartScreen> {
     AllData.standingOrders.forEach((element) async {
       Posting? lastPosting = AllData.postings.length == 0
           ? null
-          : AllData.postings.lastWhere((elementPosting) =>
-              elementPosting.standingOrder == null
+          : AllData.postings.lastWhere(
+              ((elementPosting) => elementPosting.standingOrder == null
                   ? false
-                  : elementPosting.standingOrder?.id == element.id);
+                  : elementPosting.standingOrder?.id == element.id),
+              orElse: () {
+              return Posting();
+            });
 
       if (element.repetition == Repetition.weekly) {
         DateTime? date;
-        if (lastPosting != null)
+        if (lastPosting != null && lastPosting != Posting())
           date = lastPosting.date as DateTime;
         else
           date = element.begin!.subtract(Duration(days: 7));
@@ -110,7 +113,7 @@ class _StartScreenState extends State<StartScreen> {
         }
       } else if (element.repetition == Repetition.monthly) {
         DateTime? date;
-        if (lastPosting != null)
+        if (lastPosting != null && lastPosting != Posting())
           date = lastPosting.date;
         else {
           if (element.begin!.isBefore(DateTime.now())) {
@@ -125,7 +128,7 @@ class _StartScreenState extends State<StartScreen> {
         }
       } else if (element.repetition == Repetition.quarterly) {
         DateTime? date;
-        if (lastPosting != null)
+        if (lastPosting != null && lastPosting != Posting())
           date = lastPosting.date;
         else {
           if (element.begin!.isBefore(DateTime.now())) {
@@ -140,7 +143,7 @@ class _StartScreenState extends State<StartScreen> {
         }
       } else if (element.repetition == Repetition.halfYearly) {
         DateTime? date;
-        if (lastPosting != null)
+        if (lastPosting != null && lastPosting != Posting())
           date = lastPosting.date;
         else {
           if (element.begin!.isBefore(DateTime.now())) {
@@ -155,7 +158,7 @@ class _StartScreenState extends State<StartScreen> {
         }
       } else if (element.repetition == Repetition.yearly) {
         DateTime? date;
-        if (lastPosting != null)
+        if (lastPosting != null && lastPosting != Posting())
           date = lastPosting.date;
         else {
           if (element.begin!.isBefore(DateTime.now())) {
