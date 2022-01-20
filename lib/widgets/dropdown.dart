@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
-import 'package:haushaltsbuch/services/input_theme.dart';
 
 // ignore: must_be_immutable
 class DropDown extends StatelessWidget {

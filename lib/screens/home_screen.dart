@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
-import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _getTotalBankBalance();
+    
     super.initState();
   }
 

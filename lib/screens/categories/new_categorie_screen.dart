@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
-import 'package:haushaltsbuch/models/posting.dart';
-import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
@@ -10,7 +8,6 @@ import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class NewCategorieScreen extends StatefulWidget {

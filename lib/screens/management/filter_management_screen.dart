@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
-import 'package:haushaltsbuch/services/theme.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:intl/intl.dart';
 // import 'package:haushaltsbuch/models/all_data.dart';

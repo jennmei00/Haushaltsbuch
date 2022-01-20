@@ -22,6 +22,7 @@ class ManageTransfers extends StatelessWidget {
 
   final List<Transfer> _listTransfer = [];
   int currentMonthHelper = 0;
+  int currentYearHelper = 0;
   List<Widget> _listofListViewWidgets = [];
 
   void _loadWithFilter() {
@@ -71,6 +72,7 @@ class ManageTransfers extends StatelessWidget {
 
   void _fillListViewWidgetList(BuildContext context) {
     currentMonthHelper = _listTransfer.first.date!.month;
+    currentYearHelper = _listTransfer.first.date!.year;
     _listofListViewWidgets.add(
       Card(
         child: Padding(
@@ -88,10 +90,10 @@ class ManageTransfers extends StatelessWidget {
     );
     for (int i = 0; i < _listTransfer.length; i++) {
       //check if month has changed
-      if (_listTransfer[i].date!.month == currentMonthHelper) {
-        _listofListViewWidgets.add(_listViewWidget(_listTransfer[i], context));
-      } else {
+      if (_listTransfer[i].date!.month != currentMonthHelper ||
+          _listTransfer[i].date!.year != currentYearHelper) {
         currentMonthHelper = _listTransfer[i].date!.month;
+        currentYearHelper = _listTransfer[i].date!.year;
         _listofListViewWidgets.add(
           Card(
             child: Padding(
@@ -107,6 +109,8 @@ class ManageTransfers extends StatelessWidget {
             color: Theme.of(context).colorScheme.primaryVariant,
           ),
         );
+        _listofListViewWidgets.add(_listViewWidget(_listTransfer[i], context));
+      } else {
         _listofListViewWidgets.add(_listViewWidget(_listTransfer[i], context));
       }
     }

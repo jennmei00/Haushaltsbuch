@@ -11,7 +11,6 @@ import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
-import 'package:haushaltsbuch/widgets/popup.dart';
 import 'package:intl/intl.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -285,7 +284,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                       Navigator.of(context).pushNamed(
                                           AccountOverviewScreen.routeName,
                                           arguments: e.id);
-                                    }, //=> _showAccountDetails(e),
+                                    }, 
                                     child: Card(
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.zero,
@@ -349,106 +348,6 @@ class _AccountScreenState extends State<AccountScreen> {
                   ],
                 ),
               ));
-  }
-
-  void _showAccountDetails(Account account) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Popup(
-            title: account.title!,
-            body:
-                // Padding(
-                //     padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                //     child: Container(
-                //       height: MediaQuery.of(context).size.height*0.4,
-                //       width: MediaQuery.of(context).size.width*0.8,
-                //       child: Stack(
-                //         //clipBehavior: Clip.antiAlias,
-                //         children: [
-                //         Positioned(
-                //           left: -50,
-                //           bottom: -50,
-                //           child: CircleAvatar(
-                //             backgroundColor: Colors.lightGreen.shade400,
-                //             radius: MediaQuery.of(context).size.width * 0.3,
-                //             child: FractionallySizedBox(
-                //               widthFactor: 0.65,
-                //               heightFactor: 0.65,
-                //               child: Image.asset(
-                //                 'assets/icons/money-bag.png',
-                //               ),
-                //             )),
-                //         ),
-                //         Text(
-                //           '- ' + account.accountType!.title! + ' -',
-                //           style: TextStyle(fontSize: 20),
-                //         ),
-                //         Container(
-                //           padding: const EdgeInsets.all(10),
-                //           decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(8),
-                //               color: Colors.cyan[100],
-                //               boxShadow: [
-                //                 BoxShadow(
-                //                   blurRadius: 10,
-                //                   color: Colors.cyan.shade100,
-                //                   spreadRadius: 5,
-                //                 ),
-                //               ]),
-                //           child: Text(account.bankBalance.toString() + ' €',
-                //               style: TextStyle(
-                //                 fontSize: 20,
-                //                 fontWeight: FontWeight.bold,
-                //                 color: _getColorBalance(account.bankBalance!),
-                //               )),
-                //         ),
-                //       ]),
-                //     )
-                Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '- ' + account.accountType!.title! + ' -',
-                  style: TextStyle(fontSize: 20),
-                ),
-                SizedBox(height: 20),
-                Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(8),
-                            //color: Colors.cyan[100],
-                            boxShadow: [
-                          BoxShadow(
-                            blurRadius: 10,
-                            //color: Colors.cyan.shade100,
-                            spreadRadius: 5,
-                          ),
-                        ]),
-                    child: Text(account.bankBalance.toString() + ' €',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: _getColorBalance(account.bankBalance!),
-                        )),
-                  ),
-                ),
-                //SizedBox(height: 20),
-                if (account.description! != '' && account.description != null)
-                  SizedBox(height: 20),
-                Text(
-                  account.description!,
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                )
-              ],
-            ),
-            //),
-            saveButton: false,
-            cancelButton: false,
-          );
-        });
   }
 
   void _deleteAccount(bool withPostings, Account account) async {

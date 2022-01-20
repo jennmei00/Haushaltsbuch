@@ -1,7 +1,6 @@
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/services/globals.dart';
-import 'package:haushaltsbuch/services/help_methods.dart';
 
 class ColorPickerClass extends StatelessWidget {
   final Function onColorChanged;

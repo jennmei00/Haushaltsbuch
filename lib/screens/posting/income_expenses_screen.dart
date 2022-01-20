@@ -6,17 +6,13 @@ import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
-import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
-import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
-import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-import 'package:validators/validators.dart';
 
 class IncomeExpenseScreen extends StatefulWidget {
   static final routeName = '/income_expense_screen';
@@ -50,7 +46,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   bool _postingSwitch = false;
   Account? _oldAccount;
   double? _oldAmount;
-  int _groupValue_buchungsart = 0;
+  int groupValueBuchungsart = 0;
 
   void _getAccountDropDownItems() {
     //_selectedItem = ListItem('0', 'name');
@@ -81,7 +77,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     _setCategory = posting.category!;
     postingType =
         posting.postingType == PostingType.expense ? 'Ausgabe' : 'Einnahme';
-    _groupValue_buchungsart = posting.postingType!.index;
+    groupValueBuchungsart = posting.postingType!.index;
     if (posting.postingType == PostingType.expense)
       _postingSwitch = true;
     else
@@ -171,15 +167,15 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                       },
                       onValueChanged: (val) {
                         setState(() {
-                          _groupValue_buchungsart = val as int;
+                          groupValueBuchungsart = val as int;
                           postingType =
-                              PostingType.values[_groupValue_buchungsart] ==
+                              PostingType.values[groupValueBuchungsart] ==
                                       PostingType.expense
                                   ? 'Ausgabe'
                                   : 'Einnahme';
                         });
                       },
-                      groupValue: _groupValue_buchungsart,
+                      groupValue: groupValueBuchungsart,
                     ),
                   ),
             SizedBox(height: 20),
@@ -433,7 +429,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               ? widget.type == 'Einnahme'
                   ? PostingType.income
                   : PostingType.expense
-              : PostingType.values[_groupValue_buchungsart], //_postingSwitch
+              : PostingType.values[groupValueBuchungsart], //_postingSwitch
           // ? PostingType.expense
           // : PostingType.income,
           category: _setCategory,

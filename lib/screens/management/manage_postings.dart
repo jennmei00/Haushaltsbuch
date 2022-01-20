@@ -9,7 +9,6 @@ import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
-import 'package:path/path.dart';
 
 class ManagePostings extends StatelessWidget {
   final List<Object?> filters;
@@ -25,6 +24,7 @@ class ManagePostings extends StatelessWidget {
 
   final List<Posting> _listPosting = [];
   int currentMonthHelper = 0;
+  int currentYearHelper = 0;
   List<Widget> _listofListViewWidgets = [];
 
   void _loadWithFilter() {
@@ -80,6 +80,7 @@ class ManagePostings extends StatelessWidget {
 
   void _fillListViewWidgetList(BuildContext context) {
     currentMonthHelper = _listPosting.first.date!.month;
+    currentYearHelper = _listPosting.first.date!.year;
     _listofListViewWidgets.add(
       Card(
         child: Padding(
@@ -97,10 +98,10 @@ class ManagePostings extends StatelessWidget {
     );
     for (int i = 0; i < _listPosting.length; i++) {
       //check if month has changed
-      if (_listPosting[i].date!.month == currentMonthHelper) {
-        _listofListViewWidgets.add(_listViewWidget(_listPosting[i], context));
-      } else {
+      if (_listPosting[i].date!.month != currentMonthHelper ||
+          _listPosting[i].date!.year != currentYearHelper) {
         currentMonthHelper = _listPosting[i].date!.month;
+        currentYearHelper = _listPosting[i].date!.year;
         _listofListViewWidgets.add(
           Card(
             child: Padding(
@@ -116,6 +117,8 @@ class ManagePostings extends StatelessWidget {
             color: Theme.of(context).colorScheme.primaryVariant,
           ),
         );
+        _listofListViewWidgets.add(_listViewWidget(_listPosting[i], context));
+      } else {
         _listofListViewWidgets.add(_listViewWidget(_listPosting[i], context));
       }
     }

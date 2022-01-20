@@ -3,14 +3,11 @@ import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
-import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
-import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-import 'package:validators/validators.dart';
 
 class TransferScreen extends StatefulWidget {
   static final routeName = '/transfer_screen';

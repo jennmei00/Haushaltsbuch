@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 class StatisticsScreen extends StatelessWidget {
   static final routeName = '/statistics_screen';
