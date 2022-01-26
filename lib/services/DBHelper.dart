@@ -157,6 +157,8 @@ class DBHelper {
     // await db.execute(
     //     'CREATE TABLE ...(...TEXT PRIMARY KEY, ... TEXT/INTEGER/BOOLEAN/BLOB, FOREIGN KEY(CategoryID) REFERENCES Category(CategoryID))');
 
+    print('CREATE TABLES');
+
     //Category
     await db.execute(
         'CREATE TABLE Category(ID TEXT PRIAMRY KEY, Title TEXT, Symbol TEXT, Color TEXT)');
@@ -209,7 +211,7 @@ class DBHelper {
     await db.execute(
         "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Sonstiges Konto')");
     await db.execute(
-        "INSERT INTO Category VALUES('default', 'Sonstiges', 'assets/icons/category_icons/money-2.png', ${Colors.teal.value.toString()})");
+        "INSERT INTO Category VALUES('default', 'Sonstiges', 'assets/icons/category_icons/money-2.png', ${Color(0xff00695c).value.toString()})");
     await db.execute(
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Handyvertrag', 'assets/icons/category_icons/smartphone.png', ${Color(0xff373737).value.toString()})");
     await db.execute(
