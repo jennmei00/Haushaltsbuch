@@ -87,15 +87,16 @@ class _StartScreenState extends State<StartScreen> {
     AllData.postings.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
 
     AllData.standingOrders.forEach((element) async {
-      Posting? lastPosting = AllData.postings.length == 0
-          ? null
-          : AllData.postings.lastWhere(
-              ((elementPosting) => elementPosting.standingOrder == null
-                  ? false
-                  : elementPosting.standingOrder?.id == element.id),
-              orElse: () {
-              return Posting();
-            });
+      Posting? lastPosting;
+      // Posting?
+      try {
+        lastPosting = AllData.postings.length == 0
+            ? null
+            : AllData.postings.lastWhere(((elementPosting) =>
+                elementPosting.standingOrder == null
+                    ? false
+                    : elementPosting.standingOrder?.id == element.id));
+      } catch (ex) {}
 
       if (element.repetition == Repetition.weekly) {
         DateTime? date;
