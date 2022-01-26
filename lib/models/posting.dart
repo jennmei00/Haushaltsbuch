@@ -1,4 +1,5 @@
 import 'package:haushaltsbuch/models/account.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
@@ -55,14 +56,14 @@ class Posting {
 
   List<Posting> listFromDB(List<Map<String, dynamic>> mapList) {
     List<Posting> list = [];
-    mapList.forEach((element) async {
-      Posting posting = await fromDB(element);
+    mapList.forEach((element)  {
+      Posting posting =  fromDB(element);
       list.add(posting);
     });
     return list;
   }
 
-  Future<Posting> fromDB(Map<String, dynamic> data) async {
+  Posting fromDB(Map<String, dynamic> data) {
     Posting posting = Posting(
       id: data['ID'],
       postingType: data['PostingType'] == null
@@ -74,11 +75,15 @@ class Posting {
       description: data['Description'],
       account: data['AccountID'] == null
           ? null
-          : await Account().fromDB(await DBHelper.getOneData('Account',
-              where: "ID = '${data['AccountID']}'")),
+          : AllData.accounts
+              .firstWhere((element) => element.id == data['AccountID']),
+      //     : await Account().fromDB(await DBHelper.getOneData('Account',
+      //         where: "ID = '${data['AccountID']}'")),
       accountName: data['AccountName'],
-      category: Category().fromDB(await DBHelper.getOneData('Category',
-          where: "ID = '${data['CategoryID']}'")),
+      category: AllData.categories
+          .firstWhere((element) => element.id == data['CategoryID']),
+      // category: Category().fromDB(await DBHelper.getOneData('Category',
+      //     where: "ID = '${data['CategoryID']}'")),
       isStandingOrder: data['IsStandingOrder'] == null
           ? false
           : data['IsStandingOrder'] == 0
@@ -86,9 +91,11 @@ class Posting {
               : true,
       standingOrder: data['StandingOrderID'] == ''
           ? null
-          : await StandingOrder().fromDB(await DBHelper.getOneData(
-              'StandingOrder',
-              where: "ID = '${data['StandingOrderID']}'")),
+          : AllData.standingOrders
+              .firstWhere((element) => element.id == data['StandingOrderID']),
+      // : await StandingOrder().fromDB(await DBHelper.getOneData(
+      //     'StandingOrder',
+      //     where: "ID = '${data['StandingOrderID']}'")),
     );
     return posting;
   }

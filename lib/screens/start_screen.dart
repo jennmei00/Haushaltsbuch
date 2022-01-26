@@ -58,16 +58,17 @@ class _StartScreenState extends State<StartScreen> {
     // await DBHelper.deleteDatabse();
 
     await _getImageList(widget.ctx as BuildContext);
-    AllData.accounts = Account().listFromDB(await DBHelper.getData('Account'));
+
+    AllData.accountTypes =
+        AccountType().listFromDB(await DBHelper.getData('AccountType'));
 
     AllData.categories =
         Category().listFromDB(await DBHelper.getData('Category'));
 
+    AllData.accounts = Account().listFromDB(await DBHelper.getData('Account'));
+
     AllData.standingOrders =
         StandingOrder().listFromDB(await DBHelper.getData('Standingorder'));
-
-    AllData.accountTypes =
-        AccountType().listFromDB(await DBHelper.getData('AccountType'));
 
     AllData.postings = Posting().listFromDB(await DBHelper.getData('Posting'));
 

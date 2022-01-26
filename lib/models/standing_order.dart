@@ -1,4 +1,5 @@
 import 'package:haushaltsbuch/models/account.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
@@ -43,14 +44,14 @@ class StandingOrder {
 
   List<StandingOrder> listFromDB(List<Map<String, dynamic>> mapList) {
     List<StandingOrder> list = [];
-    mapList.forEach((element) async {
-      StandingOrder standingOrder = await fromDB(element);
+    mapList.forEach((element) {
+      StandingOrder standingOrder = fromDB(element);
       list.add(standingOrder);
     });
     return list;
   }
 
-  Future<StandingOrder> fromDB(Map<String, dynamic> data) async {
+  StandingOrder fromDB(Map<String, dynamic> data) {
     StandingOrder standingOrder = StandingOrder(
       id: data['ID'],
       postingType: data['PostingType'] == null
@@ -63,12 +64,16 @@ class StandingOrder {
       amount: data['Amount'],
       category: data['CategoryID'] == null
           ? null
-          : Category().fromDB(await DBHelper.getOneData('Category',
-              where: "ID = '${data['CategoryID']}'")),
+          : AllData.categories
+              .firstWhere((element) => element.id == data['CategoryID']),
+      // : Category().fromDB(await DBHelper.getOneData('Category',
+      //     where: "ID = '${data['CategoryID']}'")),
       account: data['AccountID'] == null
           ? null
-          : await Account().fromDB(await DBHelper.getOneData('Account',
-              where: "ID = '${data['AccountID']}'")),
+          : AllData.accounts
+              .firstWhere((element) => element.id == data['AccountID']),
+      // : await Account().fromDB(await DBHelper.getOneData('Account',
+      //     where: "ID = '${data['AccountID']}'")),
     );
     return standingOrder;
   }

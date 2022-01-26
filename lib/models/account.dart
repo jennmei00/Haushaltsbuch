@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 
 class Account {
@@ -37,14 +38,14 @@ class Account {
 
   List<Account> listFromDB(List<Map<String, dynamic>> mapList) {
     List<Account> list = [];
-    mapList.forEach((element) async {
-      Account account = await fromDB(element);
+    mapList.forEach((element) {
+      Account account = fromDB(element);
       list.add(account);
     });
     return list;
   }
 
-  Future<Account> fromDB(Map<String, dynamic> data) async {
+  Account fromDB(Map<String, dynamic> data) {
     Account account = Account(
       id: data['ID'],
       title: data['Title'],
@@ -54,8 +55,10 @@ class Account {
           ? Colors.black
           : Color(int.parse(data['Color'])),
       symbol: data['Symbol'],
-      accountType: AccountType().fromDB(await DBHelper.getOneData('AccountType',
-          where: "ID = '${data['AccountTypeID']}'")),
+      accountType: AllData.accountTypes
+          .firstWhere((element) => element.id == data['AccountTypeID']),
+      // accountType: AccountType().fromDB(await DBHelper.getOneData('AccountType',
+      //     where: "ID = '${data['AccountTypeID']}'")),
     );
     return account;
   }

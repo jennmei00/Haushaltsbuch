@@ -1,4 +1,5 @@
 import 'package:haushaltsbuch/models/account.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 
 class Transfer {
@@ -38,14 +39,14 @@ class Transfer {
 
   List<Transfer> listFromDB(List<Map<String, dynamic>> mapList) {
     List<Transfer> list = [];
-    mapList.forEach((element) async {
-      Transfer transfer = await fromDB(element);
+    mapList.forEach((element) {
+      Transfer transfer = fromDB(element);
       list.add(transfer);
     });
     return list;
   }
 
-  Future<Transfer> fromDB(Map<String, dynamic> data) async {
+  Transfer fromDB(Map<String, dynamic> data) {
     Transfer transfer = Transfer(
       id: data['ID'],
       date: DateTime.parse(data['Date']),
@@ -53,12 +54,17 @@ class Transfer {
       amount: data['Amount'],
       accountFrom: data['AccountFromID'] == null
           ? null
-          : await Account().fromDB(await DBHelper.getOneData('Account',
-              where: "ID = '${data['AccountFromID']}'")),
+          : AllData.accounts
+              .firstWhere((element) => element.id == data['AccountFromID']),
+      // : await Account().fromDB(await DBHelper.getOneData('Account',
+      //     where: "ID = '${data['AccountFromID']}'")),
       accountTo: data['AccountToID'] == null
           ? null
-          : await Account().fromDB(await DBHelper.getOneData('Account',
-              where: "ID = '${data['AccountToID']}'")),
+          : AllData.accounts
+              .firstWhere((element) => element.id == data['AccountToID']),
+
+      // : await Account().fromDB(await DBHelper.getOneData('Account',
+      //     where: "ID = '${data['AccountToID']}'")),
       accountFromName: data['AccountFromName'],
       accountToName: data['AccountToName'],
     );
