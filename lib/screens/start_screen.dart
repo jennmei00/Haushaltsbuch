@@ -48,7 +48,10 @@ Future<void> _getImageList(BuildContext context) async {
 
 Future<void> _getThemeMode() async {
   var prefs = await SharedPreferences.getInstance();
-  Globals.isDarkmode = prefs.getBool('darkMode')!;
+  if (prefs.getBool('darkMode') != null)
+    Globals.isDarkmode = prefs.getBool('darkMode')!;
+  else
+    Globals.isDarkmode = false;
 }
 
 class _StartScreenState extends State<StartScreen> {
