@@ -8,7 +8,7 @@ import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
-class ManageTransfers extends StatelessWidget {
+class ManageTransfers extends StatefulWidget {
   final List<Object?> filters;
   final bool search;
   final String searchQuery;
@@ -20,16 +20,24 @@ class ManageTransfers extends StatelessWidget {
     this.searchQuery = '',
   }) : super(key: key);
 
+  @override
+  State<ManageTransfers> createState() => _ManageTransfersState();
+}
+
+class _ManageTransfersState extends State<ManageTransfers> {
   final List<Transfer> _listTransfer = [];
+
   int currentMonthHelper = 0;
+
   int currentYearHelper = 0;
+
   List<Widget> _listofListViewWidgets = [];
 
   void _loadWithFilter() {
     _listTransfer.clear();
-    if (filters.length != 0) {
-      List<Account> _filterAccounts = filters[0] as List<Account>;
-      DateTimeRange? _filterDate = filters[2] as DateTimeRange?;
+    if (widget.filters.length != 0) {
+      List<Account> _filterAccounts = widget.filters[0] as List<Account>;
+      DateTimeRange? _filterDate = widget.filters[2] as DateTimeRange?;
 
       AllData.transfers.forEach((element) {
         if ((_filterAccounts.length == 0
@@ -57,14 +65,16 @@ class ManageTransfers extends StatelessWidget {
     AllData.transfers.forEach((element) {
       if (element.accountFromName!
               .toLowerCase()
-              .contains(searchQuery.toLowerCase()) ||
+              .contains(widget.searchQuery.toLowerCase()) ||
           element.accountToName!
               .toLowerCase()
-              .contains(searchQuery.toLowerCase()) ||
-          element.amount!.toString().contains(searchQuery.toLowerCase()) ||
+              .contains(widget.searchQuery.toLowerCase()) ||
+          element.amount!
+              .toString()
+              .contains(widget.searchQuery.toLowerCase()) ||
           element.description!
               .toLowerCase()
-              .contains(searchQuery.toLowerCase())) {
+              .contains(widget.searchQuery.toLowerCase())) {
         _listTransfer.add(element);
       }
     });
@@ -120,7 +130,7 @@ class ManageTransfers extends StatelessWidget {
   Widget build(BuildContext context) {
     AllData.transfers.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
 
-    if (search) {
+    if (widget.search) {
       _loadWithSearchQuery();
     } else {
       _loadWithFilter();
@@ -335,5 +345,6 @@ class ManageTransfers extends StatelessWidget {
     }
 
     Navigator.of(context).pop(true);
+    this.setState(() {});
   }
 }

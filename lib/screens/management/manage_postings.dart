@@ -10,7 +10,7 @@ import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 
-class ManagePostings extends StatelessWidget {
+class ManagePostings extends StatefulWidget {
   final List<Object?> filters;
   final bool search;
   final String searchQuery;
@@ -22,18 +22,26 @@ class ManagePostings extends StatelessWidget {
     this.searchQuery = '',
   }) : super(key: key);
 
+  @override
+  State<ManagePostings> createState() => _ManagePostingsState();
+}
+
+class _ManagePostingsState extends State<ManagePostings> {
   final List<Posting> _listPosting = [];
+
   int currentMonthHelper = 0;
+
   int currentYearHelper = 0;
+
   List<Widget> _listofListViewWidgets = [];
 
   void _loadWithFilter() {
     _listPosting.clear();
-    if (filters.length != 0) {
-      List<Account> _filterAccounts = filters[0] as List<Account>;
-      List<Category> _filterCategories = filters[1] as List<Category>;
-      DateTimeRange? _filterDate = filters[2] as DateTimeRange?;
-      bool _filterSO = filters[3] as bool;
+    if (widget.filters.length != 0) {
+      List<Account> _filterAccounts = widget.filters[0] as List<Account>;
+      List<Category> _filterCategories = widget.filters[1] as List<Category>;
+      DateTimeRange? _filterDate = widget.filters[2] as DateTimeRange?;
+      bool _filterSO = widget.filters[3] as bool;
 
       AllData.postings.forEach((element) {
         if ((_filterAccounts.length == 0
@@ -64,15 +72,19 @@ class ManagePostings extends StatelessWidget {
     AllData.postings.forEach((element) {
       if (element.accountName!
               .toLowerCase()
-              .contains(searchQuery.toLowerCase()) ||
-          element.title!.toLowerCase().contains(searchQuery.toLowerCase()) ||
-          element.amount!.toString().contains(searchQuery.toLowerCase()) ||
+              .contains(widget.searchQuery.toLowerCase()) ||
+          element.title!
+              .toLowerCase()
+              .contains(widget.searchQuery.toLowerCase()) ||
+          element.amount!
+              .toString()
+              .contains(widget.searchQuery.toLowerCase()) ||
           element.category!.title!
               .toLowerCase()
-              .contains(searchQuery.toLowerCase()) ||
+              .contains(widget.searchQuery.toLowerCase()) ||
           element.description!
               .toLowerCase()
-              .contains(searchQuery.toLowerCase())) {
+              .contains(widget.searchQuery.toLowerCase())) {
         _listPosting.add(element);
       }
     });
@@ -127,7 +139,7 @@ class ManagePostings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AllData.postings.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
-    if (search) {
+    if (widget.search) {
       _loadWithSearchQuery();
     } else {
       _loadWithFilter();
@@ -184,6 +196,7 @@ class ManagePostings extends StatelessWidget {
                         }
 
                         Navigator.of(context).pop(true);
+                        this.setState(() {});
                       },
                       child: const Text("Löschen")),
                   TextButton(
