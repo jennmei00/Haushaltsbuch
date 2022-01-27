@@ -17,5 +17,4 @@ class AllData {
   static late List<Posting> postings;
   static late List<Transfer> transfers;
   static late List<StandingOrder> standingOrders;
-  // static late List<StandingOrderPosting> standingOrderPostings;
 }

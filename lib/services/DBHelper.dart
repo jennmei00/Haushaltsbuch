@@ -187,14 +187,9 @@ class DBHelper {
 
     //StandingOrder
     await db.execute(
-        'CREATE TABLE StandingOrder(ID TEXT, PostingType INTEGER, Begin TEXT, Repetition INTEGER, ' +
+        'CREATE TABLE StandingOrder(ID TEXT, PostingType INTEGER, Begin TEXT, End TEXT, Repetition INTEGER, ' +
             'Amount REAL, Title TEXT, Description TEXT, AccountID TEXT, CategoryID TEXT, ' +
             'FOREIGN KEY(AccountID) REFERENCES Account(ID), FOREIGN KEY(CategoryID) REFERENCES Category(ID))');
-
-    //StandingOrderPosting
-    // await db.execute(
-    //     'CREATE TABLE StandingOrderPosting(ID TEXT, Date TEXT, StandingOrderID TEXT, ' +
-    //         'FOREIGN KEY(StandingOrderID) REFERENCES StandingOrder(ID))');
 
     await db.execute(
         "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Sparkonto')");

@@ -9,6 +9,7 @@ class StandingOrder {
   String? id;
   PostingType? postingType;
   DateTime? begin;
+  DateTime? end;
   Repetition? repetition;
   double? amount;
   String? title;
@@ -20,6 +21,7 @@ class StandingOrder {
     this.id,
     this.postingType,
     this.begin,
+    this.end,
     this.repetition,
     this.amount,
     this.title,
@@ -33,6 +35,7 @@ class StandingOrder {
     map['ID'] = this.id;
     map['PostingType'] = this.postingType!.index;
     map['Begin'] = this.begin!.toIso8601String();
+    map['End'] = this.end == null ? null : this.end!.toIso8601String();
     map['Repetition'] = formatRepetition(this.repetition!);
     map['Title'] = this.title;
     map['Description'] = this.description;
@@ -58,6 +61,7 @@ class StandingOrder {
           ? null
           : PostingType.values[data['PostingType'] as int],
       begin: DateTime.parse(data['Begin']),
+      end: data['End'] == null ? null : DateTime.parse(data['End']),
       repetition: getRepetitionFromString(data['Repetition']),
       title: data['Title'],
       description: data['Description'],
@@ -66,14 +70,10 @@ class StandingOrder {
           ? null
           : AllData.categories
               .firstWhere((element) => element.id == data['CategoryID']),
-      // : Category().fromDB(await DBHelper.getOneData('Category',
-      //     where: "ID = '${data['CategoryID']}'")),
       account: data['AccountID'] == null
           ? null
           : AllData.accounts
               .firstWhere((element) => element.id == data['AccountID']),
-      // : await Account().fromDB(await DBHelper.getOneData('Account',
-      //     where: "ID = '${data['AccountID']}'")),
     );
     return standingOrder;
   }

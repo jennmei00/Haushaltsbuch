@@ -29,6 +29,7 @@ class AddEditStandingOrder extends StatefulWidget {
 
 class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   DateTime _dateTime = DateTime.now();
+  DateTime? _dateTimeEnd;
   // String _repeatValue = 'monatlich';
   Repetition _repeatValue = Repetition.monthly;
   // ignore: non_constant_identifier_names
@@ -62,14 +63,10 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   void _getStandingOrderData() {
     StandingOrder so =
         AllData.standingOrders.firstWhere((element) => element.id == widget.id);
-    // _repeatValue = so.repetition == Repetition.monthly
-    //     ? 'monatlcih'
-    //     : so.repetition == Repetition.weekly
-    //         ? 'wöchentlich'
-    //         : 'jährlich';
     _repeatValue = so.repetition!;
     _groupValue_buchungsart = so.postingType!.index;
     _dateTime = so.begin!;
+    _dateTimeEnd = so.end == null ? null : so.end!;
     _selectedItem = _accountDropDownItems
         .firstWhere((element) => element.id == so.account!.id);
     _setCategory = so.category!;
@@ -296,6 +293,35 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                Text('Ende:'),
+                Row(
+                  children: [
+                    _dateTimeEnd == null ? Text('Datum wählen') : 
+                    Text(formatDate(_dateTimeEnd!)),
+                    IconButton(
+                      icon: Icon(Icons.date_range),
+                      onPressed: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: _dateTimeEnd == null ? DateTime.now() : _dateTimeEnd!,
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime.now().add(Duration(days: 365)),
+                        ).then(
+                          (value) {
+                            if (value != null)
+                              setState(() => _dateTimeEnd = value);
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
                 Text('Wiederholung:'),
                 TextButton(
                   onPressed: () => _repeatStandingorder(),
@@ -436,17 +462,9 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 .firstWhere((element) => element.id == _selectedItem!.id),
             category: _setCategory,
             begin: _dateTime,
+            end: _dateTimeEnd,
             postingType: PostingType.values[_groupValue_buchungsart],
-            repetition: _repeatValue
-            //  _repeatValue == 'monatlich'
-            //     ? Repetition.monthly
-            //     : _repeatValue == 'wöchentlich'
-            //         ? Repetition.weekly
-            //         : Repetition.yearly,
-            );
-
-        // StandingOrderPosting sop = StandingOrderPosting(
-        //     id: Uuid().v1(), date: _dateTime, standingOrder: so);
+            repetition: _repeatValue);
 
         if (widget.id == '') {
           await DBHelper.insert('Standingorder', so.toMap());
@@ -485,19 +503,13 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
             await DBHelper.update('Account', ac.toMap(),
                 where: "ID = '${ac.id}'");
           }
-          // await DBHelper.insert('StandingorderPosting', sop.toMap());
         } else {
           await DBHelper.update('Standingorder', so.toMap(),
               where: "ID = '${so.id}'");
-          // await DBHelper.update('StandingorderPosting', sop.toMap(),
-          //     where: "ID = '${so.id}'");
 
           AllData.standingOrders.removeWhere((element) => element.id == so.id);
-          // AllData.standingOrderPostings
-          //     .removeWhere((element) => element.id == sop.id);
         }
         AllData.standingOrders.add(so);
-        // AllData.standingOrderPostings.add(sop);
 
         Navigator.of(context)
           ..pop()

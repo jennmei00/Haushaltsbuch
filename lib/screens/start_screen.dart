@@ -75,9 +75,6 @@ class _StartScreenState extends State<StartScreen> {
 
     AllData.postings = Posting().listFromDB(await DBHelper.getData('Posting'));
 
-    // AllData.standingOrderPostings = StandingOrderPosting()
-    //     .listFromDB(await DBHelper.getData('StandingOrderPosting'));
-
     AllData.transfers =
         Transfer().listFromDB(await DBHelper.getData('Transfer'));
 
@@ -90,6 +87,10 @@ class _StartScreenState extends State<StartScreen> {
     AllData.postings.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
 
     AllData.standingOrders.forEach((element) async {
+      if (element.end != null) {
+        if (element.end!.isBefore(DateTime.now())) return;
+      }
+
       Posting? lastPosting;
       // Posting?
       try {
