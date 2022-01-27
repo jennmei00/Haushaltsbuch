@@ -56,6 +56,7 @@ Future<void> _getThemeMode() async {
 
 class _StartScreenState extends State<StartScreen> {
   late Future<bool> _loadData;
+
   Future<bool> _getAllData() async {
     // await DBHelper.delete('Transfer');
     // await DBHelper.deleteDatabse();
@@ -85,6 +86,7 @@ class _StartScreenState extends State<StartScreen> {
 
   Future<void> _updateStandingOrderPostings() async {
     AllData.postings.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
+    bool isUpdated = false;
 
     AllData.standingOrders.forEach((element) async {
       if (element.end != null) {
@@ -115,6 +117,7 @@ class _StartScreenState extends State<StartScreen> {
           for (var i = 0; i < missing; i++) {
             date = date!.add(Duration(days: 7));
             await _addPosting(element, date);
+            isUpdated = true;
           }
         }
       } else if (element.repetition == Repetition.monthly) {
@@ -124,12 +127,14 @@ class _StartScreenState extends State<StartScreen> {
         else {
           if (element.begin!.isBefore(DateTime.now())) {
             await _addPosting(element, element.begin!);
+            isUpdated = true;
           }
           date = element.begin!;
         }
         int i = 1;
         while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
           await _addPosting(element, Jiffy(date).add(months: i).dateTime);
+          isUpdated = true;
           i++;
         }
       } else if (element.repetition == Repetition.quarterly) {
@@ -139,12 +144,14 @@ class _StartScreenState extends State<StartScreen> {
         else {
           if (element.begin!.isBefore(DateTime.now())) {
             await _addPosting(element, element.begin!);
+            isUpdated = true;
           }
           date = element.begin!;
         }
         int i = 3;
         while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
           await _addPosting(element, Jiffy(date).add(months: i).dateTime);
+          isUpdated = true;
           i += 3;
         }
       } else if (element.repetition == Repetition.halfYearly) {
@@ -154,12 +161,14 @@ class _StartScreenState extends State<StartScreen> {
         else {
           if (element.begin!.isBefore(DateTime.now())) {
             await _addPosting(element, element.begin!);
+            isUpdated = true;
           }
           date = element.begin!;
         }
         int i = 6;
         while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
           await _addPosting(element, Jiffy(date).add(months: i).dateTime);
+          isUpdated = true;
           i += 6;
         }
       } else if (element.repetition == Repetition.yearly) {
@@ -169,16 +178,34 @@ class _StartScreenState extends State<StartScreen> {
         else {
           if (element.begin!.isBefore(DateTime.now())) {
             await _addPosting(element, element.begin!);
+            isUpdated = true;
           }
           date = element.begin!;
         }
         int i = 1;
         while (Jiffy(date).add(years: i).dateTime.isBefore(DateTime.now())) {
           await _addPosting(element, Jiffy(date).add(years: i).dateTime);
+          isUpdated = true;
           i++;
         }
       }
     });
+
+    if (isUpdated) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Buchungen aktualisiert'),
+              content: Text(
+                  'Es wurden neue Buchungen zu deinen Daueraufträgen hinzugefügt.'),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context), child: Text('OK'))
+              ],
+            );
+          });
+    }
   }
 
   Future<void> _addPosting(StandingOrder element, DateTime date) async {
@@ -229,7 +256,9 @@ class _StartScreenState extends State<StartScreen> {
       future: _loadData,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.done)
-          return HomeScreen();
+          return HomeScreen(
+              // isSOUpdated: true,
+              );
         else if (snapshot.hasError)
           return Center(
             child: Text(

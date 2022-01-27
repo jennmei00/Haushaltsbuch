@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
+import 'package:haushaltsbuch/widgets/popup.dart';
 
 class HomeScreen extends StatefulWidget {
   static final routeName = '/home_screen';
 
   //wieder loeschen
   final String id;
-  HomeScreen({this.id = ''});
+  final bool isSOUpdated;
+  HomeScreen({this.id = '', this.isSOUpdated = false});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -28,17 +30,30 @@ class _HomeScreenState extends State<HomeScreen> {
     totalBankBalance = double.parse((totalBankBalance).toStringAsFixed(2));
   }
 
+  void _checkSOUpdate() {
+    // if (widget.isSOUpdated) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog();
+          // return Popup(
+          //   title: 'Buchungen aktualisiert',
+          //   body: Text(
+          //       'Es wurden neue Buchungen zu deinen Daueraufträgen hinzugefügt.'),
+          // );
+        });
+    // }
+  }
+
   @override
   void initState() {
     _getTotalBankBalance();
-    
+    // _checkSOUpdate();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context){
-    
-
+  Widget build(BuildContext context) {
     return Scaffold(
       //backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
