@@ -4,14 +4,19 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 String formatDate(DateTime date) {
-  var formattedDate = DateFormat.yMMMd().format(date);
+  initializeDateFormatting();
+
+  var formattedDate = DateFormat.yMMMd("de").format(date);
   return '$formattedDate';
 }
 
 String formatDateMY(DateTime date) {
-  var formattedDate = DateFormat.yMMMM().format(date);
+  initializeDateFormatting();
+
+  var formattedDate = DateFormat.yMMMM("de").format(date);
   return '$formattedDate';
 }
 

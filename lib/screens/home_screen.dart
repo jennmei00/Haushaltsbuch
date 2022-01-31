@@ -30,25 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
     totalBankBalance = double.parse((totalBankBalance).toStringAsFixed(2));
   }
 
-  void _checkSOUpdate() {
-    // if (widget.isSOUpdated) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog();
-          // return Popup(
-          //   title: 'Buchungen aktualisiert',
-          //   body: Text(
-          //       'Es wurden neue Buchungen zu deinen Daueraufträgen hinzugefügt.'),
-          // );
-        });
-    // }
-  }
-
   @override
   void initState() {
     _getTotalBankBalance();
-    // _checkSOUpdate();
     super.initState();
   }
 

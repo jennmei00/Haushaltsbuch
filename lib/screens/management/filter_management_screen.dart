@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:intl/intl.dart';
 // import 'package:haushaltsbuch/models/all_data.dart';
@@ -169,10 +170,8 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                         child: Text(
                           _filterDate == null
                               ? 'Zum Auswählen klicken'
-                              // : '${_filterDate!.start.day}. ${_filterDate!.start.month}. ${_filterDate!.start.year} bis ' +
-                              //     '${_filterDate!.end.day}. ${_filterDate!.end.month}. ${_filterDate!.end.year}'),
-                              : '${DateFormat.yMMMd().format(_filterDate!.start)} - ' +
-                                  '\n ${DateFormat.yMMMd().format(_filterDate!.end)}',
+                              : '${formatDate(_filterDate!.start)} - ' +
+                                  '\n ${formatDate(_filterDate!.end)}',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           softWrap: false,
