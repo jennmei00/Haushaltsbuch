@@ -12,7 +12,7 @@ import 'package:haushaltsbuch/screens/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/start_screen.dart';
-import 'package:haushaltsbuch/screens/statistics_screen.dart';
+import 'package:haushaltsbuch/screens/statistics/statistics_screen.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/screens/posting/transfer_screen.dart';

@@ -5,7 +5,7 @@ import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/management/management_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
-import 'package:haushaltsbuch/screens/statistics_screen.dart';
+import 'package:haushaltsbuch/screens/statistics/statistics_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 
 class AppDrawer extends StatelessWidget {
