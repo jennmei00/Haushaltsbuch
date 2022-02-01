@@ -30,10 +30,16 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       TextEditingController(text: '');
   TextEditingController _descriptionController =
       TextEditingController(text: '');
-  Color _iconcolor = Globals.isDarkmode ? Globals.customSwatchDarkMode.keys.first : Globals.customSwatchLightMode.keys.first;
-  Color _onchangedColor = Globals.isDarkmode ? Globals.customSwatchDarkMode.keys.first : Globals.customSwatchLightMode.keys.first;
+  Color _iconcolor = Globals.isDarkmode
+      ? Globals.customSwatchDarkMode.keys.first
+      : Globals.customSwatchLightMode.keys.first;
+  Color _onchangedColor = Globals.isDarkmode
+      ? Globals.customSwatchDarkMode.keys.first
+      : Globals.customSwatchLightMode.keys.first;
   final _formKey = GlobalKey<FormState>();
   String _selectedIcon = '';
+  DateTime _creationDate = DateTime.now();
+  double _initialBankBalance = 0;
 
   List<ListItem> _accountTypeDropDownItems = [];
 
@@ -52,13 +58,15 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   void _getAccountData() {
     Account ac =
         AllData.accounts.firstWhere((element) => element.id == widget.id);
-    // _repeatValue = Repetition.values(so.repetition!.index);
+    _creationDate = ac.creationDate!;
+    _initialBankBalance = ac.initialBankBalance!;
     _titleController.text = ac.title!;
     _bankBalanceController.text = ac.bankBalance!.toStringAsFixed(2);
     _descriptionController.text = ac.description!;
     _selectedItem = _accountTypeDropDownItems
         .firstWhere((element) => element.id == ac.accountType!.id);
-    _iconcolor = Globals.isDarkmode ? getDarkColorFromLightColor(ac.color!) : ac.color!;
+    _iconcolor =
+        Globals.isDarkmode ? getDarkColorFromLightColor(ac.color!) : ac.color!;
     _selectedIcon = ac.symbol!;
   }
 
@@ -190,7 +198,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
             ),
             SizedBox(height: 10),
             GridView.count(
-              physics: NeverScrollableScrollPhysics(),//BouncingScrollPhysics(),
+              physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               padding: EdgeInsets.all(8),
               crossAxisCount: 4,
@@ -204,72 +212,22 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                         child: new Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            // boxShadow: [
-                            //   BoxShadow(
-                            //     blurRadius: _selectedIcon == item ? 5 : 5,
-                            //     color: _selectedIcon == item
-                            //         ? _iconcolor.withOpacity(0.2)
-                            //         : _iconcolor.withOpacity(0.08),
-                            //     spreadRadius: _selectedIcon == item ? 2 : 1,
-                            //   )
-                            // ],
                             color: _selectedIcon == item
                                 ? _iconcolor.withOpacity(0.18)
                                 : null,
                           ),
-                          // height: MediaQuery.of(context).size.width * 0.34,
-                          // width: MediaQuery.of(context).size.width * 0.34,
                           child: Padding(
                             padding: const EdgeInsets.all(12),
                             child: Container(
-                              child: Image.asset(
-                                item,
-                                color: _selectedIcon == item
+                              child: Image.asset(item,
+                                  color: _selectedIcon == item
                                       ? _iconcolor
-                                      : Colors.grey.shade500//_iconcolor,
-                              ),
+                                      : Colors.grey.shade500),
                             ),
                           ),
                         ),
                       ))
                   .toList(),
-              // children: Globals.imagePaths
-              //     .map((item) => GestureDetector(
-              //           onTap: () => setState(() {
-              //             _selectedIcon = item;
-              //           }),
-              //           child: new Container(
-              //             decoration: BoxDecoration(
-              //               borderRadius: BorderRadius.circular(12),
-              //               border: Border.all(
-              //                 width: _selectedIcon == item ? 2.1 : 1.0,
-              //                 color: _selectedIcon == item
-              //                     ? Theme.of(context).primaryColor
-              //                     : Colors.grey.shade700,
-              //               ),
-              //               color: Colors.grey.shade200,
-              //             ),
-              //             // height: MediaQuery.of(context).size.width * 0.34,
-              //             // width: MediaQuery.of(context).size.width * 0.34,
-              //             child: Padding(
-              //               padding: const EdgeInsets.all(5),
-              //               child: CircleAvatar(
-              //                   radius: MediaQuery.of(context).size.width * 0.1,
-              //                   backgroundColor: _iconcolor,
-              //                   child: FractionallySizedBox(
-              //                     widthFactor: 0.6,
-              //                     heightFactor: 0.6,
-              //                     child: Image.asset(
-              //                       item,
-              //                       color: _iconcolor.computeLuminance() > 0.15
-              //                           ? Colors.black
-              //                           : Colors.white,
-              //                     ),
-              //                   )),
-              //             ),
-              //           ),
-              //         ))
-              //     .toList(),
             ),
           ],
         ),
@@ -287,11 +245,26 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   void _saveAccount() async {
     if (_formKey.currentState!.validate()) {
       try {
+        if (widget.id == '') {
+          _initialBankBalance = double.parse(_bankBalanceController.text);
+          _creationDate = DateTime.now();
+        } else {
+          if (AllData.postings
+                  .where((element) => element.account!.id == widget.id)
+                  .length ==
+              0) {
+            _initialBankBalance = double.parse(_bankBalanceController.text);
+            _creationDate = DateTime.now();
+          }
+        }
+
         Account ac = Account(
           id: widget.id != '' ? widget.id : Uuid().v1(),
           title: _titleController.text,
           description: _descriptionController.text,
           bankBalance: double.parse(_bankBalanceController.text),
+          creationDate: _creationDate,
+          initialBankBalance: _initialBankBalance,
           color: getColorToSave(_iconcolor),
           accountType: AllData.accountTypes
               .firstWhere((element) => element.id == _selectedItem!.id),

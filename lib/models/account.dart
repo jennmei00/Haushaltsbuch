@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
-import 'package:haushaltsbuch/services/DBHelper.dart';
 
 class Account {
   String? id;
   String? title;
   String? description;
   double? bankBalance;
+  double? initialBankBalance;
+  DateTime? creationDate;
   Color? color;
   String? symbol;
   AccountType? accountType;
@@ -17,6 +18,8 @@ class Account {
     this.title,
     this.description,
     this.bankBalance,
+    this.initialBankBalance,
+    this.creationDate,
     this.color,
     this.symbol,
     this.accountType,
@@ -28,6 +31,8 @@ class Account {
     map['Title'] = this.title;
     map['Description'] = this.description;
     map['BankBalance'] = this.bankBalance;
+    map['InitialBankBalance'] = this.initialBankBalance;
+    map['CreationDate'] = this.creationDate!.toIso8601String();
     map['Color'] =
         this.color == null ? Colors.black : this.color!.value.toString();
     map['Symbol'] = this.symbol;
@@ -51,6 +56,8 @@ class Account {
       title: data['Title'],
       description: data['Description'],
       bankBalance: data['BankBalance'],
+      initialBankBalance: data['InitialBankBalance'],
+      creationDate: DateTime.parse(data['CreationDate']),
       color: data['Color'] == null
           ? Colors.black
           : Color(int.parse(data['Color'])),

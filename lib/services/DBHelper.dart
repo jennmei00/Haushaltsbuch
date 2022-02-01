@@ -157,8 +157,6 @@ class DBHelper {
     // await db.execute(
     //     'CREATE TABLE ...(...TEXT PRIMARY KEY, ... TEXT/INTEGER/BOOLEAN/BLOB, FOREIGN KEY(CategoryID) REFERENCES Category(CategoryID))');
 
-    print('CREATE TABLES');
-
     //Category
     await db.execute(
         'CREATE TABLE Category(ID TEXT PRIAMRY KEY, Title TEXT, Symbol TEXT, Color TEXT)');
@@ -170,7 +168,8 @@ class DBHelper {
     //Account
     await db.execute(
         'CREATE TABLE Account(ID TEXT PRIMARY KEY, Title TEXT, Description TEXT, BankBalance REAL,' +
-            'Color TEXT, Symbol TEXT, AccountTypeID TEXT, FOREIGN KEY(AccountTypeID) REFERENCES AccountType(ID))');
+            'Color TEXT, Symbol TEXT, AccountTypeID TEXT, CreationDate TEXT, InitialBankBalance REAL, ' +
+            'FOREIGN KEY(AccountTypeID) REFERENCES AccountType(ID))');
 
     //Posting
     await db.execute(
