@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -16,46 +17,18 @@ class Liniendiagramm extends StatefulWidget {
 }
 
 class _LiniendiagrammState extends State<Liniendiagramm> {
-  List<_ChartData> _chartData = [];
-  bool isLoading = true;
+  // List<_ChartData> _chartData = [];
 
-  void _loadData() {
-    _chartData = <_ChartData>[];
+  List<_ChartData> _getChartData(Account element) {
+    List<_ChartData> _chartData = <_ChartData>[];
 
-    Account element = AllData.accounts.firstWhere((element) => element.title == 'Test1');
+    // Account element =
+    //     AllData.accounts.firstWhere((element) => element.title == 'Test1');
 
     // AllData.accounts.forEach((element) {
     var firstDate;
 
-    switch (Jiffy(element.creationDate).day) {
-      case 1:
-        firstDate = Jiffy(element.creationDate).subtract(days: 6).dateTime;
-        break;
-      case 2:
-        firstDate = element.creationDate;
-        break;
-      case 3:
-        firstDate = Jiffy(element.creationDate).subtract(days: 1).dateTime;
-
-        break;
-      case 4:
-        firstDate = Jiffy(element.creationDate).subtract(days: 2).dateTime;
-
-        break;
-      case 5:
-        firstDate = Jiffy(element.creationDate).subtract(days: 3).dateTime;
-
-        break;
-      case 6:
-        firstDate = Jiffy(element.creationDate).subtract(days: 4).dateTime;
-
-        break;
-      case 7:
-        firstDate = Jiffy(element.creationDate).subtract(days: 5).dateTime;
-
-        break;
-      default:
-    }
+    firstDate = getMondayOfWeek(element.creationDate!);
 
     firstDate = DateTime(2021, 11, 1);
     _chartData.add(_ChartData(firstDate, element.initialBankBalance!, 0));
@@ -111,72 +84,68 @@ class _LiniendiagrammState extends State<Liniendiagramm> {
       i += 7;
     }
 
-    //  var firstDate =  Jiffy(element.creationDate).subtract(
-    //     Jiffy(element.creationDate).day != 2 ? 0
-    //   ).dateTime;
-    // });
-
-    
+    return _chartData;
   }
 
   @override
   void initState() {
-    _loadData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // _getChartData();
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        primaryXAxis:
-            // DateTimeAxis(majorGridLines: const MajorGridLines(width: 0)),
-            DateTimeAxis(
-          minimum: DateTime.now().subtract(Duration(days: 90)),
-          maximum: DateTime.now(),
-          intervalType: DateTimeIntervalType.days,
-          interval: 7,
-          dateFormat: DateFormat.yMMMd()
-        ),
-        primaryYAxis: NumericAxis(
-          majorTickLines: const MajorTickLines(color: Colors.transparent),
-          axisLine: const AxisLine(width: 0),
-          // minimum: 0,
-          // maximum: 100
-        ),
-        series: _getDefaultLineSeries(),
+    return SfCartesianChart(
+      plotAreaBorderWidth: 0,
+      legend: Legend(
+        isVisible: true,
+        overflowMode: LegendItemOverflowMode.wrap,
       ),
+      tooltipBehavior: TooltipBehavior(enable: true),
+      zoomPanBehavior: ZoomPanBehavior(
+        enablePanning: true,
+      ),
+
+      primaryXAxis: DateTimeAxis(
+        autoScrollingMode: AutoScrollingMode.end,
+        autoScrollingDelta: 25,
+        autoScrollingDeltaType: DateTimeIntervalType.days,
+        minimum: getMondayOfWeek(DateTime.now().subtract(Duration(days: 100))),
+        maximum: DateTime.now(),
+        intervalType: DateTimeIntervalType.days,
+        interval: 7,
+        dateFormat: weeklyDateFormat(),
+        majorTickLines: const MajorTickLines(color: Colors.transparent),
+      ),
+      primaryYAxis: NumericAxis(
+        majorTickLines: const MajorTickLines(color: Colors.transparent),
+        axisLine: const AxisLine(width: 0),
+        numberFormat: NumberFormat.currency(locale: "de", symbol: "€"),
+        // minimum: 0,
+        // maximum: 100
+      ),
+      series: _getDefaultLineSeries(),
+      // ),
     );
   }
 
-  void _getChartData() {
-    _chartData = <_ChartData>[];
-
-    //From first account
-    // Account account = AllData.accounts.first;
-    // double
-
-    // AllData.postings.forEach((element) {
-    //   _chartData.add(_ChartData(element.date!, element.amount!));
-    // });
-
-    // AllData.transfers.forEach((element) {
-    //   _chartData.add(_ChartData(element.date!, element.amount!));
-    // });
-  }
-
   List<LineSeries<_ChartData, DateTime>> _getDefaultLineSeries() {
-    return <LineSeries<_ChartData, DateTime>>[
-      LineSeries<_ChartData, DateTime>(
-          dataSource: _chartData,
-          xValueMapper: (_ChartData time, _) => time.x,
-          yValueMapper: (_ChartData money, _) => money.y,
-          markerSettings: const MarkerSettings(isVisible: true))
-    ];
+    return AllData.accounts.map((e) {
+      List<_ChartData> _dataSource = _getChartData(e);
+
+      return LineSeries<_ChartData, DateTime>(
+          dataSource: _dataSource,
+          xValueMapper: (_ChartData data, _) => data.x,
+          yValueMapper: (_ChartData data, _) => data.y,
+          name: e.title);
+    }).toList();
+
+    //  <LineSeries<_ChartData, DateTime>>[
+    //   LineSeries<_ChartData, DateTime>(
+    //       dataSource: _chartData,
+    //       xValueMapper: (_ChartData data, _) => data.x,
+    //       yValueMapper: (_ChartData data, _) => data.y,
+    //       markerSettings: const MarkerSettings(isVisible: true))
+    // ];
   }
 }
 

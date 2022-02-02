@@ -5,6 +5,7 @@ import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:jiffy/jiffy.dart';
 
 String formatDate(DateTime date) {
   initializeDateFormatting();
@@ -18,6 +19,11 @@ String formatDateMY(DateTime date) {
 
   var formattedDate = DateFormat.yMMMM("de").format(date);
   return '$formattedDate';
+}
+
+DateFormat weeklyDateFormat() {
+  initializeDateFormatting();
+  return DateFormat("'Woche vom'\n dd.MMM y", "de");
 }
 
 String formatCurrency(double amount) {
@@ -102,4 +108,36 @@ Color getColorToSave(Color color) {
   } else {
     return color;
   }
+}
+
+DateTime getMondayOfWeek(DateTime date) {
+  DateTime monday;
+
+  switch (Jiffy(date).day) {
+    case 1:
+      monday = Jiffy(date).subtract(days: 6).dateTime;
+      break;
+    case 2:
+      monday = date;
+      break;
+    case 3:
+      monday = Jiffy(date).subtract(days: 1).dateTime;
+      break;
+    case 4:
+      monday = Jiffy(date).subtract(days: 2).dateTime;
+      break;
+    case 5:
+      monday = Jiffy(date).subtract(days: 3).dateTime;
+      break;
+    case 6:
+      monday = Jiffy(date).subtract(days: 4).dateTime;
+      break;
+    case 7:
+      monday = Jiffy(date).subtract(days: 5).dateTime;
+      break;
+    default:
+      monday = date;
+  }
+
+  return monday;
 }
