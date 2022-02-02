@@ -296,14 +296,17 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 Text('Ende:'),
                 Row(
                   children: [
-                    _dateTimeEnd == null ? Text('Datum wählen') : 
-                    Text(formatDate(_dateTimeEnd!)),
+                    _dateTimeEnd == null
+                        ? Text('Datum wählen')
+                        : Text(formatDate(_dateTimeEnd!)),
                     IconButton(
                       icon: Icon(Icons.date_range),
                       onPressed: () {
                         showDatePicker(
                           context: context,
-                          initialDate: _dateTimeEnd == null ? DateTime.now() : _dateTimeEnd!,
+                          initialDate: _dateTimeEnd == null
+                              ? DateTime.now()
+                              : _dateTimeEnd!,
                           firstDate: DateTime.now(),
                           lastDate: DateTime.now().add(Duration(days: 365)),
                         ).then(
@@ -461,8 +464,11 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
             account: AllData.accounts
                 .firstWhere((element) => element.id == _selectedItem!.id),
             category: _setCategory,
-            begin: _dateTime,
-            end: _dateTimeEnd,
+            begin: DateTime(_dateTime.year, _dateTime.month, _dateTime.day),
+            end: _dateTimeEnd == null
+                ? null
+                : DateTime(
+                    _dateTimeEnd!.year, _dateTimeEnd!.month, _dateTimeEnd!.day),
             postingType: PostingType.values[_groupValue_buchungsart],
             repetition: _repeatValue);
 
