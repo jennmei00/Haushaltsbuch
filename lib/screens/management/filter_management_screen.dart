@@ -4,8 +4,6 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
-import 'package:intl/intl.dart';
-// import 'package:haushaltsbuch/models/all_data.dart';
 
 class FilterManagementScreen extends StatefulWidget {
   static final routeName = '/filter_management_screen';
@@ -58,23 +56,9 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
       ),
       bottomSheet: BottomSheet(
         enableDrag: false,
-        // backgroundColor: Colors.red,
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
-        // ),
         onClosing: () {},
         builder: (context) => Container(
-          // color: Colors.transparent,
           height: bottomSheetSize,
-          // decoration: BoxDecoration(
-          //   borderRadius: BorderRadius.circular(30),
-          //   // color: Colors.red,
-          // ),
-          //  decoration: new BoxDecoration(
-          //               color: Colors.white,
-          //               borderRadius: new BorderRadius.only(
-          //                   topLeft: const Radius.circular(30.0),
-          //                   topRight: const Radius.circular(30.0))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -97,52 +81,6 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
           ),
         ),
       ),
-      //Container(
-      //color: Colors.yellow,
-      // decoration: BoxDecoration(
-      //     //color: Theme.of(context).colorScheme.surface,
-      //     // boxShadow: [
-      //     //   BoxShadow(
-      //     //     color: Colors.black54,
-      //     //     blurRadius: 15.0,
-      //     //     offset: Offset(0.0, 3),
-      //     //   ),
-      //     // ],
-      //     border: Border.all(
-      //       color: Colors.red,
-      //     ),
-      // borderRadius: BorderRadius.all(Radius.circular(20))
-      //     //borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
-      // ),
-      // height: MediaQuery.of(context).size.height * 0.1, //60,
-      // child: Row(
-      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //   children: [
-      //     ElevatedButton(
-      //       onPressed: () => Navigator.pop(context, []),
-      //       child: Text('Zurücksetzen'),
-      //       // style: ButtonStyle(
-      //       //     backgroundColor: MaterialStateProperty.all(
-      //       //         Theme.of(context).primaryColor)
-      //       //         ),
-      //     ),
-      //     ElevatedButton(
-      //       onPressed: () {
-      //         Navigator.pop(context, [
-      //           _filterAccounts,
-      //           _filterCategories,
-      //           _filterDate,
-      //           _filterSO
-      //         ]);
-      //       },
-      //       child: Text('Übernehmen'),
-      //       // style: ButtonStyle(
-      //       //     backgroundColor: MaterialStateProperty.all(
-      //       //         Theme.of(context).primaryColor)),
-      //     )
-      //   ],
-      // ),
-      //),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
