@@ -9,14 +9,14 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class Liniendiagramm extends StatefulWidget {
-  const Liniendiagramm({Key? key}) : super(key: key);
+class LineChart extends StatefulWidget {
+  const LineChart({Key? key}) : super(key: key);
 
   @override
-  State<Liniendiagramm> createState() => _LiniendiagrammState();
+  State<LineChart> createState() => _LineChartState();
 }
 
-class _LiniendiagrammState extends State<Liniendiagramm> {
+class _LineChartState extends State<LineChart> {
   DateTimeRange _dateRange = DateTimeRange(
       start: Jiffy(DateTime.now()).subtract(months: 3).dateTime,
       end: DateTime.now());

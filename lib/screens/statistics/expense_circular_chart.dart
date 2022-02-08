@@ -6,14 +6,14 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart' as slider;
 
-class Kreisdiagramm extends StatefulWidget {
-  const Kreisdiagramm({Key? key}) : super(key: key);
+class ExpenseCircularChart extends StatefulWidget {
+  const ExpenseCircularChart({Key? key}) : super(key: key);
 
   @override
-  State<Kreisdiagramm> createState() => _KreisdiagrammState();
+  _ExpenseCircularChartState createState() => _ExpenseCircularChartState();
 }
 
-class _KreisdiagrammState extends State<Kreisdiagramm> {
+class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
   DateTime _yearValue = DateTime.now();
   DateTime _monthValue = DateTime.now();
 

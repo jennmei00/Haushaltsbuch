@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:haushaltsbuch/screens/statistics/kreisdiagramm.dart';
-import 'package:haushaltsbuch/screens/statistics/liniendiagramm.dart';
+import 'package:haushaltsbuch/screens/statistics/circular_chart.dart';
+import 'package:haushaltsbuch/screens/statistics/line_chart.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class StatisticsScreen extends StatefulWidget {
@@ -13,14 +13,6 @@ class StatisticsScreen extends StatefulWidget {
 class _StatisticsScreenState extends State<StatisticsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
-  List<_SalesData> data = [
-    _SalesData('Jan', 35),
-    _SalesData('Feb', 28),
-    _SalesData('Mar', 34),
-    _SalesData('Apr', 32),
-    _SalesData('May', 40)
-  ];
 
   @override
   void initState() {
@@ -44,8 +36,8 @@ class _StatisticsScreenState extends State<StatisticsScreen>
       drawer: AppDrawer(),
       body: TabBarView(
         children: [
-          Liniendiagramm(),
-          Kreisdiagramm(),
+          LineChart(),
+          CircularChart(),
         ],
         controller: _tabController,
       )
