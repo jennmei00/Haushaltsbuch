@@ -271,7 +271,6 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
     setState(() {
       _onchangedColor = color;
     });
-    print(_onchangedColor);
   }
 
   void _saveCategory() async {

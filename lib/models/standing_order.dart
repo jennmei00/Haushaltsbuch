@@ -2,7 +2,6 @@ import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
-import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 
 class StandingOrder {

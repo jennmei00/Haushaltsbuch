@@ -17,6 +17,11 @@ class LineChart extends StatefulWidget {
 }
 
 class _LineChartState extends State<LineChart> {
+  bool _oneYearIsDisabled = false;
+  bool _sixMonthsIsDisabled = false;
+  bool _threeMonthsIsDisabled = false;
+  bool _oneMonthIsDisabled = false;
+
   DateTimeRange _dateRange = DateTimeRange(
       start: Jiffy(DateTime.now()).subtract(months: 3).dateTime,
       end: DateTime.now());
@@ -33,7 +38,6 @@ class _LineChartState extends State<LineChart> {
 
     firstDate = getMondayOfWeek(element.creationDate!);
 
-    // firstDate = DateTime(2021, 11, 1);
     _chartData.add(_ChartData(
       firstDate,
       element.initialBankBalance!,
@@ -144,6 +148,11 @@ class _LineChartState extends State<LineChart> {
                   setState(() {
                     _dateRange = picked;
                   });
+
+                _oneYearIsDisabled = false;
+                _sixMonthsIsDisabled = false;
+                _threeMonthsIsDisabled = false;
+                _oneMonthIsDisabled = false;
               },
               icon: Icon(
                 Icons.calendar_today,
@@ -153,6 +162,80 @@ class _LineChartState extends State<LineChart> {
           ],
         ),
         Divider(),
+        Wrap(
+          spacing: 8.0,
+          children: [
+            ElevatedButton(
+              onPressed: _oneYearIsDisabled
+                  ? null
+                  : () {
+                      setState(() {
+                        _oneYearIsDisabled = true;
+                        _sixMonthsIsDisabled = false;
+                        _threeMonthsIsDisabled = false;
+                        _oneMonthIsDisabled = false;
+                        _dateRange = DateTimeRange(
+                            start: Jiffy(DateTime.now())
+                                .subtract(years: 1)
+                                .dateTime,
+                            end: DateTime.now());
+                      });
+                    },
+              child: Text('1 Jahr'),
+            ),
+            ElevatedButton(
+                onPressed: _sixMonthsIsDisabled
+                    ? null
+                    : () {
+                        setState(() {
+                          _oneYearIsDisabled = false;
+                          _sixMonthsIsDisabled = true;
+                          _threeMonthsIsDisabled = false;
+                          _oneMonthIsDisabled = false;
+                          _dateRange = DateTimeRange(
+                              start: Jiffy(DateTime.now())
+                                  .subtract(months: 6)
+                                  .dateTime,
+                              end: DateTime.now());
+                        });
+                      },
+                child: Text('6 Monate')),
+            ElevatedButton(
+                onPressed: _threeMonthsIsDisabled
+                    ? null
+                    : () {
+                        setState(() {
+                          _oneYearIsDisabled = false;
+                          _sixMonthsIsDisabled = false;
+                          _threeMonthsIsDisabled = true;
+                          _oneMonthIsDisabled = false;
+                          _dateRange = DateTimeRange(
+                              start: Jiffy(DateTime.now())
+                                  .subtract(months: 3)
+                                  .dateTime,
+                              end: DateTime.now());
+                        });
+                      },
+                child: Text('3 Monate')),
+            ElevatedButton(
+                onPressed: _oneMonthIsDisabled
+                    ? null
+                    : () {
+                        setState(() {
+                          _oneYearIsDisabled = false;
+                          _sixMonthsIsDisabled = false;
+                          _threeMonthsIsDisabled = false;
+                          _oneMonthIsDisabled = true;
+                          _dateRange = DateTimeRange(
+                              start: Jiffy(DateTime.now())
+                                  .subtract(months: 1)
+                                  .dateTime,
+                              end: DateTime.now());
+                        });
+                      },
+                child: Text('1 Monat')),
+          ],
+        ),
         Expanded(
           child: SfCartesianChart(
             plotAreaBorderWidth: 0,
@@ -161,18 +244,26 @@ class _LineChartState extends State<LineChart> {
               overflowMode: LegendItemOverflowMode.wrap,
             ),
             tooltipBehavior: TooltipBehavior(enable: true),
-            zoomPanBehavior: ZoomPanBehavior(
-              enablePanning: true,
-            ),
+            // zoomPanBehavior: ZoomPanBehavior(
+            //   enablePanning: true,
+            // ),
 
             primaryXAxis: DateTimeAxis(
               autoScrollingMode: AutoScrollingMode.end,
               minimum: getMondayOfWeek(_dateRange.start),
               maximum: _dateRange.end,
-              intervalType: DateTimeIntervalType.days,
-              interval: 7,
-              dateFormat: weeklyDateFormat(),
+              intervalType: _dateRange.duration > Duration(days: 60)
+                  ? DateTimeIntervalType.months
+                  : DateTimeIntervalType.days,
+              interval: _dateRange.duration > Duration(days: 60) ? 1 : 7,
+              dateFormat: _dateRange.duration > Duration(days: 60)
+                  ? DateFormat("MMM yy", "de")
+                  : DateFormat("dd.MMM yy", "de"), // weeklyDateFormat()
+              labelRotation: 50,
               majorTickLines: const MajorTickLines(color: Colors.transparent),
+              // autoScrollingDeltaType: DateTimeIntervalType.months,
+              // autoScrollingDelta: 1,
+              // enableAutoIntervalOnZooming: true
             ),
             primaryYAxis: NumericAxis(
               majorTickLines: const MajorTickLines(color: Colors.transparent),

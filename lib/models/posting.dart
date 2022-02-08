@@ -3,7 +3,6 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
-import 'package:haushaltsbuch/services/DBHelper.dart';
 
 class Posting {
   String? id;
