@@ -175,8 +175,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                         //child: Text('Kategorieeen'),
                         child: GridView.count(
                           scrollDirection: Axis.vertical,
-                          childAspectRatio: MediaQuery.of(context).size.width /
-                              (MediaQuery.of(context).size.height / 1.5),
+                          childAspectRatio: 0.7,//MediaQuery.of(context).size.width /(MediaQuery.of(context).size.height / 1.5),
                           padding: EdgeInsets.all(4),
                           crossAxisCount: 4,
                           crossAxisSpacing:

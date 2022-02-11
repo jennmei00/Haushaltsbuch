@@ -250,10 +250,10 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                               width: MediaQuery.of(context).size.width * 1,
                               child: GridView.count(
                                 scrollDirection: Axis.vertical,
-                                childAspectRatio: MediaQuery.of(context)
-                                        .size
-                                        .width /
-                                    (MediaQuery.of(context).size.height / 1.6),
+                                childAspectRatio: 0.7,//MediaQuery.of(context)
+                                    //     .size
+                                    //     .width /
+                                    // (MediaQuery.of(context).size.height / 1.6),
                                 padding: EdgeInsets.all(10),
                                 crossAxisCount: 3,
                                 crossAxisSpacing:

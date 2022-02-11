@@ -26,6 +26,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
   late Color _accountColor;
   late String _accountSymbol;
   late AccountType _accountType;
+  late String _accountID;
 
   final List<Object> _listPostingsTransfers = [];
 
@@ -38,18 +39,27 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
     _accountColor = ac.color!;
     _accountSymbol = ac.symbol!;
     _accountType = ac.accountType!;
+    _accountID = ac.id!;
   }
 
   void _getPostingsAndTransfers() {
     AllData.postings.forEach((element) {
-      if (element.accountName! == _accountTitle) {
-        _listPostingsTransfers.add(element);
+      if (element.account != null) {
+        if (element.account!.id == _accountID) {
+          _listPostingsTransfers.add(element);
+        }
       }
     });
     AllData.transfers.forEach((element) {
-      if (element.accountFromName! == _accountTitle ||
-          element.accountToName! == _accountTitle) {
-        _listPostingsTransfers.add(element);
+      if (element.accountFrom != null) {
+        if (element.accountFrom!.id == _accountID) {
+          _listPostingsTransfers.add(element);
+        }
+      }
+      if (element.accountTo != null) {
+        if (element.accountTo!.id == _accountID) {
+          _listPostingsTransfers.add(element);
+        }
       }
     });
   }
@@ -183,7 +193,8 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                 child: Text(
                   'Umsätze',
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: getColor(_accountColor)),
+                      fontWeight: FontWeight.bold,
+                      color: getColor(_accountColor)),
                 ),
               ),
             if (_listPostingsTransfers.length != 0)

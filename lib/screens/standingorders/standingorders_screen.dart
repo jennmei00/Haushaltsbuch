@@ -316,6 +316,13 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                       Text(formatDate(item.begin!)),
                     ],
                   ),
+                  if (item.end != null)
+                  TableRow(
+                    children: [
+                      Text('Ende:'),
+                      Text(formatDate(item.end!)),
+                    ],
+                  ),
                   TableRow(
                     children: [
                       Text('Wiederholung:'),
