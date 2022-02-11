@@ -236,7 +236,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   }
 
   void _colorChanged(Color color) {
-    print(color);
     setState(() {
       _onchangedColor = color;
     });

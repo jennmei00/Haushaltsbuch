@@ -110,7 +110,6 @@ class _StartScreenState extends State<StartScreen> {
           date = lastPosting.date as DateTime;
         else
           date = element.begin!.subtract(Duration(days: 7));
-        print(date);
         Duration difference = DateTime.now().difference(date);
         if (difference.inDays / 7 >= 1) {
           int missing = (difference.inDays / 7).floor();

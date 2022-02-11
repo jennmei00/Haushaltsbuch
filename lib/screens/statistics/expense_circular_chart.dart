@@ -6,16 +6,16 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart' as slider;
 
-class Kreisdiagramm extends StatefulWidget {
-  const Kreisdiagramm({Key? key}) : super(key: key);
+class ExpenseCircularChart extends StatefulWidget {
+  const ExpenseCircularChart({Key? key}) : super(key: key);
 
   @override
-  State<Kreisdiagramm> createState() => _KreisdiagrammState();
+  _ExpenseCircularChartState createState() => _ExpenseCircularChartState();
 }
 
-class _KreisdiagrammState extends State<Kreisdiagramm> {
-  DateTime _yearValue = DateTime(2021, 01, 01);
-  DateTime _monthValue = DateTime(2000, 03, 01);
+class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
+  DateTime _yearValue = DateTime.now();
+  DateTime _monthValue = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +27,8 @@ class _KreisdiagrammState extends State<Kreisdiagramm> {
           child: Column(children: [
             Text('Jahr'),
             slider.SfSlider(
-              min: DateTime(2019, 01, 01),
-              max: DateTime(2023, 01, 01),
+              min: DateTime(DateTime.now().year - 4, 01, 01),
+              max: DateTime.now(),
               showLabels: true,
               interval: 1,
               stepDuration: const slider.SliderStepDuration(years: 1),
@@ -93,7 +93,9 @@ class _KreisdiagrammState extends State<Kreisdiagramm> {
           .where((p) => p.category!.id == element.id)
           .forEach((posting) {
         if (posting.postingType == PostingType.expense) {
-          amount += posting.amount!;
+          if (posting.date!.year == _yearValue.year &&
+              posting.date!.month == _monthValue.month)
+            amount += posting.amount!;
         }
       });
       if (amount != 0)

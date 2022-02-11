@@ -1,6 +1,5 @@
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
-import 'package:haushaltsbuch/services/DBHelper.dart';
 
 class Transfer {
   String? id;

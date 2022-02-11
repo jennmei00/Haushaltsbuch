@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
-import 'package:haushaltsbuch/widgets/popup.dart';
 
 class HomeScreen extends StatefulWidget {
   static final routeName = '/home_screen';
