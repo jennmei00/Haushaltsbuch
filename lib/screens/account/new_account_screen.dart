@@ -242,52 +242,42 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   }
 
   void _saveAccount() async {
+    bool save = true;
     if (_formKey.currentState!.validate()) {
-      try {
-        if (widget.id == '') {
-          _initialBankBalance = double.parse(_bankBalanceController.text);
-          _creationDate = DateTime.now();
-        } else {
-          if (AllData.postings
-                  .where((element) => element.account!.id == widget.id)
-                  .length ==
-              0) {
-            _initialBankBalance = double.parse(_bankBalanceController.text);
-            _creationDate = DateTime.now();
-          }
-        }
-
-        Account ac = Account(
-          id: widget.id != '' ? widget.id : Uuid().v1(),
-          title: _titleController.text,
-          description: _descriptionController.text,
-          bankBalance: double.parse(_bankBalanceController.text),
-          creationDate: _creationDate,
-          // creationDate: DateTime(2021, 11, 1),
-          initialBankBalance: _initialBankBalance,
-          color: getColorToSave(_iconcolor),
-          accountType: AllData.accountTypes
-              .firstWhere((element) => element.id == _selectedItem!.id),
-          symbol: _selectedIcon,
-        );
-        if (widget.id == '') {
-          await DBHelper.insert('Account', ac.toMap());
-        } else {
-          await DBHelper.update('Account', ac.toMap(),
-              where: "ID = '${ac.id}'");
-          AllData.accounts.removeWhere((element) => element.id == ac.id);
-        }
-
-        AllData.accounts.add(ac);
-        Navigator.popAndPushNamed(context, AccountScreen.routeName);
-      } catch (ex) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-            'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
-            textAlign: TextAlign.center,
-          ),
-        ));
+      final timeDifferenceToCreation =
+          DateTime.now().difference(_creationDate).inHours;
+      if (widget.id != '' &&
+          AllData.accounts
+                  .where((element) => element.id == widget.id)
+                  .first
+                  .bankBalance !=
+              double.parse(_bankBalanceController.text) &&
+          timeDifferenceToCreation > 1) {
+        return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                  title: const Text("Kontostandänderung"),
+                  content: const Text(
+                      "Bist du sicher, dass du deinen Kontostand manuell ändern und nicht stattdessen eine Buchung anlegen willst? \n\n (Manuelle Kontostandsänderungen werden im zeitlichen Verlaufs des Kontostands im Statistikbereich nicht berücksichtigt.)"),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () {
+                          _saveToDatabase();
+                          Navigator.of(context).pop(false);
+                        },
+                        child: const Text("Ja")),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                          save = false;
+                        },
+                        child: const Text("Abbrechen")),
+                  ]);
+            });
       }
+      print('before save');
+      _saveToDatabase();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
@@ -297,4 +287,53 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       ));
     }
   }
+
+  void _saveToDatabase() async {
+            try {
+          if (widget.id == '') {
+            _initialBankBalance = double.parse(_bankBalanceController.text);
+            _creationDate = DateTime.now();
+          } else {
+            if (AllData.postings
+                    .where((element) => element.account!.id == widget.id)
+                    .length ==
+                0) {
+              _initialBankBalance = double.parse(_bankBalanceController.text);
+              _creationDate = DateTime.now();
+            }
+          }
+
+          Account ac = Account(
+            id: widget.id != '' ? widget.id : Uuid().v1(),
+            title: _titleController.text,
+            description: _descriptionController.text,
+            bankBalance: double.parse(_bankBalanceController.text),
+            creationDate: _creationDate,
+            // creationDate: DateTime(2021, 11, 1),
+            initialBankBalance: _initialBankBalance,
+            color: getColorToSave(_iconcolor),
+            accountType: AllData.accountTypes
+                .firstWhere((element) => element.id == _selectedItem!.id),
+            symbol: _selectedIcon,
+          );
+          if (widget.id == '') {
+            await DBHelper.insert('Account', ac.toMap());
+          } else {
+            await DBHelper.update('Account', ac.toMap(),
+                where: "ID = '${ac.id}'");
+            AllData.accounts.removeWhere((element) => element.id == ac.id);
+          }
+
+          AllData.accounts.add(ac);
+          Navigator.popAndPushNamed(context, AccountScreen.routeName);
+        } catch (ex) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+              textAlign: TextAlign.center,
+            ),
+          ));
+        }
+  }
+
 }
