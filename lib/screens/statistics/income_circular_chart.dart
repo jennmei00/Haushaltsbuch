@@ -15,7 +15,7 @@ class IncomeCircularChart extends StatefulWidget {
 
 class _IncomeCircularChartState extends State<IncomeCircularChart> {
  DateTime _yearValue = DateTime.now();
-  DateTime _monthValue = DateTime.now();
+  DateTime _monthValue = DateTime(2000, DateTime.now().month, 01);
 
   @override
   Widget build(BuildContext context) {

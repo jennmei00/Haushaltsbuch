@@ -79,16 +79,16 @@ class _StartScreenState extends State<StartScreen> {
     AllData.transfers =
         Transfer().listFromDB(await DBHelper.getData('Transfer'));
 
-    await _updateStandingOrderPostings();
+     _updateStandingOrderPostings();
 
     return Future.value(true);
   }
 
-  Future<void> _updateStandingOrderPostings() async {
+  void _updateStandingOrderPostings()  {
     AllData.postings.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
     bool isUpdated = false;
 
-    AllData.standingOrders.forEach((element) async {
+    AllData.standingOrders.forEach((element)  {
       if (element.end != null) {
         if (element.end!.isBefore(DateTime.now())) return;
       }
@@ -116,8 +116,10 @@ class _StartScreenState extends State<StartScreen> {
 
           for (var i = 0; i < missing; i++) {
             date = date!.add(Duration(days: 7));
-            await _addPosting(element, date);
             isUpdated = true;
+            print('WEEKLY');
+            print(isUpdated);
+             _addPosting(element, date);
           }
         }
       } else if (element.repetition == Repetition.monthly) {
@@ -126,14 +128,14 @@ class _StartScreenState extends State<StartScreen> {
           date = lastPosting.date;
         else {
           if (element.begin!.isBefore(DateTime.now())) {
-            await _addPosting(element, element.begin!);
+             _addPosting(element, element.begin!);
             isUpdated = true;
           }
           date = element.begin!;
         }
         int i = 1;
         while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-          await _addPosting(element, Jiffy(date).add(months: i).dateTime);
+           _addPosting(element, Jiffy(date).add(months: i).dateTime);
           isUpdated = true;
           i++;
         }
@@ -143,14 +145,14 @@ class _StartScreenState extends State<StartScreen> {
           date = lastPosting.date;
         else {
           if (element.begin!.isBefore(DateTime.now())) {
-            await _addPosting(element, element.begin!);
+             _addPosting(element, element.begin!);
             isUpdated = true;
           }
           date = element.begin!;
         }
         int i = 3;
         while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-          await _addPosting(element, Jiffy(date).add(months: i).dateTime);
+           _addPosting(element, Jiffy(date).add(months: i).dateTime);
           isUpdated = true;
           i += 3;
         }
@@ -160,14 +162,14 @@ class _StartScreenState extends State<StartScreen> {
           date = lastPosting.date;
         else {
           if (element.begin!.isBefore(DateTime.now())) {
-            await _addPosting(element, element.begin!);
+             _addPosting(element, element.begin!);
             isUpdated = true;
           }
           date = element.begin!;
         }
         int i = 6;
         while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-          await _addPosting(element, Jiffy(date).add(months: i).dateTime);
+           _addPosting(element, Jiffy(date).add(months: i).dateTime);
           isUpdated = true;
           i += 6;
         }
@@ -177,19 +179,22 @@ class _StartScreenState extends State<StartScreen> {
           date = lastPosting.date;
         else {
           if (element.begin!.isBefore(DateTime.now())) {
-            await _addPosting(element, element.begin!);
+             _addPosting(element, element.begin!);
             isUpdated = true;
           }
           date = element.begin!;
         }
         int i = 1;
         while (Jiffy(date).add(years: i).dateTime.isBefore(DateTime.now())) {
-          await _addPosting(element, Jiffy(date).add(years: i).dateTime);
+           _addPosting(element, Jiffy(date).add(years: i).dateTime);
           isUpdated = true;
           i++;
         }
       }
     });
+
+    print('ISUPDATED');
+    print(isUpdated);
 
     if (isUpdated) {
       showDialog(
@@ -208,7 +213,7 @@ class _StartScreenState extends State<StartScreen> {
     }
   }
 
-  Future<void> _addPosting(StandingOrder element, DateTime date) async {
+  void _addPosting(StandingOrder element, DateTime date)  {
     Posting p = Posting(
       id: Uuid().v1(),
       title: element.title,
@@ -224,7 +229,7 @@ class _StartScreenState extends State<StartScreen> {
     );
 
     AllData.postings.add(p);
-    await DBHelper.insert('Posting', p.toMap());
+     DBHelper.insert('Posting', p.toMap());
 
     //update AccountAmount
     Account ac =
@@ -240,7 +245,7 @@ class _StartScreenState extends State<StartScreen> {
               AllData.accounts.indexWhere((element) => element.id == ac.id)]
           .bankBalance = ac.bankBalance! - p.amount!;
 
-    await DBHelper.update('Account', ac.toMap(), where: "ID = '${ac.id}'");
+     DBHelper.update('Account', ac.toMap(), where: "ID = '${ac.id}'");
   }
 
   @override
