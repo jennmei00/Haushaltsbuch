@@ -79,22 +79,22 @@ class _StartScreenState extends State<StartScreen> {
     AllData.transfers =
         Transfer().listFromDB(await DBHelper.getData('Transfer'));
 
-     _updateStandingOrderPostings();
+    _updateStandingOrderPostings();
 
     return Future.value(true);
   }
 
-  void _updateStandingOrderPostings()  {
-    AllData.postings.sort((obj, obj2) => obj2.date!.compareTo(obj.date!));
+  void _updateStandingOrderPostings() {
+    AllData.postings.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
     bool isUpdated = false;
 
-    AllData.standingOrders.forEach((element)  {
+    AllData.standingOrders.forEach((element) {
       if (element.end != null) {
         if (element.end!.isBefore(DateTime.now())) return;
       }
 
       Posting? lastPosting;
-      // Posting?
+
       try {
         lastPosting = AllData.postings.length == 0
             ? null
@@ -102,6 +102,8 @@ class _StartScreenState extends State<StartScreen> {
                 elementPosting.standingOrder == null
                     ? false
                     : elementPosting.standingOrder?.id == element.id));
+        print('PRRRINT');
+        print(lastPosting?.date);
       } catch (ex) {}
 
       if (element.repetition == Repetition.weekly) {
@@ -117,9 +119,7 @@ class _StartScreenState extends State<StartScreen> {
           for (var i = 0; i < missing; i++) {
             date = date!.add(Duration(days: 7));
             isUpdated = true;
-            print('WEEKLY');
-            print(isUpdated);
-             _addPosting(element, date);
+            _addPosting(element, date);
           }
         }
       } else if (element.repetition == Repetition.monthly) {
@@ -128,14 +128,14 @@ class _StartScreenState extends State<StartScreen> {
           date = lastPosting.date;
         else {
           if (element.begin!.isBefore(DateTime.now())) {
-             _addPosting(element, element.begin!);
+            _addPosting(element, element.begin!);
             isUpdated = true;
           }
           date = element.begin!;
         }
         int i = 1;
         while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-           _addPosting(element, Jiffy(date).add(months: i).dateTime);
+          _addPosting(element, Jiffy(date).add(months: i).dateTime);
           isUpdated = true;
           i++;
         }
@@ -145,14 +145,14 @@ class _StartScreenState extends State<StartScreen> {
           date = lastPosting.date;
         else {
           if (element.begin!.isBefore(DateTime.now())) {
-             _addPosting(element, element.begin!);
+            _addPosting(element, element.begin!);
             isUpdated = true;
           }
           date = element.begin!;
         }
         int i = 3;
         while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-           _addPosting(element, Jiffy(date).add(months: i).dateTime);
+          _addPosting(element, Jiffy(date).add(months: i).dateTime);
           isUpdated = true;
           i += 3;
         }
@@ -162,14 +162,14 @@ class _StartScreenState extends State<StartScreen> {
           date = lastPosting.date;
         else {
           if (element.begin!.isBefore(DateTime.now())) {
-             _addPosting(element, element.begin!);
+            _addPosting(element, element.begin!);
             isUpdated = true;
           }
           date = element.begin!;
         }
         int i = 6;
         while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-           _addPosting(element, Jiffy(date).add(months: i).dateTime);
+          _addPosting(element, Jiffy(date).add(months: i).dateTime);
           isUpdated = true;
           i += 6;
         }
@@ -179,23 +179,20 @@ class _StartScreenState extends State<StartScreen> {
           date = lastPosting.date;
         else {
           if (element.begin!.isBefore(DateTime.now())) {
-             _addPosting(element, element.begin!);
+            _addPosting(element, element.begin!);
             isUpdated = true;
           }
           date = element.begin!;
         }
         int i = 1;
         while (Jiffy(date).add(years: i).dateTime.isBefore(DateTime.now())) {
-           _addPosting(element, Jiffy(date).add(years: i).dateTime);
+          _addPosting(element, Jiffy(date).add(years: i).dateTime);
           isUpdated = true;
           i++;
         }
       }
     });
-
-    print('ISUPDATED');
-    print(isUpdated);
-
+    
     if (isUpdated) {
       showDialog(
           context: context,
@@ -213,7 +210,7 @@ class _StartScreenState extends State<StartScreen> {
     }
   }
 
-  void _addPosting(StandingOrder element, DateTime date)  {
+  void _addPosting(StandingOrder element, DateTime date) {
     Posting p = Posting(
       id: Uuid().v1(),
       title: element.title,
@@ -229,7 +226,7 @@ class _StartScreenState extends State<StartScreen> {
     );
 
     AllData.postings.add(p);
-     DBHelper.insert('Posting', p.toMap());
+    DBHelper.insert('Posting', p.toMap());
 
     //update AccountAmount
     Account ac =
@@ -245,7 +242,7 @@ class _StartScreenState extends State<StartScreen> {
               AllData.accounts.indexWhere((element) => element.id == ac.id)]
           .bankBalance = ac.bankBalance! - p.amount!;
 
-     DBHelper.update('Account', ac.toMap(), where: "ID = '${ac.id}'");
+    DBHelper.update('Account', ac.toMap(), where: "ID = '${ac.id}'");
   }
 
   @override
