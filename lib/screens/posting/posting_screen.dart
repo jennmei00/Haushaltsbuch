@@ -37,17 +37,27 @@ class PostingScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
-                        image: NetworkImage(urlBackgroundImageIncome),
+                        image: AssetImage('assets/images/einnahme.jpg'),
                         fit: BoxFit.cover,
+                        opacity: 0.3,
                       ),
                     ),
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      'Einnahme',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                      ),
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.attach_money,
+                          size: 60,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          'Einnahme',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -65,17 +75,28 @@ class PostingScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
-                        image: NetworkImage(urlBackgroundImageExpense),
+                        // image: NetworkImage(urlBackgroundImageExpense),
+                        image: AssetImage('assets/images/ausgabe.jpg'),
                         fit: BoxFit.cover,
+                        opacity: 0.3,
                       ),
                     ),
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      'Ausgabe',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                      ),
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.money_off,
+                          size: 60,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          'Ausgabe',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -93,17 +114,29 @@ class PostingScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
-                        image: NetworkImage(urlBackroundImageTransfer),
+                        // image: NetworkImage(urlBackroundImageTransfer),
+                        image: AssetImage('assets/images/umbuchung.jpg'),
                         fit: BoxFit.cover,
+                        opacity: 0.3,
                       ),
+                      // color: Colors.grey.withOpacity(0.1),
                     ),
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      'Umbuchung',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                      ),
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.compare_arrows,
+                          size: 60,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          'Umbuchung',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                 ),
