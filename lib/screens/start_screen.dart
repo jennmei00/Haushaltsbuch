@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
@@ -48,10 +49,13 @@ Future<void> _getImageList(BuildContext context) async {
 
 Future<void> _getThemeMode() async {
   var prefs = await SharedPreferences.getInstance();
-  if (prefs.getBool('darkMode') != null)
+  if (prefs.getBool('darkMode') != null) {
     Globals.isDarkmode = prefs.getBool('darkMode')!;
-  else
-    Globals.isDarkmode = false;
+  } else {
+    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+    var isDarkMode = brightness == Brightness.dark;
+    Globals.isDarkmode = isDarkMode;
+  }
 }
 
 class _StartScreenState extends State<StartScreen> {

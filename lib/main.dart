@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
@@ -29,7 +30,8 @@ void main() {
     DeviceOrientation.portraitDown,
   ]);
   SharedPreferences.getInstance().then((prefs) {
-    var darkModeOn = prefs.getBool('darkMode') ?? true;
+    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+    var darkModeOn = brightness == Brightness.dark; //prefs.getBool('darkMode') ?? true;
     runApp(Phoenix(
       child: ChangeNotifierProvider(
         create: (_) => ThemeNotifier(darkModeOn ? darkTheme : lightTheme),
@@ -44,7 +46,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
-
     return MaterialApp(
       title: 'Haushaltsapp',
       theme: themeNotifier.getTheme(),
