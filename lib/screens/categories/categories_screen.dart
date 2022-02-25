@@ -41,7 +41,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ? NothingThere(textScreen: 'Noch keine Kategorien vorhanden :(')
           : GridView.count(
               scrollDirection: Axis.vertical,
-              childAspectRatio: 0.8,//MediaQuery.of(context).size.width /(MediaQuery.of(context).size.height / 1.8),
+              childAspectRatio:
+                  0.8, //MediaQuery.of(context).size.width /(MediaQuery.of(context).size.height / 1.8),
               padding: EdgeInsets.all(20),
               crossAxisCount: 3,
               crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
@@ -62,21 +63,23 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             padding: const EdgeInsets.all(12.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                // boxShadow: [
-                                //   BoxShadow(
-                                //     blurRadius: 5,
-                                //     color: getColor(item.color!).withOpacity(0.1),
-                                //     spreadRadius: 2,
-                                //   )
-                                // ],
-                                color: getColor(item.color!)
-                                    .withOpacity(0.18), //withOpacity(0.05),
-                              ),
+                                  borderRadius: BorderRadius.circular(12),
+                                  // boxShadow: [
+                                  //   BoxShadow(
+                                  //     blurRadius: 5,
+                                  //     color: getColor(item.color!).withOpacity(0.1),
+                                  //     spreadRadius: 2,
+                                  //   )
+                                  // ],
+                                  color: getColor(item.color!)
+                                  .withOpacity(0.18), //withOpacity(0.05),
+                                  border: Border.all(color: getColor(item.color!), width: 0.5)
+                                  ),
                               // width: 60,
                               // height: 60,
                               child: InkWell(
-                                splashColor: getColor(item.color!).withOpacity(0.2),
+                                splashColor:
+                                    getColor(item.color!).withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(12),
                                 onTap: () => Navigator.of(context).pushNamed(
                                     NewCategorieScreen.routeName,
@@ -157,8 +160,18 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
-                                  child: Image.asset(item.symbol!,
+                                  child: 
+                                  // Stack(children: [
+                                  //   Image.asset(item.symbol!,
+                                  //     color: Colors.white),
+                                  //         Image.asset(item.symbol!,
+                                  //     color: getColor(item.color!)
+                                  //         .withOpacity(0.60)),
+                                  // ],)
+                                  
+                                      Image.asset(item.symbol!,
                                       color: getColor(item.color!)),
+                                          //.withOpacity(0.18)),
                                 ),
                               ),
                             ),

@@ -105,7 +105,7 @@ class _ManagePostingsState extends State<ManagePostings> {
                 color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
-        color: Theme.of(context).colorScheme.primaryVariant,
+        color: Theme.of(context).primaryColorDark
       ),
     );
     for (int i = 0; i < _listPosting.length; i++) {
@@ -126,7 +126,7 @@ class _ManagePostingsState extends State<ManagePostings> {
                     color: Theme.of(context).colorScheme.onPrimary),
               ),
             ),
-            color: Theme.of(context).colorScheme.primaryVariant,
+            color: Theme.of(context).primaryColorDark,
           ),
         );
         _listofListViewWidgets.add(_listViewWidget(_listPosting[i], context));

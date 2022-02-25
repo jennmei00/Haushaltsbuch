@@ -27,7 +27,7 @@ class AppDrawer extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 22,
+                    fontSize: 28,
                   ),
                 ),
               ),

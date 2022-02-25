@@ -246,18 +246,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     if (_formKey.currentState!.validate()) {
       final timeDifferenceToCreation =
           DateTime.now().difference(_creationDate).inHours;
-      print(AllData.accounts
-          .where((element) => element.id == widget.id)
-          .first
-          .bankBalance);
-      print(double.parse(_bankBalanceController.text));
-      print(AllData.accounts
-              .where((element) => element.id == widget.id)
-              .first
-              .bankBalance !=
-          double.parse(_bankBalanceController.text));
-      print(timeDifferenceToCreation > 1);
-      print(_creationDate);
       if (widget.id != '' &&
           AllData.accounts
                   .where((element) => element.id == widget.id)

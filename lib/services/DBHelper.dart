@@ -205,11 +205,11 @@ class DBHelper {
     await db.execute(
         "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Sonstiges Konto')");
     await db.execute(
-        "INSERT INTO Category VALUES('default', 'Sonstiges', 'assets/icons/category_icons/money-2.png', ${Color(0xff00695c).value.toString()})");
+        "INSERT INTO Category VALUES('default', 'Sonstiges', 'assets/icons/category_icons/money-2.png', ${Color(0xff00695c).value.toString()})");//${Color(0xff00695c).value.toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Handyvertrag', 'assets/icons/category_icons/smartphone.png', ${Color(0xff373737).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Handyvertrag', 'assets/icons/category_icons/smartphone.png', ${Color(0xff616161).value.toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Versicherung', 'assets/icons/category_icons/insurance.png', ${Color(0xff006978).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Versicherung', 'assets/icons/category_icons/insurance.png', ${Color(0xff00838f).value.toString()})");
     // await db.execute(
     //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Videostreaming', 'assets/icons/category_icons/video-streaming.png', ${Color(0xFFc62828).value.toString()})");
     // await db.execute(
@@ -223,11 +223,11 @@ class DBHelper {
     // await db.execute(
     //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Urlaub', 'assets/icons/category_icons/holiday.png', ${Color(0xff0277bd).value.toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Kleidung', 'assets/icons/category_icons/wardrobe.png', ${Color(0xFF78002e).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Kleidung', 'assets/icons/category_icons/wardrobe.png', ${Color(0xFFad1457).value.toString()})");
     // await db.execute(
     //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Apotheke', 'assets/icons/category_icons/medicine.png', ${Color(0xff004c40).value.toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Auto', 'assets/icons/category_icons/car.png', ${Color(0xff004ba0).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Auto', 'assets/icons/category_icons/car.png', ${Color(0xff1565c0).value.toString()})");
     // await db.execute(
     //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Haustier', 'assets/icons/category_icons/paw.png', ${Color(0xff5d4037).value.toString()})");
     // await db.execute(
@@ -235,9 +235,9 @@ class DBHelper {
     // await db.execute(
     //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Frisör', 'assets/icons/category_icons/scissors.png', ${Color(0xff455a64).value.toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Wohnen', 'assets/icons/category_icons/living-room.png', ${Color(0xffc67100).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Wohnen', 'assets/icons/category_icons/living-room.png', ${Color(0xffff8f00).value.toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Freizeit', 'assets/icons/category_icons/park.png', ${Color(0xff00600f).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Freizeit', 'assets/icons/category_icons/park.png', ${Color(0xff2e7d32).value.toString()})");
     await db.execute(
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Miete', 'assets/icons/category_icons/contract.png', ${Color(0xff00838f).value.toString()})");
     await db.execute(

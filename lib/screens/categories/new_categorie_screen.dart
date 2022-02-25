@@ -37,7 +37,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
       Category cat =
           AllData.categories.firstWhere((element) => element.id == widget.id);
       _titleController.text = '${cat.title}';
-      _iconcolor = cat.color as Color;
+      _iconcolor = getColor(cat.color as Color);
       _selectedIcon = cat.symbol == null ? '' : cat.symbol!;
     } else {
       _selectedIcon = Globals.imagePathsCategoryIcons[0];
