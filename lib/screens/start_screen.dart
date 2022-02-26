@@ -49,13 +49,9 @@ Future<void> _getImageList(BuildContext context) async {
 
 Future<void> _getThemeMode() async {
   var prefs = await SharedPreferences.getInstance();
-  if (prefs.getBool('darkMode') != null) {
-    Globals.isDarkmode = prefs.getBool('darkMode')!;
-  } else {
-    var brightness = SchedulerBinding.instance!.window.platformBrightness;
-    var isDarkMode = brightness == Brightness.dark;
-    Globals.isDarkmode = isDarkMode;
-  }
+  var brightness = SchedulerBinding.instance!.window.platformBrightness;
+  Globals.isDarkmode =
+      prefs.getBool('darkMode') ?? brightness == Brightness.dark;
 }
 
 class _StartScreenState extends State<StartScreen> {
@@ -106,8 +102,6 @@ class _StartScreenState extends State<StartScreen> {
                 elementPosting.standingOrder == null
                     ? false
                     : elementPosting.standingOrder?.id == element.id));
-        print('PRRRINT');
-        print(lastPosting?.date);
       } catch (ex) {}
 
       if (element.repetition == Repetition.weekly) {
@@ -196,7 +190,7 @@ class _StartScreenState extends State<StartScreen> {
         }
       }
     });
-    
+
     if (isUpdated) {
       showDialog(
           context: context,
