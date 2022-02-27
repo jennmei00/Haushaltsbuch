@@ -49,12 +49,13 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double bottomSheetSize = MediaQuery.of(context).size.height * 0.09;
+    double bottomSheetSize = MediaQuery.of(context).size.height * 0.1;
     return Scaffold(
       appBar: AppBar(
         title: Text('Verwaltungsfilter'),
       ),
       bottomSheet: BottomSheet(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         enableDrag: false,
         onClosing: () {},
         builder: (context) => Container(
@@ -65,6 +66,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
               ElevatedButton(
                 onPressed: () => Navigator.pop(context, []),
                 child: Text('Zurücksetzen'),
+                style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.primary),
               ),
               ElevatedButton(
                 onPressed: () {

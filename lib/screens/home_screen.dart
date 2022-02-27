@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(selectedMenuItem: 'home',),
       body: Center(
         child: Container(
           decoration: BoxDecoration(

@@ -95,7 +95,7 @@ class _AccountScreenState extends State<AccountScreen> {
           centerTitle: true,
           // backgroundColor: Theme.of(context).primaryColor),
         ),
-        drawer: AppDrawer(),
+        drawer: AppDrawer(selectedMenuItem: 'accounts'),
         body: AllData.accounts.length == 0
             ? NothingThere(textScreen: 'Noch keine Konten vorhanden :(')
             : Padding(
@@ -141,7 +141,8 @@ class _AccountScreenState extends State<AccountScreen> {
                             color:
                                 Globals.isDarkmode ? null : Color(0xffeeeeee),
                             child: ExpansionTile(
-                              //collapsedBackgroundColor: Theme.of(context).colorScheme.secondaryVariant,
+                              //backgroundColor: Theme.of(context).primaryColorDark,
+                              //collapsedBackgroundColor: Theme.of(context).primaryColorDark,
                               //textColor: Colors.black,
                               //iconColor: Colors.black,
                               initiallyExpanded: false,
@@ -286,6 +287,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                           arguments: e.id);
                                     }, 
                                     child: Card(
+                                      color: Theme.of(context).scaffoldBackgroundColor,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.zero,
                                       ),

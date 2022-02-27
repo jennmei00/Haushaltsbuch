@@ -9,6 +9,12 @@ import 'package:haushaltsbuch/screens/statistics/statistics_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 
 class AppDrawer extends StatelessWidget {
+  final String selectedMenuItem;
+
+  AppDrawer({
+    required this.selectedMenuItem,
+  });
+
   @override
   Widget build(BuildContext context) {
     // bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
@@ -27,14 +33,13 @@ class AppDrawer extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 28,
+                    fontSize: 24,
                   ),
                 ),
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).primaryColorDark,
               ),
-              
             ),
           ),
           //     SwitchListTile(
@@ -51,42 +56,50 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.home, size: 36),
             title: Text('Home', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 'home'),
+            selected: selectedMenuItem == 'home' ? true : false,
           ),
           ListTile(
             leading: Icon(Icons.switch_account, size: 36),
             title: Text('Konten', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 'accounts'),
+            selected: selectedMenuItem == 'accounts' ? true : false,
           ),
           ListTile(
             leading: Icon(Icons.category, size: 36),
             title: Text('Kategorien', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 'categories'),
+            selected: selectedMenuItem == 'categories' ? true : false,
           ),
           ListTile(
             leading: Icon(Icons.price_change, size: 36),
             title: Text('Buchen', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 'posting'),
+            selected: selectedMenuItem == 'posting' ? true : false,
           ),
           ListTile(
             leading: Icon(Icons.assignment, size: 36),
             title: Text('Daueraufträge', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 'standingorders'),
+            selected: selectedMenuItem == 'standingorders' ? true : false,
           ),
           ListTile(
             leading: Icon(Icons.stacked_bar_chart, size: 36),
             title: Text('Statistik', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 'statistic'),
+            selected: selectedMenuItem == 'statistic' ? true : false,
           ),
           ListTile(
             leading: Icon(Icons.request_page, size: 36),
             title: Text('Verwaltung', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 'management'),
+            selected: selectedMenuItem == 'management' ? true : false,
           ),
           ListTile(
             // isIOS? Icon(CupertinoIcons.settings) :
             leading: Icon(Icons.settings, size: 36),
             title: Text('Einstellungen', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 'settings'),
+            selected: selectedMenuItem == 'settings' ? true : false,
           ),
         ],
       ),

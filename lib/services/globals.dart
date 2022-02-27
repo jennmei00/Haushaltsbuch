@@ -11,7 +11,7 @@ class Globals {
 
   static Color dismissibleEditColorLight = Colors.orange;
   static Color dismissibleDeleteColorLight = Colors.red.shade900;
-  static Color dismissibleEditColorLDark = Color.fromARGB(255, 248, 180, 77);
+  static Color dismissibleEditColorLDark = Color.fromARGB(255, 197, 149, 76);
   static Color dismissibleDeleteColorDark = Colors.red.shade300;
 
 

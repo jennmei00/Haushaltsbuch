@@ -36,7 +36,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         centerTitle: true,
         // backgroundColor: Theme.of(context).primaryColor,
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(selectedMenuItem: 'categories',),
       body: AllData.categories.length == 0
           ? NothingThere(textScreen: 'Noch keine Kategorien vorhanden :(')
           : GridView.count(

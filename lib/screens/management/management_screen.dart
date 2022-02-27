@@ -90,7 +90,7 @@ class _ManagementScreenState extends State<ManagementScreen>
           controller: _tabController,
         ),
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(selectedMenuItem: 'management',),
       body: TabBarView(
         children: [
           ManagePostings(

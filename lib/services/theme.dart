@@ -30,8 +30,7 @@ final TextTheme textTheme = TextTheme(
 );
 
 final ColorScheme colorSchemeLight = ColorScheme.light(
-  primary: Color(
-      0xff880e4f), //I think this is the mainColor, for example the backgroundcolor of the appbar or the color of the progressindicator
+  primary: Color(0xff880e4f), //I think this is the mainColor, for example the backgroundcolor of the appbar or the color of the progressindicator
 
   // secondary: Color(
   //     0xff757575), //Color(0xff0097a7), //for example background of loatingActionButton of the AppBAr
@@ -65,8 +64,8 @@ final lightTheme = ThemeData(
 );
 
 final ColorScheme colorSchemeDark = ColorScheme.dark(
-  primary: Color(0xffc5e1a5),
-  secondary: Color(0xff689f38),
+  primary: Color(0xff7cc0d8),//Color(0xffc5e1a5),
+  secondary: Color(0xff3ba1c5),
   onPrimary: Colors.black,
   onSecondary: Colors.black,
   // primary: Color(0xff78AD68),
@@ -77,7 +76,7 @@ final ColorScheme colorSchemeDark = ColorScheme.dark(
 
 final darkTheme = ThemeData(
   primaryColor: colorSchemeDark.secondary,
-  primaryColorDark: Color(0xff94af76),
+  primaryColorDark: Color(0xff1a6985),//Color(0xff94af76),
   textTheme: textTheme,
   colorScheme: colorSchemeDark,
   scaffoldBackgroundColor: Colors.grey.shade900,

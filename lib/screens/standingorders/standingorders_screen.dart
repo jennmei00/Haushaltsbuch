@@ -64,7 +64,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
         centerTitle: true,
         // backgroundColor: Theme.of(context).primaryColor,
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(selectedMenuItem: 'standingorders',),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
@@ -90,7 +90,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                               color: Theme.of(context).colorScheme.onPrimary),
                         ),
                       ),
-                      color: Theme.of(context).colorScheme.primaryVariant,
+                      color: Theme.of(context).primaryColorDark,
                     ),
               Column(children: _soWeekly.map((e) => _soCard(e)).toList()),
               _soMonthly.length == 0
@@ -106,7 +106,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                               color: Theme.of(context).colorScheme.onPrimary),
                         ),
                       ),
-                      color: Theme.of(context).colorScheme.primaryVariant,
+                      color: Theme.of(context).primaryColorDark,
                     ),
               Column(children: _soMonthly.map((e) => _soCard(e)).toList()),
               _soQuarterly.length == 0
@@ -122,7 +122,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                               color: Theme.of(context).colorScheme.onPrimary),
                         ),
                       ),
-                      color: Theme.of(context).colorScheme.primaryVariant,
+                      color: Theme.of(context).primaryColorDark,
                     ),
               Column(children: _soQuarterly.map((e) => _soCard(e)).toList()),
               _soHalfYearly.length == 0
@@ -138,7 +138,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                               color: Theme.of(context).colorScheme.onPrimary),
                         ),
                       ),
-                      color: Theme.of(context).colorScheme.primaryVariant,
+                      color: Theme.of(context).primaryColorDark,
                     ),
               Column(children: _soHalfYearly.map((e) => _soCard(e)).toList()),
               _soYearly.length == 0
@@ -154,7 +154,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                               color: Theme.of(context).colorScheme.onPrimary),
                         ),
                       ),
-                      color: Theme.of(context).colorScheme.primaryVariant,
+                      color: Theme.of(context).primaryColorDark,
                     ),
               Column(children: _soYearly.map((e) => _soCard(e)).toList()),
             ]

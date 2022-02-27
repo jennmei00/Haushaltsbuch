@@ -19,7 +19,7 @@ class PostingScreen extends StatelessWidget {
           centerTitle: true,
           // backgroundColor: Theme.of(context).primaryColor,
         ),
-        drawer: AppDrawer(),
+        drawer: AppDrawer(selectedMenuItem: 'posting',),
         body: FractionallySizedBox(
           widthFactor: 1,
           child: Column(

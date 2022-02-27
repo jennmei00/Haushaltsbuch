@@ -33,7 +33,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
           controller: _tabController,
         ),
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(selectedMenuItem: 'statistic',),
       body: TabBarView(
         children: [
           LineChart(),

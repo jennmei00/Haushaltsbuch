@@ -95,7 +95,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
                 color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
-        color: Theme.of(context).colorScheme.primaryVariant,
+        color: Theme.of(context).primaryColorDark,
       ),
     );
     for (int i = 0; i < _listTransfer.length; i++) {
@@ -116,7 +116,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
                     color: Theme.of(context).colorScheme.onPrimary),
               ),
             ),
-            color: Theme.of(context).colorScheme.primaryVariant,
+            color: Theme.of(context).primaryColorDark,
           ),
         );
         _listofListViewWidgets.add(_listViewWidget(_listTransfer[i], context));
