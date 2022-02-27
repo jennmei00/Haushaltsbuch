@@ -31,7 +31,8 @@ void main() {
   ]);
   SharedPreferences.getInstance().then((prefs) {
     var brightness = SchedulerBinding.instance!.window.platformBrightness;
-    var darkModeOn = brightness == Brightness.dark; //prefs.getBool('darkMode') ?? true;
+    var darkModeOn = prefs.getBool('darkMode') ??
+        brightness == Brightness.dark; //brightness == Brightness.dark;
     runApp(Phoenix(
       child: ChangeNotifierProvider(
         create: (_) => ThemeNotifier(darkModeOn ? darkTheme : lightTheme),
