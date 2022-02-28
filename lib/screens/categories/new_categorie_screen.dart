@@ -64,203 +64,217 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
           )
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            //physics: NeverScrollableScrollPhysics(),//BouncingScrollPhysics(),
-            //padding: const EdgeInsets.all(10.0),
-            children: [
-              SizedBox(height: 10),
-              CustomTextField(
-                labelText: 'Kategoriename',
-                hintText: '',
-                controller: _titleController,
-                mandatory: true,
-                fieldname: 'categoryName',
-              ),
-              SizedBox(height: 10),
-              Divider(),
-              SizedBox(height: 10),
-              Text(
-                'Iconfarbe',
-                style: TextStyle(fontSize: 20),
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: GestureDetector(
-                  //Iconbutton(
-                  //highlightColor: Colors.transparent,
-                  onTap: () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return StatefulBuilder(builder: (context, setState) {
-                          return Popup(
-                            title: 'Color Picker',
-                            body: ColorPickerClass(_colorChanged, _iconcolor),
-                            saveButton: true,
-                            cancelButton: true,
-                            saveFunction: () {
-                              this.setState(() {
-                                _iconcolor = _onchangedColor;
-                              });
-                              Navigator.of(context).pop();
-                            },
-                          );
-                        });
-                      }),
-                  child: Icon(
-                    Icons.color_lens,
-                    color: _iconcolor,
-                    size: MediaQuery.of(context).size.width * 0.12,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              //physics: NeverScrollableScrollPhysics(),//BouncingScrollPhysics(),
+              //padding: const EdgeInsets.all(10.0),
+              children: [
+                SizedBox(height: 10),
+                CustomTextField(
+                  labelText: 'Kategoriename',
+                  hintText: '',
+                  controller: _titleController,
+                  mandatory: true,
+                  fieldname: 'categoryName',
+                ),
+                SizedBox(height: 10),
+                Divider(),
+                SizedBox(height: 10),
+                Text(
+                  'Iconfarbe',
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: GestureDetector(
+                    //Iconbutton(
+                    //highlightColor: Colors.transparent,
+                    onTap: () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                      ;
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(
+                                builder: (context, setState) {
+                              return Popup(
+                                title: 'Color Picker',
+                                body:
+                                    ColorPickerClass(_colorChanged, _iconcolor),
+                                saveButton: true,
+                                cancelButton: true,
+                                saveFunction: () {
+                                  this.setState(() {
+                                    _iconcolor = _onchangedColor;
+                                  });
+                                  Navigator.of(context).pop();
+                                },
+                              );
+                            });
+                          });
+                    },
+                    child: Icon(
+                      Icons.color_lens,
+                      color: _iconcolor,
+                      size: MediaQuery.of(context).size.width * 0.12,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10),
-              Divider(),
-              SizedBox(height: 10),
-              Text(
-                'Icon',
-                style: TextStyle(fontSize: 20),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: GridView.count(
-                  physics:
-                      BouncingScrollPhysics(), //NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(8),
-                  crossAxisCount: 4,
-                  crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
-                  mainAxisSpacing: 20,
-                  children: Globals.imagePathsCategoryIcons
-                      .map((item) => GestureDetector(
-                            onTap: () => setState(() {
-                              _selectedIcon = item;
-                            }),
-                            child: new Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                // boxShadow: [
-                                //   BoxShadow(
-                                //     blurRadius: _selectedIcon == item ? 5 : 5,
-                                //     color: _selectedIcon == item
-                                //         ? _iconcolor.withOpacity(0.2)
-                                //         : Theme.of(context)
-                                //             .colorScheme
-                                //             .onSurface
-                                //             .withOpacity(0.08),
-                                //     spreadRadius: _selectedIcon == item ? 2 : 1,
-                                //   )
-                                // ],
-                                color: _selectedIcon == item
-                                    ? _iconcolor.withOpacity(0.18)
-                                    : null,
-                              ),
-                              // height: MediaQuery.of(context).size.width * 0.34,
-                              // width: MediaQuery.of(context).size.width * 0.34,
-                              child: Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Image.asset(item,
-                                    color: _selectedIcon == item
-                                        ? _iconcolor
-                                        : Colors.grey
-                                            .shade500 //Theme.of(context).colorScheme.onSurface,
-                                    ),
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                  // children: Globals.imagePaths
-                  //     .map((item) => GestureDetector(
-                  //           onTap: () => setState(() {
-                  //             _selectedIcon = item;
-                  //           }),
-                  //           child: new Container(
-                  //             decoration: BoxDecoration(
-                  //               borderRadius: BorderRadius.circular(12),
-                  //               border: Border.all(
-                  //                 width: _selectedIcon == item ? 2.1 : 1.0,
-                  //                 color: _selectedIcon == item
-                  //                     ? Theme.of(context).primaryColor
-                  //                     : Colors.grey.shade700,
-                  //               ),
-                  //               color: Colors.grey.shade200,
-                  //             ),
-                  //             // height: MediaQuery.of(context).size.width * 0.34,
-                  //             // width: MediaQuery.of(context).size.width * 0.34,
-                  //             child: Padding(
-                  //               padding: const EdgeInsets.all(5),
-                  //               child: CircleAvatar(
-                  //                   radius: MediaQuery.of(context).size.width * 0.1,
-                  //                   backgroundColor: _iconcolor,
-                  //                   child: FractionallySizedBox(
-                  //                     widthFactor: 0.6,
-                  //                     heightFactor: 0.6,
-                  //                     child: Image.asset(
-                  //                       item,
-                  //                       color: _iconcolor.computeLuminance() > 0.15
-                  //                           ? Colors.black
-                  //                           : Colors.white,
-                  //                     ),
-                  //                   )),
-                  //             ),
-                  //           ),
-                  //         ))
-                  //     .toList(),
+                SizedBox(height: 10),
+                Divider(),
+                SizedBox(height: 10),
+                Text(
+                  'Icon',
+                  style: TextStyle(fontSize: 20),
                 ),
-              ),
-              SizedBox(height: 20),
-              // widget.id == '' || widget.id == 'default'
-              //     ? SizedBox()
-              //     : ElevatedButton(
-              //         style: ButtonStyle(
-              //           alignment: Alignment.centerLeft,
-              //           // textStyle: TextStyle(),
-              //           padding: MaterialStateProperty.all(EdgeInsets.only(left: 10, right: 10)),
-              //           backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.error),
-              //         ),
-              //         onPressed: () {
-              //           AllData.postings.forEach((element) async {
-              //             Posting newPosting = element;
-              //             newPosting.category = AllData.categories
-              //                 .firstWhere((element) => element.id == 'default');
-              //             await DBHelper.update('Posting', newPosting.toMap(),
-              //                 where: "ID = '${element.id}'");
-              //             AllData.postings[AllData.postings.indexWhere(
-              //                     (posting) => posting.id == element.id)] =
-              //                 newPosting;
-              //           });
-              //           AllData.standingOrders.forEach((element) async {
-              //             StandingOrder newSO = element;
-              //             newSO.category = AllData.categories
-              //                 .firstWhere((element) => element.id == 'default');
-              //             await DBHelper.update('StandingOrder', newSO.toMap(),
-              //                 where: "ID = '${element.id}'");
-              //             AllData.standingOrders[AllData.standingOrders
-              //                 .indexWhere((so) => so.id == element.id)] = newSO;
-              //           });
+                SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: GridView.count(
+                    physics:
+                        BouncingScrollPhysics(), //NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(8),
+                    crossAxisCount: 4,
+                    crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
+                    mainAxisSpacing: 20,
+                    children: Globals.imagePathsCategoryIcons
+                        .map((item) => GestureDetector(
+                              onTap: () => setState(() {
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
 
-              //           AllData.categories
-              //               .removeWhere((element) => element.id == widget.id);
-              //           DBHelper.delete('Category', where: "ID = '${widget.id}'");
+                                _selectedIcon = item;
+                              }),
+                              child: new Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  // boxShadow: [
+                                  //   BoxShadow(
+                                  //     blurRadius: _selectedIcon == item ? 5 : 5,
+                                  //     color: _selectedIcon == item
+                                  //         ? _iconcolor.withOpacity(0.2)
+                                  //         : Theme.of(context)
+                                  //             .colorScheme
+                                  //             .onSurface
+                                  //             .withOpacity(0.08),
+                                  //     spreadRadius: _selectedIcon == item ? 2 : 1,
+                                  //   )
+                                  // ],
+                                  color: _selectedIcon == item
+                                      ? _iconcolor.withOpacity(0.18)
+                                      : null,
+                                ),
+                                // height: MediaQuery.of(context).size.width * 0.34,
+                                // width: MediaQuery.of(context).size.width * 0.34,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Image.asset(item,
+                                      color: _selectedIcon == item
+                                          ? _iconcolor
+                                          : Colors.grey
+                                              .shade500 //Theme.of(context).colorScheme.onSurface,
+                                      ),
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                    // children: Globals.imagePaths
+                    //     .map((item) => GestureDetector(
+                    //           onTap: () => setState(() {
+                    //             _selectedIcon = item;
+                    //           }),
+                    //           child: new Container(
+                    //             decoration: BoxDecoration(
+                    //               borderRadius: BorderRadius.circular(12),
+                    //               border: Border.all(
+                    //                 width: _selectedIcon == item ? 2.1 : 1.0,
+                    //                 color: _selectedIcon == item
+                    //                     ? Theme.of(context).primaryColor
+                    //                     : Colors.grey.shade700,
+                    //               ),
+                    //               color: Colors.grey.shade200,
+                    //             ),
+                    //             // height: MediaQuery.of(context).size.width * 0.34,
+                    //             // width: MediaQuery.of(context).size.width * 0.34,
+                    //             child: Padding(
+                    //               padding: const EdgeInsets.all(5),
+                    //               child: CircleAvatar(
+                    //                   radius: MediaQuery.of(context).size.width * 0.1,
+                    //                   backgroundColor: _iconcolor,
+                    //                   child: FractionallySizedBox(
+                    //                     widthFactor: 0.6,
+                    //                     heightFactor: 0.6,
+                    //                     child: Image.asset(
+                    //                       item,
+                    //                       color: _iconcolor.computeLuminance() > 0.15
+                    //                           ? Colors.black
+                    //                           : Colors.white,
+                    //                     ),
+                    //                   )),
+                    //             ),
+                    //           ),
+                    //         ))
+                    //     .toList(),
+                  ),
+                ),
+                SizedBox(height: 20),
+                // widget.id == '' || widget.id == 'default'
+                //     ? SizedBox()
+                //     : ElevatedButton(
+                //         style: ButtonStyle(
+                //           alignment: Alignment.centerLeft,
+                //           // textStyle: TextStyle(),
+                //           padding: MaterialStateProperty.all(EdgeInsets.only(left: 10, right: 10)),
+                //           backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.error),
+                //         ),
+                //         onPressed: () {
+                //           AllData.postings.forEach((element) async {
+                //             Posting newPosting = element;
+                //             newPosting.category = AllData.categories
+                //                 .firstWhere((element) => element.id == 'default');
+                //             await DBHelper.update('Posting', newPosting.toMap(),
+                //                 where: "ID = '${element.id}'");
+                //             AllData.postings[AllData.postings.indexWhere(
+                //                     (posting) => posting.id == element.id)] =
+                //                 newPosting;
+                //           });
+                //           AllData.standingOrders.forEach((element) async {
+                //             StandingOrder newSO = element;
+                //             newSO.category = AllData.categories
+                //                 .firstWhere((element) => element.id == 'default');
+                //             await DBHelper.update('StandingOrder', newSO.toMap(),
+                //                 where: "ID = '${element.id}'");
+                //             AllData.standingOrders[AllData.standingOrders
+                //                 .indexWhere((so) => so.id == element.id)] = newSO;
+                //           });
 
-              //           ScaffoldMessenger.of(context).showSnackBar(
-              //               SnackBar(content: Text('Kategorie wurde gelöscht')));
+                //           AllData.categories
+                //               .removeWhere((element) => element.id == widget.id);
+                //           DBHelper.delete('Category', where: "ID = '${widget.id}'");
 
-              //           Navigator.of(context)
-              //             ..pop()
-              //             ..popAndPushNamed(CategoriesScreen.routeName);
-              //         },
-              //         child: Text(
-              //           'Kategorie löschen',
-              //           style: TextStyle(color: Theme.of(context).colorScheme.onError),
-              //         )),
-              //         SizedBox(height: 10),
-            ],
+                //           ScaffoldMessenger.of(context).showSnackBar(
+                //               SnackBar(content: Text('Kategorie wurde gelöscht')));
+
+                //           Navigator.of(context)
+                //             ..pop()
+                //             ..popAndPushNamed(CategoriesScreen.routeName);
+                //         },
+                //         child: Text(
+                //           'Kategorie löschen',
+                //           style: TextStyle(color: Theme.of(context).colorScheme.onError),
+                //         )),
+                //         SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
       ),

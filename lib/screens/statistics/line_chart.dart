@@ -114,54 +114,59 @@ class _LineChartState extends State<LineChart> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: EdgeInsets.only(left: 8),
-              child: Text(
-                'Zeitraum',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                '${formatDate(_dateRange.start)} - ' +
-                    '\n ${formatDate(_dateRange.end)}',
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                softWrap: false,
-                textAlign: TextAlign.end,
-              ),
-            ),
-            SizedBox(width: 10),
-            IconButton(
-              onPressed: () async {
-                final picked = await showDateRangePicker(
-                  context: context,
-                  firstDate: firstAccountCreation,
-                  lastDate: DateTime.now(),
-                );
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Card(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: 8),
+                  child: Text(
+                    'Zeitraum',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    '${formatDate(_dateRange.start)} - ' +
+                        '\n ${formatDate(_dateRange.end)}',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    softWrap: false,
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+                SizedBox(width: 10),
+                IconButton(
+                  onPressed: () async {
+                    final picked = await showDateRangePicker(
+                      context: context,
+                      firstDate: firstAccountCreation,
+                      lastDate: DateTime.now(),
+                    );
 
-                if (picked != null)
-                  setState(() {
-                    _dateRange = picked;
-                  });
+                    if (picked != null)
+                      setState(() {
+                        _dateRange = picked;
+                      });
 
-                _oneYearIsDisabled = false;
-                _sixMonthsIsDisabled = false;
-                _threeMonthsIsDisabled = false;
-                _oneMonthIsDisabled = false;
-              },
-              icon: Icon(
-                Icons.calendar_today,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+                    _oneYearIsDisabled = false;
+                    _sixMonthsIsDisabled = false;
+                    _threeMonthsIsDisabled = false;
+                    _oneMonthIsDisabled = false;
+                  },
+                  icon: Icon(
+                    Icons.calendar_today,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-        Divider(),
+        // Divider(),
         Wrap(
           spacing: 8.0,
           children: [
@@ -236,44 +241,48 @@ class _LineChartState extends State<LineChart> {
                 child: Text('1 Monat')),
           ],
         ),
-        Expanded(
-          child: SfCartesianChart(
-            plotAreaBorderWidth: 0,
-            legend: Legend(
-              isVisible: true,
-              overflowMode: LegendItemOverflowMode.wrap,
-            ),
-            tooltipBehavior: TooltipBehavior(enable: true),
-            // zoomPanBehavior: ZoomPanBehavior(
-            //   enablePanning: true,
-            // ),
+        Container(
+          height: 400,
+          padding: const EdgeInsets.all(5.0),
+          child: Card(
+            child: SfCartesianChart(
+              plotAreaBorderWidth: 0,
+              legend: Legend(
+                isVisible: true,
+                overflowMode: LegendItemOverflowMode.wrap,
+              ),
+              tooltipBehavior: TooltipBehavior(enable: true),
+              // zoomPanBehavior: ZoomPanBehavior(
+              //   enablePanning: true,
+              // ),
 
-            primaryXAxis: DateTimeAxis(
-              autoScrollingMode: AutoScrollingMode.end,
-              minimum: getMondayOfWeek(_dateRange.start),
-              maximum: _dateRange.end,
-              intervalType: _dateRange.duration > Duration(days: 60)
-                  ? DateTimeIntervalType.months
-                  : DateTimeIntervalType.days,
-              interval: _dateRange.duration > Duration(days: 60) ? 1 : 7,
-              dateFormat: _dateRange.duration > Duration(days: 60)
-                  ? DateFormat("MMM yy", "de")
-                  : DateFormat("dd.MMM yy", "de"), // weeklyDateFormat()
-              labelRotation: 50,
-              majorTickLines: const MajorTickLines(color: Colors.transparent),
-              // autoScrollingDeltaType: DateTimeIntervalType.months,
-              // autoScrollingDelta: 1,
-              // enableAutoIntervalOnZooming: true
+              primaryXAxis: DateTimeAxis(
+                autoScrollingMode: AutoScrollingMode.end,
+                minimum: getMondayOfWeek(_dateRange.start),
+                maximum: _dateRange.end,
+                intervalType: _dateRange.duration > Duration(days: 60)
+                    ? DateTimeIntervalType.months
+                    : DateTimeIntervalType.days,
+                interval: _dateRange.duration > Duration(days: 60) ? 1 : 7,
+                dateFormat: _dateRange.duration > Duration(days: 60)
+                    ? DateFormat("MMM yy", "de")
+                    : DateFormat("dd.MMM yy", "de"), // weeklyDateFormat()
+                labelRotation: 50,
+                majorTickLines: const MajorTickLines(color: Colors.transparent),
+                // autoScrollingDeltaType: DateTimeIntervalType.months,
+                // autoScrollingDelta: 1,
+                // enableAutoIntervalOnZooming: true
+              ),
+              primaryYAxis: NumericAxis(
+                majorTickLines: const MajorTickLines(color: Colors.transparent),
+                axisLine: const AxisLine(width: 0),
+                numberFormat: NumberFormat.currency(locale: "de", symbol: "€"),
+                // minimum: 0,
+                // maximum: 100
+              ),
+              series: _getDefaultLineSeries(),
+              // ),
             ),
-            primaryYAxis: NumericAxis(
-              majorTickLines: const MajorTickLines(color: Colors.transparent),
-              axisLine: const AxisLine(width: 0),
-              numberFormat: NumberFormat.currency(locale: "de", symbol: "€"),
-              // minimum: 0,
-              // maximum: 100
-            ),
-            series: _getDefaultLineSeries(),
-            // ),
           ),
         ),
       ],

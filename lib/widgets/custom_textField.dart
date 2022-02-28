@@ -5,23 +5,29 @@ class CustomTextField extends StatelessWidget {
   final String labelText;
   final String hintText;
   final TextInputType keyboardType;
+  final TextInputAction textInputAction;
   final TextEditingController controller;
   final bool mandatory; //check for mandatory field
   final String fieldname; //substitute for an id
+  // final FocusNode focusNode;
 
   CustomTextField({
     this.labelText: '',
     this.hintText: '',
     this.keyboardType: TextInputType.text,
+    this.textInputAction: TextInputAction.done,
     required this.controller,
     required this.mandatory,
     required this.fieldname,
+    // this.focusNode: FocusNode(),
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: this.keyboardType,
+      textInputAction: this.textInputAction,
+      // focusNode: this.focusNode,
       controller: this.controller,
       validator: (value) {
         if ((value == null || value.isEmpty) && mandatory) {

@@ -114,302 +114,321 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
           ),
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(10.0),
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Text('Datum:'),
-                // Row(
-                //   children: [
-                //     Text(
-                //       '${DateFormat.yMMMd().format(_incomeDateTime)}',
-                //     ),
-                //     //'${_incomeDateTime.day}. ${_incomeDateTime.month}. ${_incomeDateTime.year}'),
-                //     IconButton(
-                //       icon: Icon(Icons.date_range),
-                //       onPressed: () {
-                //         showDatePicker(
-                //           context: context,
-                //           initialDate: _incomeDateTime,
-                //           firstDate:
-                //               DateTime.now().subtract(Duration(days: 365)),
-                //           lastDate: DateTime.now().add(Duration(days: 365)),
-                //         ).then(
-                //           (value) {
-                //             if (value != null)
-                //               setState(() => _incomeDateTime = value);
-                //           },
-                //         );
-                //       },
-                //     ),
-                //   ],
-                // ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            widget.id == ''
-                ? SizedBox(
-                    height: 0,
-                  )
-                : FractionallySizedBox(
-                    widthFactor: 0.9,
-                    child: CupertinoSlidingSegmentedControl(
-                      children: <Object, Widget>{
-                        0: Text('Einnahme'),
-                        1: Text('Ausgabe')
-                      },
-                      onValueChanged: (val) {
-                        setState(() {
-                          groupValueBuchungsart = val as int;
-                          postingType =
-                              PostingType.values[groupValueBuchungsart] ==
-                                      PostingType.expense
-                                  ? 'Ausgabe'
-                                  : 'Einnahme';
-                        });
-                      },
-                      groupValue: groupValueBuchungsart,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            physics: BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(10.0),
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Text('Datum:'),
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       '${DateFormat.yMMMd().format(_incomeDateTime)}',
+                  //     ),
+                  //     //'${_incomeDateTime.day}. ${_incomeDateTime.month}. ${_incomeDateTime.year}'),
+                  //     IconButton(
+                  //       icon: Icon(Icons.date_range),
+                  //       onPressed: () {
+                  //         showDatePicker(
+                  //           context: context,
+                  //           initialDate: _incomeDateTime,
+                  //           firstDate:
+                  //               DateTime.now().subtract(Duration(days: 365)),
+                  //           lastDate: DateTime.now().add(Duration(days: 365)),
+                  //         ).then(
+                  //           (value) {
+                  //             if (value != null)
+                  //               setState(() => _incomeDateTime = value);
+                  //           },
+                  //         );
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              widget.id == ''
+                  ? SizedBox(
+                      height: 0,
+                    )
+                  : FractionallySizedBox(
+                      widthFactor: 0.9,
+                      child: CupertinoSlidingSegmentedControl(
+                        children: <Object, Widget>{
+                          0: Text('Einnahme'),
+                          1: Text('Ausgabe')
+                        },
+                        onValueChanged: (val) {
+                          setState(() {
+                            groupValueBuchungsart = val as int;
+                            postingType =
+                                PostingType.values[groupValueBuchungsart] ==
+                                        PostingType.expense
+                                    ? 'Ausgabe'
+                                    : 'Einnahme';
+                          });
+                        },
+                        groupValue: groupValueBuchungsart,
+                      ),
+                    ),
+              SizedBox(height: 20),
+              // Text('Konto wählen:'),
+              // SizedBox(height: 10),
+              DropDown(
+                onChanged: (newValue) {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  _selectedItem = newValue as ListItem;
+                  setState(() {});
+                },
+                dropdownItems: _accountDropDownItems,
+                listItemValue: _selectedItem == null ? null : _selectedItem!.id,
+                dropdownHintText: 'Konto',
+              ),
+              _selectedItem == null && widget.id != ''
+                  ? Text('Das eigentliche Konto wurde gelöscht')
+                  : SizedBox(),
+              SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Betrag',
+                hintText: 'in €',
+                keyboardType: TextInputType.number,
+                controller: _amountController,
+                mandatory: true,
+                fieldname: 'amount',
+              ),
+              SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Bezeichnung',
+                hintText: '',
+                controller: _titleController,
+                mandatory: true,
+                fieldname: 'title',
+              ),
+              SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Beschreibung',
+                hintText: '',
+                controller: _descriptionController,
+                mandatory: false,
+                fieldname: 'description',
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: 100,
+                    height: 120,
+                    child: CategoryItem(
+                      categoryItem: _setCategory,
                     ),
                   ),
-            SizedBox(height: 20),
-            // Text('Konto wählen:'),
-            // SizedBox(height: 10),
-            DropDown(
-              onChanged: (newValue) {
-                _selectedItem = newValue as ListItem;
-                setState(() {});
-              },
-              dropdownItems: _accountDropDownItems,
-              listItemValue: _selectedItem == null ? null : _selectedItem!.id,
-              dropdownHintText: 'Konto',
-            ),
-            _selectedItem == null && widget.id != ''
-                ? Text('Das eigentliche Konto wurde gelöscht')
-                : SizedBox(),
-            SizedBox(height: 20),
-            CustomTextField(
-              labelText: 'Betrag',
-              hintText: 'in €',
-              keyboardType: TextInputType.number,
-              controller: _amountController,
-              mandatory: true,
-              fieldname: 'amount',
-            ),
-            SizedBox(height: 20),
-            CustomTextField(
-              labelText: 'Bezeichnung',
-              hintText: '',
-              controller: _titleController,
-              mandatory: true,
-              fieldname: 'title',
-            ),
-            SizedBox(height: 20),
-            CustomTextField(
-              labelText: 'Beschreibung',
-              hintText: '',
-              controller: _descriptionController,
-              mandatory: false,
-              fieldname: 'description',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: 100,
-                  height: 120,
-                  child: CategoryItem(
-                    categoryItem: _setCategory,
-                  ),
-                ),
-                ElevatedButton(
-                  child: Text('Kategorie ändern'),
-                  // style: ButtonStyle(
-                  //   backgroundColor: MaterialStateProperty.all(
-                  //       Theme.of(context).primaryColor),
-                  // ),
-                  onPressed: () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return StatefulBuilder(builder: (context, setState) {
-                          return Popup(
-                            title: 'Kategorien',
-                            body: Container(
-                              //color: Colors.blue,
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              height: MediaQuery.of(context).size.height * 0.48,
-                              width: MediaQuery.of(context).size.width * 1,
-                              child: GridView.count(
-                                scrollDirection: Axis.vertical,
-                                childAspectRatio: 0.7,//MediaQuery.of(context)
+                  ElevatedButton(
+                    child: Text('Kategorie ändern'),
+                    // style: ButtonStyle(
+                    //   backgroundColor: MaterialStateProperty.all(
+                    //       Theme.of(context).primaryColor),
+                    // ),
+                    onPressed: () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                      ;
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(
+                                builder: (context, setState) {
+                              return Popup(
+                                title: 'Kategorien',
+                                body: Container(
+                                  //color: Colors.blue,
+                                  padding: EdgeInsets.only(left: 5, right: 5),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.48,
+                                  width: MediaQuery.of(context).size.width * 1,
+                                  child: GridView.count(
+                                    scrollDirection: Axis.vertical,
+                                    childAspectRatio:
+                                        0.7, //MediaQuery.of(context)
                                     //     .size
                                     //     .width /
                                     // (MediaQuery.of(context).size.height / 1.6),
-                                padding: EdgeInsets.all(10),
-                                crossAxisCount: 3,
-                                crossAxisSpacing:
-                                    MediaQuery.of(context).size.width * 0.04,
-                                mainAxisSpacing: 12,
-                                children: AllData.categories
-                                    .map((item) => CategoryItem(
-                                          categoryItem: item,
-                                          selectedCatID: _selectedCategoryID,
-                                          onTapFunction: () => setState(() {
-                                            _selectedCategoryID = '${item.id}';
-                                            _selectedCategory = item;
-                                          }),
-                                        ))
-                                    .toList(),
-                              ),
-                            ),
-                            saveButton: true,
-                            cancelButton: true,
-                            saveFunction: () {
-                              this.setState(() {
-                                _setCategory = _selectedCategory;
-                              });
-                              Navigator.of(context).pop();
-                            },
-                          );
-                        });
-                      }),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Datum:'),
-                Row(
-                  children: [
-                    Text(formatDate(_incomeDateTime)),
-                    IconButton(
-                        icon: Icon(Icons.date_range),
-                        onPressed: () {
-                          showDatePicker(
-                            context: context,
-                            initialDate: _incomeDateTime,
-                            firstDate:
-                                DateTime.now().subtract(Duration(days: 365)),
-                            lastDate: DateTime.now().add(Duration(days: 365)),
-                          ).then(
-                            (value) {
-                              if (value != null)
-                                setState(() => _incomeDateTime = value);
-                            },
-                          );
-                        }),
-                  ],
-                ),
-              ],
-            ),
-            Divider(),
-            // widget.id == '' ? SizedBox() : Divider(),
-            // widget.id == ''
-            //     ? SizedBox()
-            //     : Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //         children: [
-            //           Text(
-            //             'Einnahme',
-            //             style: TextStyle(color: Colors.green),
-            //           ),
-            //           Switch(
-            //             value: _postingSwitch,
-            //             onChanged: (val) {
-            //               setState(() {
-            //                 _postingSwitch = val;
-            //               });
-            //             },
-            //             activeColor: Colors.red,
-            //             activeTrackColor: Colors.grey,
-            //             inactiveThumbColor: Colors.green,
-            //             inactiveTrackColor: Colors.grey,
-            //           ),
-            //           Text(
-            //             'Ausgabe',
-            //             style: TextStyle(color: Colors.red),
-            //           ),
-            //         ],
-            //       )
-            // Stack(
-            //   children: [
-            //     Container(
-            //       padding: EdgeInsets.only(top: 10),
-            //       alignment: Alignment.centerRight,
-            //       child: Switch(
-            //           value: _standingorderSwitch,
-            //           onChanged: (value) {
-            //             setState(() {
-            //               _standingorderSwitch = value;
-            //             });
-            //           }),
-            //     ),
-            //Buchung ohne Dauerauftragoption, da man Dauerauftrag extra anlegen kann!
-            // ExpansionTile(
-            //   childrenPadding: EdgeInsets.only(left: 40),
-            //   title: Text('Dauerauftrag'),
-            //   initiallyExpanded: _standingorderSwitch,
-            //   trailing: Text(''),
-            //   onExpansionChanged: (value) {
-            //     setState(() {
-            //       _standingorderSwitch = value;
-            //     });
-            //   },
-            //   children: [
-            //     Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: [
-            //         Text('Beginn:'),
-            //         Row(
-            //           children: [
-            //             Text(
-            //                 '${_beginSO.day}. ${_beginSO.month}. ${_beginSO.year}'),
-            //             IconButton(
-            //               icon: Icon(Icons.date_range),
-            //               onPressed: () {
-            //                 showDatePicker(
-            //                   context: context,
-            //                   initialDate: _beginSO,
-            //                   firstDate: DateTime.now()
-            //                       .subtract(Duration(days: 365)),
-            //                   lastDate:
-            //                       DateTime.now().add(Duration(days: 365)),
-            //                 ).then((value) =>
-            //                     setState(() => _beginSO = value!));
-            //               },
-            //             ),
-            //           ],
-            //         ),
-            //       ],
-            //     ),
-            //     Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: [
-            //         Text('Wiederholung'),
-            //         TextButton(
-            //           onPressed: () => _repeatStandingorder(),
-            //           child: Text('$_repeatValue'),
-            //         ),
-            //       ],
-            //     ),
-            //   ],
-            // ),
-          ],
+                                    padding: EdgeInsets.all(10),
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing:
+                                        MediaQuery.of(context).size.width *
+                                            0.04,
+                                    mainAxisSpacing: 12,
+                                    children: AllData.categories
+                                        .map((item) => CategoryItem(
+                                              categoryItem: item,
+                                              selectedCatID:
+                                                  _selectedCategoryID,
+                                              onTapFunction: () => setState(() {
+                                                _selectedCategoryID =
+                                                    '${item.id}';
+                                                _selectedCategory = item;
+                                              }),
+                                            ))
+                                        .toList(),
+                                  ),
+                                ),
+                                saveButton: true,
+                                cancelButton: true,
+                                saveFunction: () {
+                                  this.setState(() {
+                                    _setCategory = _selectedCategory;
+                                  });
+                                  Navigator.of(context).pop();
+                                },
+                              );
+                            });
+                          });
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('Datum:'),
+                  Row(
+                    children: [
+                      Text(formatDate(_incomeDateTime)),
+                      IconButton(
+                          icon: Icon(Icons.date_range),
+                          onPressed: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+
+                            showDatePicker(
+                              context: context,
+                              initialDate: _incomeDateTime,
+                              firstDate:
+                                  DateTime.now().subtract(Duration(days: 365)),
+                              lastDate: DateTime.now().add(Duration(days: 365)),
+                            ).then(
+                              (value) {
+                                if (value != null)
+                                  setState(() => _incomeDateTime = value);
+                              },
+                            );
+                          }),
+                    ],
+                  ),
+                ],
+              ),
+              Divider(),
+              // widget.id == '' ? SizedBox() : Divider(),
+              // widget.id == ''
+              //     ? SizedBox()
+              //     : Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //         children: [
+              //           Text(
+              //             'Einnahme',
+              //             style: TextStyle(color: Colors.green),
+              //           ),
+              //           Switch(
+              //             value: _postingSwitch,
+              //             onChanged: (val) {
+              //               setState(() {
+              //                 _postingSwitch = val;
+              //               });
+              //             },
+              //             activeColor: Colors.red,
+              //             activeTrackColor: Colors.grey,
+              //             inactiveThumbColor: Colors.green,
+              //             inactiveTrackColor: Colors.grey,
+              //           ),
+              //           Text(
+              //             'Ausgabe',
+              //             style: TextStyle(color: Colors.red),
+              //           ),
+              //         ],
+              //       )
+              // Stack(
+              //   children: [
+              //     Container(
+              //       padding: EdgeInsets.only(top: 10),
+              //       alignment: Alignment.centerRight,
+              //       child: Switch(
+              //           value: _standingorderSwitch,
+              //           onChanged: (value) {
+              //             setState(() {
+              //               _standingorderSwitch = value;
+              //             });
+              //           }),
+              //     ),
+              //Buchung ohne Dauerauftragoption, da man Dauerauftrag extra anlegen kann!
+              // ExpansionTile(
+              //   childrenPadding: EdgeInsets.only(left: 40),
+              //   title: Text('Dauerauftrag'),
+              //   initiallyExpanded: _standingorderSwitch,
+              //   trailing: Text(''),
+              //   onExpansionChanged: (value) {
+              //     setState(() {
+              //       _standingorderSwitch = value;
+              //     });
+              //   },
+              //   children: [
+              //     Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text('Beginn:'),
+              //         Row(
+              //           children: [
+              //             Text(
+              //                 '${_beginSO.day}. ${_beginSO.month}. ${_beginSO.year}'),
+              //             IconButton(
+              //               icon: Icon(Icons.date_range),
+              //               onPressed: () {
+              //                 showDatePicker(
+              //                   context: context,
+              //                   initialDate: _beginSO,
+              //                   firstDate: DateTime.now()
+              //                       .subtract(Duration(days: 365)),
+              //                   lastDate:
+              //                       DateTime.now().add(Duration(days: 365)),
+              //                 ).then((value) =>
+              //                     setState(() => _beginSO = value!));
+              //               },
+              //             ),
+              //           ],
+              //         ),
+              //       ],
+              //     ),
+              //     Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text('Wiederholung'),
+              //         TextButton(
+              //           onPressed: () => _repeatStandingorder(),
+              //           child: Text('$_repeatValue'),
+              //         ),
+              //       ],
+              //     ),
+              //   ],
+              // ),
+            ],
+          ),
+          // ],
+          // ),
         ),
-        // ],
-        // ),
       ),
     );
   }

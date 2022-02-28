@@ -97,139 +97,153 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
           )
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(10.0),
-          physics: BouncingScrollPhysics(),
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            CustomTextField(
-              labelText: 'Konto',
-              hintText: 'Kontoname',
-              controller: _titleController,
-              mandatory: true,
-              fieldname: 'account',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CustomTextField(
-              labelText: 'Kontostand',
-              hintText: 'Aktueller Kontostand',
-              controller: _bankBalanceController,
-              keyboardType: TextInputType.number,
-              mandatory: true,
-              fieldname: 'accountBalance',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CustomTextField(
-              labelText: 'Beschreibung',
-              hintText: 'Kontobeschreibung',
-              controller: _descriptionController,
-              mandatory: false,
-              fieldname: 'description',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            DropDown(
-              onChanged: (newValue) {
-                _selectedItem = newValue as ListItem;
-                setState(() {});
-              },
-              dropdownItems: _accountTypeDropDownItems,
-              listItemValue: _selectedItem == null ? null : _selectedItem!.id,
-              dropdownHintText: 'Kontoart',
-            ),
-            SizedBox(height: 10),
-            // Divider(),
-            SizedBox(height: 10),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                'Iconfarbe',
-                style: TextStyle(fontSize: 20),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: const EdgeInsets.all(10.0),
+            physics: BouncingScrollPhysics(),
+            children: [
+              SizedBox(
+                height: 10,
               ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: GestureDetector(
-                //Iconbutton(
-                //highlightColor: Colors.transparent,
-                onTap: () => showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return StatefulBuilder(builder: (context, setState) {
-                        return Popup(
-                          title: 'Color Picker',
-                          body: ColorPickerClass(_colorChanged, _iconcolor),
-                          saveButton: true,
-                          cancelButton: true,
-                          saveFunction: () {
-                            this.setState(() {
-                              _iconcolor = _onchangedColor;
-                            });
-                            Navigator.of(context).pop();
-                          },
-                        );
-                      });
-                    }),
-                child: Icon(
-                  Icons.color_lens,
-                  color: _iconcolor,
-                  size: MediaQuery.of(context).size.width * 0.14,
+              CustomTextField(
+                labelText: 'Konto',
+                hintText: 'Kontoname',
+                controller: _titleController,
+                mandatory: true,
+                fieldname: 'account',
+                textInputAction: TextInputAction.next,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CustomTextField(
+                labelText: 'Kontostand',
+                hintText: 'Aktueller Kontostand',
+                controller: _bankBalanceController,
+                keyboardType: TextInputType.number,
+                mandatory: true,
+                fieldname: 'accountBalance',
+                textInputAction: TextInputAction.next
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CustomTextField(
+                labelText: 'Beschreibung',
+                hintText: 'Kontobeschreibung',
+                controller: _descriptionController,
+                mandatory: false,
+                fieldname: 'description',
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              DropDown(
+                onChanged: (newValue) {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  _selectedItem = newValue as ListItem;
+                  setState(() {});
+                },
+                dropdownItems: _accountTypeDropDownItems,
+                listItemValue: _selectedItem == null ? null : _selectedItem!.id,
+                dropdownHintText: 'Kontoart',
+              ),
+              SizedBox(height: 10),
+              // Divider(),
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  'Iconfarbe',
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            Divider(),
-            SizedBox(height: 10),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                'Icon',
-                style: TextStyle(fontSize: 20),
+              SizedBox(
+                width: double.infinity,
+                child: GestureDetector(
+                  //Iconbutton(
+                  //highlightColor: Colors.transparent,
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(new FocusNode());
+
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return StatefulBuilder(builder: (context, setState) {
+                            return Popup(
+                              title: 'Color Picker',
+                              body: ColorPickerClass(_colorChanged, _iconcolor),
+                              saveButton: true,
+                              cancelButton: true,
+                              saveFunction: () {
+                                this.setState(() {
+                                  _iconcolor = _onchangedColor;
+                                });
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          });
+                        });
+                  },
+                  child: Icon(
+                    Icons.color_lens,
+                    color: _iconcolor,
+                    size: MediaQuery.of(context).size.width * 0.14,
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            GridView.count(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.all(8),
-              crossAxisCount: 4,
-              crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
-              mainAxisSpacing: 20,
-              children: Globals.imagePathsAccountIcons
-                  .map((item) => GestureDetector(
-                        onTap: () => setState(() {
-                          _selectedIcon = item;
-                        }),
-                        child: new Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: _selectedIcon == item
-                                ? _iconcolor.withOpacity(0.18)
-                                : null,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Container(
-                              child: Image.asset(item,
-                                  color: _selectedIcon == item
-                                      ? _iconcolor
-                                      : Colors.grey.shade500),
+              SizedBox(height: 10),
+              Divider(),
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  'Icon',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              SizedBox(height: 10),
+              GridView.count(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: EdgeInsets.all(8),
+                crossAxisCount: 4,
+                crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
+                mainAxisSpacing: 20,
+                children: Globals.imagePathsAccountIcons
+                    .map((item) => GestureDetector(
+                          onTap: () => setState(() {
+                            _selectedIcon = item;
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                          }),
+                          child: new Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: _selectedIcon == item
+                                  ? _iconcolor.withOpacity(0.18)
+                                  : null,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Container(
+                                child: Image.asset(item,
+                                    color: _selectedIcon == item
+                                        ? _iconcolor
+                                        : Colors.grey.shade500),
+                              ),
                             ),
                           ),
-                        ),
-                      ))
-                  .toList(),
-            ),
-          ],
+                        ))
+                    .toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );

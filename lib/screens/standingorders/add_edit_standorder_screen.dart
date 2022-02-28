@@ -102,237 +102,259 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
           )
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(10.0),
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            FractionallySizedBox(
-              widthFactor: 0.9,
-              child: CupertinoSlidingSegmentedControl(
-                children: <Object, Widget>{
-                  0: Text('Einnahme'),
-                  1: Text('Ausgabe')
-                },
-                onValueChanged: (val) {
-                  setState(() {
-                    _groupValue_buchungsart = val as int;
-                  });
-                },
-                groupValue: _groupValue_buchungsart,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            physics: BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(10.0),
+            children: [
+              SizedBox(
+                height: 10,
               ),
-            ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Text('Beginn:'),
-            //     Row(
-            //       children: [
-            //         Text(formatDate(_dateTime)),
-            //         IconButton(
-            //           icon: Icon(Icons.date_range),
-            //           onPressed: () {
-            //             showDatePicker(
-            //               context: context,
-            //               initialDate: _dateTime,
-            //               firstDate:
-            //                   DateTime.now().subtract(Duration(days: 365)),
-            //               lastDate: DateTime.now().add(Duration(days: 365)),
-            //             ).then((value) => setState(() => _dateTime = value!));
-            //           },
-            //         ),
-            //       ],
-            //     ),
-            //   ],
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Text('Wiederholung'),
-            //     TextButton(
-            //       onPressed: () => _repeatStandingorder(),
-            //       child: Text('$_repeatValue'),
-            //     ),
-            //   ],
-            // ),
-            SizedBox(height: 20),
-            DropDown(
-              onChanged: (newValue) {
-                _selectedItem = newValue as ListItem;
-                setState(() {});
-              },
-              dropdownItems: _accountDropDownItems,
-              listItemValue: _selectedItem == null ? null : _selectedItem!.id,
-              dropdownHintText: 'Konto',
-            ),
-            SizedBox(height: 20),
-            CustomTextField(
-              labelText: 'Betrag',
-              hintText: 'in €',
-              keyboardType: TextInputType.number,
-              controller: _amountController,
-              mandatory: true,
-              fieldname: 'amount',
-            ),
-            SizedBox(height: 20),
-            CustomTextField(
-              labelText: 'Bezeichnung',
-              hintText: '',
-              controller: _titleController,
-              mandatory: true,
-              fieldname: 'title',
-            ),
-            SizedBox(height: 20),
-            CustomTextField(
-              labelText: 'Beschreibung',
-              hintText: '',
-              controller: _descriptionController,
-              mandatory: false,
-              fieldname: 'description',
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: 100,
-                  height: 120,
-                  child: CategoryItem(
-                    categoryItem: _setCategory,
-                  ),
+              FractionallySizedBox(
+                widthFactor: 0.9,
+                child: CupertinoSlidingSegmentedControl(
+                  children: <Object, Widget>{
+                    0: Text('Einnahme'),
+                    1: Text('Ausgabe')
+                  },
+                  onValueChanged: (val) {
+                    FocusScope.of(context).requestFocus(new FocusNode());
+                    setState(() {
+                      _groupValue_buchungsart = val as int;
+                    });
+                  },
+                  groupValue: _groupValue_buchungsart,
                 ),
-                ElevatedButton(
-                  child: Text('Kategorie ändern'),
-                  // style: ButtonStyle(
-                  //     backgroundColor: MaterialStateProperty.all(
-                  //         Theme.of(context).colorScheme.primary)),
-                  onPressed: () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return StatefulBuilder(builder: (context, setState) {
-                          return Popup(
-                            title: 'Kategorien',
-                            body: Container(
-                              //color: Colors.blue,
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              height: MediaQuery.of(context).size.height * 0.48,
-                              width: MediaQuery.of(context).size.width * 1,
-                              child: GridView.count(
-                                scrollDirection: Axis.vertical,
-                                childAspectRatio: 0.7,//MediaQuery.of(context)
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text('Beginn:'),
+              //     Row(
+              //       children: [
+              //         Text(formatDate(_dateTime)),
+              //         IconButton(
+              //           icon: Icon(Icons.date_range),
+              //           onPressed: () {
+              //             showDatePicker(
+              //               context: context,
+              //               initialDate: _dateTime,
+              //               firstDate:
+              //                   DateTime.now().subtract(Duration(days: 365)),
+              //               lastDate: DateTime.now().add(Duration(days: 365)),
+              //             ).then((value) => setState(() => _dateTime = value!));
+              //           },
+              //         ),
+              //       ],
+              //     ),
+              //   ],
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text('Wiederholung'),
+              //     TextButton(
+              //       onPressed: () => _repeatStandingorder(),
+              //       child: Text('$_repeatValue'),
+              //     ),
+              //   ],
+              // ),
+              SizedBox(height: 20),
+              DropDown(
+                onChanged: (newValue) {
+                  _selectedItem = newValue as ListItem;
+                  setState(() {});
+                },
+                dropdownItems: _accountDropDownItems,
+                listItemValue: _selectedItem == null ? null : _selectedItem!.id,
+                dropdownHintText: 'Konto',
+              ),
+              SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Betrag',
+                hintText: 'in €',
+                keyboardType: TextInputType.number,
+                controller: _amountController,
+                mandatory: true,
+                fieldname: 'amount',
+                textInputAction: TextInputAction.next,
+              ),
+              SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Bezeichnung',
+                hintText: '',
+                controller: _titleController,
+                mandatory: true,
+                fieldname: 'title',
+                textInputAction: TextInputAction.next,
+              ),
+              SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Beschreibung',
+                hintText: '',
+                controller: _descriptionController,
+                mandatory: false,
+                fieldname: 'description',
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: 100,
+                    height: 120,
+                    child: CategoryItem(
+                      categoryItem: _setCategory,
+                    ),
+                  ),
+                  ElevatedButton(
+                    child: Text('Kategorie ändern'),
+                    // style: ButtonStyle(
+                    //     backgroundColor: MaterialStateProperty.all(
+                    //         Theme.of(context).colorScheme.primary)),
+                    onPressed: () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(
+                                builder: (context, setState) {
+                              return Popup(
+                                title: 'Kategorien',
+                                body: Container(
+                                  //color: Colors.blue,
+                                  padding: EdgeInsets.only(left: 5, right: 5),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.48,
+                                  width: MediaQuery.of(context).size.width * 1,
+                                  child: GridView.count(
+                                    scrollDirection: Axis.vertical,
+                                    childAspectRatio:
+                                        0.7, //MediaQuery.of(context)
                                     //     .size
                                     //     .width /
                                     // (MediaQuery.of(context).size.height / 1.5),
-                                padding: EdgeInsets.all(10),
-                                crossAxisCount: 3,
-                                crossAxisSpacing:
-                                    MediaQuery.of(context).size.width * 0.04,
-                                mainAxisSpacing: 12,
-                                children: AllData.categories
-                                    .map((item) => CategoryItem(
-                                          categoryItem: item,
-                                          selectedCatID: _selectedCategoryID,
-                                          onTapFunction: () => setState(() {
-                                            _selectedCategoryID = '${item.id}';
-                                            _selectedCategory = item;
-                                          }),
-                                        ))
-                                    .toList(),
-                              ),
-                            ),
-                            saveButton: true,
-                            cancelButton: true,
-                            saveFunction: () {
-                              this.setState(() {
-                                _setCategory = _selectedCategory;
-                              });
-                              Navigator.of(context).pop();
+                                    padding: EdgeInsets.all(10),
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing:
+                                        MediaQuery.of(context).size.width *
+                                            0.04,
+                                    mainAxisSpacing: 12,
+                                    children: AllData.categories
+                                        .map((item) => CategoryItem(
+                                              categoryItem: item,
+                                              selectedCatID:
+                                                  _selectedCategoryID,
+                                              onTapFunction: () => setState(() {
+                                                _selectedCategoryID =
+                                                    '${item.id}';
+                                                _selectedCategory = item;
+                                              }),
+                                            ))
+                                        .toList(),
+                                  ),
+                                ),
+                                saveButton: true,
+                                cancelButton: true,
+                                saveFunction: () {
+                                  this.setState(() {
+                                    _setCategory = _selectedCategory;
+                                  });
+                                  Navigator.of(context).pop();
+                                },
+                              );
+                            });
+                          });
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('Beginn:'),
+                  Row(
+                    children: [
+                      Text(formatDate(_dateTime)),
+                      IconButton(
+                        icon: Icon(Icons.date_range),
+                        onPressed: () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
+                          showDatePicker(
+                            context: context,
+                            initialDate: _dateTime,
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime.now().add(Duration(days: 365)),
+                          ).then(
+                            (value) {
+                              if (value != null)
+                                setState(() => _dateTime = value);
                             },
                           );
-                        });
-                      }),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Beginn:'),
-                Row(
-                  children: [
-                    Text(formatDate(_dateTime)),
-                    IconButton(
-                      icon: Icon(Icons.date_range),
-                      onPressed: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: _dateTime,
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(Duration(days: 365)),
-                        ).then(
-                          (value) {
-                            if (value != null)
-                              setState(() => _dateTime = value);
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Ende:'),
-                Row(
-                  children: [
-                    _dateTimeEnd == null
-                        ? Text('Datum wählen')
-                        : Text(formatDate(_dateTimeEnd!)),
-                    IconButton(
-                      icon: Icon(Icons.date_range),
-                      onPressed: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: _dateTimeEnd == null
-                              ? DateTime.now()
-                              : _dateTimeEnd!,
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(Duration(days: 365)),
-                        ).then(
-                          (value) {
-                            if (value != null)
-                              setState(() => _dateTimeEnd = value);
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Wiederholung:'),
-                TextButton(
-                  onPressed: () => _repeatStandingorder(),
-                  child: Text('${formatRepetition(_repeatValue)}'),
-                ),
-              ],
-            ),
-          ],
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('Ende:'),
+                  Row(
+                    children: [
+                      _dateTimeEnd == null
+                          ? Text('Datum wählen')
+                          : Text(formatDate(_dateTimeEnd!)),
+                      IconButton(
+                        icon: Icon(Icons.date_range),
+                        onPressed: () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
+                          showDatePicker(
+                            context: context,
+                            initialDate: _dateTimeEnd == null
+                                ? DateTime.now()
+                                : _dateTimeEnd!,
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime.now().add(Duration(days: 365)),
+                          ).then(
+                            (value) {
+                              if (value != null)
+                                setState(() => _dateTimeEnd = value);
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('Wiederholung:'),
+                  TextButton(
+                    onPressed: () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                      _repeatStandingorder();
+                    },
+                    child: Text('${formatRepetition(_repeatValue)}'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

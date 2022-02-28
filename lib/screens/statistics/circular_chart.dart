@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/screens/statistics/expense_circular_chart.dart';
 import 'package:haushaltsbuch/screens/statistics/income_circular_chart.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 
 class CircularChart extends StatefulWidget {
   const CircularChart({Key? key}) : super(key: key);
@@ -23,6 +24,8 @@ class _CircularChartState extends State<CircularChart>
   Widget build(BuildContext context) {
     return Column(children: [
       TabBar(
+        labelColor: Globals.isDarkmode ? null : Colors.black,
+        indicatorColor: Theme.of(context).primaryColor,
       tabs: [
         Tab(text: 'Ausgabe'),
         Tab(text: 'Einnahme'),

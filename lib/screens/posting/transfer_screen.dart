@@ -84,131 +84,146 @@ class _TransferScreenState extends State<TransferScreen> {
           ),
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(10.0),
-          children: [
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Text('Datum:'),
-            //     Row(
-            //       children: [
-            //         Text(
-            //           '${DateFormat.yMMMd().format(_dateTime)}'),
-            //             //'${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
-            //         IconButton(
-            //           icon: Icon(Icons.date_range),
-            //           onPressed: () {
-            //             showDatePicker(
-            //               context: context,
-            //               initialDate: _dateTime,
-            //               firstDate:
-            //                   DateTime.now().subtract(Duration(days: 365)),
-            //               lastDate: DateTime.now().add(Duration(days: 365)),
-            //             ).then((value) {
-            //               if (value != null) setState(() => _dateTime = value);
-            //             });
-            //           },
-            //         ),
-            //       ],
-            //     ),
-            //   ],
-            // ),
-            SizedBox(height: 20),
-            DropDown(
-              dropdownItems: _accountDropDownItems,
-              listItemValue: _selectedAccountFrom == null
-                  ? null
-                  : _selectedAccountFrom!.id,
-              onChanged: (newValue) {
-                _selectedAccountFrom = newValue as ListItem;
-                setState(() {});
-              },
-              dropdownHintText: 'Von Konto',
-            ),
-            _selectedAccountFrom == null && widget.id != ''
-                ? Text(
-                    'Das eigentliche Konto wurde gelöscht',
-                    style: TextStyle(color: Colors.red),
-                  )
-                : SizedBox(),
-            SizedBox(height: 20),
-            Container(
-              height: 65,
-              //width: 65,
-              child: Image.asset(
-                'assets/icons/other_icons/arrow.png',
-                color: Theme.of(context).colorScheme.primaryVariant.withOpacity(0.8),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            physics: BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(10.0),
+            children: [
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text('Datum:'),
+              //     Row(
+              //       children: [
+              //         Text(
+              //           '${DateFormat.yMMMd().format(_dateTime)}'),
+              //             //'${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
+              //         IconButton(
+              //           icon: Icon(Icons.date_range),
+              //           onPressed: () {
+              //             showDatePicker(
+              //               context: context,
+              //               initialDate: _dateTime,
+              //               firstDate:
+              //                   DateTime.now().subtract(Duration(days: 365)),
+              //               lastDate: DateTime.now().add(Duration(days: 365)),
+              //             ).then((value) {
+              //               if (value != null) setState(() => _dateTime = value);
+              //             });
+              //           },
+              //         ),
+              //       ],
+              //     ),
+              //   ],
+              // ),
+              SizedBox(height: 20),
+              DropDown(
+                dropdownItems: _accountDropDownItems,
+                listItemValue: _selectedAccountFrom == null
+                    ? null
+                    : _selectedAccountFrom!.id,
+                onChanged: (newValue) {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  _selectedAccountFrom = newValue as ListItem;
+                  setState(() {});
+                },
+                dropdownHintText: 'Von Konto',
               ),
-            ),//Icon(Icons.arrow_downward_rounded, size: 60),
-            SizedBox(height: 20),
-            DropDown(
-              dropdownItems: _accountDropDownItems,
-              listItemValue:
-                  _selectedAccountTo == null ? null : _selectedAccountTo!.id,
-              onChanged: (newValue) {
-                _selectedAccountTo = newValue as ListItem;
-                setState(() {});
-              },
-              dropdownHintText: 'Zu Konto',
-            ),
-            _selectedAccountTo == null && widget.id != ''
-                ? Text(
-                    'Das eigentliche Konto wurde gelöscht',
-                    style: TextStyle(color: Colors.red),
-                  )
-                : SizedBox(),
-            SizedBox(height: 20),
-            CustomTextField(
-              labelText: 'Betrag',
-              hintText: 'in €',
-              keyboardType: TextInputType.number,
-              controller: _amountController,
-              mandatory: true,
-              fieldname: 'amount',
-            ),
-            SizedBox(height: 20),
-            CustomTextField(
-              labelText: 'Beschreibung',
-              hintText: '',
-              controller: _descriptionController,
-              mandatory: false,
-              fieldname: 'description',
-            ),
-            SizedBox(height: 20,),
-            Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Datum:'),
-                Row(
-                  children: [
-                    Text(formatDate(_dateTime)),
-                    IconButton(
-                        icon: Icon(Icons.date_range),
-                        onPressed: () {
-                          showDatePicker(
-                            context: context,
-                            initialDate: _dateTime,
-                            firstDate:
-                                DateTime.now().subtract(Duration(days: 365)),
-                            lastDate: DateTime.now().add(Duration(days: 365)),
-                          ).then(
-                            (value) {
-                              if (value != null)
-                                setState(() => _dateTime = value);
-                            },
-                          );
-                        }),
-                  ],
+              _selectedAccountFrom == null && widget.id != ''
+                  ? Text(
+                      'Das eigentliche Konto wurde gelöscht',
+                      style: TextStyle(color: Colors.red),
+                    )
+                  : SizedBox(),
+              SizedBox(height: 20),
+              Container(
+                height: 65,
+                //width: 65,
+                child: Image.asset(
+                  'assets/icons/other_icons/arrow.png',
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primaryVariant
+                      .withOpacity(0.8),
                 ),
-              ],
-            ),
-            Divider(),
-          ],
+              ), //Icon(Icons.arrow_downward_rounded, size: 60),
+              SizedBox(height: 20),
+              DropDown(
+                dropdownItems: _accountDropDownItems,
+                listItemValue:
+                    _selectedAccountTo == null ? null : _selectedAccountTo!.id,
+                onChanged: (newValue) {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  _selectedAccountTo = newValue as ListItem;
+                  setState(() {});
+                },
+                dropdownHintText: 'Zu Konto',
+              ),
+              _selectedAccountTo == null && widget.id != ''
+                  ? Text(
+                      'Das eigentliche Konto wurde gelöscht',
+                      style: TextStyle(color: Colors.red),
+                    )
+                  : SizedBox(),
+              SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Betrag',
+                hintText: 'in €',
+                keyboardType: TextInputType.number,
+                controller: _amountController,
+                mandatory: true,
+                fieldname: 'amount',
+                textInputAction: TextInputAction.next,
+              ),
+              SizedBox(height: 20),
+              CustomTextField(
+                labelText: 'Beschreibung',
+                hintText: '',
+                controller: _descriptionController,
+                mandatory: false,
+                fieldname: 'description',
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('Datum:'),
+                  Row(
+                    children: [
+                      Text(formatDate(_dateTime)),
+                      IconButton(
+                          icon: Icon(Icons.date_range),
+                          onPressed: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                            showDatePicker(
+                              context: context,
+                              initialDate: _dateTime,
+                              firstDate:
+                                  DateTime.now().subtract(Duration(days: 365)),
+                              lastDate: DateTime.now().add(Duration(days: 365)),
+                            ).then(
+                              (value) {
+                                if (value != null)
+                                  setState(() => _dateTime = value);
+                              },
+                            );
+                          }),
+                    ],
+                  ),
+                ],
+              ),
+              Divider(),
+            ],
+          ),
         ),
       ),
     );
