@@ -14,6 +14,7 @@ import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 class AddEditStandingOrder extends StatefulWidget {
@@ -70,7 +71,8 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     _selectedItem = _accountDropDownItems
         .firstWhere((element) => element.id == so.account!.id);
     _setCategory = so.category!;
-    _amountController.text = so.amount!.toStringAsFixed(2);
+    _amountController.text = NumberFormat("###.00", "de").format(so.amount!);
+    // so.amount!.toStringAsFixed(2);
     _titleController.text = so.title!;
     _descriptionController.text = so.description!;
   }
@@ -476,13 +478,15 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   // }
 
   void _saveStandingorder() async {
+    String stringAmount = _amountController.text.replaceAll('.', '');
+    stringAmount = stringAmount.replaceAll(',', '.');
     if (_formKey.currentState!.validate()) {
       try {
         StandingOrder so = StandingOrder(
             id: widget.id != '' ? widget.id : Uuid().v1(),
             title: _titleController.text,
             description: _descriptionController.text,
-            amount: double.parse(_amountController.text),
+            amount: double.parse(stringAmount),
             account: AllData.accounts
                 .firstWhere((element) => element.id == _selectedItem!.id),
             category: _setCategory,

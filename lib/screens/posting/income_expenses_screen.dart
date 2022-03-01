@@ -12,6 +12,7 @@ import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 class IncomeExpenseScreen extends StatefulWidget {
@@ -71,7 +72,9 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     }
 
     _incomeDateTime = posting.date!;
-    _amountController.text = '${posting.amount!.toStringAsFixed(2)}';
+    _amountController.text =
+        NumberFormat("###.00", "de").format(posting.amount!);
+    // '${posting.amount!.toStringAsFixed(2)}';
     _titleController.text = '${posting.title}';
     _descriptionController.text = '${posting.description}';
     _setCategory = posting.category!;
@@ -434,6 +437,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   }
 
   void _savePosting() async {
+    String stringAmount = _amountController.text.replaceAll('.', '');
+    stringAmount = stringAmount.replaceAll(',', '.');
     if (_formKey.currentState!.validate()) {
       try {
         Posting posting = Posting(
@@ -442,7 +447,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
           description: _descriptionController.text,
           account: AllData.accounts.firstWhere((element) =>
               element.id == _selectedItem!.id), //Ausgewähltes Konto
-          amount: double.parse(_amountController.text),
+          amount: double.parse(stringAmount),
           date: _incomeDateTime,
           postingType: widget.id == ''
               ? widget.type == 'Einnahme'

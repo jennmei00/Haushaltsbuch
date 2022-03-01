@@ -7,6 +7,7 @@ import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 class TransferScreen extends StatefulWidget {
@@ -53,7 +54,9 @@ class _TransferScreenState extends State<TransferScreen> {
           .firstWhere((element) => element.id == transfer.accountTo!.id);
 
     _dateTime = transfer.date!;
-    _amountController.text = '${transfer.amount!.toStringAsFixed(2)}';
+    _amountController.text =
+        NumberFormat("###.00", "de").format(transfer.amount!);
+    // '${transfer.amount!.toStringAsFixed(2)}';
     _descriptionController.text = '${transfer.description}';
 
     _oldAccountFrom = transfer.accountFrom;
@@ -238,6 +241,8 @@ class _TransferScreenState extends State<TransferScreen> {
     //       ),
     //     ));
     // }
+    String stringAmount = _amountController.text.replaceAll('.', '');
+    stringAmount = stringAmount.replaceAll(',', '.');
     if (_formKey.currentState!.validate() &&
         _selectedAccountFrom != _selectedAccountTo) {
       try {
@@ -248,7 +253,7 @@ class _TransferScreenState extends State<TransferScreen> {
               .firstWhere((element) => element.id == _selectedAccountFrom!.id),
           accountTo: AllData.accounts
               .firstWhere((element) => element.id == _selectedAccountTo!.id),
-          amount: double.parse(_amountController.text),
+          amount: double.parse(stringAmount),
           date: _dateTime,
           accountFromName: AllData.accounts
               .firstWhere((element) => element.id == _selectedAccountFrom!.id)

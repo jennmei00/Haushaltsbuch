@@ -9,6 +9,7 @@ import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 
@@ -61,7 +62,9 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     _creationDate = ac.creationDate!;
     _initialBankBalance = ac.initialBankBalance!;
     _titleController.text = ac.title!;
-    _bankBalanceController.text = ac.bankBalance!.toStringAsFixed(2);
+    _bankBalanceController.text =
+    NumberFormat("###.00", "de").format(ac.bankBalance!);
+    // ac.bankBalance!.toStringAsFixed(2);
     _descriptionController.text = ac.description!;
     _selectedItem = _accountTypeDropDownItems
         .firstWhere((element) => element.id == ac.accountType!.id);
@@ -122,14 +125,13 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                 height: 20,
               ),
               CustomTextField(
-                labelText: 'Kontostand',
-                hintText: 'Aktueller Kontostand',
-                controller: _bankBalanceController,
-                keyboardType: TextInputType.number,
-                mandatory: true,
-                fieldname: 'accountBalance',
-                textInputAction: TextInputAction.next
-              ),
+                  labelText: 'Kontostand',
+                  hintText: 'Aktueller Kontostand',
+                  controller: _bankBalanceController,
+                  keyboardType: TextInputType.number,
+                  mandatory: true,
+                  fieldname: 'accountBalance',
+                  textInputAction: TextInputAction.next),
               SizedBox(
                 height: 20,
               ),
@@ -256,7 +258,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   }
 
   void _saveAccount() async {
-    bool save = true;
+    String stringBankBalance = _bankBalanceController.text.replaceAll('.', '');
+    stringBankBalance = stringBankBalance.replaceAll(',', '.');
     if (_formKey.currentState!.validate()) {
       final timeDifferenceToCreation =
           DateTime.now().difference(_creationDate).inHours;
@@ -265,7 +268,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                   .where((element) => element.id == widget.id)
                   .first
                   .bankBalance !=
-              double.parse(_bankBalanceController.text) &&
+              double.parse(stringBankBalance) &&
           timeDifferenceToCreation > 1) {
         return showDialog(
             context: context,
@@ -284,7 +287,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                     TextButton(
                         onPressed: () {
                           Navigator.of(context).pop(false);
-                          save = false;
                         },
                         child: const Text("Abbrechen")),
                   ]);
@@ -302,9 +304,11 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   }
 
   void _saveToDatabase() async {
+    String stringBankBalance = _bankBalanceController.text.replaceAll('.', '');
+    stringBankBalance = stringBankBalance.replaceAll(',', '.');
     try {
       if (widget.id == '') {
-        _initialBankBalance = double.parse(_bankBalanceController.text);
+        _initialBankBalance = double.parse(stringBankBalance);
         _creationDate = DateTime.now();
       }
 
@@ -312,7 +316,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
         id: widget.id != '' ? widget.id : Uuid().v1(),
         title: _titleController.text,
         description: _descriptionController.text,
-        bankBalance: double.parse(_bankBalanceController.text),
+        bankBalance: double.parse(stringBankBalance),
         creationDate: _creationDate,
         // creationDate: DateTime(2021, 11, 1),
         initialBankBalance: _initialBankBalance,
