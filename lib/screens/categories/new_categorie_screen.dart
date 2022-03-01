@@ -98,7 +98,6 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                     //highlightColor: Colors.transparent,
                     onTap: () {
                       FocusScope.of(context).requestFocus(new FocusNode());
-                      ;
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {

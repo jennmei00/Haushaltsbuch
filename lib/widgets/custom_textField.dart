@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:validators/validators.dart';
 
 class CustomTextField extends StatelessWidget {

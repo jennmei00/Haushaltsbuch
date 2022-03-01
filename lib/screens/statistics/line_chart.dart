@@ -117,6 +117,7 @@ class _LineChartState extends State<LineChart> {
         Padding(
           padding: const EdgeInsets.all(5.0),
           child: Card(
+            elevation: 5,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -245,6 +246,7 @@ class _LineChartState extends State<LineChart> {
           height: 400,
           padding: const EdgeInsets.all(5.0),
           child: Card(
+            elevation: 5,
             child: SfCartesianChart(
               plotAreaBorderWidth: 0,
               legend: Legend(

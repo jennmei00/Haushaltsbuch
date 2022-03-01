@@ -247,7 +247,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                     // ),
                     onPressed: () {
                       FocusScope.of(context).requestFocus(new FocusNode());
-                      ;
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
