@@ -22,8 +22,7 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(
-              right: 5.0, left: 5.0, bottom: 8.0, top: 20.0),
+          padding: const EdgeInsets.only(top: 8.0, right: 8.0, left: 8.0, bottom: 15.0),
           child: Column(children: [
             Text('Jahr'),
             slider.SfSlider(
@@ -72,6 +71,7 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
             ),
           ]),
         ),
+        _getDatasource().length == 0 ? SizedBox() :
         SfCircularChart(
           legend: Legend(
             isVisible: true,
@@ -109,15 +109,10 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
   List<PieSeries<_ChartData, String>> _getPieSeries() {
     return <PieSeries<_ChartData, String>>[
       PieSeries<_ChartData, String>(
-        explode: true,
-        explodeIndex: 0,
-        explodeOffset: '10%',
         dataSource: _getDatasource(),
         xValueMapper: (_ChartData data, _) => data.x,
         yValueMapper: (_ChartData data, _) => data.y,
         dataLabelMapper: (_ChartData data, _) => data.text,
-        // startAngle: 90,
-        // endAngle: 90,
         dataLabelSettings: const DataLabelSettings(isVisible: true),
       ),
     ];

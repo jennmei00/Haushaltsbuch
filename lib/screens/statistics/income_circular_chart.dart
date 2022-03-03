@@ -109,15 +109,10 @@ class _IncomeCircularChartState extends State<IncomeCircularChart> {
   List<PieSeries<_ChartData, String>> _getPieSeries() {
     return <PieSeries<_ChartData, String>>[
       PieSeries<_ChartData, String>(
-        explode: true,
-        explodeIndex: 0,
-        explodeOffset: '10%',
         dataSource: _getDatasource(),
         xValueMapper: (_ChartData data, _) => data.x,
         yValueMapper: (_ChartData data, _) => data.y,
         dataLabelMapper: (_ChartData data, _) => data.text,
-        // startAngle: 90,
-        // endAngle: 90,
         dataLabelSettings: const DataLabelSettings(isVisible: true),
       ),
     ];

@@ -139,7 +139,7 @@ class SettingsScreen extends StatelessWidget {
                                     accountType: AllData.accountTypes
                                         .firstWhere((element) =>
                                             element.title == 'Tagesgeldkonto'),
-                                    bankBalance: 5000,
+                                    bankBalance: 0,
                                     color: Color(0xff4527a0),
                                     creationDate: DateTime(2021, 10, 01),
                                     description: 'von Wüstenrot',

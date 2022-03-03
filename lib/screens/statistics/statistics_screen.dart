@@ -28,7 +28,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
         bottom: TabBar(
           tabs: [
             Tab(text: 'Liniendiagramm'),
-            Tab(text: 'Kreisdiagramm'),
+            Tab(text: 'Monatsübersicht'),
           ],
           controller: _tabController,
         ),
