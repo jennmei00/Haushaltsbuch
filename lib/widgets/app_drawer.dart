@@ -51,13 +51,13 @@ class AppDrawer extends StatelessWidget {
           //         // onThemeChanged(val, themeNotifier);
           //       },
           //     ),
-          ListTile(
-            //isIOS ?  Icon(CupertinoIcons.add) :
-            leading: Icon(Icons.home, size: 36),
-            title: Text('Home', style: TextStyle(fontSize: 18)),
-            onTap: () => selectedItem(context, 'home'),
-            selected: selectedMenuItem == 'home' ? true : false,
-          ),
+          // ListTile(
+          //   //isIOS ?  Icon(CupertinoIcons.add) :
+          //   leading: Icon(Icons.home, size: 36),
+          //   title: Text('Home', style: TextStyle(fontSize: 18)),
+          //   onTap: () => selectedItem(context, 'home'),
+          //   selected: selectedMenuItem == 'home' ? true : false,
+          // ),
           ListTile(
             leading: Icon(Icons.switch_account, size: 36),
             title: Text('Konten', style: TextStyle(fontSize: 18)),
