@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:haushaltsbuch/main.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/enums.dart';

@@ -528,6 +528,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
         Navigator.pop(context);
       } catch (ex) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          //backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           content: Text(
             'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
             textAlign: TextAlign.center,

@@ -26,9 +26,11 @@ class _StatisticsScreenState extends State<StatisticsScreen>
         title: Text('Statistik'),
         centerTitle: true,
         bottom: TabBar(
+          isScrollable: true,
           tabs: [
-            Tab(text: 'Liniendiagramm'),
+            Tab(text: 'Vermögensübersicht'),
             Tab(text: 'Monatsübersicht'),
+            //Tab(text: 'Test'),
           ],
           controller: _tabController,
         ),

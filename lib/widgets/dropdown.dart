@@ -59,7 +59,9 @@ class DropDown extends StatelessWidget {
           //ListItem item = value as ListItem;
           //print(item.name);
           //if (item.name == '') {
-          if (value == null) return 'Das ist ein Pflichtfeld';
+          if (value == null) {return 'Das ist ein Pflichtfeld';}
+          else {return null;}
+
           //}
         },
         // style: TextStyle(
