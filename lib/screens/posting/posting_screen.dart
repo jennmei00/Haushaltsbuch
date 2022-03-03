@@ -19,7 +19,9 @@ class PostingScreen extends StatelessWidget {
           centerTitle: true,
           // backgroundColor: Theme.of(context).primaryColor,
         ),
-        drawer: AppDrawer(selectedMenuItem: 'posting',),
+        drawer: AppDrawer(
+          selectedMenuItem: 'posting',
+        ),
         body: FractionallySizedBox(
           widthFactor: 1,
           child: Column(
@@ -30,20 +32,21 @@ class PostingScreen extends StatelessWidget {
                     _income(context);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(25),
-                    margin: EdgeInsets.all(25),
+                    // padding: EdgeInsets.all(25),
+                    // margin: EdgeInsets.all(25),
                     width: double.infinity,
                     //height: double.infinity,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
+                      // borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
                         image: AssetImage('assets/images/einnahme.jpg'),
                         fit: BoxFit.cover,
-                        opacity: 0.3,
+                        opacity: 0.8,
                       ),
                     ),
                     alignment: Alignment.center,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.attach_money,
@@ -68,21 +71,22 @@ class PostingScreen extends StatelessWidget {
                     _expense(context);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(25),
-                    margin: EdgeInsets.all(25),
+                    // padding: EdgeInsets.all(25),
+                    // margin: EdgeInsets.all(25),
                     width: double.infinity,
                     //height: double.infinity,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
+                      // borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
                         // image: NetworkImage(urlBackgroundImageExpense),
-                        image: AssetImage('assets/images/ausgabe.jpg'),
+                        image: AssetImage('assets/images/ausgabe2.jpg'),
                         fit: BoxFit.cover,
-                        opacity: 0.3,
+                        opacity: 0.8,
                       ),
                     ),
                     alignment: Alignment.center,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.money_off,
@@ -107,22 +111,23 @@ class PostingScreen extends StatelessWidget {
                     _transfer(context);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(25),
-                    margin: EdgeInsets.all(25),
+                    // padding: EdgeInsets.all(25),
+                    // margin: EdgeInsets.all(25),
                     width: double.infinity,
                     //height: double.infinity,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
+                      // borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
                         // image: NetworkImage(urlBackroundImageTransfer),
                         image: AssetImage('assets/images/umbuchung.jpg'),
                         fit: BoxFit.cover,
-                        opacity: 0.3,
+                        opacity: 0.8,
                       ),
                       // color: Colors.grey.withOpacity(0.1),
                     ),
                     alignment: Alignment.center,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.compare_arrows,
