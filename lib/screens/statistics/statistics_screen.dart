@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/screens/statistics/circular_chart.dart';
 import 'package:haushaltsbuch/screens/statistics/line_chart.dart';
+import 'package:haushaltsbuch/screens/statistics/year_overview_table.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class StatisticsScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
 
@@ -30,6 +31,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
           tabs: [
             Tab(text: 'Vermögensübersicht'),
             Tab(text: 'Monatsübersicht'),
+            Tab(text: 'Jahresübersicht'),
           ],
           controller: _tabController,
         ),
@@ -41,6 +43,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
         children: [
           LineChart(),
           CircularChart(),
+          YearOverviewTable(),
         ],
         controller: _tabController,
       ));

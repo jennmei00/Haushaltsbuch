@@ -22,9 +22,13 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 8.0, right: 8.0, left: 8.0, bottom: 15.0),
+          padding: const EdgeInsets.only(
+              top: 15, right: 8.0, left: 8.0, bottom: 15.0),
           child: Column(children: [
-            Text('Jahr'),
+            Text(
+              'Jahr',
+              style: Theme.of(context).textTheme.headline6,
+            ),
             slider.SfSlider(
               min: DateTime(DateTime.now().year - 4, 01, 01),
               max: DateTime.now(),
@@ -44,9 +48,12 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
               enableTooltip: true,
             ),
             SizedBox(
-              height: 20,
+              height: 30,
             ),
-            Text('Monat'),
+            Text(
+              'Monat',
+              style: Theme.of(context).textTheme.headline6,
+            ),
             slider.SfSlider(
               min: DateTime(2000, 01, 01),
               max: DateTime(2000, 12, 01),
@@ -71,14 +78,15 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
             ),
           ]),
         ),
-        _getDatasource().length == 0 ? SizedBox() :
-        SfCircularChart(
-          legend: Legend(
-            isVisible: true,
-            overflowMode: LegendItemOverflowMode.wrap,
-          ),
-          series: _getPieSeries(),
-        ),
+        _getDatasource().length == 0
+            ? SizedBox()
+            : SfCircularChart(
+                legend: Legend(
+                  isVisible: true,
+                  overflowMode: LegendItemOverflowMode.wrap,
+                ),
+                series: _getPieSeries(),
+              ),
       ],
     );
   }

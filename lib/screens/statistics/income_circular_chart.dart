@@ -25,7 +25,7 @@ class _IncomeCircularChartState extends State<IncomeCircularChart> {
           padding: const EdgeInsets.only(
               right: 5.0, left: 5.0, bottom: 8.0, top: 20.0),
           child: Column(children: [
-            Text('Jahr'),
+            Text('Jahr',style: Theme.of(context).textTheme.headline6,),
             slider.SfSlider(
               min: DateTime(DateTime.now().year - 4, 01, 01),
               max: DateTime.now(),
@@ -45,9 +45,9 @@ class _IncomeCircularChartState extends State<IncomeCircularChart> {
               enableTooltip: true,
             ),
             SizedBox(
-              height: 20,
+              height: 30,
             ),
-            Text('Monat'),
+            Text('Monat',style: Theme.of(context).textTheme.headline6,),
             slider.SfSlider(
               min: DateTime(2000, 01, 01),
               max: DateTime(2000, 12, 01),

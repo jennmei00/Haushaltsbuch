@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
@@ -126,12 +127,12 @@ class _LineChartState extends State<LineChart> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(5.0),
+          padding: const EdgeInsets.all(10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: EdgeInsets.only(left: 8),
+                padding: EdgeInsets.only(left: 20),
                 child: Text(
                   'Zeitraum',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -175,38 +176,55 @@ class _LineChartState extends State<LineChart> {
             ],
           ),
         ),
-        Container(
-          height: 400,
-          padding: const EdgeInsets.all(5.0),
-          child: Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: SfCartesianChart(
-              plotAreaBorderWidth: 0,
-              legend: Legend(
-                isVisible: true,
-                overflowMode: LegendItemOverflowMode.wrap,
+        //Divider(),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Globals.isDarkmode
+                      ? Colors.black.withOpacity(0.5)
+                      : Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  //offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            height: 400,
+            padding: const EdgeInsets.all(5),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                legend: Legend(
+                  isVisible: true,
+                  overflowMode: LegendItemOverflowMode.wrap,
+                ),
+                tooltipBehavior: TooltipBehavior(enable: true),
+                primaryXAxis: DateTimeAxis(
+                  autoScrollingMode: AutoScrollingMode.end,
+                  minimum: getMondayOfWeek(_dateRange.start),
+                  maximum: _dateRange.end,
+                  intervalType: _dateRange.duration > Duration(days: 60)
+                      ? DateTimeIntervalType.months
+                      : DateTimeIntervalType.days,
+                  interval: _dateRange.duration > Duration(days: 60) ? 1 : 7,
+                  dateFormat: _dateRange.duration > Duration(days: 60)
+                      ? DateFormat("MMM yy", "de")
+                      : DateFormat("dd.MMM yy", "de"),
+                  labelRotation: 50,
+                  majorTickLines: const MajorTickLines(color: Colors.transparent),
+                ),
+                primaryYAxis: NumericAxis(
+                  majorTickLines: const MajorTickLines(color: Colors.transparent),
+                  axisLine: const AxisLine(width: 0),
+                  numberFormat: NumberFormat.currency(locale: "de", symbol: "€"),
+                ),
+                series: _getDefaultLineSeries(),
               ),
-              tooltipBehavior: TooltipBehavior(enable: true),
-              primaryXAxis: DateTimeAxis(
-                autoScrollingMode: AutoScrollingMode.end,
-                minimum: getMondayOfWeek(_dateRange.start),
-                maximum: _dateRange.end,
-                intervalType: _dateRange.duration > Duration(days: 60)
-                    ? DateTimeIntervalType.months
-                    : DateTimeIntervalType.days,
-                interval: _dateRange.duration > Duration(days: 60) ? 1 : 7,
-                dateFormat: _dateRange.duration > Duration(days: 60)
-                    ? DateFormat("MMM yy", "de")
-                    : DateFormat("dd.MMM yy", "de"),
-                labelRotation: 50,
-                majorTickLines: const MajorTickLines(color: Colors.transparent),
-              ),
-              primaryYAxis: NumericAxis(
-                majorTickLines: const MajorTickLines(color: Colors.transparent),
-                axisLine: const AxisLine(width: 0),
-                numberFormat: NumberFormat.currency(locale: "de", symbol: "€"),
-              ),
-              series: _getDefaultLineSeries(),
             ),
           ),
         ),
