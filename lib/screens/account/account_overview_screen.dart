@@ -148,11 +148,11 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Colors
-                      .grey //Theme.of(context).colorScheme.secondaryVariant
+                      .grey 
                       .withOpacity(0.15),
                   border: Border.all(
                     color: getColor(_accountColor),
-                  ), //Theme.of(context).colorScheme.secondaryVariant),
+                  ),
                 ),
                 padding: EdgeInsets.all(15),
                 child: Center(
@@ -163,7 +163,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                           ? Colors.red
                           : Theme.of(context)
                               .colorScheme
-                              .onSurface, //Theme.of(context).colorScheme.onSurface,
+                              .onSurface,
                       fontSize: 24,
                     ),
                   ),
@@ -292,7 +292,6 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      //color: getColor(posting.category!.color!).withOpacity(0.20),
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment(0.8,
@@ -319,7 +318,6 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                             begin: Alignment.topLeft,
                             end: Alignment(1.0, 0.0),
                             colors: <Color>[
-                              //Colors.red, Colors.green
                               getColor(getAccountColorFromAccountName(
                                       listObj.accountFromName!))
                                   .withOpacity(0.8),

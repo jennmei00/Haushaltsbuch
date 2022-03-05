@@ -30,38 +30,20 @@ class _PopupState extends State<Popup> {
           child: Column(
             children: [
               if (widget.title != '')
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 25, 15, 15),
-                child: Text(
-                  '${widget.title}',
-                  style: Theme.of(context).textTheme.headline5,
-                  //style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 25, 15, 15),
+                  child: Text(
+                    '${widget.title}',
+                    style: Theme.of(context).textTheme.headline5,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-
-                //   ],
-                // ),
-              ),
               widget.body,
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    // if (widget.saveButton)
-                    //   ElevatedButton(
-                    //     onPressed: () => widget.saveFunction!(),
-                    //     child: Text(
-                    //       'Speichern',
-                    //     ),
-                    //   ),
-                    // if (widget.cancelButton)
-                    //   ElevatedButton(
-                    //     onPressed: () => Navigator.of(context).pop(),
-                    //     child: Text(
-                    //       'Abbrechen',
-                    //     ),
-                    //   ),
                     if (widget.saveButton)
                       TextButton(
                         onPressed: () => widget.saveFunction!(),
@@ -69,8 +51,10 @@ class _PopupState extends State<Popup> {
                           'Speichern',
                         ),
                       ),
-                    if (widget.saveButton && widget.cancelButton) 
-                      SizedBox(width: 5,),
+                    if (widget.saveButton && widget.cancelButton)
+                      SizedBox(
+                        width: 5,
+                      ),
                     if (widget.cancelButton)
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(),
@@ -83,15 +67,6 @@ class _PopupState extends State<Popup> {
               )
             ],
           ),
-        )
-        // FractionallySizedBox(
-        //   heightFactor: 0.7,
-        //   widthFactor: 0.8,
-        //   child: Column(children: [
-        //     Text('$title'),
-        //     body,
-        //   ]),
-        // ),
-        );
+        ));
   }
 }

@@ -55,15 +55,10 @@ class Transfer {
           ? null
           : AllData.accounts
               .firstWhere((element) => element.id == data['AccountFromID']),
-      // : await Account().fromDB(await DBHelper.getOneData('Account',
-      //     where: "ID = '${data['AccountFromID']}'")),
       accountTo: data['AccountToID'] == null
           ? null
           : AllData.accounts
               .firstWhere((element) => element.id == data['AccountToID']),
-
-      // : await Account().fromDB(await DBHelper.getOneData('Account',
-      //     where: "ID = '${data['AccountToID']}'")),
       accountFromName: data['AccountFromName'],
       accountToName: data['AccountToName'],
     );

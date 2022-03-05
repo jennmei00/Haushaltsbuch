@@ -33,7 +33,7 @@ void main() {
   SharedPreferences.getInstance().then((prefs) {
     var brightness = SchedulerBinding.instance!.window.platformBrightness;
     var darkModeOn = prefs.getBool('darkMode') ??
-        brightness == Brightness.dark; //brightness == Brightness.dark;
+        brightness == Brightness.dark;
     runApp(Phoenix(
       child: ChangeNotifierProvider(
         create: (_) => ThemeNotifier(darkModeOn ? darkTheme : lightTheme),
@@ -41,7 +41,6 @@ void main() {
       ),
     ));
   });
-  // runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -58,26 +57,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('state = $state');
     if (state == AppLifecycleState.resumed) {
       updateStandingOrderPostings(context, true);
-      print('RESUMEd');
-
-      // Phoenix.rebirth(context);
-
-      // showDialog(
-      //     context: context,
-      //     builder: (context) {
-      //       return AlertDialog(
-      //         title: Text('Buchungen aktualisiert'),
-      //         content: Text(
-      //             'Es wurden neue Buchungen zu deinen Daueraufträgen hinzugefügt.'),
-      //         actions: [
-      //           TextButton(
-      //               onPressed: () => Navigator.pop(context), child: Text('OK'))
-      //         ],
-      //       );
-      //     });
     }
   }
 
@@ -95,25 +76,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       title: 'Haushaltsapp',
       theme: themeNotifier.getTheme(),
       home: StartScreen(ctx: context),
-      // HomeScreen(),
       routes: {
         AccountScreen.routeName: (context) => AccountScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         SettingsScreen.routeName: (context) => SettingsScreen(),
         StatisticsScreen.routeName: (context) => StatisticsScreen(),
-        //categories
         CategoriesScreen.routeName: (context) => CategoriesScreen(),
-        // NewCategorieScreen.routeName: (context) => NewCategorieScreen(),
-        //standingorders
         StandingOrdersScreen.routeName: (context) => StandingOrdersScreen(),
-        // AddEditStandingOrder.routeName: (context) => AddEditStandingOrder(),
-        //posting
         PostingScreen.routeName: (context) => PostingScreen(),
-        // IncomeScreen.routeName: (context) => IncomeScreen(),
-        // TransferScreen.routeName: (context) => TransferScreen(),
-        //Account
-        //NewAccountScreen.routeName: (context) => NewAccountScreen(),
-        //Management
         ManagementScreen.routeName: (context) => ManagementScreen(),
       },
       onGenerateRoute: (settings) {

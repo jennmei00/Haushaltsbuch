@@ -37,26 +37,6 @@ class CategoryItem extends StatelessWidget {
                         ? getColor(categoryItem.color!)
                         : Colors.transparent),
                 ),
-                // boxShadow: [
-                //   if (!multiSelection)
-                //     BoxShadow(
-                //       blurRadius: 5,
-                //       color: selectedCatID == '${categoryItem.id}'
-                //           ? getColor(categoryItem.color!).withOpacity(0.2)
-                //           : getColor(categoryItem.color!).withOpacity(0.05),
-                //       spreadRadius:
-                //           selectedCatID == '${categoryItem.id}' ? 2 : 1,
-                //     )
-                //   else if (multiSelection)
-                //     BoxShadow(
-                //       blurRadius: 5,
-                //       color: selectedCatList!.contains(categoryItem)
-                //           ? getColor(categoryItem.color!).withOpacity(0.2)
-                //           : getColor(categoryItem.color!).withOpacity(0.05),
-                //       spreadRadius:
-                //           selectedCatList!.contains(categoryItem) ? 2 : 1,
-                //     )
-                // ],
                 color: multiSelection
                     ? (selectedCatList!.contains(categoryItem)
                         ? getColor(categoryItem.color!).withOpacity(0.25)
@@ -65,8 +45,6 @@ class CategoryItem extends StatelessWidget {
                         ? getColor(categoryItem.color!).withOpacity(0.25)
                         : getColor(categoryItem.color!).withOpacity(0.08)),
               ),
-              // width: 60,
-              // height: 60,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Image.asset(categoryItem.symbol!,
@@ -76,8 +54,6 @@ class CategoryItem extends StatelessWidget {
           ),
         ),
         Center(
-          // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
-          //   scrollDirection: Axis.horizontal,
           child: Text(
             '${categoryItem.title}',
             maxLines: 1,
@@ -89,7 +65,6 @@ class CategoryItem extends StatelessWidget {
                 color: getColor(categoryItem.color!)),
             textAlign: TextAlign.center,
           ),
-          // ),
         ),
       ],
     );

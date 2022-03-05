@@ -56,7 +56,6 @@ class _TransferScreenState extends State<TransferScreen> {
     _dateTime = transfer.date!;
     _amountController.text =
         NumberFormat("###.00", "de").format(transfer.amount!);
-    // '${transfer.amount!.toStringAsFixed(2)}';
     _descriptionController.text = '${transfer.description}';
 
     _oldAccountFrom = transfer.accountFrom;
@@ -79,7 +78,6 @@ class _TransferScreenState extends State<TransferScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Umbuchung'),
-        // backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -97,33 +95,6 @@ class _TransferScreenState extends State<TransferScreen> {
             physics: BouncingScrollPhysics(),
             padding: const EdgeInsets.all(10.0),
             children: [
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text('Datum:'),
-              //     Row(
-              //       children: [
-              //         Text(
-              //           '${DateFormat.yMMMd().format(_dateTime)}'),
-              //             //'${_dateTime.day}. ${_dateTime.month}. ${_dateTime.year}'),
-              //         IconButton(
-              //           icon: Icon(Icons.date_range),
-              //           onPressed: () {
-              //             showDatePicker(
-              //               context: context,
-              //               initialDate: _dateTime,
-              //               firstDate:
-              //                   DateTime.now().subtract(Duration(days: 365)),
-              //               lastDate: DateTime.now().add(Duration(days: 365)),
-              //             ).then((value) {
-              //               if (value != null) setState(() => _dateTime = value);
-              //             });
-              //           },
-              //         ),
-              //       ],
-              //     ),
-              //   ],
-              // ),
               SizedBox(height: 20),
               DropDown(
                 dropdownItems: _accountDropDownItems,
@@ -146,13 +117,12 @@ class _TransferScreenState extends State<TransferScreen> {
               SizedBox(height: 20),
               Container(
                 height: 65,
-                //width: 65,
                 child: Image.asset(
                   'assets/icons/other_icons/arrow.png',
                   color: Theme.of(context).primaryColorDark
                       .withOpacity(0.8),
                 ),
-              ), //Icon(Icons.arrow_downward_rounded, size: 60),
+              ),
               SizedBox(height: 20),
               DropDown(
                 dropdownItems: _accountDropDownItems,
@@ -231,14 +201,6 @@ class _TransferScreenState extends State<TransferScreen> {
   }
 
   void _saveTransfer() async {
-    // if (_selectedAccountFrom == _selectedAccountTo) {
-    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //       content: Text(
-    //         'Die Konton müssen unterschiedlich sein :O',
-    //         textAlign: TextAlign.center,
-    //       ),
-    //     ));
-    // }
     String stringAmount = _amountController.text.replaceAll('.', '');
     stringAmount = stringAmount.replaceAll(',', '.');
     if (_formKey.currentState!.validate() &&

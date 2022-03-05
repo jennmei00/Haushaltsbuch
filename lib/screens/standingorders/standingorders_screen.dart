@@ -62,16 +62,16 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
       appBar: AppBar(
         title: Text('Daueraufträge'),
         centerTitle: true,
-        // backgroundColor: Theme.of(context).primaryColor,
       ),
-      drawer: AppDrawer(selectedMenuItem: 'standingorders',),
+      drawer: AppDrawer(
+        selectedMenuItem: 'standingorders',
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
               .pushNamed(AddEditStandingOrder.routeName, arguments: '');
         },
         child: Icon(Icons.add),
-        // backgroundColor: Theme.of(context).primaryColor,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: AllData.standingOrders.length == 0
@@ -157,10 +157,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                       color: Theme.of(context).primaryColorDark,
                     ),
               Column(children: _soYearly.map((e) => _soCard(e)).toList()),
-            ]
-              // AllData.standingOrders.map((item) => _soCard(item)).toList(),
-
-              ),
+            ]),
     );
   }
 
@@ -215,22 +212,6 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
         }
       },
       key: ValueKey<String>(item.id.toString()),
-      onDismissed: (DismissDirection direction) {
-        if (direction == DismissDirection.endToStart) {
-          // AllData.standingOrders.remove(item);
-          // DBHelper.delete('StandingOrder',
-          //     where: "ID = '${item.id}'");
-
-          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          //     content: Text('Dauerauftrag wurde gelöscht')));
-          // setState(() {});
-
-          // } else {
-          //   Navigator.of(context).pushNamed(
-          //       AddEditStandingOrder.routeName,
-          //       arguments: item.id);
-        }
-      },
       direction: DismissDirection.horizontal,
       background: Container(
         color: Globals.isDarkmode
@@ -262,89 +243,82 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
           ),
         ),
       ),
-      child: GestureDetector(
-        // onLongPress: () {
-        //   Navigator.of(context).pushNamed(
-        //       AddEditStandingOrder.routeName,
-        //       arguments: item.id);
-        // },
-        child: Card(
-          child: ExpansionTile(
-            leading: Container(
-              padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: getColor(item.category!.color!).withOpacity(0.20),
+      child: Card(
+        child: ExpansionTile(
+          leading: Container(
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: getColor(item.category!.color!).withOpacity(0.20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Image.asset(
+                item.category!.symbol!,
+                color: getColor(item.category!.color!),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Image.asset(
-                  item.category!.symbol!,
-                  color: getColor(item.category!.color!),
+            ),
+          ),
+          title: Text(item.title!),
+          subtitle: Text(
+            item.account != null ? '${item.account!.title}' : '',
+            style: TextStyle(color: Colors.grey[400]),
+          ),
+          trailing: item.postingType == PostingType.income
+              ? Text(
+                  '+ ' + formatCurrency(item.amount!),
+                  style: TextStyle(color: Colors.green),
+                )
+              : Text(
+                  '- ' + formatCurrency(item.amount!),
+                  style: TextStyle(color: Colors.red),
                 ),
-              ),
-            ),
-            title: Text(item.title!),
-            subtitle: Text(
-              item.account != null ? '${item.account!.title}' : '',
-              style: TextStyle(color: Colors.grey[400]),
-            ),
-            trailing: item.postingType == PostingType.income
-                ? Text(
-                    '+ ' + formatCurrency(item.amount!),
-                    style: TextStyle(color: Colors.green),
-                  )
-                : Text(
-                    '- ' + formatCurrency(item.amount!),
-                    style: TextStyle(color: Colors.red),
-                  ),
-            childrenPadding:
-                EdgeInsets.only(left: 20, bottom: 10, right: 10, top: 10),
-            expandedAlignment: Alignment.topLeft,
-            children: [
-              Table(
-                children: [
-                  TableRow(
-                    children: [
-                      Text('Kategorie:'),
-                      Text('${item.category!.title}'),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Text('Beginn:'),
-                      Text(formatDate(item.begin!)),
-                    ],
-                  ),
-                  if (item.end != null)
+          childrenPadding:
+              EdgeInsets.only(left: 20, bottom: 10, right: 10, top: 10),
+          expandedAlignment: Alignment.topLeft,
+          children: [
+            Table(
+              children: [
+                TableRow(
+                  children: [
+                    Text('Kategorie:'),
+                    Text('${item.category!.title}'),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text('Beginn:'),
+                    Text(formatDate(item.begin!)),
+                  ],
+                ),
+                if (item.end != null)
                   TableRow(
                     children: [
                       Text('Ende:'),
                       Text(formatDate(item.end!)),
                     ],
                   ),
+                TableRow(
+                  children: [
+                    Text('Wiederholung:'),
+                    Text(formatRepetition(item.repetition!)),
+                  ],
+                ),
+                if (item.description != '')
                   TableRow(
                     children: [
-                      Text('Wiederholung:'),
-                      Text(formatRepetition(item.repetition!)),
+                      Text('Beschreibung:'),
+                      Text(
+                        '${item.description}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        softWrap: false,
+                      ),
                     ],
-                  ),
-                  if (item.description != '')
-                    TableRow(
-                      children: [
-                        Text('Beschreibung:'),
-                        Text(
-                          '${item.description}',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          softWrap: false,
-                        ),
-                      ],
-                    )
-                ],
-              )
-            ],
-          ),
+                  )
+              ],
+            )
+          ],
         ),
       ),
     );

@@ -31,9 +31,7 @@ class AddEditStandingOrder extends StatefulWidget {
 class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   DateTime _dateTime = DateTime.now();
   DateTime? _dateTimeEnd;
-  // String _repeatValue = 'monatlich';
   Repetition _repeatValue = Repetition.monthly;
-  // ignore: non_constant_identifier_names
   int _groupValue_buchungsart = 0;
   TextEditingController _amountController = TextEditingController(text: '');
   TextEditingController _titleController = TextEditingController(text: '');
@@ -46,7 +44,6 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
       AllData.categories.firstWhere((element) => element.id == 'default');
   late Category _selectedCategory;
 
-  // late
   List<ListItem> _accountDropDownItems = [];
 
   void _getAccountDropDownItems() {
@@ -72,7 +69,6 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         .firstWhere((element) => element.id == so.account!.id);
     _setCategory = so.category!;
     _amountController.text = NumberFormat("###.00", "de").format(so.amount!);
-    // so.amount!.toStringAsFixed(2);
     _titleController.text = so.title!;
     _descriptionController.text = so.description!;
   }
@@ -93,7 +89,6 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Theme.of(context).primaryColor,
         title: Text(widget.id == ''
             ? 'Dauerauftrag hinzufügen'
             : 'Dauerauftrag bearbeiten'),
@@ -133,39 +128,6 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                   groupValue: _groupValue_buchungsart,
                 ),
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text('Beginn:'),
-              //     Row(
-              //       children: [
-              //         Text(formatDate(_dateTime)),
-              //         IconButton(
-              //           icon: Icon(Icons.date_range),
-              //           onPressed: () {
-              //             showDatePicker(
-              //               context: context,
-              //               initialDate: _dateTime,
-              //               firstDate:
-              //                   DateTime.now().subtract(Duration(days: 365)),
-              //               lastDate: DateTime.now().add(Duration(days: 365)),
-              //             ).then((value) => setState(() => _dateTime = value!));
-              //           },
-              //         ),
-              //       ],
-              //     ),
-              //   ],
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text('Wiederholung'),
-              //     TextButton(
-              //       onPressed: () => _repeatStandingorder(),
-              //       child: Text('$_repeatValue'),
-              //     ),
-              //   ],
-              // ),
               SizedBox(height: 20),
               DropDown(
                 onChanged: (newValue) {
@@ -216,9 +178,6 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                   ),
                   ElevatedButton(
                     child: Text('Kategorie ändern'),
-                    // style: ButtonStyle(
-                    //     backgroundColor: MaterialStateProperty.all(
-                    //         Theme.of(context).colorScheme.primary)),
                     onPressed: () {
                       FocusScope.of(context).requestFocus(new FocusNode());
                       showDialog(
@@ -229,7 +188,6 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                               return Popup(
                                 title: 'Kategorien',
                                 body: Container(
-                                  //color: Colors.blue,
                                   padding: EdgeInsets.only(left: 5, right: 5),
                                   height:
                                       MediaQuery.of(context).size.height * 0.48,
@@ -371,27 +329,6 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
             body: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(children: [
-                // TextButton(
-                //   onPressed: () => _repeatValuePressed(0),
-                //   child: Text('wöchentlich'),
-                //   style: TextButton.styleFrom(
-                //     primary: Colors.black,
-                //   ),
-                // ),
-                // TextButton(
-                //   onPressed: () => _repeatValuePressed(1),
-                //   child: Text('monatlich'),
-                //   style: TextButton.styleFrom(
-                //     primary: Colors.black,
-                //   ),
-                // ),
-                // TextButton(
-                //   onPressed: () => _repeatValuePressed(2),
-                //   child: Text('jährlich'),
-                //   style: TextButton.styleFrom(
-                //     primary: Colors.black,
-                //   ),
-                // ),
                 RadioListTile<Repetition>(
                   title: Text('Wöchentlich'),
                   value: Repetition.weekly,
@@ -458,24 +395,6 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
           );
         });
   }
-
-  // void _repeatValuePressed(int value) {
-  //   switch (value) {
-  //     case 0:
-  //       _repeatValue = 'wöchentlich';
-  //       break;
-  //     case 1:
-  //       _repeatValue = 'monatlich';
-  //       break;
-  //     case 2:
-  //       _repeatValue = 'jährlich';
-  //       break;
-  //     default:
-  //       return;
-  //   }
-  //   this.setState(() {});
-  //   Navigator.pop(context, true);
-  // }
 
   void _saveStandingorder() async {
     String stringAmount = _amountController.text.replaceAll('.', '');

@@ -66,7 +66,8 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
               ElevatedButton(
                 onPressed: () => Navigator.pop(context, []),
                 child: Text('Zurücksetzen'),
-                style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.primary),
+                style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).colorScheme.primary),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -152,7 +153,6 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                   ),
                   value: _filterSO,
                   onChanged: (val) => setState(() => _filterSO = val),
-                  // activeColor: Theme.of(context).primaryColor,
                 ),
               ),
               Card(
@@ -174,10 +174,9 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                       child: Container(
                         width: double.infinity,
                         height: 300,
-                        //child: Text('Kategorieeen'),
                         child: GridView.count(
                           scrollDirection: Axis.vertical,
-                          childAspectRatio: 0.7,//MediaQuery.of(context).size.width /(MediaQuery.of(context).size.height / 1.5),
+                          childAspectRatio: 0.7,
                           padding: EdgeInsets.all(4),
                           crossAxisCount: 4,
                           crossAxisSpacing:
@@ -203,15 +202,9 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                   ],
                 ),
               ),
-              // Text(
-              //   'Konten',
-              //   style: TextStyle(fontWeight: FontWeight.bold),
-              // ),
               Card(
                 elevation: 5,
                 child: ExpansionTile(
-                  //textColor: Colors.black,
-                  //iconColor: Colors.black,
                   title: Text(
                     'Konten',
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -221,8 +214,6 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                       .map((e) => ListTile(
                             title: Text('${e.title}'),
                             trailing: Checkbox(
-                              // fillColor: MaterialStateProperty.all(
-                              //     Theme.of(context).primaryColor),
                               value: _filterAccounts.contains(e),
                               onChanged: (val) {
                                 setState(() {
@@ -250,7 +241,6 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                       .toList(),
                 ),
               ),
-              // SizedBox(height: 60)
             ],
           ),
         ),

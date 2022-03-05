@@ -15,9 +15,6 @@ class InputTheme {
   InputDecorationTheme theme(colorScheme) => InputDecorationTheme(
     contentPadding: EdgeInsets.all(14),
     isDense: false,
-    // labelStyle: TextStyle(
-    //   fontSize: 18,
-    // ),
     enabledBorder: _buildBorder(Colors.grey[600]!),
     focusedBorder: _buildBorder(colorScheme.primary),
     errorBorder: _buildBorder(colorScheme.error),

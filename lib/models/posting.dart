@@ -76,13 +76,9 @@ class Posting {
           ? null
           : AllData.accounts
               .firstWhere((element) => element.id == data['AccountID']),
-      //     : await Account().fromDB(await DBHelper.getOneData('Account',
-      //         where: "ID = '${data['AccountID']}'")),
       accountName: data['AccountName'],
       category: AllData.categories
           .firstWhere((element) => element.id == data['CategoryID']),
-      // category: Category().fromDB(await DBHelper.getOneData('Category',
-      //     where: "ID = '${data['CategoryID']}'")),
       isStandingOrder: data['IsStandingOrder'] == null
           ? false
           : data['IsStandingOrder'] == 0
@@ -92,9 +88,6 @@ class Posting {
           ? null
           : AllData.standingOrders
               .firstWhere((element) => element.id == data['StandingOrderID']),
-      // : await StandingOrder().fromDB(await DBHelper.getOneData(
-      //     'StandingOrder',
-      //     where: "ID = '${data['StandingOrderID']}'")),
     );
     return posting;
   }

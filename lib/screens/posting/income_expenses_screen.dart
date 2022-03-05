@@ -29,16 +29,12 @@ class IncomeExpenseScreen extends StatefulWidget {
 class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   ListItem? _selectedItem;
   DateTime _incomeDateTime = DateTime.now();
-  // DateTime _beginSO = DateTime.now();
-  // bool _standingorderSwitch = false;
-  // String _repeatValue = 'monatlich';
   TextEditingController _amountController = TextEditingController(text: '');
   TextEditingController _titleController = TextEditingController(text: '');
   TextEditingController _descriptionController =
       TextEditingController(text: '');
   final _formKey = GlobalKey<FormState>();
   List<ListItem> _accountDropDownItems = [];
-  //late ListItem _selectedItem;
   String _selectedCategoryID = '';
   Category _setCategory =
       AllData.categories.firstWhere((element) => element.id == 'default');
@@ -50,14 +46,12 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   int groupValueBuchungsart = 0;
 
   void _getAccountDropDownItems() {
-    //_selectedItem = ListItem('0', 'name');
     if (AllData.accounts.length != 0) {
       _accountDropDownItems = [];
       AllData.accounts.forEach((element) {
         _accountDropDownItems
             .add(ListItem(element.id.toString(), element.title.toString()));
       });
-      //_selectedItem = _accountDropDownItems.first;
       setState(() {});
     }
   }
@@ -74,7 +68,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     _incomeDateTime = posting.date!;
     _amountController.text =
         NumberFormat("###.00", "de").format(posting.amount!);
-    // '${posting.amount!.toStringAsFixed(2)}';
     _titleController.text = '${posting.title}';
     _descriptionController.text = '${posting.description}';
     _setCategory = posting.category!;
@@ -109,7 +102,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
       appBar: AppBar(
         title: Text(
             postingType != null ? '$postingType bearbeiten' : '${widget.type}'),
-        // backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -127,37 +119,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             physics: BouncingScrollPhysics(),
             padding: const EdgeInsets.all(10.0),
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Text('Datum:'),
-                  // Row(
-                  //   children: [
-                  //     Text(
-                  //       '${DateFormat.yMMMd().format(_incomeDateTime)}',
-                  //     ),
-                  //     //'${_incomeDateTime.day}. ${_incomeDateTime.month}. ${_incomeDateTime.year}'),
-                  //     IconButton(
-                  //       icon: Icon(Icons.date_range),
-                  //       onPressed: () {
-                  //         showDatePicker(
-                  //           context: context,
-                  //           initialDate: _incomeDateTime,
-                  //           firstDate:
-                  //               DateTime.now().subtract(Duration(days: 365)),
-                  //           lastDate: DateTime.now().add(Duration(days: 365)),
-                  //         ).then(
-                  //           (value) {
-                  //             if (value != null)
-                  //               setState(() => _incomeDateTime = value);
-                  //           },
-                  //         );
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
-                ],
-              ),
               SizedBox(
                 height: 10,
               ),
@@ -186,8 +147,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                       ),
                     ),
               SizedBox(height: 20),
-              // Text('Konto wählen:'),
-              // SizedBox(height: 10),
               DropDown(
                 onChanged: (newValue) {
                   FocusScope.of(context).requestFocus(new FocusNode());
@@ -241,10 +200,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                   ),
                   ElevatedButton(
                     child: Text('Kategorie ändern'),
-                    // style: ButtonStyle(
-                    //   backgroundColor: MaterialStateProperty.all(
-                    //       Theme.of(context).primaryColor),
-                    // ),
                     onPressed: () {
                       FocusScope.of(context).requestFocus(new FocusNode());
                       showDialog(
@@ -255,7 +210,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                               return Popup(
                                 title: 'Kategorien',
                                 body: Container(
-                                  //color: Colors.blue,
                                   padding: EdgeInsets.only(left: 5, right: 5),
                                   height:
                                       MediaQuery.of(context).size.height * 0.48,
@@ -335,101 +289,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                 ],
               ),
               Divider(),
-              // widget.id == '' ? SizedBox() : Divider(),
-              // widget.id == ''
-              //     ? SizedBox()
-              //     : Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //         children: [
-              //           Text(
-              //             'Einnahme',
-              //             style: TextStyle(color: Colors.green),
-              //           ),
-              //           Switch(
-              //             value: _postingSwitch,
-              //             onChanged: (val) {
-              //               setState(() {
-              //                 _postingSwitch = val;
-              //               });
-              //             },
-              //             activeColor: Colors.red,
-              //             activeTrackColor: Colors.grey,
-              //             inactiveThumbColor: Colors.green,
-              //             inactiveTrackColor: Colors.grey,
-              //           ),
-              //           Text(
-              //             'Ausgabe',
-              //             style: TextStyle(color: Colors.red),
-              //           ),
-              //         ],
-              //       )
-              // Stack(
-              //   children: [
-              //     Container(
-              //       padding: EdgeInsets.only(top: 10),
-              //       alignment: Alignment.centerRight,
-              //       child: Switch(
-              //           value: _standingorderSwitch,
-              //           onChanged: (value) {
-              //             setState(() {
-              //               _standingorderSwitch = value;
-              //             });
-              //           }),
-              //     ),
-              //Buchung ohne Dauerauftragoption, da man Dauerauftrag extra anlegen kann!
-              // ExpansionTile(
-              //   childrenPadding: EdgeInsets.only(left: 40),
-              //   title: Text('Dauerauftrag'),
-              //   initiallyExpanded: _standingorderSwitch,
-              //   trailing: Text(''),
-              //   onExpansionChanged: (value) {
-              //     setState(() {
-              //       _standingorderSwitch = value;
-              //     });
-              //   },
-              //   children: [
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       children: [
-              //         Text('Beginn:'),
-              //         Row(
-              //           children: [
-              //             Text(
-              //                 '${_beginSO.day}. ${_beginSO.month}. ${_beginSO.year}'),
-              //             IconButton(
-              //               icon: Icon(Icons.date_range),
-              //               onPressed: () {
-              //                 showDatePicker(
-              //                   context: context,
-              //                   initialDate: _beginSO,
-              //                   firstDate: DateTime.now()
-              //                       .subtract(Duration(days: 365)),
-              //                   lastDate:
-              //                       DateTime.now().add(Duration(days: 365)),
-              //                 ).then((value) =>
-              //                     setState(() => _beginSO = value!));
-              //               },
-              //             ),
-              //           ],
-              //         ),
-              //       ],
-              //     ),
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       children: [
-              //         Text('Wiederholung'),
-              //         TextButton(
-              //           onPressed: () => _repeatStandingorder(),
-              //           child: Text('$_repeatValue'),
-              //         ),
-              //       ],
-              //     ),
-              //   ],
-              // ),
             ],
           ),
-          // ],
-          // ),
         ),
       ),
     );
@@ -444,17 +305,15 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
           id: widget.id != '' ? widget.id : Uuid().v1(),
           title: _titleController.text,
           description: _descriptionController.text,
-          account: AllData.accounts.firstWhere((element) =>
-              element.id == _selectedItem!.id), //Ausgewähltes Konto
+          account: AllData.accounts
+              .firstWhere((element) => element.id == _selectedItem!.id),
           amount: double.parse(stringAmount),
           date: _incomeDateTime,
           postingType: widget.id == ''
               ? widget.type == 'Einnahme'
                   ? PostingType.income
                   : PostingType.expense
-              : PostingType.values[groupValueBuchungsart], //_postingSwitch
-          // ? PostingType.expense
-          // : PostingType.income,
+              : PostingType.values[groupValueBuchungsart],
           category: _setCategory,
           accountName: AllData.accounts
               .firstWhere((element) => element.id == _selectedItem!.id)
@@ -528,7 +387,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
         Navigator.pop(context);
       } catch (ex) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          //backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           content: Text(
             'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
             textAlign: TextAlign.center,
@@ -544,51 +402,4 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
       ));
     }
   }
-
-  // void _repeatStandingorder() {
-  //   CustomDialog().customShowDialog(
-  //       context,
-  //       'Wiederholung',
-  //       Column(children: [
-  //         TextButton(
-  //           onPressed: () => _repeatValuePressed(0),
-  //           child: Text('wöchentlich'),
-  //           style: TextButton.styleFrom(
-  //             primary: Colors.black,
-  //           ),
-  //         ),
-  //         TextButton(
-  //           onPressed: () => _repeatValuePressed(1),
-  //           child: Text('monatlich'),
-  //           style: TextButton.styleFrom(
-  //             primary: Colors.black,
-  //           ),
-  //         ),
-  //         TextButton(
-  //           onPressed: () => _repeatValuePressed(2),
-  //           child: Text('jährlich'),
-  //           style: TextButton.styleFrom(
-  //             primary: Colors.black,
-  //           ),
-  //         ),
-  //       ]));
-  // }
-
-  // void _repeatValuePressed(int value) {
-  //   switch (value) {
-  //     case 0:
-  //       _repeatValue = 'wöchentlich';
-  //       break;
-  //     case 1:
-  //       _repeatValue = 'monatlich';
-  //       break;
-  //     case 2:
-  //       _repeatValue = 'jährlich';
-  //       break;
-  //     default:
-  //       return;
-  //   }
-  //   this.setState(() {});
-  //   Navigator.pop(context, true);
-  // }
 }

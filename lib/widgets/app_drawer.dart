@@ -17,12 +17,8 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    // bool isIOS = false;
-
     return Drawer(
       child: ListView(
-        //   physics: BouncingScrollPhysics(),
         children: <Widget>[
           Container(
             height: 65,
@@ -42,22 +38,6 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
           ),
-          //     SwitchListTile(
-          //       secondary: Icon(Icons.lightbulb_outline),
-          //       title: Text('Darkmode'),
-          //       subtitle: Text(''),
-          //       value: _darkTheme,
-          //       onChanged: (val) {
-          //         // onThemeChanged(val, themeNotifier);
-          //       },
-          //     ),
-          // ListTile(
-          //   //isIOS ?  Icon(CupertinoIcons.add) :
-          //   leading: Icon(Icons.home, size: 36),
-          //   title: Text('Home', style: TextStyle(fontSize: 18)),
-          //   onTap: () => selectedItem(context, 'home'),
-          //   selected: selectedMenuItem == 'home' ? true : false,
-          // ),
           ListTile(
             leading: Icon(Icons.switch_account, size: 36),
             title: Text('Konten', style: TextStyle(fontSize: 18)),
@@ -95,7 +75,6 @@ class AppDrawer extends StatelessWidget {
             selected: selectedMenuItem == 'management' ? true : false,
           ),
           ListTile(
-            // isIOS? Icon(CupertinoIcons.settings) :
             leading: Icon(Icons.settings, size: 36),
             title: Text('Einstellungen', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 'settings'),

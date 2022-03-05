@@ -95,18 +95,17 @@ class _ManagePostingsState extends State<ManagePostings> {
     currentYearHelper = _listPosting.first.date!.year;
     _listofListViewWidgets.add(
       Card(
-        child: Padding(
-          padding: const EdgeInsets.only(
-              right: 4.0, top: 6.0, bottom: 4.0, left: 12),
-          child: Text(
-            formatDateMY(_listPosting.first.date!),
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onPrimary),
+          child: Padding(
+            padding: const EdgeInsets.only(
+                right: 4.0, top: 6.0, bottom: 4.0, left: 12),
+            child: Text(
+              formatDateMY(_listPosting.first.date!),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onPrimary),
+            ),
           ),
-        ),
-        color: Theme.of(context).primaryColorDark
-      ),
+          color: Theme.of(context).primaryColorDark),
     );
     for (int i = 0; i < _listPosting.length; i++) {
       //check if month has changed
@@ -158,184 +157,156 @@ class _ManagePostingsState extends State<ManagePostings> {
 
   Widget _listViewWidget(Posting posting, BuildContext context) {
     return Dismissible(
-      confirmDismiss: (DismissDirection direction) {
-        if (direction == DismissDirection.endToStart) {
-          return showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text("Buchung löschen"),
-                content: const Text(
-                    "Bist du sicher, dass du die Buchung löschen willst?"),
-                actions: <Widget>[
-                  TextButton(
-                      onPressed: () async {
-                        try {
-                          if (posting.account != null) {
-                            Account ac = AllData.accounts.firstWhere(
-                                (element) => element.id == posting.account!.id);
-                            AllData.accounts.remove(ac);
-                            if (posting.postingType == PostingType.income)
-                              ac.bankBalance =
-                                  ac.bankBalance! - posting.amount!;
-                            else
-                              ac.bankBalance =
-                                  ac.bankBalance! + posting.amount!;
-                            AllData.accounts.add(ac);
-                            await DBHelper.update('Account', ac.toMap(),
-                                where: "ID = '${ac.id}'");
-                          }
+        confirmDismiss: (DismissDirection direction) {
+          if (direction == DismissDirection.endToStart) {
+            return showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Buchung löschen"),
+                  content: const Text(
+                      "Bist du sicher, dass du die Buchung löschen willst?"),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () async {
+                          try {
+                            if (posting.account != null) {
+                              Account ac = AllData.accounts.firstWhere(
+                                  (element) =>
+                                      element.id == posting.account!.id);
+                              AllData.accounts.remove(ac);
+                              if (posting.postingType == PostingType.income)
+                                ac.bankBalance =
+                                    ac.bankBalance! - posting.amount!;
+                              else
+                                ac.bankBalance =
+                                    ac.bankBalance! + posting.amount!;
+                              AllData.accounts.add(ac);
+                              await DBHelper.update('Account', ac.toMap(),
+                                  where: "ID = '${ac.id}'");
+                            }
 
-                          AllData.postings.removeWhere(
-                              (element) => element.id == posting.id);
-                          await DBHelper.delete('Posting',
-                              where: "ID = '${posting.id}'");
-                        } catch (ex) {
-                          //Fehlermeldung ausgeben
-                          print(ex);
-                        }
+                            AllData.postings.removeWhere(
+                                (element) => element.id == posting.id);
+                            await DBHelper.delete('Posting',
+                                where: "ID = '${posting.id}'");
+                          } catch (ex) {}
 
-                        Navigator.of(context).pop(true);
-                        this.setState(() {});
-                      },
-                      child: const Text("Löschen")),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: const Text("Abbrechen"),
-                  ),
-                ],
-              );
-            },
-          );
-        } else {
-          Navigator.pushNamed(context, IncomeExpenseScreen.routeName,
-              arguments: ['', posting.id]);
-          return Future.value(false);
-        }
-      },
-      key: ValueKey<String>(posting.id.toString()),
-      onDismissed: (DismissDirection direction) {
-        // AllData.standingOrders.remove(item);
-        // DBHelper.delete('StandingOrder',
-        //     where: "ID = '${item.id}'");
-
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     content: Text('Dauerauftrag wurde gelöscht')));
-        // setState(() {});
-      },
-      direction: DismissDirection.horizontal,
-      background: Container(
-        color: Globals.isDarkmode
-            ? Globals.dismissibleEditColorLDark
-            : Globals.dismissibleEditColorLight,
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Icon(Icons.edit, color: Colors.white),
-              Text('Edit', style: TextStyle(color: Colors.white)),
-            ],
-          ),
-        ),
-      ),
-      secondaryBackground: Container(
-        color: Globals.isDarkmode
-            ? Globals.dismissibleDeleteColorDark
-            : Globals.dismissibleDeleteColorLight,
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Icon(Icons.delete, color: Colors.white),
-              Text('Move to trash', style: TextStyle(color: Colors.white)),
-            ],
-          ),
-        ),
-      ),
-      child: GestureDetector(
-          onLongPress: () {
-            // Navigator.of(context).pushNamed(
-            //     AddEditStandingOrder.routeName,
-            //     arguments: item.id);
-          },
-          child: Card(
-            child: ExpansionTile(
-              leading: Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: getColor(posting.category!.color!).withOpacity(0.20),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Image.asset(
-                    posting.category!.symbol!,
-                    color: getColor(posting.category!.color!),
-                  ),
-                ),
-              ),
-              // leading: CircleAvatar(
-              //   backgroundColor: Colors.transparent,
-              //   child: FractionallySizedBox(
-              //     widthFactor: 0.6,
-              //     heightFactor: 0.6,
-              //     child: Image.asset(
-              //       posting.category!.symbol!,
-              //       color: getColor(posting.category!.color!),
-              //     ),
-              //   ),
-              // ),
-              title: Text('${posting.title}'),
-              subtitle: Text(
-                '${posting.accountName}',
-                style: TextStyle(color: Colors.grey.shade400),
-              ),
-              trailing: posting.postingType == PostingType.income
-                  ? Text(
-                      '+ ' + formatCurrency(posting.amount!),
-                      style: TextStyle(color: Colors.green),
-                    )
-                  : Text(
-                      '- ' + formatCurrency(posting.amount!),
-                      style: TextStyle(color: Colors.red),
+                          Navigator.of(context).pop(true);
+                          this.setState(() {});
+                        },
+                        child: const Text("Löschen")),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: const Text("Abbrechen"),
                     ),
-              childrenPadding:
-                  EdgeInsets.only(left: 20, bottom: 10, right: 10, top: 10),
-              expandedAlignment: Alignment.topLeft,
-              children: [
-                Table(
-                  children: [
-                    TableRow(
-                      children: [
-                        Text('Kategorie:'),
-                        Text('${posting.category!.title}'),
-                      ],
-                    ),
-                    TableRow(
-                      children: [
-                        Text('Datum:'),
-                        Text(formatDate(posting.date!)),
-                      ],
-                    ),
-                    if (posting.description != '')
-                      TableRow(
-                        children: [
-                          Text('Beschreibung:'),
-                          Text(
-                            '${posting.description}',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 4,
-                            softWrap: false,
-                          ),
-                        ],
-                      )
                   ],
-                )
+                );
+              },
+            );
+          } else {
+            Navigator.pushNamed(context, IncomeExpenseScreen.routeName,
+                arguments: ['', posting.id]);
+            return Future.value(false);
+          }
+        },
+        key: ValueKey<String>(posting.id.toString()),
+        onDismissed: (DismissDirection direction) {},
+        direction: DismissDirection.horizontal,
+        background: Container(
+          color: Globals.isDarkmode
+              ? Globals.dismissibleEditColorLDark
+              : Globals.dismissibleEditColorLight,
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Icon(Icons.edit, color: Colors.white),
+                Text('Edit', style: TextStyle(color: Colors.white)),
               ],
             ),
-          )),
-    );
+          ),
+        ),
+        secondaryBackground: Container(
+          color: Globals.isDarkmode
+              ? Globals.dismissibleDeleteColorDark
+              : Globals.dismissibleDeleteColorLight,
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Icon(Icons.delete, color: Colors.white),
+                Text('Move to trash', style: TextStyle(color: Colors.white)),
+              ],
+            ),
+          ),
+        ),
+        child: Card(
+          child: ExpansionTile(
+            leading: Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: getColor(posting.category!.color!).withOpacity(0.20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset(
+                  posting.category!.symbol!,
+                  color: getColor(posting.category!.color!),
+                ),
+              ),
+            ),
+            title: Text('${posting.title}'),
+            subtitle: Text(
+              '${posting.accountName}',
+              style: TextStyle(color: Colors.grey.shade400),
+            ),
+            trailing: posting.postingType == PostingType.income
+                ? Text(
+                    '+ ' + formatCurrency(posting.amount!),
+                    style: TextStyle(color: Colors.green),
+                  )
+                : Text(
+                    '- ' + formatCurrency(posting.amount!),
+                    style: TextStyle(color: Colors.red),
+                  ),
+            childrenPadding:
+                EdgeInsets.only(left: 20, bottom: 10, right: 10, top: 10),
+            expandedAlignment: Alignment.topLeft,
+            children: [
+              Table(
+                children: [
+                  TableRow(
+                    children: [
+                      Text('Kategorie:'),
+                      Text('${posting.category!.title}'),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      Text('Datum:'),
+                      Text(formatDate(posting.date!)),
+                    ],
+                  ),
+                  if (posting.description != '')
+                    TableRow(
+                      children: [
+                        Text('Beschreibung:'),
+                        Text(
+                          '${posting.description}',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 4,
+                          softWrap: false,
+                        ),
+                      ],
+                    )
+                ],
+              )
+            ],
+          ),
+        ));
   }
 }

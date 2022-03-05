@@ -15,9 +15,14 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
-// ignore: must_be_immutable
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   static final routeName = '/settings_screen';
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   bool _darkTheme = false;
 
   void onThemeChanged(bool value, ThemeNotifier themeNotifier) async {
@@ -38,7 +43,6 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Einstellungen'),
         centerTitle: true,
-        // backgroundColor: Theme.of(context).primaryColor,
       ),
       body: ListView(
         physics: BouncingScrollPhysics(),
@@ -46,17 +50,11 @@ class SettingsScreen extends StatelessWidget {
           SwitchListTile(
             secondary: Icon(Icons.lightbulb),
             title: Text('Darkmode'),
-            // subtitle: Text(''),
             value: _darkTheme,
             onChanged: (val) {
               onThemeChanged(val, themeNotifier);
             },
           ),
-          //
-          //
-          //  more settings
-          //
-          //
           ListTile(
             leading: Icon(
               Icons.delete_forever,

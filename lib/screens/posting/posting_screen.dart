@@ -5,19 +5,12 @@ import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class PostingScreen extends StatelessWidget {
   static final routeName = '/posting_screen';
-  final urlBackgroundImageIncome =
-      'https://images.unsplash.com/photo-1579621970795-87facc2f976d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80';
-  final urlBackgroundImageExpense =
-      'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1612&q=80';
-  final urlBackroundImageTransfer =
-      'https://images.unsplash.com/photo-1523629619140-ee5b56cb3b23?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3114&q=80';
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text('Buchen'),
           centerTitle: true,
-          // backgroundColor: Theme.of(context).primaryColor,
         ),
         drawer: AppDrawer(
           selectedMenuItem: 'posting',
@@ -32,12 +25,8 @@ class PostingScreen extends StatelessWidget {
                     _income(context);
                   },
                   child: Container(
-                    // padding: EdgeInsets.all(25),
-                    // margin: EdgeInsets.all(25),
                     width: double.infinity,
-                    //height: double.infinity,
                     decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
                         image: AssetImage('assets/images/einnahme.jpg'),
                         fit: BoxFit.cover,
@@ -71,14 +60,9 @@ class PostingScreen extends StatelessWidget {
                     _expense(context);
                   },
                   child: Container(
-                    // padding: EdgeInsets.all(25),
-                    // margin: EdgeInsets.all(25),
                     width: double.infinity,
-                    //height: double.infinity,
                     decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
-                        // image: NetworkImage(urlBackgroundImageExpense),
                         image: AssetImage('assets/images/ausgabe2.jpg'),
                         fit: BoxFit.cover,
                         opacity: 0.8,
@@ -111,19 +95,13 @@ class PostingScreen extends StatelessWidget {
                     _transfer(context);
                   },
                   child: Container(
-                    // padding: EdgeInsets.all(25),
-                    // margin: EdgeInsets.all(25),
                     width: double.infinity,
-                    //height: double.infinity,
                     decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
-                        // image: NetworkImage(urlBackroundImageTransfer),
                         image: AssetImage('assets/images/umbuchung.jpg'),
                         fit: BoxFit.cover,
                         opacity: 0.8,
                       ),
-                      // color: Colors.grey.withOpacity(0.1),
                     ),
                     alignment: Alignment.center,
                     child: Column(

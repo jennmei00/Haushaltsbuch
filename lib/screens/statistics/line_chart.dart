@@ -187,10 +187,6 @@ class _LineChartState extends State<LineChart> {
                 overflowMode: LegendItemOverflowMode.wrap,
               ),
               tooltipBehavior: TooltipBehavior(enable: true),
-              // zoomPanBehavior: ZoomPanBehavior(
-              //   enablePanning: true,
-              // ),
-
               primaryXAxis: DateTimeAxis(
                 autoScrollingMode: AutoScrollingMode.end,
                 minimum: getMondayOfWeek(_dateRange.start),
@@ -201,22 +197,16 @@ class _LineChartState extends State<LineChart> {
                 interval: _dateRange.duration > Duration(days: 60) ? 1 : 7,
                 dateFormat: _dateRange.duration > Duration(days: 60)
                     ? DateFormat("MMM yy", "de")
-                    : DateFormat("dd.MMM yy", "de"), // weeklyDateFormat()
+                    : DateFormat("dd.MMM yy", "de"),
                 labelRotation: 50,
                 majorTickLines: const MajorTickLines(color: Colors.transparent),
-                // autoScrollingDeltaType: DateTimeIntervalType.months,
-                // autoScrollingDelta: 1,
-                // enableAutoIntervalOnZooming: true
               ),
               primaryYAxis: NumericAxis(
                 majorTickLines: const MajorTickLines(color: Colors.transparent),
                 axisLine: const AxisLine(width: 0),
                 numberFormat: NumberFormat.currency(locale: "de", symbol: "€"),
-                // minimum: 0,
-                // maximum: 100
               ),
               series: _getDefaultLineSeries(),
-              // ),
             ),
           ),
         ),
@@ -342,14 +332,6 @@ class _LineChartState extends State<LineChart> {
           yValueMapper: (_ChartData data, _) => data.y,
           name: e.title);
     }).toList();
-
-    //  <LineSeries<_ChartData, DateTime>>[
-    //   LineSeries<_ChartData, DateTime>(
-    //       dataSource: _chartData,
-    //       xValueMapper: (_ChartData data, _) => data.x,
-    //       yValueMapper: (_ChartData data, _) => data.y,
-    //       markerSettings: const MarkerSettings(isVisible: true))
-    // ];
   }
 }
 

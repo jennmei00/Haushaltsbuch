@@ -5,10 +5,7 @@ import 'package:haushaltsbuch/widgets/app_drawer.dart';
 class HomeScreen extends StatefulWidget {
   static final routeName = '/home_screen';
 
-  //wieder loeschen
-  final String id;
-  final bool isSOUpdated;
-  HomeScreen({this.id = '', this.isSOUpdated = false});
+  HomeScreen();
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -16,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String value = 'Dein Vermögen beträgt';
+
   bool showsBalance = false;
 
   var accountData = AllData.accounts;
@@ -38,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text(
           'Home',
@@ -88,7 +85,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-    // ignore: todo
-    //TODO: Cupertino Design
   }
 }

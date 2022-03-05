@@ -24,7 +24,7 @@ class _AccountScreenState extends State<AccountScreen> {
   List<List<Object>> accountTypeList = [];
 
   var accountData = AllData.accounts;
-  
+
   double totalBankBalance = 0;
   void _createAccountList() {
     accountData.forEach((ac) {
@@ -46,7 +46,6 @@ class _AccountScreenState extends State<AccountScreen> {
     accountData.forEach((ac) {
       totalBankBalance += ac.bankBalance!;
     });
-    //totalBankBalance = double.parse((totalBankBalance).toStringAsFixed(2));
   }
 
   double _getTotalBankBalanceForSpecificAcType(String acType) {
@@ -63,7 +62,7 @@ class _AccountScreenState extends State<AccountScreen> {
     if (balance < 0) {
       return Colors.red;
     } else {
-      return Theme.of(context).colorScheme.onSurface; //Colors.black;
+      return Theme.of(context).colorScheme.onSurface;
     }
   }
 
@@ -77,15 +76,11 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //accountTypeList.sort((obj, obj2) => obj2.compareTo(obj));
     return Scaffold(
-        //backgroundColor: Theme.of(context).colorScheme.background,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
-          //backgroundColor: Theme.of(context).primaryColor,
           child: Icon(Icons.add),
           onPressed: () {
-            //print(accountData);
             Navigator.of(context)
                 .pushNamed(NewAccountScreen.routeName, arguments: '');
           },
@@ -93,7 +88,6 @@ class _AccountScreenState extends State<AccountScreen> {
         appBar: AppBar(
           title: Text('Konten'),
           centerTitle: true,
-          // backgroundColor: Theme.of(context).primaryColor),
         ),
         drawer: AppDrawer(selectedMenuItem: 'accounts'),
         body: AllData.accounts.length == 0
@@ -126,9 +120,6 @@ class _AccountScreenState extends State<AccountScreen> {
                         ],
                       ),
                     ),
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
                     Expanded(
                       child: ListView.builder(
                         shrinkWrap: true,
@@ -141,10 +132,6 @@ class _AccountScreenState extends State<AccountScreen> {
                             color:
                                 Globals.isDarkmode ? null : Color(0xffeeeeee),
                             child: ExpansionTile(
-                              //backgroundColor: Theme.of(context).primaryColorDark,
-                              //collapsedBackgroundColor: Theme.of(context).primaryColorDark,
-                              //textColor: Colors.black,
-                              //iconColor: Colors.black,
                               initiallyExpanded: false,
                               title: Row(
                                 mainAxisAlignment:
@@ -153,7 +140,6 @@ class _AccountScreenState extends State<AccountScreen> {
                                   Text('${itemAccountType.title}'),
                                   Text(
                                       '${NumberFormat.currency(locale: "de", symbol: "€").format(accountTypeList[index][1])}'),
-                                  //Text(itemAccountTypeBalance + ' €'),
                                 ],
                               ),
                               children: AllData.accounts
@@ -221,20 +207,6 @@ class _AccountScreenState extends State<AccountScreen> {
                                       return Future.value(false);
                                     }
                                   },
-                                  onDismissed: (DismissDirection direction) {
-                                    // if (direction ==
-                                    //     DismissDirection.endToStart) {
-                                    //   AllData.standingOrders.remove(e);
-
-                                    //   DBHelper.delete('StandingOrder',
-                                    //       where: "ID = '${e.id}'");
-                                    //   ScaffoldMessenger.of(context)
-                                    //       .showSnackBar(SnackBar(
-                                    //           content: Text(
-                                    //               'Dauerauftrag wurde gelöscht')));
-                                    //   setState(() {});
-                                    // }
-                                  },
                                   key: ValueKey<String>(e.id.toString()),
                                   background: Container(
                                     color: Globals.isDarkmode
@@ -285,14 +257,14 @@ class _AccountScreenState extends State<AccountScreen> {
                                       Navigator.of(context).pushNamed(
                                           AccountOverviewScreen.routeName,
                                           arguments: e.id);
-                                    }, 
+                                    },
                                     child: Card(
-                                      color: Theme.of(context).scaffoldBackgroundColor,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.zero,
                                       ),
                                       margin: EdgeInsets.all(0),
-                                      //color: ,
                                       child: ListTile(
                                         leading: Padding(
                                           padding: const EdgeInsets.all(4),
@@ -314,25 +286,11 @@ class _AccountScreenState extends State<AccountScreen> {
                                             ),
                                           ),
                                         ),
-                                        title: //Row(
-                                            //children: [
-                                            // Container(
-                                            //   width: 30,
-                                            //   height: 30,
-                                            //   child: Image.asset(e.symbol!,
-                                            //       color: getColor(e.color!)),
-                                            // ),
-                                            // SizedBox(
-                                            //   width: 10,
-                                            // ),
-                                            Text(
+                                        title: Text(
                                           '${e.title}',
                                         ),
-                                        //],
-                                        //),
                                         trailing: Text(
                                           '${NumberFormat.currency(locale: "de", symbol: "€").format(e.bankBalance)}',
-                                          //'${e.bankBalance!.toStringAsFixed(2)} €',
                                           style: TextStyle(
                                               color: _getColorBalance(
                                                   e.bankBalance!)),

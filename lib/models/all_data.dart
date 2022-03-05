@@ -3,7 +3,6 @@ import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
-// import 'package:haushaltsbuch/models/standing_order_posting.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 
 class AllData {
