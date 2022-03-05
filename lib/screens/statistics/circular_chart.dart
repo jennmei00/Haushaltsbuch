@@ -23,15 +23,29 @@ class _CircularChartState extends State<CircularChart>
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      TabBar(
-        labelColor: Globals.isDarkmode ? null : Colors.black,
-        indicatorColor: Theme.of(context).primaryColor,
-      tabs: [
-        Tab(text: 'Ausgabe'),
-        Tab(text: 'Einnahme'),
-      ],
-      controller: _tabController,
-    ), Expanded(
+      Container(
+        //color: Theme.of(context).primaryColor.withOpacity(0.1),
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          boxShadow: [
+            BoxShadow(
+              color: Globals.isDarkmode ? Colors.black.withOpacity(0.5) : Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              //offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: TabBar(
+          labelColor: Globals.isDarkmode ? null : Colors.black,
+          indicatorColor: Theme.of(context).primaryColor,
+        tabs: [
+          Tab(text: 'Ausgabe'),
+          Tab(text: 'Einnahme'),
+        ],
+        controller: _tabController,
+    ),
+      ), Expanded(
       child: TabBarView(
         children: [
           ExpenseCircularChart(),
