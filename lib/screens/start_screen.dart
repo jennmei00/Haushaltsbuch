@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:haushaltsbuch/screens/account/account_screen.dart';
 // import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -55,7 +57,7 @@ Future<void> _getThemeMode() async {
       prefs.getBool('darkMode') ?? brightness == Brightness.dark;
 }
 
-class _StartScreenState extends State<StartScreen> {
+class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
   late Future<bool> _loadData;
 
   Future<bool> _getAllData() async {
@@ -80,174 +82,195 @@ class _StartScreenState extends State<StartScreen> {
     AllData.transfers =
         Transfer().listFromDB(await DBHelper.getData('Transfer'));
 
-    _updateStandingOrderPostings();
+    // _updateStandingOrderPostings();
+    updateStandingOrderPostings(context, false);
 
     return Future.value(true);
   }
 
-  void _updateStandingOrderPostings() {
-    AllData.postings.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
-    bool isUpdated = false;
+  // void _updateStandingOrderPostings() {
+  //   AllData.postings.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
+  //   bool isUpdated = false;
 
-    AllData.standingOrders.forEach((element) {
-      if (element.end != null) {
-        if (element.end!.isBefore(DateTime.now())) return;
-      }
+  //   AllData.standingOrders.forEach((element) {
+  //     if (element.end != null) {
+  //       if (element.end!.isBefore(DateTime.now())) return;
+  //     }
 
-      Posting? lastPosting;
+  //     Posting? lastPosting;
 
-      try {
-        lastPosting = AllData.postings.length == 0
-            ? null
-            : AllData.postings.lastWhere(((elementPosting) =>
-                elementPosting.standingOrder == null
-                    ? false
-                    : elementPosting.standingOrder?.id == element.id));
-      } catch (ex) {}
+  //     try {
+  //       lastPosting = AllData.postings.length == 0
+  //           ? null
+  //           : AllData.postings.lastWhere(((elementPosting) =>
+  //               elementPosting.standingOrder == null
+  //                   ? false
+  //                   : elementPosting.standingOrder?.id == element.id));
+  //     } catch (ex) {}
 
-      if (element.repetition == Repetition.weekly) {
-        DateTime? date;
-        if (lastPosting != null && lastPosting != Posting())
-          date = lastPosting.date as DateTime;
-        else
-          date = element.begin!.subtract(Duration(days: 7));
-        Duration difference = DateTime.now().difference(date);
-        if (difference.inDays / 7 >= 1) {
-          int missing = (difference.inDays / 7).floor();
+  //     if (element.repetition == Repetition.weekly) {
+  //       DateTime? date;
+  //       if (lastPosting != null && lastPosting != Posting())
+  //         date = lastPosting.date as DateTime;
+  //       else
+  //         date = element.begin!.subtract(Duration(days: 7));
+  //       Duration difference = DateTime.now().difference(date);
+  //       if (difference.inDays / 7 >= 1) {
+  //         int missing = (difference.inDays / 7).floor();
 
-          for (var i = 0; i < missing; i++) {
-            date = date!.add(Duration(days: 7));
-            isUpdated = true;
-            _addPosting(element, date);
-          }
-        }
-      } else if (element.repetition == Repetition.monthly) {
-        DateTime? date;
-        if (lastPosting != null && lastPosting != Posting())
-          date = lastPosting.date;
-        else {
-          if (element.begin!.isBefore(DateTime.now())) {
-            _addPosting(element, element.begin!);
-            isUpdated = true;
-          }
-          date = element.begin!;
-        }
-        int i = 1;
-        while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-          _addPosting(element, Jiffy(date).add(months: i).dateTime);
-          isUpdated = true;
-          i++;
-        }
-      } else if (element.repetition == Repetition.quarterly) {
-        DateTime? date;
-        if (lastPosting != null && lastPosting != Posting())
-          date = lastPosting.date;
-        else {
-          if (element.begin!.isBefore(DateTime.now())) {
-            _addPosting(element, element.begin!);
-            isUpdated = true;
-          }
-          date = element.begin!;
-        }
-        int i = 3;
-        while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-          _addPosting(element, Jiffy(date).add(months: i).dateTime);
-          isUpdated = true;
-          i += 3;
-        }
-      } else if (element.repetition == Repetition.halfYearly) {
-        DateTime? date;
-        if (lastPosting != null && lastPosting != Posting())
-          date = lastPosting.date;
-        else {
-          if (element.begin!.isBefore(DateTime.now())) {
-            _addPosting(element, element.begin!);
-            isUpdated = true;
-          }
-          date = element.begin!;
-        }
-        int i = 6;
-        while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-          _addPosting(element, Jiffy(date).add(months: i).dateTime);
-          isUpdated = true;
-          i += 6;
-        }
-      } else if (element.repetition == Repetition.yearly) {
-        DateTime? date;
-        if (lastPosting != null && lastPosting != Posting())
-          date = lastPosting.date;
-        else {
-          if (element.begin!.isBefore(DateTime.now())) {
-            _addPosting(element, element.begin!);
-            isUpdated = true;
-          }
-          date = element.begin!;
-        }
-        int i = 1;
-        while (Jiffy(date).add(years: i).dateTime.isBefore(DateTime.now())) {
-          _addPosting(element, Jiffy(date).add(years: i).dateTime);
-          isUpdated = true;
-          i++;
-        }
-      }
-    });
+  //         for (var i = 0; i < missing; i++) {
+  //           date = date!.add(Duration(days: 7));
+  //           isUpdated = true;
+  //           _addPosting(element, date);
+  //         }
+  //       }
+  //     } else if (element.repetition == Repetition.monthly) {
+  //       DateTime? date;
+  //       if (lastPosting != null && lastPosting != Posting())
+  //         date = lastPosting.date;
+  //       else {
+  //         if (element.begin!.isBefore(DateTime.now())) {
+  //           _addPosting(element, element.begin!);
+  //           isUpdated = true;
+  //         }
+  //         date = element.begin!;
+  //       }
+  //       int i = 1;
+  //       while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
+  //         _addPosting(element, Jiffy(date).add(months: i).dateTime);
+  //         isUpdated = true;
+  //         i++;
+  //       }
+  //     } else if (element.repetition == Repetition.quarterly) {
+  //       DateTime? date;
+  //       if (lastPosting != null && lastPosting != Posting())
+  //         date = lastPosting.date;
+  //       else {
+  //         if (element.begin!.isBefore(DateTime.now())) {
+  //           _addPosting(element, element.begin!);
+  //           isUpdated = true;
+  //         }
+  //         date = element.begin!;
+  //       }
+  //       int i = 3;
+  //       while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
+  //         _addPosting(element, Jiffy(date).add(months: i).dateTime);
+  //         isUpdated = true;
+  //         i += 3;
+  //       }
+  //     } else if (element.repetition == Repetition.halfYearly) {
+  //       DateTime? date;
+  //       if (lastPosting != null && lastPosting != Posting())
+  //         date = lastPosting.date;
+  //       else {
+  //         if (element.begin!.isBefore(DateTime.now())) {
+  //           _addPosting(element, element.begin!);
+  //           isUpdated = true;
+  //         }
+  //         date = element.begin!;
+  //       }
+  //       int i = 6;
+  //       while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
+  //         _addPosting(element, Jiffy(date).add(months: i).dateTime);
+  //         isUpdated = true;
+  //         i += 6;
+  //       }
+  //     } else if (element.repetition == Repetition.yearly) {
+  //       DateTime? date;
+  //       if (lastPosting != null && lastPosting != Posting())
+  //         date = lastPosting.date;
+  //       else {
+  //         if (element.begin!.isBefore(DateTime.now())) {
+  //           _addPosting(element, element.begin!);
+  //           isUpdated = true;
+  //         }
+  //         date = element.begin!;
+  //       }
+  //       int i = 1;
+  //       while (Jiffy(date).add(years: i).dateTime.isBefore(DateTime.now())) {
+  //         _addPosting(element, Jiffy(date).add(years: i).dateTime);
+  //         isUpdated = true;
+  //         i++;
+  //       }
+  //     }
+  //   });
 
-    if (isUpdated) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Buchungen aktualisiert'),
-              content: Text(
-                  'Es wurden neue Buchungen zu deinen Daueraufträgen hinzugefügt.'),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(context), child: Text('OK'))
-              ],
-            );
-          });
-    }
-  }
+  //   if (isUpdated) {
+  //     showDialog(
+  //         context: context,
+  //         builder: (context) {
+  //           return AlertDialog(
+  //             title: Text('Buchungen aktualisiert'),
+  //             content: Text(
+  //                 'Es wurden neue Buchungen zu deinen Daueraufträgen hinzugefügt.'),
+  //             actions: [
+  //               TextButton(
+  //                   onPressed: () => Navigator.pop(context), child: Text('OK'))
+  //             ],
+  //           );
+  //         });
+  //   }
+  // }
 
-  void _addPosting(StandingOrder element, DateTime date) {
-    Posting p = Posting(
-      id: Uuid().v1(),
-      title: element.title,
-      description: element.description,
-      account: element.account,
-      amount: element.amount,
-      date: date,
-      postingType: element.postingType,
-      category: element.category,
-      accountName: element.account?.title,
-      standingOrder: element,
-      isStandingOrder: true,
-    );
+  // void _addPosting(StandingOrder element, DateTime date) {
+  //   Posting p = Posting(
+  //     id: Uuid().v1(),
+  //     title: element.title,
+  //     description: element.description,
+  //     account: element.account,
+  //     amount: element.amount,
+  //     date: date,
+  //     postingType: element.postingType,
+  //     category: element.category,
+  //     accountName: element.account?.title,
+  //     standingOrder: element,
+  //     isStandingOrder: true,
+  //   );
 
-    AllData.postings.add(p);
-    DBHelper.insert('Posting', p.toMap());
+  //   AllData.postings.add(p);
+  //   DBHelper.insert('Posting', p.toMap());
 
-    //update AccountAmount
-    Account ac =
-        AllData.accounts.firstWhere((element) => element.id == p.account!.id);
-    if (p.postingType == PostingType.income)
-      AllData
-          .accounts[
-              AllData.accounts.indexWhere((element) => element.id == ac.id)]
-          .bankBalance = ac.bankBalance! + p.amount!;
-    else
-      AllData
-          .accounts[
-              AllData.accounts.indexWhere((element) => element.id == ac.id)]
-          .bankBalance = ac.bankBalance! - p.amount!;
+  //   //update AccountAmount
+  //   Account ac =
+  //       AllData.accounts.firstWhere((element) => element.id == p.account!.id);
+  //   if (p.postingType == PostingType.income)
+  //     AllData
+  //         .accounts[
+  //             AllData.accounts.indexWhere((element) => element.id == ac.id)]
+  //         .bankBalance = ac.bankBalance! + p.amount!;
+  //   else
+  //     AllData
+  //         .accounts[
+  //             AllData.accounts.indexWhere((element) => element.id == ac.id)]
+  //         .bankBalance = ac.bankBalance! - p.amount!;
 
-    DBHelper.update('Account', ac.toMap(), where: "ID = '${ac.id}'");
-  }
+  //   DBHelper.update('Account', ac.toMap(), where: "ID = '${ac.id}'");
+  // }
+
+  // @override
+  // void dispose() {
+  //   WidgetsBinding.instance!.removeObserver(this);
+  //   super.dispose();
+  // }
+
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   print('state = $state');
+  //   if(state == AppLifecycleState.resumed) {
+  //     _updateStandingOrderPostings();
+  //   }
+
+  //   if(state == AppLifecycleState.paused) {
+  //     Timer(Duration(seconds: 3), () => print('Timer'),);
+  //   }
+  // }
 
   @override
   void initState() {
     _loadData = _getAllData();
     _getThemeMode();
+    // WidgetsBinding.instance!.addObserver(this);
+
     super.initState();
   }
 

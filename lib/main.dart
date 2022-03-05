@@ -17,6 +17,7 @@ import 'package:haushaltsbuch/screens/statistics/statistics_screen.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/screens/posting/transfer_screen.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/services/theme.dart';
 import 'package:haushaltsbuch/services/theme_notifier.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +44,50 @@ void main() {
   // runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('state = $state');
+    if (state == AppLifecycleState.resumed) {
+      updateStandingOrderPostings(context, true);
+      print('RESUMEd');
+
+      // Phoenix.rebirth(context);
+
+      // showDialog(
+      //     context: context,
+      //     builder: (context) {
+      //       return AlertDialog(
+      //         title: Text('Buchungen aktualisiert'),
+      //         content: Text(
+      //             'Es wurden neue Buchungen zu deinen Daueraufträgen hinzugefügt.'),
+      //         actions: [
+      //           TextButton(
+      //               onPressed: () => Navigator.pop(context), child: Text('OK'))
+      //         ],
+      //       );
+      //     });
+    }
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addObserver(this);
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);

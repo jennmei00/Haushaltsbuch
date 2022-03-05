@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:validators/validators.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -29,13 +30,17 @@ class CustomTextField extends StatelessWidget {
       textInputAction: this.textInputAction,
       // focusNode: this.focusNode,
       controller: this.controller,
+      inputFormatters: this.keyboardType != TextInputType.number
+          ? null
+          : [
+              FilteringTextInputFormatter.allow(RegExp(
+                  r'^(?:-?(?:[0-9]+))?(?:\,[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?'))
+            ],
       validator: (value) {
         if ((value == null || value.isEmpty) && mandatory) {
           return 'Das ist ein Pflichtfeld!';
         } else if (this.keyboardType == TextInputType.number) {
-          String val = value!.replaceAll('.', '');
-          val = val.replaceAll(',', '.');
-          if (!(isFloat(val))) {
+          if (!(isFloat(value!.replaceAll(',', '.')))) {
             return 'Nur Zahlen sind erlaubt (Punkt statt Komma)';
           }
         }
