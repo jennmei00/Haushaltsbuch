@@ -64,7 +64,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     _titleController.text = ac.title!;
     _bankBalanceController.text =
     NumberFormat("###.00", "de").format(ac.bankBalance!);
-    // ac.bankBalance!.toStringAsFixed(2);
     _descriptionController.text = ac.description!;
     _selectedItem = _accountTypeDropDownItems
         .firstWhere((element) => element.id == ac.accountType!.id);
@@ -90,9 +89,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       appBar: AppBar(
         title: Text(widget.id == ''
             ? 'Neues Konto'
-            : 'Konto bearbeiten'), //Text('${Globals.funktioniert}'),
+            : 'Konto bearbeiten'),
         centerTitle: true,
-        // backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -156,7 +154,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                 dropdownHintText: 'Kontoart',
               ),
               SizedBox(height: 10),
-              // Divider(),
               SizedBox(height: 10),
               Align(
                 alignment: Alignment.center,
@@ -168,8 +165,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
               SizedBox(
                 width: double.infinity,
                 child: GestureDetector(
-                  //Iconbutton(
-                  //highlightColor: Colors.transparent,
                   onTap: () {
                     FocusScope.of(context).requestFocus(new FocusNode());
 
@@ -318,7 +313,6 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
         description: _descriptionController.text,
         bankBalance: double.parse(stringBankBalance),
         creationDate: _creationDate,
-        // creationDate: DateTime(2021, 11, 1),
         initialBankBalance: _initialBankBalance,
         color: getColorToSave(_iconcolor),
         accountType: AllData.accountTypes

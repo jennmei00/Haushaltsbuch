@@ -144,9 +144,6 @@ class _ManageTransfersState extends State<ManageTransfers> {
         ? NothingThere(textScreen: 'Du hast noch keine Umbuchung erstellt :(')
         : ListView(
             children: _listofListViewWidgets.map((e) => e).toList(),
-            // _listTransfer.map((Transfer e) {
-            //   return _listViewWidget(e, context);
-            // }).toList(),
           );
   }
 
@@ -180,15 +177,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
         }
       },
       key: ValueKey<String>(transfer.id.toString()),
-      onDismissed: (DismissDirection direction) {
-        // AllData.standingOrders.remove(item);
-        // DBHelper.delete('StandingOrder',
-        //     where: "ID = '${item.id}'");
-
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     content: Text('Dauerauftrag wurde gelöscht')));
-        // setState(() {});
-      },
+      onDismissed: (DismissDirection direction) {},
       direction: DismissDirection.horizontal,
       background: Container(
         color: Globals.isDarkmode
@@ -220,94 +209,85 @@ class _ManageTransfersState extends State<ManageTransfers> {
           ),
         ),
       ),
-      child: GestureDetector(
-        onLongPress: () {
-          // Navigator.of(context).pushNamed(
-          //     AddEditStandingOrder.routeName,
-          //     arguments: item.id);
-        },
-        child: Card(
-          child: ExpansionTile(
-            leading: Container(
-              padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                //color: getColor(posting.category!.color!).withOpacity(0.20),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment(
-                      0.8, 0.0), // 10% of the width, so there are ten blinds.
-                  colors: <Color>[
-                    getColor(getAccountColorFromAccountName(
-                            transfer.accountFromName!))
-                        .withOpacity(0.35),
-                    getColor(getAccountColorFromAccountName(
-                            transfer.accountToName!))
-                        .withOpacity(0.35)
-                  ],
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: ShaderMask(
-                  child: Image(
-                    image: AssetImage('assets/icons/other_icons/transfer.png'),
-                  ),
-                  shaderCallback: (Rect bounds) {
-                    return LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment(1.0, 0.0),
-                      colors: <Color>[
-                        //Colors.red, Colors.green
-                        getColor(getAccountColorFromAccountName(
-                                transfer.accountFromName!))
-                            .withOpacity(0.8),
-                        getColor(getAccountColorFromAccountName(
-                                transfer.accountToName!))
-                            .withOpacity(0.8)
-                      ],
-                    ).createShader(bounds);
-                  },
-                  blendMode: BlendMode.srcATop,
-                ),
+      child: Card(
+        child: ExpansionTile(
+          leading: Container(
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment(
+                    0.8, 0.0), // 10% of the width, so there are ten blinds.
+                colors: <Color>[
+                  getColor(getAccountColorFromAccountName(
+                          transfer.accountFromName!))
+                      .withOpacity(0.35),
+                  getColor(getAccountColorFromAccountName(
+                          transfer.accountToName!))
+                      .withOpacity(0.35)
+                ],
               ),
             ),
-            title: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    '${transfer.accountFromName}\t\u{279F}\t${transfer.accountToName}',
-                    overflow: TextOverflow.fade,
-                    maxLines: 1,
-                    softWrap: false,
-                  ),
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: ShaderMask(
+                child: Image(
+                  image: AssetImage('assets/icons/other_icons/transfer.png'),
                 ),
-              ],
+                shaderCallback: (Rect bounds) {
+                  return LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment(1.0, 0.0),
+                    colors: <Color>[
+                      getColor(getAccountColorFromAccountName(
+                              transfer.accountFromName!))
+                          .withOpacity(0.8),
+                      getColor(getAccountColorFromAccountName(
+                              transfer.accountToName!))
+                          .withOpacity(0.8)
+                    ],
+                  ).createShader(bounds);
+                },
+                blendMode: BlendMode.srcATop,
+              ),
             ),
-            subtitle: Text(
-              formatDate(transfer.date!),
-              style: TextStyle(color: Colors.grey.shade400),
-            ),
-            trailing: Text(formatCurrency(transfer.amount!)),
-            childrenPadding:
-                EdgeInsets.only(left: 10, bottom: 10, right: 10, top: 5),
-            expandedAlignment: Alignment.topLeft,
+          ),
+          title: Row(
             children: [
-              transfer.description != ''
-                  ? Text(
-                      '${transfer.description}',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      softWrap: false,
-                    )
-                  : Text(
-                      'Keine Beschreibung...',
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                    )
+              Expanded(
+                child: Text(
+                  '${transfer.accountFromName}\t\u{279F}\t${transfer.accountToName}',
+                  overflow: TextOverflow.fade,
+                  maxLines: 1,
+                  softWrap: false,
+                ),
+              ),
             ],
           ),
+          subtitle: Text(
+            formatDate(transfer.date!),
+            style: TextStyle(color: Colors.grey.shade400),
+          ),
+          trailing: Text(formatCurrency(transfer.amount!)),
+          childrenPadding:
+              EdgeInsets.only(left: 10, bottom: 10, right: 10, top: 5),
+          expandedAlignment: Alignment.topLeft,
+          children: [
+            transfer.description != ''
+                ? Text(
+                    '${transfer.description}',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    softWrap: false,
+                  )
+                : Text(
+                    'Keine Beschreibung...',
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                    ),
+                  )
+          ],
         ),
       ),
     );

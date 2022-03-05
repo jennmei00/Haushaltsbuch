@@ -30,18 +30,18 @@ class _StatisticsScreenState extends State<StatisticsScreen>
           tabs: [
             Tab(text: 'Vermögensübersicht'),
             Tab(text: 'Monatsübersicht'),
-            //Tab(text: 'Test'),
           ],
           controller: _tabController,
         ),
       ),
-      drawer: AppDrawer(selectedMenuItem: 'statistic',),
+      drawer: AppDrawer(
+        selectedMenuItem: 'statistic',
+      ),
       body: TabBarView(
         children: [
           LineChart(),
           CircularChart(),
         ],
         controller: _tabController,
-      )
-      );
+      ));
 }

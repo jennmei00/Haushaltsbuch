@@ -39,13 +39,9 @@ class DBHelper {
     List<Map<String, dynamic>> _data =
         await getData(table, columns: columns, where: where, orderBy: orderBy);
 
-    // if (_data != null && _data.length > 0) {
     return _data[0];
-    // }
-    // return null;
   }
 
-  //INSERT
   //INSERT
   static Future<void> multipleInsert(
       String table, List<Map<String, dynamic>> dataList) async {
@@ -153,10 +149,6 @@ class DBHelper {
 
   //Create Tables
   static Future<void> _createTables(sql.Database db, int version) async {
-    // //Tabellenname
-    // await db.execute(
-    //     'CREATE TABLE ...(...TEXT PRIMARY KEY, ... TEXT/INTEGER/BOOLEAN/BLOB, FOREIGN KEY(CategoryID) REFERENCES Category(CategoryID))');
-
     //Category
     await db.execute(
         'CREATE TABLE Category(ID TEXT PRIAMRY KEY, Title TEXT, Symbol TEXT, Color TEXT)');
@@ -210,30 +202,16 @@ class DBHelper {
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Handyvertrag', 'assets/icons/category_icons/smartphone.png', ${Color(0xff616161).value.toString()})");
     await db.execute(
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Versicherung', 'assets/icons/category_icons/insurance.png', ${Color(0xff00838f).value.toString()})");
-    // await db.execute(
-    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Videostreaming', 'assets/icons/category_icons/video-streaming.png', ${Color(0xFFc62828).value.toString()})");
-    // await db.execute(
-    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Musikstreaming', 'assets/icons/category_icons/musical-note.png', ${Color(0xff4a0072).value.toString()})");
     await db.execute(
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Lebensmittel', 'assets/icons/category_icons/diet.png', ${Color(0xff558b2f).value.toString()})");
     await db.execute(
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Drogerie', 'assets/icons/category_icons/shampoo.png', ${Color(0xFFad1457).value.toString()})");
     await db.execute(
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Tanken', 'assets/icons/category_icons/gas-station.png', ${Color(0xff616161).value.toString()})");
-    // await db.execute(
-    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Urlaub', 'assets/icons/category_icons/holiday.png', ${Color(0xff0277bd).value.toString()})");
     await db.execute(
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Kleidung', 'assets/icons/category_icons/wardrobe.png', ${Color(0xFFad1457).value.toString()})");
-    // await db.execute(
-    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Apotheke', 'assets/icons/category_icons/medicine.png', ${Color(0xff004c40).value.toString()})");
     await db.execute(
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Auto', 'assets/icons/category_icons/car.png', ${Color(0xff1565c0).value.toString()})");
-    // await db.execute(
-    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Haustier', 'assets/icons/category_icons/paw.png', ${Color(0xff5d4037).value.toString()})");
-    // await db.execute(
-    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Restaurant', 'assets/icons/category_icons/restaurant.png', ${Color(0xff004ba0).value.toString()})");
-    // await db.execute(
-    //     "INSERT INTO Category VALUES('${Uuid().v1()}', 'Frisör', 'assets/icons/category_icons/scissors.png', ${Color(0xff455a64).value.toString()})");
     await db.execute(
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Wohnen', 'assets/icons/category_icons/living-room.png', ${Color(0xffff8f00).value.toString()})");
     await db.execute(

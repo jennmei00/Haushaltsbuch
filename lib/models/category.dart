@@ -33,9 +33,6 @@ class Category {
   }
 
   Category fromDB(Map<String, dynamic> data) {
-    // print(data['Color']);
-    // int colorValue = data['Color'] != null ? int.tryParse 0;
-
     Category category = Category(
       id: data['ID'],
       title: data['Title'],

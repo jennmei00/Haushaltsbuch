@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:validators/validators.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -9,7 +10,6 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool mandatory; //check for mandatory field
   final String fieldname; //substitute for an id
-  // final FocusNode focusNode;
 
   CustomTextField({
     this.labelText: '',
@@ -19,7 +19,6 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     required this.mandatory,
     required this.fieldname,
-    // this.focusNode: FocusNode(),
   });
 
   @override
@@ -27,15 +26,18 @@ class CustomTextField extends StatelessWidget {
     return TextFormField(
       keyboardType: this.keyboardType,
       textInputAction: this.textInputAction,
-      // focusNode: this.focusNode,
       controller: this.controller,
+      inputFormatters: this.keyboardType != TextInputType.number
+          ? null
+          : [
+              FilteringTextInputFormatter.allow(RegExp(
+                  r'^(?:-?(?:[0-9]+))?(?:\,[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?'))
+            ],
       validator: (value) {
         if ((value == null || value.isEmpty) && mandatory) {
           return 'Das ist ein Pflichtfeld!';
         } else if (this.keyboardType == TextInputType.number) {
-          String val = value!.replaceAll('.', '');
-          val = val.replaceAll(',', '.');
-          if (!(isFloat(val))) {
+          if (!(isFloat(value!.replaceAll(',', '.')))) {
             return 'Nur Zahlen sind erlaubt (Punkt statt Komma)';
           }
         }
@@ -44,23 +46,6 @@ class CustomTextField extends StatelessWidget {
       },
       decoration: InputDecoration(
         labelText: this.labelText,
-        //labelStyle: TextStyle(fontSize: 20),
-        //hintText: hintText,
-        // filled: true,
-        // fillColor: Colors.grey[700]?.withOpacity(0.5),
-        // focusedBorder: UnderlineInputBorder(
-        //   // borderSide: BorderSide(color: Colors.cyan),
-        // ),
-        // floatingLabelStyle: TextStyle(color: Colors.cyan),
-        // border: OutlineInputBorder(
-        //   borderSide: BorderSide(),
-        //   borderRadius: BorderRadius.circular(30),
-        // )),
-        // errorStyle: TextStyle(
-        //   color: Theme.of(context).colorScheme.error,
-        // ),
-        // focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.error)),
-        // errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.error)),
       ),
       maxLength: this.fieldname == 'categoryName' ? 20 : null,
       maxLines: this.fieldname == 'description' ? 2 : 1,

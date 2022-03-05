@@ -64,8 +64,6 @@ class Account {
       symbol: data['Symbol'],
       accountType: AllData.accountTypes
           .firstWhere((element) => element.id == data['AccountTypeID']),
-      // accountType: AccountType().fromDB(await DBHelper.getOneData('AccountType',
-      //     where: "ID = '${data['AccountTypeID']}'")),
     );
     return account;
   }

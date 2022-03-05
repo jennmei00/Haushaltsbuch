@@ -45,7 +45,6 @@ class _ManagementScreenState extends State<ManagementScreen>
                 ),
                 style: TextStyle(color: Colors.white),
               ),
-        // backgroundColor: Theme.of(context).primaryColor,
         actions: [
           _search
               ? IconButton(

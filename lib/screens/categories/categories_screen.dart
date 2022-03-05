@@ -34,29 +34,22 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       appBar: AppBar(
         title: Text('Kategorien'),
         centerTitle: true,
-        // backgroundColor: Theme.of(context).primaryColor,
       ),
-      drawer: AppDrawer(selectedMenuItem: 'categories',),
+      drawer: AppDrawer(
+        selectedMenuItem: 'categories',
+      ),
       body: AllData.categories.length == 0
           ? NothingThere(textScreen: 'Noch keine Kategorien vorhanden :(')
           : GridView.count(
               scrollDirection: Axis.vertical,
-              childAspectRatio:
-                  0.8, //MediaQuery.of(context).size.width /(MediaQuery.of(context).size.height / 1.8),
+              childAspectRatio: 0.8,
               padding: EdgeInsets.all(20),
               crossAxisCount: 3,
               crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
               mainAxisSpacing: 12,
               children: _categoryList
                   .map(
-                    (item) => //InkWell(
-                        // splashColor: getColor(item.color!).withOpacity(0.2),
-                        // borderRadius: BorderRadius.circular(8),
-                        // onTap: () => Navigator.of(context).pushNamed(
-                        //     NewCategorieScreen.routeName,
-                        //     arguments: item.id),
-                        Container(
-                      //child: Container(
+                    (item) => Container(
                       child: Column(
                         children: [
                           Padding(
@@ -64,19 +57,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             child: Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
-                                  // boxShadow: [
-                                  //   BoxShadow(
-                                  //     blurRadius: 5,
-                                  //     color: getColor(item.color!).withOpacity(0.1),
-                                  //     spreadRadius: 2,
-                                  //   )
-                                  // ],
-                                  color: getColor(item.color!)
-                                  .withOpacity(0.18), //withOpacity(0.05),
-                                  border: Border.all(color: getColor(item.color!), width: 0.5)
-                                  ),
-                              // width: 60,
-                              // height: 60,
+                                  color:
+                                      getColor(item.color!).withOpacity(0.18),
+                                  border: Border.all(
+                                      color: getColor(item.color!),
+                                      width: 0.5)),
                               child: InkWell(
                                 splashColor:
                                     getColor(item.color!).withOpacity(0.2),
@@ -160,26 +145,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
-                                  child: 
-                                  // Stack(children: [
-                                  //   Image.asset(item.symbol!,
-                                  //     color: Colors.white),
-                                  //         Image.asset(item.symbol!,
-                                  //     color: getColor(item.color!)
-                                  //         .withOpacity(0.60)),
-                                  // ],)
-                                  
-                                      Image.asset(item.symbol!,
+                                  child: Image.asset(item.symbol!,
                                       color: getColor(item.color!)),
-                                          //.withOpacity(0.18)),
                                 ),
                               ),
                             ),
                           ),
-                          //SizedBox(height: 5),
                           Center(
-                            // child: SingleChildScrollView( //---> Alternative zu den drei Punkten
-                            //   scrollDirection: Axis.horizontal,
                             child: Text(
                               '${item.title}',
                               maxLines: 1,
@@ -191,55 +163,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   color: getColor(item.color!)),
                               textAlign: TextAlign.center,
                             ),
-                            // ),
                           ),
                         ],
                       ),
                     ),
-                    //),
                   )
                   .toList(),
-              // children: _categoryList
-              //     .map((item) => InkWell(
-              //           borderRadius: BorderRadius.circular(8),
-              //           onTap: () => Navigator.of(context).pushNamed(
-              //               NewCategorieScreen.routeName,
-              //               arguments: item.id),
-              //           child: Padding(
-              //             padding: const EdgeInsets.only(top: 5.0),
-              //             child: new Column(
-              //               children: [
-              //                 CircleAvatar(
-              //                     radius:
-              //                         MediaQuery.of(context).size.width * 0.1,
-              //                     backgroundColor: item.color,
-              //                     child: FractionallySizedBox(
-              //                       widthFactor: 0.6,
-              //                       heightFactor: 0.6,
-              //                       child: Image.asset(
-              //                         item.symbol!,
-              //                         color:
-              //                             getColor(item.color!).computeLuminance() > 0.2
-              //                                 ? Colors.black
-              //                                 : Colors.white,
-              //                       ),
-              //                     )),
-              //                 SizedBox(height: 4),
-              //                 Center(
-              //                     child: Text(
-              //                   '${item.title}',
-              //                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: item.color),
-              //                   textAlign: TextAlign.center,
-              //                 )),
-              //               ],
-              //             ),
-              //           ),
-              //         ))
-              //     .toList(),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        // backgroundColor: Theme.of(context).primaryColor,
         child: Icon(Icons.add),
         onPressed: () {
           Navigator.of(context)
