@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -6,7 +7,9 @@ import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/screens/account/account_overview_screen.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
+import 'package:haushaltsbuch/screens/credits_screen.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
+import 'package:haushaltsbuch/screens/imprint_screen.dart';
 import 'package:haushaltsbuch/screens/management/filter_management_screen.dart';
 import 'package:haushaltsbuch/screens/management/management_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
@@ -30,6 +33,10 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('fonts/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['fonts'], license);
+  });
   SharedPreferences.getInstance().then((prefs) {
     var brightness = SchedulerBinding.instance!.window.platformBrightness;
     var darkModeOn = prefs.getBool('darkMode') ??
@@ -150,6 +157,16 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           return MaterialPageRoute(builder: (context) {
             return TransferScreen(
               id: args,
+            );
+          });
+        } else if (settings.name == Imprint.routeName) {
+          return MaterialPageRoute(builder: (context) {
+            return Imprint(
+            );
+          });
+        } else if (settings.name == Credits.routeName) {
+          return MaterialPageRoute(builder: (context) {
+            return Credits(
             );
           });
         }

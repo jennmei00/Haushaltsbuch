@@ -23,7 +23,11 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
   double getIncomeValue() {
     double incomeVal = 0;
     _filterAccounts.forEach((ac) {
-      AllData.postings.where((posting) => posting.account!.id == ac.id && posting.postingType == PostingType.income).forEach((e) {
+      AllData.postings
+          .where((posting) =>
+              posting.account!.id == ac.id &&
+              posting.postingType == PostingType.income)
+          .forEach((e) {
         incomeVal += e.amount!;
       });
     });
@@ -33,7 +37,11 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
   double getExpenseValue() {
     double expenseVal = 0;
     _filterAccounts.forEach((ac) {
-      AllData.postings.where((posting) => posting.account!.id == ac.id && posting.postingType == PostingType.expense).forEach((e) {
+      AllData.postings
+          .where((posting) =>
+              posting.account!.id == ac.id &&
+              posting.postingType == PostingType.expense)
+          .forEach((e) {
         expenseVal += e.amount!;
       });
     });
@@ -46,7 +54,7 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
     return restVal;
   }
 
-    Color _getRestValColor(double balance) {
+  Color _getRestValColor(double balance) {
     if (balance < 0) {
       return Colors.red;
     } else {
@@ -65,7 +73,9 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
       padding: EdgeInsets.all(10),
       child: Column(
         children: [
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           Text(
             '$currentYear',
             style: Theme.of(context).textTheme.headline4,
@@ -76,10 +86,9 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
             child: Table(
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               border: TableBorder.all(
-                color: Colors.grey.shade400,
-                borderRadius: BorderRadius.circular(3),
-                width: 0.5
-              ),
+                  color: Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(3),
+                  width: 0.5),
               children: [
                 TableRow(
                   children: [
@@ -130,7 +139,9 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
                       padding: EdgeInsets.all(cellPadding),
                       child: Text(
                         '${formatCurrency(rest)}',
-                        style: TextStyle(color: _getRestValColor(rest),),
+                        style: TextStyle(
+                          color: _getRestValColor(rest),
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     )
@@ -178,7 +189,6 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
                   .toList(),
             ),
           ),
-          
         ],
       ),
     );

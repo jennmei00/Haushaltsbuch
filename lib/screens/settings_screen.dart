@@ -6,6 +6,8 @@ import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
+import 'package:haushaltsbuch/screens/credits_screen.dart';
+import 'package:haushaltsbuch/screens/imprint_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/theme.dart';
@@ -55,6 +57,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onThemeChanged(val, themeNotifier);
             },
           ),
+          GestureDetector(
+            child: ListTile(
+              leading: Icon(Icons.my_library_books),
+              title: Text('Credits'),
+            ),
+            onTap: () {
+              Navigator.of(context).pushNamed(Credits.routeName);
+            },
+          ),
+          GestureDetector(
+              child: ListTile(
+                leading: Icon(
+                  Icons.description,
+                ),
+                title: Text('Impressum'),
+              ),
+              onTap: () => showLicensePage(
+                    context: context,
+
+                  )
+              // {
+              // Navigator.of(context)
+              //   .pushNamed(Imprint.routeName);
+              // },
+              ),
           ListTile(
             leading: Icon(
               Icons.delete_forever,
@@ -186,9 +213,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         'assets/icons/account_icons/euro.png',
                                     title: 'Sparkasse'),
                               ];
-                               accounts.forEach((element) {
-                                DBHelper.insert(
-                                    'Account', element.toMap());
+                              accounts.forEach((element) {
+                                DBHelper.insert('Account', element.toMap());
                                 AllData.accounts.add(element);
                               });
 
@@ -210,9 +236,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 //   standingOrder: null,
                                 // ),
                               ];
-                               postList.forEach((element) {
-                                DBHelper.insert(
-                                    'Posting', element.toMap());
+                              postList.forEach((element) {
+                                DBHelper.insert('Posting', element.toMap());
                                 AllData.postings.add(element);
                               });
 
@@ -230,9 +255,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 //     date: DateTime(2022, 1, 1),
                                 //     description: ''),
                               ];
-                               transList.forEach((element) {
-                                DBHelper.insert(
-                                    'Transfer', element.toMap());
+                              transList.forEach((element) {
+                                DBHelper.insert('Transfer', element.toMap());
                                 AllData.transfers.add(element);
                               });
 

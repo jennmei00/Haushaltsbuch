@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NothingThere extends StatelessWidget {
   final String textScreen;
@@ -14,10 +15,12 @@ class NothingThere extends StatelessWidget {
         child: Text(
           textScreen,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: 'Handwritingstyle',
-            fontSize: 45,
-          ),
+          style: GoogleFonts.sourceCodePro(fontSize: 46, fontWeight: FontWeight.w400, letterSpacing: 0.15),
+          //TextStyle(
+            //fontFamily: 'Handwritingstyle',
+            //fontSize: 45,
+          //),
+          //,
         ),
       ),
     );
