@@ -2,9 +2,13 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 
 class Globals {
-
   static late List<dynamic> imagePathsCategoryIcons;
   static late List<dynamic> imagePathsAccountIcons;
+
+  static late String appName;
+  static late String packageName;
+  static late String version;
+  static late String buildNumber;
 
   static late bool isDarkmode;
 
@@ -12,7 +16,6 @@ class Globals {
   static Color dismissibleDeleteColorLight = Colors.red.shade900;
   static Color dismissibleEditColorLDark = Color.fromARGB(255, 197, 149, 76);
   static Color dismissibleDeleteColorDark = Colors.red.shade300;
-
 
   static final Map<ColorSwatch<Object>, String> customSwatchDarkMode =
       <ColorSwatch<Object>, String>{
@@ -59,7 +62,7 @@ class Globals {
     ColorTools.createPrimarySwatch(const Color(0xff616161)): 'Grey',
     ColorTools.createPrimarySwatch(const Color(0xff455a64)): 'BlueGrey',
   };
-  
+
   static final Map<ColorSwatch<Object>, String> customSwatchDarkMode2 =
       <ColorSwatch<Object>, String>{
     ColorTools.createPrimarySwatch(const Color(0xFFef9a9a)): 'Red',
@@ -144,5 +147,4 @@ class Globals {
     ColorTools.createPrimarySwatch(const Color(0xff455a64)): 'BlueGrey',
     ColorTools.createPrimarySwatch(const Color(0xff1c313a)): 'BlueGreyDark',
   };
-
 }

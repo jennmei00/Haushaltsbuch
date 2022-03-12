@@ -20,14 +20,16 @@ import 'package:haushaltsbuch/screens/statistics/statistics_screen.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/screens/posting/transfer_screen.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/services/theme.dart';
 import 'package:haushaltsbuch/services/theme_notifier.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -37,10 +39,16 @@ void main() {
   //   final license = await rootBundle.loadString('fonts/OFL.txt');
   //   yield LicenseEntryWithLineBreaks(['fonts'], license);
   // });
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+  Globals.appName = packageInfo.appName;
+  Globals.packageName = packageInfo.packageName;
+  Globals.version = packageInfo.version;
+  Globals.buildNumber = packageInfo.buildNumber;
+
   SharedPreferences.getInstance().then((prefs) {
     var brightness = SchedulerBinding.instance!.window.platformBrightness;
-    var darkModeOn = prefs.getBool('darkMode') ??
-        brightness == Brightness.dark;
+    var darkModeOn = prefs.getBool('darkMode') ?? brightness == Brightness.dark;
     runApp(Phoenix(
       child: ChangeNotifierProvider(
         create: (_) => ThemeNotifier(darkModeOn ? darkTheme : lightTheme),
@@ -161,13 +169,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           });
         } else if (settings.name == Imprint.routeName) {
           return MaterialPageRoute(builder: (context) {
-            return Imprint(
-            );
+            return Imprint();
           });
         } else if (settings.name == Credits.routeName) {
           return MaterialPageRoute(builder: (context) {
-            return Credits(
-            );
+            return Credits();
           });
         }
         assert(false, 'Need to implement ${settings.name}');
