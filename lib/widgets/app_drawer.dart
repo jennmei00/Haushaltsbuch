@@ -87,8 +87,11 @@ class AppDrawer extends StatelessWidget {
           ),
         ),
         Align(
-          child: Text('Version: ${Globals.version}'),
-          alignment: Alignment.bottomLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text('Version: ${Globals.version}'),
+          ),
+          alignment: Alignment.bottomRight,
         ),
       ]),
     );
