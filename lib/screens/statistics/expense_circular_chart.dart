@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/enums.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -109,40 +110,45 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
                   ),
                   series: _getPieSeries(),
                 ),
-          Card(
-            child: ExpansionTile(
-              title: Text(
-                'Auswahl der Konten',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(_selectedAccounts),
-              children: AllData.accounts
-                  .map((e) => ListTile(
-                        title: Text('${e.title}'),
-                        trailing: Checkbox(
-                            value: _filterAccounts.contains(e),
-                            onChanged: (val) {
-                              setState(() {
-                                if (val == true) {
-                                  _filterAccounts.add(e);
-                                } else {
-                                  _filterAccounts.remove(e);
-                                }
-                                if (_filterAccounts.length == 0)
-                                  _selectedAccounts = 'Keine Konten ausgewählt';
-                                else
-                                  _selectedAccounts = '';
-
-                                _filterAccounts.forEach((e) {
-                                  if (_filterAccounts.last == e)
-                                    _selectedAccounts += '${e.title}';
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              elevation: 3,
+              color: Globals.isDarkmode ? null : Color(0xffeeeeee),
+              child: ExpansionTile(
+                title: Text(
+                  'Auswahl der Konten',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(_selectedAccounts),
+                children: AllData.accounts
+                    .map((e) => ListTile(
+                          title: Text('${e.title}'),
+                          trailing: Checkbox(
+                              value: _filterAccounts.contains(e),
+                              onChanged: (val) {
+                                setState(() {
+                                  if (val == true) {
+                                    _filterAccounts.add(e);
+                                  } else {
+                                    _filterAccounts.remove(e);
+                                  }
+                                  if (_filterAccounts.length == 0)
+                                    _selectedAccounts = 'Keine Konten ausgewählt';
                                   else
-                                    _selectedAccounts += '${e.title}, ';
+                                    _selectedAccounts = '';
+
+                                  _filterAccounts.forEach((e) {
+                                    if (_filterAccounts.last == e)
+                                      _selectedAccounts += '${e.title}';
+                                    else
+                                      _selectedAccounts += '${e.title}, ';
+                                  });
                                 });
-                              });
-                            }),
-                      ))
-                  .toList(),
+                              }),
+                        ))
+                    .toList(),
+              ),
             ),
           ),
         ],

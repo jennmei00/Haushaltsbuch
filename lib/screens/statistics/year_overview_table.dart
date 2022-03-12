@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/enums.dart';
+import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 
 class YearOverviewTable extends StatefulWidget {
@@ -151,6 +152,8 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
             ),
           ),
           Card(
+            elevation: 3,
+            color: Globals.isDarkmode ? null : Color(0xffeeeeee),
             child: ExpansionTile(
               title: Text(
                 'Auswahl der Konten',
