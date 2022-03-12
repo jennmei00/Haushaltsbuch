@@ -12,12 +12,7 @@ class Imprint extends StatelessWidget {
         centerTitle: true,
       ),
       body: Container(
-        // child: showLicensePage(
-        //   context: context,
-        //   applicationIcon: Image.asset('assets/images/logo2.png'),
-        //   applicationName: 'Haushaltsbuch',
 
-        // ),
       ),
     );
   }

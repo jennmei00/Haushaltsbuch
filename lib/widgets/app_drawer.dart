@@ -63,16 +63,16 @@ class AppDrawer extends StatelessWidget {
             selected: selectedMenuItem == 'standingorders' ? true : false,
           ),
           ListTile(
-            leading: Icon(Icons.stacked_bar_chart, size: 36),
-            title: Text('Statistik', style: TextStyle(fontSize: 18)),
-            onTap: () => selectedItem(context, 'statistic'),
-            selected: selectedMenuItem == 'statistic' ? true : false,
-          ),
-          ListTile(
             leading: Icon(Icons.request_page, size: 36),
             title: Text('Verwaltung', style: TextStyle(fontSize: 18)),
             onTap: () => selectedItem(context, 'management'),
             selected: selectedMenuItem == 'management' ? true : false,
+          ),
+          ListTile(
+            leading: Icon(Icons.stacked_bar_chart, size: 36),
+            title: Text('Statistik', style: TextStyle(fontSize: 18)),
+            onTap: () => selectedItem(context, 'statistic'),
+            selected: selectedMenuItem == 'statistic' ? true : false,
           ),
           ListTile(
             leading: Icon(Icons.settings, size: 36),

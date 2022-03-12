@@ -43,7 +43,7 @@ final ColorScheme colorSchemeLight = ColorScheme.light(
 );
 
 final lightTheme = ThemeData(
-  textTheme: textTheme,
+  //textTheme: textTheme,
   colorScheme: colorSchemeLight,
   primaryColor: colorSchemeLight.primary,
   primaryColorLight: Color(0xffbc477b),
@@ -77,7 +77,7 @@ final ColorScheme colorSchemeDark = ColorScheme.dark(
 final darkTheme = ThemeData(
   primaryColor: colorSchemeDark.secondary,
   primaryColorDark: Color(0xff1a6985),//Color(0xff94af76),
-  textTheme: textTheme,
+  //textTheme: textTheme,
   colorScheme: colorSchemeDark,
   scaffoldBackgroundColor: Colors.grey.shade900,
   iconTheme: IconThemeData(

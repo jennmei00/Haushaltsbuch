@@ -71,17 +71,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 leading: Icon(
                   Icons.description,
                 ),
-                title: Text('Impressum'),
+                title: Text('Licenses'),
               ),
               onTap: () => showLicensePage(
                     context: context,
-
+                    applicationIcon: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset('assets/images/logo2.png',width: 48,),
+                    ),
+                    applicationName: 'Haushaltsbuch',
+                    applicationVersion: '1.0.0',
+                    applicationLegalese: 'Copyright My Company'
                   )
-              // {
-              // Navigator.of(context)
-              //   .pushNamed(Imprint.routeName);
-              // },
               ),
+          GestureDetector(
+            child: ListTile(
+              leading: Icon(
+                Icons.description,
+              ),
+              title: Text('Impressum'),
+            ),
+            onTap: () {
+              Navigator.of(context).pushNamed(Imprint.routeName);
+            },
+          ),
           ListTile(
             leading: Icon(
               Icons.delete_forever,

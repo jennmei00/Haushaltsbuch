@@ -33,10 +33,10 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  LicenseRegistry.addLicense(() async* {
-    final license = await rootBundle.loadString('fonts/OFL.txt');
-    yield LicenseEntryWithLineBreaks(['fonts'], license);
-  });
+  // LicenseRegistry.addLicense(() async* {
+  //   final license = await rootBundle.loadString('fonts/OFL.txt');
+  //   yield LicenseEntryWithLineBreaks(['fonts'], license);
+  // });
   SharedPreferences.getInstance().then((prefs) {
     var brightness = SchedulerBinding.instance!.window.platformBrightness;
     var darkModeOn = prefs.getBool('darkMode') ??
