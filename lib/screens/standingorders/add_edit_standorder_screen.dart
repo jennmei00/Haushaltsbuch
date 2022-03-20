@@ -238,80 +238,127 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 height: 10,
               ),
               Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text('Beginn:'),
-                  Row(
-                    children: [
-                      Text(formatDate(_dateTime)),
-                      IconButton(
-                        icon: Icon(Icons.date_range),
-                        onPressed: () {
-                          FocusScope.of(context).requestFocus(new FocusNode());
-                          showDatePicker(
-                            context: context,
-                            initialDate: _dateTime,
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime.now().add(Duration(days: 365)),
-                          ).then(
-                            (value) {
-                              if (value != null)
-                                setState(() => _dateTime = value);
-                            },
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 35.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Beginn:'),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          child: Text(formatDate(_dateTime)),
+                          onTap: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                            showDatePicker(
+                              context: context,
+                              initialDate: _dateTime,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(Duration(days: 365)),
+                            ).then(
+                              (value) {
+                                if (value != null)
+                                  setState(() => _dateTime = value);
+                              },
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.date_range),
+                          onPressed: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                            showDatePicker(
+                              context: context,
+                              initialDate: _dateTime,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(Duration(days: 365)),
+                            ).then(
+                              (value) {
+                                if (value != null)
+                                  setState(() => _dateTime = value);
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text('Ende:'),
-                  Row(
-                    children: [
-                      _dateTimeEnd == null
-                          ? Text('Datum wählen')
-                          : Text(formatDate(_dateTimeEnd!)),
-                      IconButton(
-                        icon: Icon(Icons.date_range),
-                        onPressed: () {
-                          FocusScope.of(context).requestFocus(new FocusNode());
-                          showDatePicker(
-                            context: context,
-                            initialDate: _dateTimeEnd == null
-                                ? DateTime.now()
-                                : _dateTimeEnd!,
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime.now().add(Duration(days: 365)),
-                          ).then(
-                            (value) {
-                              if (value != null)
-                                setState(() => _dateTimeEnd = value);
-                            },
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 35.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Ende:'),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          child: _dateTimeEnd == null
+                              ? Text('Datum wählen')
+                              : Text(formatDate(_dateTimeEnd!)),
+                          onTap: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                            showDatePicker(
+                              context: context,
+                              initialDate: _dateTimeEnd == null
+                                  ? DateTime.now()
+                                  : _dateTimeEnd!,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(Duration(days: 365)),
+                            ).then(
+                              (value) {
+                                if (value != null)
+                                  setState(() => _dateTimeEnd = value);
+                              },
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.date_range),
+                          onPressed: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                            showDatePicker(
+                              context: context,
+                              initialDate: _dateTimeEnd == null
+                                  ? DateTime.now()
+                                  : _dateTimeEnd!,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(Duration(days: 365)),
+                            ).then(
+                              (value) {
+                                if (value != null)
+                                  setState(() => _dateTimeEnd = value);
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text('Wiederholung:'),
-                  TextButton(
-                    onPressed: () {
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                      _repeatStandingorder();
-                    },
-                    child: Text('${formatRepetition(_repeatValue)}'),
-                  ),
-                ],
+              Padding(
+                padding: EdgeInsets.only(left: 35.0, right: 40.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Wiederholung:'),
+                    TextButton(
+                      onPressed: () {
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                        _repeatStandingorder();
+                      },
+                      child: Text('${formatRepetition(_repeatValue)}'),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

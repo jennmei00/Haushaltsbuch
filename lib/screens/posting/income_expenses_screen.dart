@@ -264,7 +264,25 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                   Text('Datum:'),
                   Row(
                     children: [
-                      Text(formatDate(_incomeDateTime)),
+                      GestureDetector(
+                        child: Text(formatDate(_incomeDateTime)),
+                        onTap: () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
+
+                          showDatePicker(
+                            context: context,
+                            initialDate: _incomeDateTime,
+                            firstDate:
+                                DateTime.now().subtract(Duration(days: 365)),
+                            lastDate: DateTime.now().add(Duration(days: 365)),
+                          ).then(
+                            (value) {
+                              if (value != null)
+                                setState(() => _incomeDateTime = value);
+                            },
+                          );
+                        },
+                      ),
                       IconButton(
                           icon: Icon(Icons.date_range),
                           onPressed: () {

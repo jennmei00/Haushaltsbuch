@@ -75,6 +75,10 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
 
     updateStandingOrderPostings(context, false);
 
+    precacheImage(AssetImage("assets/images/einnahme.jpg"), context);
+    precacheImage(AssetImage("assets/images/ausgabe2.jpg"), context);
+    precacheImage(AssetImage("assets/images/umbuchung.jpg"), context);
+
     return Future.value(true);
   }
 

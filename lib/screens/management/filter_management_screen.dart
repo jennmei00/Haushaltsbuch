@@ -108,15 +108,30 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                         ),
                       ),
                       Expanded(
-                        child: Text(
-                          _filterDate == null
-                              ? 'Zum Auswählen klicken'
-                              : '${formatDate(_filterDate!.start)} - ' +
-                                  '\n ${formatDate(_filterDate!.end)}',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          softWrap: false,
-                          textAlign: TextAlign.end,
+                        child: GestureDetector(
+                          child: Text(
+                            _filterDate == null
+                                ? 'Zum Auswählen klicken'
+                                : '${formatDate(_filterDate!.start)} - ' +
+                                    '\n ${formatDate(_filterDate!.end)}',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            softWrap: false,
+                            textAlign: TextAlign.end,
+                          ),
+                          onTap: () async {
+                            final picked = await showDateRangePicker(
+                              context: context,
+                              firstDate: AllData.postings.length == 0
+                                  ? DateTime.now().subtract(Duration(days: 30))
+                                  : AllData.postings.last.date!,
+                              lastDate: DateTime.now().add(Duration(days: 30)),
+                            );
+
+                            setState(() {
+                              _filterDate = picked;
+                            });
+                          },
                         ),
                       ),
                       SizedBox(width: 10),

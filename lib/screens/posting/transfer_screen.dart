@@ -119,8 +119,7 @@ class _TransferScreenState extends State<TransferScreen> {
                 height: 65,
                 child: Image.asset(
                   'assets/icons/other_icons/arrow.png',
-                  color: Theme.of(context).primaryColorDark
-                      .withOpacity(0.8),
+                  color: Theme.of(context).primaryColorDark.withOpacity(0.8),
                 ),
               ),
               SizedBox(height: 20),
@@ -169,7 +168,24 @@ class _TransferScreenState extends State<TransferScreen> {
                   Text('Datum:'),
                   Row(
                     children: [
-                      Text(formatDate(_dateTime)),
+                      GestureDetector(
+                        child: Text(formatDate(_dateTime)),
+                        onTap: () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
+                          showDatePicker(
+                            context: context,
+                            initialDate: _dateTime,
+                            firstDate:
+                                DateTime.now().subtract(Duration(days: 365)),
+                            lastDate: DateTime.now().add(Duration(days: 365)),
+                          ).then(
+                            (value) {
+                              if (value != null)
+                                setState(() => _dateTime = value);
+                            },
+                          );
+                        },
+                      ),
                       IconButton(
                           icon: Icon(Icons.date_range),
                           onPressed: () {

@@ -141,13 +141,32 @@ class _LineChartState extends State<LineChart> {
                   ),
                 ),
                 Expanded(
-                  child: Text(
-                    '${formatDate(_dateRange.start)} - ' +
-                        '\n ${formatDate(_dateRange.end)}',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    softWrap: false,
-                    textAlign: TextAlign.end,
+                  child: GestureDetector(
+                    child: Text(
+                      '${formatDate(_dateRange.start)} - ' +
+                          '\n ${formatDate(_dateRange.end)}',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      softWrap: false,
+                      textAlign: TextAlign.end,
+                    ),
+                    onTap: () async {
+                      final picked = await showDateRangePicker(
+                        context: context,
+                        firstDate: firstAccountCreation,
+                        lastDate: DateTime.now(),
+                      );
+
+                      if (picked != null)
+                        setState(() {
+                          _dateRange = picked;
+                        });
+
+                      _oneYearIsDisabled = false;
+                      _sixMonthsIsDisabled = false;
+                      _threeMonthsIsDisabled = false;
+                      _oneMonthIsDisabled = false;
+                    },
                   ),
                 ),
                 SizedBox(width: 10),
@@ -158,12 +177,12 @@ class _LineChartState extends State<LineChart> {
                       firstDate: firstAccountCreation,
                       lastDate: DateTime.now(),
                     );
-    
+
                     if (picked != null)
                       setState(() {
                         _dateRange = picked;
                       });
-    
+
                     _oneYearIsDisabled = false;
                     _sixMonthsIsDisabled = false;
                     _threeMonthsIsDisabled = false;
@@ -217,12 +236,15 @@ class _LineChartState extends State<LineChart> {
                         ? DateFormat("MMM yy", "de")
                         : DateFormat("dd.MMM yy", "de"),
                     labelRotation: 50,
-                    majorTickLines: const MajorTickLines(color: Colors.transparent),
+                    majorTickLines:
+                        const MajorTickLines(color: Colors.transparent),
                   ),
                   primaryYAxis: NumericAxis(
-                    majorTickLines: const MajorTickLines(color: Colors.transparent),
+                    majorTickLines:
+                        const MajorTickLines(color: Colors.transparent),
                     axisLine: const AxisLine(width: 0),
-                    numberFormat: NumberFormat.currency(locale: "de", symbol: "€"),
+                    numberFormat:
+                        NumberFormat.currency(locale: "de", symbol: "€"),
                   ),
                   series: _getDefaultLineSeries(),
                 ),
