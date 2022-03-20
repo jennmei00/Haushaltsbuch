@@ -62,6 +62,7 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
     AllData.categories =
         Category().listFromDB(await DBHelper.getData('Category'));
 
+    // AllData.accounts = [];
     AllData.accounts = Account().listFromDB(await DBHelper.getData('Account'));
 
     AllData.standingOrders =

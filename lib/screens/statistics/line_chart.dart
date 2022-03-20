@@ -124,219 +124,221 @@ class _LineChartState extends State<LineChart> {
       ),
     );
 
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: EdgeInsets.only(left: 20),
-                child: Text(
-                  'Zeitraum',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  '${formatDate(_dateRange.start)} - ' +
-                      '\n ${formatDate(_dateRange.end)}',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  softWrap: false,
-                  textAlign: TextAlign.end,
-                ),
-              ),
-              SizedBox(width: 10),
-              IconButton(
-                onPressed: () async {
-                  final picked = await showDateRangePicker(
-                    context: context,
-                    firstDate: firstAccountCreation,
-                    lastDate: DateTime.now(),
-                  );
-
-                  if (picked != null)
-                    setState(() {
-                      _dateRange = picked;
-                    });
-
-                  _oneYearIsDisabled = false;
-                  _sixMonthsIsDisabled = false;
-                  _threeMonthsIsDisabled = false;
-                  _oneMonthIsDisabled = false;
-                },
-                icon: Icon(
-                  Icons.calendar_today,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            ],
-          ),
-        ),
-        //Divider(),
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Globals.isDarkmode
-                      ? Colors.black.withOpacity(0.5)
-                      : Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  //offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],
-            ),
-            height: 400,
-            padding: const EdgeInsets.all(5),
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: SfCartesianChart(
-                plotAreaBorderWidth: 0,
-                legend: Legend(
-                  isVisible: true,
-                  overflowMode: LegendItemOverflowMode.wrap,
-                ),
-                tooltipBehavior: TooltipBehavior(enable: true),
-                primaryXAxis: DateTimeAxis(
-                  autoScrollingMode: AutoScrollingMode.end,
-                  minimum: getMondayOfWeek(_dateRange.start),
-                  maximum: _dateRange.end,
-                  intervalType: _dateRange.duration > Duration(days: 60)
-                      ? DateTimeIntervalType.months
-                      : DateTimeIntervalType.days,
-                  interval: _dateRange.duration > Duration(days: 60) ? 1 : 7,
-                  dateFormat: _dateRange.duration > Duration(days: 60)
-                      ? DateFormat("MMM yy", "de")
-                      : DateFormat("dd.MMM yy", "de"),
-                  labelRotation: 50,
-                  majorTickLines: const MajorTickLines(color: Colors.transparent),
-                ),
-                primaryYAxis: NumericAxis(
-                  majorTickLines: const MajorTickLines(color: Colors.transparent),
-                  axisLine: const AxisLine(width: 0),
-                  numberFormat: NumberFormat.currency(locale: "de", symbol: "€"),
-                ),
-                series: _getDefaultLineSeries(),
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      width: 120,
-                      child: ElevatedButton(
-                        child: Text('1 Jahr'),
-                        onPressed: _oneYearIsDisabled
-                            ? null
-                            : () {
-                                setState(() {
-                                  _oneYearIsDisabled = true;
-                                  _sixMonthsIsDisabled = false;
-                                  _threeMonthsIsDisabled = false;
-                                  _oneMonthIsDisabled = false;
-                                  _dateRange = DateTimeRange(
-                                      start: Jiffy(DateTime.now())
-                                          .subtract(years: 1)
-                                          .dateTime,
-                                      end: DateTime.now());
-                                });
-                              },
-                        style: buttonStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 120,
-                      child: ElevatedButton(
-                        child: Text('6 Monate'),
-                        onPressed: _sixMonthsIsDisabled
-                            ? null
-                            : () {
-                                setState(() {
-                                  _oneYearIsDisabled = false;
-                                  _sixMonthsIsDisabled = true;
-                                  _threeMonthsIsDisabled = false;
-                                  _oneMonthIsDisabled = false;
-                                  _dateRange = DateTimeRange(
-                                      start: Jiffy(DateTime.now())
-                                          .subtract(months: 6)
-                                          .dateTime,
-                                      end: DateTime.now());
-                                });
-                              },
-                        style: buttonStyle,
-                      ),
-                    ),
-                  ],
+                Container(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Text(
+                    'Zeitraum',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    textAlign: TextAlign.left,
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      width: 120,
-                      child: ElevatedButton(
-                        child: Text('3 Monate'),
-                        onPressed: _threeMonthsIsDisabled
-                            ? null
-                            : () {
-                                setState(() {
-                                  _oneYearIsDisabled = false;
-                                  _sixMonthsIsDisabled = false;
-                                  _threeMonthsIsDisabled = true;
-                                  _oneMonthIsDisabled = false;
-                                  _dateRange = DateTimeRange(
-                                      start: Jiffy(DateTime.now())
-                                          .subtract(months: 3)
-                                          .dateTime,
-                                      end: DateTime.now());
-                                });
-                              },
-                        style: buttonStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 120,
-                      child: ElevatedButton(
-                        child: Text('1 Monat'),
-                        onPressed: _oneMonthIsDisabled
-                            ? null
-                            : () {
-                                setState(() {
-                                  _oneYearIsDisabled = false;
-                                  _sixMonthsIsDisabled = false;
-                                  _threeMonthsIsDisabled = false;
-                                  _oneMonthIsDisabled = true;
-                                  _dateRange = DateTimeRange(
-                                      start: Jiffy(DateTime.now())
-                                          .subtract(months: 1)
-                                          .dateTime,
-                                      end: DateTime.now());
-                                });
-                              },
-                        style: buttonStyle,
-                      ),
-                    ),
-                  ],
+                Expanded(
+                  child: Text(
+                    '${formatDate(_dateRange.start)} - ' +
+                        '\n ${formatDate(_dateRange.end)}',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    softWrap: false,
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+                SizedBox(width: 10),
+                IconButton(
+                  onPressed: () async {
+                    final picked = await showDateRangePicker(
+                      context: context,
+                      firstDate: firstAccountCreation,
+                      lastDate: DateTime.now(),
+                    );
+    
+                    if (picked != null)
+                      setState(() {
+                        _dateRange = picked;
+                      });
+    
+                    _oneYearIsDisabled = false;
+                    _sixMonthsIsDisabled = false;
+                    _threeMonthsIsDisabled = false;
+                    _oneMonthIsDisabled = false;
+                  },
+                  icon: Icon(
+                    Icons.calendar_today,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ],
             ),
           ),
-        ),
-      ],
+          //Divider(),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Globals.isDarkmode
+                        ? Colors.black.withOpacity(0.5)
+                        : Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    //offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              height: 400,
+              padding: const EdgeInsets.all(5),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: SfCartesianChart(
+                  plotAreaBorderWidth: 0,
+                  legend: Legend(
+                    isVisible: true,
+                    overflowMode: LegendItemOverflowMode.wrap,
+                  ),
+                  tooltipBehavior: TooltipBehavior(enable: true),
+                  primaryXAxis: DateTimeAxis(
+                    autoScrollingMode: AutoScrollingMode.end,
+                    minimum: getMondayOfWeek(_dateRange.start),
+                    maximum: _dateRange.end,
+                    intervalType: _dateRange.duration > Duration(days: 60)
+                        ? DateTimeIntervalType.months
+                        : DateTimeIntervalType.days,
+                    interval: _dateRange.duration > Duration(days: 60) ? 1 : 7,
+                    dateFormat: _dateRange.duration > Duration(days: 60)
+                        ? DateFormat("MMM yy", "de")
+                        : DateFormat("dd.MMM yy", "de"),
+                    labelRotation: 50,
+                    majorTickLines: const MajorTickLines(color: Colors.transparent),
+                  ),
+                  primaryYAxis: NumericAxis(
+                    majorTickLines: const MajorTickLines(color: Colors.transparent),
+                    axisLine: const AxisLine(width: 0),
+                    numberFormat: NumberFormat.currency(locale: "de", symbol: "€"),
+                  ),
+                  series: _getDefaultLineSeries(),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        child: ElevatedButton(
+                          child: Text('1 Jahr'),
+                          onPressed: _oneYearIsDisabled
+                              ? null
+                              : () {
+                                  setState(() {
+                                    _oneYearIsDisabled = true;
+                                    _sixMonthsIsDisabled = false;
+                                    _threeMonthsIsDisabled = false;
+                                    _oneMonthIsDisabled = false;
+                                    _dateRange = DateTimeRange(
+                                        start: Jiffy(DateTime.now())
+                                            .subtract(years: 1)
+                                            .dateTime,
+                                        end: DateTime.now());
+                                  });
+                                },
+                          style: buttonStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 120,
+                        child: ElevatedButton(
+                          child: Text('6 Monate'),
+                          onPressed: _sixMonthsIsDisabled
+                              ? null
+                              : () {
+                                  setState(() {
+                                    _oneYearIsDisabled = false;
+                                    _sixMonthsIsDisabled = true;
+                                    _threeMonthsIsDisabled = false;
+                                    _oneMonthIsDisabled = false;
+                                    _dateRange = DateTimeRange(
+                                        start: Jiffy(DateTime.now())
+                                            .subtract(months: 6)
+                                            .dateTime,
+                                        end: DateTime.now());
+                                  });
+                                },
+                          style: buttonStyle,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        child: ElevatedButton(
+                          child: Text('3 Monate'),
+                          onPressed: _threeMonthsIsDisabled
+                              ? null
+                              : () {
+                                  setState(() {
+                                    _oneYearIsDisabled = false;
+                                    _sixMonthsIsDisabled = false;
+                                    _threeMonthsIsDisabled = true;
+                                    _oneMonthIsDisabled = false;
+                                    _dateRange = DateTimeRange(
+                                        start: Jiffy(DateTime.now())
+                                            .subtract(months: 3)
+                                            .dateTime,
+                                        end: DateTime.now());
+                                  });
+                                },
+                          style: buttonStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 120,
+                        child: ElevatedButton(
+                          child: Text('1 Monat'),
+                          onPressed: _oneMonthIsDisabled
+                              ? null
+                              : () {
+                                  setState(() {
+                                    _oneYearIsDisabled = false;
+                                    _sixMonthsIsDisabled = false;
+                                    _threeMonthsIsDisabled = false;
+                                    _oneMonthIsDisabled = true;
+                                    _dateRange = DateTimeRange(
+                                        start: Jiffy(DateTime.now())
+                                            .subtract(months: 1)
+                                            .dateTime,
+                                        end: DateTime.now());
+                                  });
+                                },
+                          style: buttonStyle,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

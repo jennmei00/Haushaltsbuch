@@ -15,7 +15,7 @@ class NothingThere extends StatelessWidget {
         child: Text(
           textScreen,
           textAlign: TextAlign.center,
-          style: GoogleFonts.sourceCodePro(fontSize: 46, fontWeight: FontWeight.w400, letterSpacing: 0.15),
+          style: GoogleFonts.sourceCodePro(fontSize: 35, fontWeight: FontWeight.w400, letterSpacing: 0.15),
           //TextStyle(
             //fontFamily: 'Handwritingstyle',
             //fontSize: 45,

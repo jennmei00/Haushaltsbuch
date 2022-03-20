@@ -19,7 +19,9 @@ class Credits extends StatelessWidget {
             style: Theme.of(context).textTheme.headline6,
           ),
           Text(
-              'Icons made by Freepik, Uniconlabs, Smashicons, Google, rukanicon, andinur, Pixel perfect, Ayub Irawan, fjstudio, amonrat rungreangfangsai, Those Icons, Prosymbols Premium, Gregor Cresnar, kerismaker, dDara, setiawanap, monkik, Eucalyp, smashingstocks, iconixar, azmianshori, srip, bqlqn, Pixelmeetup, Rizki Ahmad Fauzi and kerismaker from www.flaticon.com.'),
+            'Icons made by Freepik, Uniconlabs, Smashicons, Google, rukanicon, andinur, Pixel perfect, Ayub Irawan, fjstudio, amonrat rungreangfangsai, Those Icons, Prosymbols Premium, Gregor Cresnar, kerismaker, dDara, setiawanap, monkik, Eucalyp, smashingstocks, iconixar, azmianshori, srip, bqlqn, Pixelmeetup, Rizki Ahmad Fauzi and kerismaker from www.flaticon.com.',
+            textAlign: TextAlign.justify,
+          ),
           SizedBox(
             height: 20,
           ),
@@ -27,7 +29,10 @@ class Credits extends StatelessWidget {
             'Images:',
             style: Theme.of(context).textTheme.headline6,
           ),
-          Text('Photos by Visual Stories || Micheile, Josh Appel and Steve Johnson on Unsplash.'),
+          Text(
+            'Photos by Visual Stories || Micheile, Josh Appel and Steve Johnson on Unsplash.',
+            textAlign: TextAlign.justify,
+          ),
         ]),
       ),
     );
