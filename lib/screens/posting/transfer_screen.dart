@@ -157,6 +157,8 @@ class _TransferScreenState extends State<TransferScreen> {
                 controller: _descriptionController,
                 mandatory: false,
                 fieldname: 'description',
+                keyboardType: TextInputType.multiline,
+                textInputAction: TextInputAction.newline,
               ),
               SizedBox(
                 height: 20,

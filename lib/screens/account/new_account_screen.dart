@@ -63,7 +63,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     _initialBankBalance = ac.initialBankBalance!;
     _titleController.text = ac.title!;
     _bankBalanceController.text =
-    NumberFormat("###.00", "de").format(ac.bankBalance!);
+        NumberFormat("###.00", "de").format(ac.bankBalance!);
     _descriptionController.text = ac.description!;
     _selectedItem = _accountTypeDropDownItems
         .firstWhere((element) => element.id == ac.accountType!.id);
@@ -87,9 +87,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.id == ''
-            ? 'Neues Konto'
-            : 'Konto bearbeiten'),
+        title: Text(widget.id == '' ? 'Neues Konto' : 'Konto bearbeiten'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -139,6 +137,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                 controller: _descriptionController,
                 mandatory: false,
                 fieldname: 'description',
+                keyboardType: TextInputType.multiline,
+                textInputAction: TextInputAction.newline,
               ),
               SizedBox(
                 height: 20,

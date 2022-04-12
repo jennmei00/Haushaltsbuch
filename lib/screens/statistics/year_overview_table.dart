@@ -70,129 +70,131 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            '$currentYear',
-            style: Theme.of(context).textTheme.headline4,
-            textAlign: TextAlign.center,
-          ),
-          Container(
-            padding: EdgeInsets.all(30),
-            child: Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              border: TableBorder.all(
-                  color: Colors.grey.shade400,
-                  borderRadius: BorderRadius.circular(3),
-                  width: 0.5),
-              children: [
-                TableRow(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(cellPadding),
-                      child: Text(
-                        'Einnahmen',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(cellPadding),
-                      child: Text(
-                        '${formatCurrency(incomeValue)}',
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(cellPadding),
-                      child: Text(
-                        'Ausgaben',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(cellPadding),
-                      child: Text(
-                        '${formatCurrency(expenseValue)}',
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(cellPadding),
-                      child: Text(
-                        'Rest',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(cellPadding),
-                      child: Text(
-                        '${formatCurrency(rest)}',
-                        style: TextStyle(
-                          color: _getRestValColor(rest),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              '$currentYear',
+              style: Theme.of(context).textTheme.headline4,
+              textAlign: TextAlign.center,
+            ),
+            Container(
+              padding: EdgeInsets.all(30),
+              child: Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                border: TableBorder.all(
+                    color: Colors.grey.shade400,
+                    borderRadius: BorderRadius.circular(3),
+                    width: 0.5),
+                children: [
+                  TableRow(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(cellPadding),
+                        child: Text(
+                          'Einnahmen',
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Card(
-            elevation: 3,
-            color: Globals.isDarkmode ? null : Color(0xffeeeeee),
-            child: ExpansionTile(
-              title: Text(
-                'Auswahl der Konten',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                      Padding(
+                        padding: EdgeInsets.all(cellPadding),
+                        child: Text(
+                          '${formatCurrency(incomeValue)}',
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(cellPadding),
+                        child: Text(
+                          'Ausgaben',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(cellPadding),
+                        child: Text(
+                          '${formatCurrency(expenseValue)}',
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(cellPadding),
+                        child: Text(
+                          'Rest',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(cellPadding),
+                        child: Text(
+                          '${formatCurrency(rest)}',
+                          style: TextStyle(
+                            color: _getRestValColor(rest),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
+                ],
               ),
-              subtitle: Text(_selectedAccounts),
-              children: AllData.accounts
-                  .map((e) => ListTile(
-                        title: Text('${e.title}'),
-                        trailing: Checkbox(
-                            value: _filterAccounts.contains(e),
-                            onChanged: (val) {
-                              setState(() {
-                                if (val == true) {
-                                  _filterAccounts.add(e);
-                                } else {
-                                  _filterAccounts.remove(e);
-                                }
-                                if (_filterAccounts.length == 0)
-                                  _selectedAccounts = 'Keine Konten ausgewählt';
-                                else
-                                  _selectedAccounts = '';
-
-                                _filterAccounts.forEach((e) {
-                                  if (_filterAccounts.last == e)
-                                    _selectedAccounts += '${e.title}';
-                                  else
-                                    _selectedAccounts += '${e.title}, ';
-                                });
-                                incomeValue = getIncomeValue();
-                                expenseValue = getExpenseValue();
-                                rest = getRestValue();
-                              });
-                            }),
-                      ))
-                  .toList(),
             ),
-          ),
-        ],
+            Card(
+              elevation: 3,
+              color: Globals.isDarkmode ? null : Color(0xffeeeeee),
+              child: ExpansionTile(
+                title: Text(
+                  'Auswahl der Konten',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(_selectedAccounts),
+                children: AllData.accounts
+                    .map((e) => ListTile(
+                          title: Text('${e.title}'),
+                          trailing: Checkbox(
+                              value: _filterAccounts.contains(e),
+                              onChanged: (val) {
+                                setState(() {
+                                  if (val == true) {
+                                    _filterAccounts.add(e);
+                                  } else {
+                                    _filterAccounts.remove(e);
+                                  }
+                                  if (_filterAccounts.length == 0)
+                                    _selectedAccounts = 'Keine Konten ausgewählt';
+                                  else
+                                    _selectedAccounts = '';
+    
+                                  _filterAccounts.forEach((e) {
+                                    if (_filterAccounts.last == e)
+                                      _selectedAccounts += '${e.title}';
+                                    else
+                                      _selectedAccounts += '${e.title}, ';
+                                  });
+                                  incomeValue = getIncomeValue();
+                                  expenseValue = getExpenseValue();
+                                  rest = getRestValue();
+                                });
+                              }),
+                        ))
+                    .toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

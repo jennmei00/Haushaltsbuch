@@ -120,7 +120,9 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
                   'Auswahl der Konten',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text(_selectedAccounts),
+                subtitle: _selectedAccounts == ''
+                    ? Text('Keine Konten ausgewählt')
+                    : Text(_selectedAccounts),
                 children: AllData.accounts
                     .map((e) => ListTile(
                           title: Text('${e.title}'),
@@ -134,7 +136,8 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
                                     _filterAccounts.remove(e);
                                   }
                                   if (_filterAccounts.length == 0)
-                                    _selectedAccounts = 'Keine Konten ausgewählt';
+                                    _selectedAccounts =
+                                        'Keine Konten ausgewählt';
                                   else
                                     _selectedAccounts = '';
 

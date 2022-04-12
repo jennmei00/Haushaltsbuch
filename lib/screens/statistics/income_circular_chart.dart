@@ -113,14 +113,16 @@ class _IncomeCircularChartState extends State<IncomeCircularChart> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
-                            elevation: 3,
-                color: Globals.isDarkmode ? null : Color(0xffeeeeee),
+              elevation: 3,
+              color: Globals.isDarkmode ? null : Color(0xffeeeeee),
               child: ExpansionTile(
                 title: Text(
                   'Auswahl der Konten',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text(_selectedAccounts),
+                subtitle: _selectedAccounts == ''
+                    ? Text('Keine Konten ausgewählt')
+                    : Text(_selectedAccounts),
                 children: AllData.accounts
                     .map((e) => ListTile(
                           title: Text('${e.title}'),
@@ -134,7 +136,8 @@ class _IncomeCircularChartState extends State<IncomeCircularChart> {
                                     _filterAccounts.remove(e);
                                   }
                                   if (_filterAccounts.length == 0)
-                                    _selectedAccounts = 'Keine Konten ausgewählt';
+                                    _selectedAccounts =
+                                        'Keine Konten ausgewählt';
                                   else
                                     _selectedAccounts = '';
 
