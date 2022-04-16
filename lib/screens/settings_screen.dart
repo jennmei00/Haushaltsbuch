@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:haushaltsbuch/models/account.dart';
-import 'package:haushaltsbuch/models/all_data.dart';
-import 'package:haushaltsbuch/models/enums.dart';
-import 'package:haushaltsbuch/models/posting.dart';
-import 'package:haushaltsbuch/models/standing_order.dart';
-import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/credits_screen.dart';
-import 'package:haushaltsbuch/screens/imprint_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/theme.dart';
@@ -15,7 +8,6 @@ import 'package:haushaltsbuch/services/theme_notifier.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
 
 class SettingsScreen extends StatefulWidget {
   static final routeName = '/settings_screen';
@@ -57,10 +49,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onThemeChanged(val, themeNotifier);
             },
           ),
+          // GestureDetector(
+          //   child: ListTile(
+          //     leading: Icon(Icons.slideshow),
+          //     title: Text('Tutorial abspielen'),
+          //   ),
+          //   onTap: () {
+          //     // showTutorial();
+          //   },
+          // ),
           GestureDetector(
             child: ListTile(
               leading: Icon(Icons.my_library_books),
-              title: Text('Credits'),
+              title: Text(
+                'Credits',
+              ),
             ),
             onTap: () {
               Navigator.of(context).pushNamed(Credits.routeName);
@@ -74,17 +77,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: Text('Licenses'),
               ),
               onTap: () => showLicensePage(
-                    context: context,
-                    applicationIcon: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/images/logo2.png',width: 48,),
+                  context: context,
+                  applicationIcon: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
+                      'assets/images/logo2.png',
+                      width: 48,
                     ),
-                    applicationName: 'Haushaltsbuch',
-                    applicationVersion: '${Globals.version}'
-                    //  '1.0.0',
-                    // applicationLegalese: 'Copyright My Company'
-                  )
-              ),
+                  ),
+                  applicationName: 'Haushaltsbuch',
+                  applicationVersion: '${Globals.version}'
+                  //  '1.0.0',
+                  // applicationLegalese: 'Copyright My Company'
+                  )),
           // GestureDetector(
           //   child: ListTile(
           //     leading: Icon(

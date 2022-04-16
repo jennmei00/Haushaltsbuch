@@ -1,0 +1,169 @@
+  import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+  
+  TutorialCoachMark? tutorialCoachMark;
+  List<TargetFocus> targets = [];
+
+  GlobalKey key = GlobalKey();
+  GlobalKey _key1 = GlobalKey();
+  GlobalKey _key2 = GlobalKey();
+  GlobalKey _key3 = GlobalKey();
+
+    @override
+  void initState() {
+    initTargets();
+    super.initState();
+  }
+
+  void initTargets() {
+    targets.add(
+      TargetFocus(
+        identify: "Target 3",
+        keyTarget: _key3,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Titulo lorem ipsum",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 20.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    )
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
+
+    targets.add(
+      TargetFocus(
+        identify: "Target 2",
+        keyTarget: _key2,
+        color: Colors.red,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Titulo lorem ipsum",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20.0),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+        shape: ShapeLightFocus.RRect,
+        radius: 5,
+      ),
+    );
+
+    targets.add(TargetFocus(
+      identify: "Target 1",
+      keyTarget: _key1,
+      contents: [
+        TargetContent(
+            align: ContentAlign.top,
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: Text(
+                      "Multiples contents",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            )),
+        TargetContent(
+            align: ContentAlign.bottom,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Text(
+                    "Multiples contents",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ))
+      ],
+      shape: ShapeLightFocus.Circle,
+    ));
+  }
+
+  
+
+  void showTutorial() {
+    tutorialCoachMark = TutorialCoachMark(
+      context,
+      targets: targets,
+      colorShadow: Colors.blue,
+      textSkip: "SKIP",
+      paddingFocus: 5,
+      opacityShadow: 0.8,
+      onFinish: () {
+        print("finish");
+      },
+      onClickTarget: (target) {
+        print('onClickTarget: $target');
+      },
+      onSkip: () {
+        print("skip");
+      },
+      onClickOverlay: (target) {
+        print('onClickOverlay: $target');
+      },
+    )..show();
+  }
+
+keys den richtigen Widgets zuordnen

@@ -33,6 +33,17 @@ class Credits extends StatelessWidget {
             'Photos by Visual Stories || Micheile, Josh Appel and Steve Johnson on Unsplash.',
             textAlign: TextAlign.justify,
           ),
+           SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Applogo:',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          Text(
+            'NIKmigg',
+            textAlign: TextAlign.justify,
+          ),
         ]),
       ),
     );
