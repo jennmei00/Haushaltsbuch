@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -12,6 +13,7 @@ import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,6 +66,21 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
 
     // AllData.accounts = [];
     AllData.accounts = Account().listFromDB(await DBHelper.getData('Account'));
+
+    //if AccountVisibility.text does not exist, create it and write data
+    if (!await FileHelper().fileExists()) {
+      Map<String, bool> map = {};
+      AllData.accounts.forEach((element) {
+        map[element.id!] = true;
+      });
+      await FileHelper().writeMap(map);
+    }
+
+    print('TEST');
+    print(FileHelper().readMap());
+
+    Globals.accountVisibility = await FileHelper().readMap();
+    // Globals.accountVisibility = {};
 
     AllData.standingOrders =
         StandingOrder().listFromDB(await DBHelper.getData('Standingorder'));

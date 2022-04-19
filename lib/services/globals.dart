@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 class Globals {
   static late List<dynamic> imagePathsCategoryIcons;
   static late List<dynamic> imagePathsAccountIcons;
+  static late Map<String, bool> accountVisibility;
+
 
   static late String appName;
   static late String packageName;

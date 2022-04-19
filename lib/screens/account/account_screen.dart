@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
@@ -7,11 +10,13 @@ import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/account/account_overview_screen.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AccountScreen extends StatefulWidget {
   static final routeName = '/account_screen';
@@ -24,6 +29,7 @@ class _AccountScreenState extends State<AccountScreen> {
   List<List<Object>> accountTypeList = [];
 
   var accountData = AllData.accounts;
+  // Map<String, bool> _accountVisibility = Map();
 
   double totalBankBalance = 0;
   void _createAccountList() {
@@ -44,7 +50,8 @@ class _AccountScreenState extends State<AccountScreen> {
 
   void _getTotalBankBalance() {
     accountData.forEach((ac) {
-      totalBankBalance += ac.bankBalance!;
+      if (Globals.accountVisibility[ac.id] == true)
+        totalBankBalance += ac.bankBalance!;
     });
   }
 
@@ -52,7 +59,7 @@ class _AccountScreenState extends State<AccountScreen> {
     double total = 0;
     accountData.forEach((ac) {
       if (ac.accountType!.title == acType) {
-        total += ac.bankBalance!;
+        if (Globals.accountVisibility[ac.id] == true) total += ac.bankBalance!;
       }
     });
     return total;
@@ -66,9 +73,14 @@ class _AccountScreenState extends State<AccountScreen> {
     }
   }
 
+  // void _getAccountVisibilityMap() async {
+  //   Globals.accountVisibility = await FileHelper().readMap();
+  // }
+
   @override
   void initState() {
     AllData.accounts.sort((obj, obj2) => obj2.title!.compareTo(obj.title!));
+    // _getAccountVisibilityMap();
     _createAccountList();
     _getTotalBankBalance();
     super.initState();
@@ -110,6 +122,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           ),
                           Text(
                             //'${totalBankBalance.toStringAsFixed(2)} €',
+
                             '${NumberFormat.currency(locale: "de", symbol: "€").format(totalBankBalance)}',
                             style: TextStyle(
                                 fontSize: 24,
@@ -289,11 +302,43 @@ class _AccountScreenState extends State<AccountScreen> {
                                         title: Text(
                                           '${e.title}',
                                         ),
-                                        trailing: Text(
-                                          '${NumberFormat.currency(locale: "de", symbol: "€").format(e.bankBalance)}',
-                                          style: TextStyle(
-                                              color: _getColorBalance(
-                                                  e.bankBalance!)),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              '${NumberFormat.currency(locale: "de", symbol: "€").format(e.bankBalance)}',
+                                              style: TextStyle(
+                                                  color: _getColorBalance(
+                                                      e.bankBalance!)),
+                                            ),
+                                            IconButton(
+                                              onPressed: () async {
+                                                bool value = Globals
+                                                    .accountVisibility[e.id]!;
+                                                Globals.accountVisibility[
+                                                    e.id!] = !value;
+
+                                                FileHelper().writeMap(
+                                                    Globals.accountVisibility);
+
+                                                totalBankBalance = 0;
+                                                _createAccountList();
+                                                _getTotalBankBalance();
+
+                                                setState(() {});
+                                              },
+                                              icon: Icon(Globals
+                                                              .accountVisibility[
+                                                          e.id] ==
+                                                      true
+                                                  ? Icons.visibility_rounded
+                                                  : Globals.accountVisibility[
+                                                              e.id] ==
+                                                          false
+                                                      ? Icons.visibility_off
+                                                      : Icons.star),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
@@ -386,6 +431,10 @@ class _AccountScreenState extends State<AccountScreen> {
         element.account == null ? false : element.account!.id == account.id);
     await DBHelper.delete('StandingOrder',
         where: "AccountID = '${account.id}'");
+
+    //Delete AccountVisibility
+    Globals.accountVisibility.remove(account.id);
+    FileHelper().writeMap(Globals.accountVisibility);
 
     //Delete Account
     AllData.accounts.removeWhere((element) => element.id == account.id);
