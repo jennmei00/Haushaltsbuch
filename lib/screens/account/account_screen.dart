@@ -27,6 +27,7 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   List<List<Object>> accountTypeList = [];
+  bool _initiallyExpanded = false;
 
   var accountData = AllData.accounts;
   // Map<String, bool> _accountVisibility = Map();
@@ -76,7 +77,6 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   void initState() {
     AllData.accounts.sort((obj, obj2) => obj2.title!.compareTo(obj.title!));
-    // _getAccountVisibilityMap();
     _createAccountList();
     _getTotalBankBalance();
     super.initState();
@@ -84,6 +84,8 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // _initiallyExpanded = true;
+
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
@@ -96,6 +98,19 @@ class _AccountScreenState extends State<AccountScreen> {
         appBar: AppBar(
           title: Text('Konten'),
           centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    _initiallyExpanded = !_initiallyExpanded;
+                  });
+                },
+                icon: _initiallyExpanded
+                    ? Icon(Icons.keyboard_double_arrow_up)
+                    : Icon(
+                        Icons.keyboard_double_arrow_down
+                      )),
+          ],
         ),
         drawer: AppDrawer(selectedMenuItem: 'accounts'),
         body: AllData.accounts.length == 0
@@ -117,8 +132,6 @@ class _AccountScreenState extends State<AccountScreen> {
                             height: 10,
                           ),
                           Text(
-                            //'${totalBankBalance.toStringAsFixed(2)} €',
-
                             '${NumberFormat.currency(locale: "de", symbol: "€").format(totalBankBalance)}',
                             style: TextStyle(
                                 fontSize: 24,
@@ -141,7 +154,8 @@ class _AccountScreenState extends State<AccountScreen> {
                             color:
                                 Globals.isDarkmode ? null : Color(0xffeeeeee),
                             child: ExpansionTile(
-                              initiallyExpanded: false,
+                              key: GlobalKey(),
+                              initiallyExpanded: _initiallyExpanded,
                               title: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -319,7 +333,6 @@ class _AccountScreenState extends State<AccountScreen> {
 
                                                 totalBankBalance = 0;
                                                 _getTotalBankBalance();
-
                                                 setState(() {});
                                               },
                                               icon: Icon(Globals

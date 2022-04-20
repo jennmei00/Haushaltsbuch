@@ -161,14 +161,20 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                   ? Text('Das eigentliche Konto wurde gelöscht')
                   : SizedBox(),
               SizedBox(height: 20),
-              CustomTextField(
-                labelText: 'Betrag',
-                hintText: 'in €',
-                keyboardType: TextInputType.number,
-                controller: _amountController,
-                mandatory: true,
-                fieldname: 'amount',
-              ),
+              Row(
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                    labelText: 'Betrag',
+                    hintText: 'in €',
+                    keyboardType: TextInputType.number,
+                    controller: _amountController,
+                    mandatory: true,
+                    fieldname: 'amount',
+                  ),
+                ),
+                IconButton(onPressed: () {}, icon: Icon(Icons.calculate)),
+              ]),
               SizedBox(height: 20),
               CustomTextField(
                 labelText: 'Bezeichnung',
