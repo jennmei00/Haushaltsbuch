@@ -76,11 +76,7 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
       await FileHelper().writeMap(map);
     }
 
-    print('TEST');
-    print(FileHelper().readMap());
-
     Globals.accountVisibility = await FileHelper().readMap();
-    // Globals.accountVisibility = {};
 
     AllData.standingOrders =
         StandingOrder().listFromDB(await DBHelper.getData('Standingorder'));

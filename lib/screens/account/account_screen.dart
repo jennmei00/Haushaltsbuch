@@ -73,10 +73,6 @@ class _AccountScreenState extends State<AccountScreen> {
     }
   }
 
-  // void _getAccountVisibilityMap() async {
-  //   Globals.accountVisibility = await FileHelper().readMap();
-  // }
-
   @override
   void initState() {
     AllData.accounts.sort((obj, obj2) => obj2.title!.compareTo(obj.title!));
@@ -322,7 +318,6 @@ class _AccountScreenState extends State<AccountScreen> {
                                                     Globals.accountVisibility);
 
                                                 totalBankBalance = 0;
-                                                _createAccountList();
                                                 _getTotalBankBalance();
 
                                                 setState(() {});
