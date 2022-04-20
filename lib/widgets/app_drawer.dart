@@ -5,6 +5,7 @@ import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/management/management_screen.dart';
 import 'package:haushaltsbuch/screens/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
+import 'package:haushaltsbuch/screens/statistics/budget_screen.dart';
 import 'package:haushaltsbuch/screens/statistics/statistics_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
 import 'package:haushaltsbuch/services/globals.dart';
@@ -78,6 +79,12 @@ class AppDrawer extends StatelessWidget {
                 selected: selectedMenuItem == 'statistic' ? true : false,
               ),
               ListTile(
+                leading: Icon(Icons.savings_rounded, size: 36),
+                title: Text('Budget', style: TextStyle(fontSize: 18)),
+                onTap: () => selectedItem(context, 'budget'),
+                selected: selectedMenuItem == 'budget' ? true : false,
+              ),
+              ListTile(
                 leading: Icon(Icons.settings, size: 36),
                 title: Text('Einstellungen', style: TextStyle(fontSize: 18)),
                 onTap: () => selectedItem(context, 'settings'),
@@ -124,6 +131,9 @@ class AppDrawer extends StatelessWidget {
         break;
       case 'management':
         Navigator.of(context).pushReplacementNamed(ManagementScreen.routeName);
+        break;
+      case 'budget':
+        Navigator.of(context).pushReplacementNamed(BudgetScreen.routeName);
         break;
       case 'settings':
         Navigator.of(context).pushReplacementNamed(SettingsScreen.routeName);

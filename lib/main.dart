@@ -15,6 +15,7 @@ import 'package:haushaltsbuch/screens/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/start_screen.dart';
+import 'package:haushaltsbuch/screens/statistics/budget_screen.dart';
 import 'package:haushaltsbuch/screens/statistics/statistics_screen.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
@@ -99,6 +100,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         StandingOrdersScreen.routeName: (context) => StandingOrdersScreen(),
         PostingScreen.routeName: (context) => PostingScreen(),
         ManagementScreen.routeName: (context) => ManagementScreen(),
+        BudgetScreen.routeName: (context) => BudgetScreen(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == IncomeExpenseScreen.routeName) {
@@ -173,6 +175,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         } else if (settings.name == Credits.routeName) {
           return MaterialPageRoute(builder: (context) {
             return Credits();
+          });
+        } else if (settings.name == BudgetScreen.routeName) {
+          return MaterialPageRoute(builder: (context) {
+            return BudgetScreen();
           });
         }
         assert(false, 'Need to implement ${settings.name}');
