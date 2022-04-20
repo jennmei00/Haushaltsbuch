@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
@@ -161,8 +162,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                   ? Text('Das eigentliche Konto wurde gelöscht')
                   : SizedBox(),
               SizedBox(height: 20),
-              Row(
-              children: [
+              Row(children: [
                 Expanded(
                   child: CustomTextField(
                     labelText: 'Betrag',
@@ -173,7 +173,34 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                     fieldname: 'amount',
                   ),
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.calculate)),
+                IconButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.75,
+                              child: SimpleCalculator(
+                                value: _amountController.text == ''
+                                    ? 0
+                                    : double.tryParse(_amountController.text
+                                        .replaceAll(',', '.'))!,
+                                onChanged: (key, value, expression) {
+                                  if (key == '=') {
+                                    _amountController.text =
+                                        value.toString().replaceAll('.', ',');
+                                    Navigator.pop(context);
+                                  }
+                                },
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                  icon: Icon(Icons.calculate),
+                  iconSize: 40,
+                ),
               ]),
               SizedBox(height: 20),
               CustomTextField(
