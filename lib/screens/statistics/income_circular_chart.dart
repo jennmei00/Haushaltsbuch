@@ -23,7 +23,8 @@ class _IncomeCircularChartState extends State<IncomeCircularChart> {
 
   void selectAllAccounts() {
     AllData.accounts.forEach((element) {
-      _filterAccounts.add(element);
+      if (Globals.accountVisibility[element.id] == true)
+        _filterAccounts.add(element);
     });
     _filterAccounts.forEach((e) {
       if (_filterAccounts.last == e)

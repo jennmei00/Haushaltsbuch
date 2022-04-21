@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:haushaltsbuch/screens/statistics/circular_chart.dart';
+import 'package:haushaltsbuch/screens/statistics/month_overview.dart';
 import 'package:haushaltsbuch/screens/statistics/line_chart.dart';
 import 'package:haushaltsbuch/screens/statistics/year_overview_table.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';

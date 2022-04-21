@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
@@ -24,6 +26,7 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   List<List<Object>> accountTypeList = [];
   bool _initiallyExpanded = false;
+  ValueKey? _expansionTileKey;
 
   var accountData = AllData.accounts;
   // Map<String, bool> _accountVisibility = Map();
@@ -80,8 +83,6 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // _initiallyExpanded = true;
-
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
@@ -98,14 +99,13 @@ class _AccountScreenState extends State<AccountScreen> {
             IconButton(
                 onPressed: () {
                   setState(() {
+                    _expansionTileKey = ValueKey(Random().nextInt(99));
                     _initiallyExpanded = !_initiallyExpanded;
                   });
                 },
                 icon: _initiallyExpanded
                     ? Icon(Icons.keyboard_double_arrow_up)
-                    : Icon(
-                        Icons.keyboard_double_arrow_down
-                      )),
+                    : Icon(Icons.keyboard_double_arrow_down)),
           ],
         ),
         drawer: AppDrawer(selectedMenuItem: 'accounts'),
@@ -150,7 +150,8 @@ class _AccountScreenState extends State<AccountScreen> {
                             color:
                                 Globals.isDarkmode ? null : Color(0xffeeeeee),
                             child: ExpansionTile(
-                              key: GlobalKey(),
+                              key: _expansionTileKey,
+                              // key: GlobalKey(),
                               initiallyExpanded: _initiallyExpanded,
                               title: Row(
                                 mainAxisAlignment:
