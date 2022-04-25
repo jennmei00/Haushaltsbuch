@@ -57,7 +57,7 @@ class _TransferScreenState extends State<TransferScreen> {
 
     _dateTime = transfer.date!;
     _amountController.text =
-        NumberFormat("###.00", "de").format(transfer.amount!);
+        NumberFormat("##0.00", "de").format(transfer.amount!);
     _descriptionController.text = '${transfer.description}';
 
     _oldAccountFrom = transfer.accountFrom;
@@ -323,9 +323,6 @@ class _TransferScreenState extends State<TransferScreen> {
           Navigator.pop(context);
         else
           Navigator.of(context).pop(true);
-        // Navigator.of(context).pop();
-        //   ..pop()
-        //   ..popAndPushNamed(ManagementScreen.routeName);
 
       } catch (ex) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

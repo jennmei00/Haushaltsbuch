@@ -69,7 +69,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
 
     _incomeDateTime = posting.date!;
     _amountController.text =
-        NumberFormat("###.00", "de").format(posting.amount!);
+        NumberFormat("##0.00", "de").format(posting.amount!);
     _titleController.text = '${posting.title}';
     _descriptionController.text = '${posting.description}';
     _setCategory = posting.category!;
