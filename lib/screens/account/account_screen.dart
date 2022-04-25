@@ -242,7 +242,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                             Icons.edit,
                                             color: Colors.white,
                                           ),
-                                          Text('Edit',
+                                          Text('Bearbeiten',
                                               style: TextStyle(
                                                 color: Colors.white,
                                               )),
@@ -264,7 +264,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                             Icons.delete,
                                             color: Colors.white,
                                           ),
-                                          Text('Move to trash',
+                                          Text('Löschen',
                                               style: TextStyle(
                                                 color: Colors.white,
                                               )),

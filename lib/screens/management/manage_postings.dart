@@ -223,7 +223,7 @@ class _ManagePostingsState extends State<ManagePostings> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Icon(Icons.edit, color: Colors.white),
-                Text('Edit', style: TextStyle(color: Colors.white)),
+                Text('Bearbeiten', style: TextStyle(color: Colors.white)),
               ],
             ),
           ),
@@ -238,7 +238,7 @@ class _ManagePostingsState extends State<ManagePostings> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Icon(Icons.delete, color: Colors.white),
-                Text('Move to trash', style: TextStyle(color: Colors.white)),
+                Text('Löschen', style: TextStyle(color: Colors.white)),
               ],
             ),
           ),
