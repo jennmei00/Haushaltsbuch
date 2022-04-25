@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/screens/account/account_overview_screen.dart';
+import 'package:haushaltsbuch/screens/budget/new_budget_screen.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
 import 'package:haushaltsbuch/screens/credits_screen.dart';
@@ -15,7 +16,7 @@ import 'package:haushaltsbuch/screens/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/start_screen.dart';
-import 'package:haushaltsbuch/screens/statistics/budget_screen.dart';
+import 'package:haushaltsbuch/screens/budget/budget_screen.dart';
 import 'package:haushaltsbuch/screens/statistics/statistics_screen.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/screens/posting/posting_screen.dart';
@@ -179,6 +180,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         } else if (settings.name == BudgetScreen.routeName) {
           return MaterialPageRoute(builder: (context) {
             return BudgetScreen();
+          });
+        } else if (settings.name == NewBudgetScreen.routeName) {
+          final args = settings.arguments as String;
+          return MaterialPageRoute(builder: (context) {
+            return NewBudgetScreen(
+              id: args,
+            );
           });
         }
         assert(false, 'Need to implement ${settings.name}');

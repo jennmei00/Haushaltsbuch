@@ -10,3 +10,18 @@ enum Repetition {
   halfYearly,
   yearly,
 }
+
+enum Month {
+  Januar,
+  Februar,
+  Maerz,
+  April,
+  Mai,
+  Juni,
+  Juli,
+  August,
+  September,
+  Oktober,
+  November,
+  Dezember,
+}
