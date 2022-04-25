@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
+import 'package:haushaltsbuch/screens/management/management_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
@@ -317,7 +318,15 @@ class _TransferScreenState extends State<TransferScreen> {
             where: "ID = '${acTo.id}'");
 
         AllData.transfers.add(transfer);
-        Navigator.pop(context);
+
+        if (widget.id == '')
+          Navigator.pop(context);
+        else
+          Navigator.of(context).pop(true);
+        // Navigator.of(context).pop();
+        //   ..pop()
+        //   ..popAndPushNamed(ManagementScreen.routeName);
+
       } catch (ex) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(

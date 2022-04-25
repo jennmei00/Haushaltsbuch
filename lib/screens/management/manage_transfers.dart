@@ -149,7 +149,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
 
   Widget _listViewWidget(Transfer transfer, BuildContext context) {
     return Dismissible(
-      confirmDismiss: (DismissDirection direction) {
+      confirmDismiss: (DismissDirection direction) async {
         if (direction == DismissDirection.endToStart) {
           return showDialog(
             context: context,
@@ -171,8 +171,12 @@ class _ManageTransfersState extends State<ManageTransfers> {
             },
           );
         } else {
-          Navigator.pushNamed(context, TransferScreen.routeName,
+          var saved = await Navigator.pushNamed(
+              context, TransferScreen.routeName,
               arguments: transfer.id);
+
+          if (saved == true) setState(() {});
+
           return Future.value(false);
         }
       },
