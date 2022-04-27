@@ -242,7 +242,8 @@ class _BudgetScreenState extends State<NewBudgetScreen> {
                             children: [
                               Text('Kalenderwoche'),
                               SizedBox(
-                                width: 100,
+                                width: 200,
+                                height: 200,
                                 child: CupertinoPicker(
                                   itemExtent: 40,
                                   children: weekList
