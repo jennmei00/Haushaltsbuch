@@ -7,6 +7,7 @@ import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
+import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/management/management_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
@@ -46,6 +47,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   Account? _oldAccount;
   double? _oldAmount;
   int groupValueBuchungsart = 0;
+  StandingOrder? _postingSO;
+  bool _postingIsSO = false;
 
   void _getAccountDropDownItems() {
     if (AllData.accounts.length != 0) {
@@ -67,6 +70,9 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
           .firstWhere((element) => element.id == posting.account!.id);
     }
 
+    if (posting.standingOrder != null) _postingSO = posting.standingOrder!;
+    if (posting.isStandingOrder != null)
+      _postingIsSO = posting.isStandingOrder!; 
     _incomeDateTime = posting.date!;
     _amountController.text =
         NumberFormat("##0.00", "de").format(posting.amount!);
@@ -372,8 +378,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
           accountName: AllData.accounts
               .firstWhere((element) => element.id == _selectedItem!.id)
               .title,
-          standingOrder: null,
-          isStandingOrder: false,
+          standingOrder: _postingSO,
+          isStandingOrder: _postingIsSO,
         );
 
         if (widget.id == '') {

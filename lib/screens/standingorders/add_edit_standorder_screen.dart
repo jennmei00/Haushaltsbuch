@@ -33,7 +33,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   DateTime _dateTime = DateTime.now();
   DateTime? _dateTimeEnd;
   Repetition _repeatValue = Repetition.monthly;
-  int _groupValue_buchungsart = 0;
+  int _groupeValueBuchungsart = 0;
   TextEditingController _amountController = TextEditingController(text: '');
   TextEditingController _titleController = TextEditingController(text: '');
   TextEditingController _descriptionController =
@@ -64,7 +64,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     StandingOrder so =
         AllData.standingOrders.firstWhere((element) => element.id == widget.id);
     _repeatValue = so.repetition!;
-    _groupValue_buchungsart = so.postingType!.index;
+    _groupeValueBuchungsart = so.postingType!.index;
     _dateTime = so.begin!;
     _dateTimeEnd = so.end == null ? null : so.end!;
     _selectedItem = _accountDropDownItems
@@ -131,14 +131,14 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                   onValueChanged: (val) {
                     FocusScope.of(context).requestFocus(new FocusNode());
                     setState(() {
-                      _groupValue_buchungsart = val as int;
+                      _groupeValueBuchungsart = val as int;
                       if (val == 2)
                         _isTransfer = true;
                       else
                         _isTransfer = false;
                     });
                   },
-                  groupValue: _groupValue_buchungsart,
+                  groupValue: _groupeValueBuchungsart,
                 ),
               ),
               SizedBox(height: 20),
@@ -518,7 +518,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ? null
                 : DateTime(
                     _dateTimeEnd!.year, _dateTimeEnd!.month, _dateTimeEnd!.day),
-            postingType: PostingType.values[_groupValue_buchungsart],
+            postingType: PostingType.values[_groupeValueBuchungsart],
             repetition: _repeatValue);
 
         if (widget.id == '') {

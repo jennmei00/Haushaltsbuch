@@ -3,8 +3,8 @@ import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
+import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
-import 'package:haushaltsbuch/screens/management/management_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
@@ -34,6 +34,8 @@ class _TransferScreenState extends State<TransferScreen> {
   Account? _oldAccountFrom;
   Account? _oldAccountTo;
   double? _oldAmount;
+  StandingOrder? _transferSO;
+  bool _transferIsSO = false;
 
   void _getAccountDropDownItems() {
     if (AllData.accounts.length != 0) {
@@ -44,7 +46,7 @@ class _TransferScreenState extends State<TransferScreen> {
     }
   }
 
-  void _getPostingsData() {
+  void _getTransfersData() {
     Transfer transfer =
         AllData.transfers.firstWhere((element) => element.id == widget.id);
 
@@ -54,6 +56,10 @@ class _TransferScreenState extends State<TransferScreen> {
     if (transfer.accountTo != null)
       _selectedAccountTo = _accountDropDownItems
           .firstWhere((element) => element.id == transfer.accountTo!.id);
+
+    if (transfer.standingOrder != null) _transferSO = transfer.standingOrder!;
+    if (transfer.isStandingOrder != null)
+      _transferIsSO = transfer.isStandingOrder!;
 
     _dateTime = transfer.date!;
     _amountController.text =
@@ -70,7 +76,7 @@ class _TransferScreenState extends State<TransferScreen> {
     _getAccountDropDownItems();
 
     if (widget.id != '') {
-      _getPostingsData();
+      _getTransfersData();
     }
     super.initState();
   }
@@ -273,6 +279,8 @@ class _TransferScreenState extends State<TransferScreen> {
           accountToName: AllData.accounts
               .firstWhere((element) => element.id == _selectedAccountTo!.id)
               .title,
+          standingOrder: _transferSO,
+          isStandingOrder: _transferIsSO,
         );
 
         if (widget.id == '') {
@@ -323,7 +331,6 @@ class _TransferScreenState extends State<TransferScreen> {
           Navigator.pop(context);
         else
           Navigator.of(context).pop(true);
-
       } catch (ex) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
