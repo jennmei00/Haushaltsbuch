@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/screens/budget/new_budget_screen.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 
 class BudgetScreen extends StatefulWidget {
-  const BudgetScreen({ Key? key }) : super(key: key);
+  const BudgetScreen({Key? key}) : super(key: key);
   static final routeName = '/budget_screen';
 
   @override
@@ -15,19 +16,31 @@ class _BudgetScreenState extends State<BudgetScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            Navigator.of(context)
-                .pushNamed(NewBudgetScreen.routeName, arguments: '');
-          },
-        ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context)
+              .pushNamed(NewBudgetScreen.routeName, arguments: '');
+        },
+      ),
       appBar: AppBar(
-          title: Text('Budget'),
-          centerTitle: true,
+        title: Text('Budget'),
+        centerTitle: true,
+      ),
+      drawer: AppDrawer(selectedMenuItem: 'budget'),
+      body: Container(
+        child: Center(
+          child: CupertinoPicker(
+            itemExtent: 100,
+            onSelectedItemChanged: (item) {},
+            children: [
+            Text('item 1'),
+            Text('item 2'),
+            Text('item 3'),
+            Text('item 4')
+          ]),
         ),
-        drawer: AppDrawer(selectedMenuItem: 'budget'),
-        body: Container(),
+      ),
     );
   }
 }
