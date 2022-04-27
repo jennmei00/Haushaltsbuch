@@ -15,6 +15,7 @@ class StandingOrder {
   String? description;
   Category? category;
   Account? account;
+  Account? accountTo;
 
   StandingOrder({
     this.id,
@@ -27,6 +28,7 @@ class StandingOrder {
     this.description,
     this.category,
     this.account,
+    this.accountTo,
   });
 
   Map<String, dynamic> toMap() {
@@ -41,6 +43,7 @@ class StandingOrder {
     map['Amount'] = this.amount;
     map['CategoryID'] = this.category == null ? null : this.category!.id;
     map['AccountID'] = this.account == null ? null : this.account!.id;
+    map['AccountToID'] = this.accountTo == null ? null : this.accountTo!.id;
     return map;
   }
 
@@ -73,6 +76,10 @@ class StandingOrder {
           ? null
           : AllData.accounts
               .firstWhere((element) => element.id == data['AccountID']),
+      accountTo: data['AccountToID'] == null
+          ? null
+          : AllData.accounts
+              .firstWhere((element) => element.id == data['AccountToID']),
     );
     return standingOrder;
   }

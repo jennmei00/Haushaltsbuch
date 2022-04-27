@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
@@ -7,6 +8,7 @@ import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
+import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
@@ -32,19 +34,20 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   DateTime _dateTime = DateTime.now();
   DateTime? _dateTimeEnd;
   Repetition _repeatValue = Repetition.monthly;
-  int _groupValue_buchungsart = 0;
+  int _groupeValueBuchungsart = 0;
   TextEditingController _amountController = TextEditingController(text: '');
   TextEditingController _titleController = TextEditingController(text: '');
   TextEditingController _descriptionController =
       TextEditingController(text: '');
   final _formKey = GlobalKey<FormState>();
   ListItem? _selectedItem;
+  ListItem? _selectedItemTo;
   String _selectedCategoryID = '';
   Category _setCategory =
       AllData.categories.firstWhere((element) => element.id == 'default');
   late Category _selectedCategory;
-
   List<ListItem> _accountDropDownItems = [];
+  bool _isTransfer = false;
 
   void _getAccountDropDownItems() {
     if (AllData.accounts.length != 0) {
@@ -62,15 +65,21 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     StandingOrder so =
         AllData.standingOrders.firstWhere((element) => element.id == widget.id);
     _repeatValue = so.repetition!;
-    _groupValue_buchungsart = so.postingType!.index;
+    _groupeValueBuchungsart = so.postingType!.index;
     _dateTime = so.begin!;
     _dateTimeEnd = so.end == null ? null : so.end!;
     _selectedItem = _accountDropDownItems
         .firstWhere((element) => element.id == so.account!.id);
-    _setCategory = so.category!;
-    _amountController.text = NumberFormat("###.00", "de").format(so.amount!);
-    _titleController.text = so.title!;
+    _selectedItemTo = so.accountTo == null
+        ? null
+        : _accountDropDownItems
+            .firstWhere((element) => element.id == so.accountTo!.id);
+    _setCategory =
+        so.category == null ? AllData.categories.first : so.category!;
+    _amountController.text = NumberFormat("##0.00", "de").format(so.amount!);
+    _titleController.text = so.title == null ? '' : so.title!;
     _descriptionController.text = so.description!;
+    _isTransfer = so.postingType == PostingType.transfer ? true : false;
   }
 
   @override
@@ -117,15 +126,20 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 child: CupertinoSlidingSegmentedControl(
                   children: <Object, Widget>{
                     0: Text('Einnahme'),
-                    1: Text('Ausgabe')
+                    1: Text('Ausgabe'),
+                    2: Text('Umbuchung'),
                   },
                   onValueChanged: (val) {
                     FocusScope.of(context).requestFocus(new FocusNode());
                     setState(() {
-                      _groupValue_buchungsart = val as int;
+                      _groupeValueBuchungsart = val as int;
+                      if (val == 2)
+                        _isTransfer = true;
+                      else
+                        _isTransfer = false;
                     });
                   },
-                  groupValue: _groupValue_buchungsart,
+                  groupValue: _groupeValueBuchungsart,
                 ),
               ),
               SizedBox(height: 20),
@@ -136,27 +150,92 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 },
                 dropdownItems: _accountDropDownItems,
                 listItemValue: _selectedItem == null ? null : _selectedItem!.id,
-                dropdownHintText: 'Konto',
+                dropdownHintText: _isTransfer ? 'Von Konto' : 'Konto',
               ),
+              _isTransfer
+                  ? Column(
+                      children: [
+                        SizedBox(height: 20),
+                        Container(
+                          height: 65,
+                          child: Image.asset(
+                            'assets/icons/other_icons/arrow.png',
+                            color: Theme.of(context)
+                                .primaryColorDark
+                                .withOpacity(0.8),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        DropDown(
+                          onChanged: (newValue) {
+                            _selectedItemTo = newValue as ListItem;
+                            setState(() {});
+                          },
+                          dropdownItems: _accountDropDownItems,
+                          listItemValue: _selectedItemTo == null
+                              ? null
+                              : _selectedItemTo!.id,
+                          dropdownHintText: 'Zu Konto',
+                        )
+                      ],
+                    )
+                  : SizedBox(),
               SizedBox(height: 20),
-              CustomTextField(
-                labelText: 'Betrag',
-                hintText: 'in €',
-                keyboardType: TextInputType.number,
-                controller: _amountController,
-                mandatory: true,
-                fieldname: 'amount',
-                textInputAction: TextInputAction.next,
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomTextField(
+                      labelText: 'Betrag',
+                      hintText: 'in €',
+                      keyboardType: TextInputType.number,
+                      controller: _amountController,
+                      mandatory: true,
+                      fieldname: 'amount',
+                      textInputAction: TextInputAction.next,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Dialog(
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.75,
+                                child: SimpleCalculator(
+                                  value: _amountController.text == ''
+                                      ? 0
+                                      : double.tryParse(_amountController.text
+                                          .replaceAll(',', '.'))!,
+                                  onChanged: (key, value, expression) {
+                                    if (key == '=') {
+                                      _amountController.text =
+                                          value.toString().replaceAll('.', ',');
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                ),
+                              ),
+                            );
+                          });
+                    },
+                    icon: Icon(Icons.calculate),
+                    iconSize: 40,
+                  ),
+                ],
               ),
-              SizedBox(height: 20),
-              CustomTextField(
-                labelText: 'Bezeichnung',
-                hintText: '',
-                controller: _titleController,
-                mandatory: true,
-                fieldname: 'title',
-                textInputAction: TextInputAction.next,
-              ),
+              SizedBox(height: _isTransfer ? 0 : 20),
+              _isTransfer
+                  ? SizedBox()
+                  : CustomTextField(
+                      labelText: 'Bezeichnung',
+                      hintText: '',
+                      controller: _titleController,
+                      mandatory: true,
+                      fieldname: 'title',
+                      textInputAction: TextInputAction.next,
+                    ),
               SizedBox(height: 20),
               CustomTextField(
                 labelText: 'Beschreibung',
@@ -168,74 +247,84 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 textInputAction: TextInputAction.newline,
               ),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: 100,
-                    height: 120,
-                    child: CategoryItem(
-                      categoryItem: _setCategory,
-                    ),
-                  ),
-                  ElevatedButton(
-                    child: Text('Kategorie ändern'),
-                    onPressed: () {
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return StatefulBuilder(
-                                builder: (context, setState) {
-                              return Popup(
-                                title: 'Kategorien',
-                                body: Container(
-                                  padding: EdgeInsets.only(left: 5, right: 5),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.48,
-                                  width: MediaQuery.of(context).size.width * 1,
-                                  child: GridView.count(
-                                    scrollDirection: Axis.vertical,
-                                    childAspectRatio:
-                                        0.7, //MediaQuery.of(context)
-                                    //     .size
-                                    //     .width /
-                                    // (MediaQuery.of(context).size.height / 1.5),
-                                    padding: EdgeInsets.all(10),
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing:
-                                        MediaQuery.of(context).size.width *
-                                            0.04,
-                                    mainAxisSpacing: 12,
-                                    children: AllData.categories
-                                        .map((item) => CategoryItem(
-                                              categoryItem: item,
-                                              selectedCatID:
-                                                  _selectedCategoryID,
-                                              onTapFunction: () => setState(() {
-                                                _selectedCategoryID =
-                                                    '${item.id}';
-                                                _selectedCategory = item;
-                                              }),
-                                            ))
-                                        .toList(),
-                                  ),
-                                ),
-                                saveButton: true,
-                                cancelButton: true,
-                                saveFunction: () {
-                                  this.setState(() {
-                                    _setCategory = _selectedCategory;
+              _isTransfer
+                  ? SizedBox()
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 120,
+                          child: CategoryItem(
+                            categoryItem: _setCategory,
+                          ),
+                        ),
+                        ElevatedButton(
+                          child: Text('Kategorie ändern'),
+                          onPressed: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(
+                                      builder: (context, setState) {
+                                    return Popup(
+                                      title: 'Kategorien',
+                                      body: Container(
+                                        padding:
+                                            EdgeInsets.only(left: 5, right: 5),
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.48,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                1,
+                                        child: GridView.count(
+                                          scrollDirection: Axis.vertical,
+                                          childAspectRatio:
+                                              0.7, //MediaQuery.of(context)
+                                          //     .size
+                                          //     .width /
+                                          // (MediaQuery.of(context).size.height / 1.5),
+                                          padding: EdgeInsets.all(10),
+                                          crossAxisCount: 3,
+                                          crossAxisSpacing:
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.04,
+                                          mainAxisSpacing: 12,
+                                          children: AllData.categories
+                                              .map((item) => CategoryItem(
+                                                    categoryItem: item,
+                                                    selectedCatID:
+                                                        _selectedCategoryID,
+                                                    onTapFunction: () =>
+                                                        setState(() {
+                                                      _selectedCategoryID =
+                                                          '${item.id}';
+                                                      _selectedCategory = item;
+                                                    }),
+                                                  ))
+                                              .toList(),
+                                        ),
+                                      ),
+                                      saveButton: true,
+                                      cancelButton: true,
+                                      saveFunction: () {
+                                        this.setState(() {
+                                          _setCategory = _selectedCategory;
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                    );
                                   });
-                                  Navigator.of(context).pop();
-                                },
-                              );
-                            });
-                          });
-                    },
-                  ),
-                ],
-              ),
+                                });
+                          },
+                        ),
+                      ],
+                    ),
               SizedBox(
                 height: 10,
               ),
@@ -457,51 +546,91 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
             amount: double.parse(stringAmount),
             account: AllData.accounts
                 .firstWhere((element) => element.id == _selectedItem!.id),
+            accountTo: AllData.accounts
+                .firstWhere((element) => element.id == _selectedItemTo!.id),
             category: _setCategory,
             begin: DateTime(_dateTime.year, _dateTime.month, _dateTime.day),
             end: _dateTimeEnd == null
                 ? null
                 : DateTime(
                     _dateTimeEnd!.year, _dateTimeEnd!.month, _dateTimeEnd!.day),
-            postingType: PostingType.values[_groupValue_buchungsart],
+            postingType: PostingType.values[_groupeValueBuchungsart],
             repetition: _repeatValue);
 
         if (widget.id == '') {
           await DBHelper.insert('Standingorder', so.toMap());
           if (so.begin!.isBefore(DateTime.now())) {
-            Posting p = Posting(
-              id: Uuid().v1(),
-              title: so.title,
-              description: so.description,
-              account: so.account,
-              amount: so.amount,
-              date: so.begin,
-              postingType: so.postingType,
-              category: so.category,
-              accountName: so.account?.title,
-              standingOrder: so,
-              isStandingOrder: true,
-            );
+            if (so.postingType != PostingType.transfer) {
+              Posting p = Posting(
+                id: Uuid().v1(),
+                title: so.title,
+                description: so.description,
+                account: so.account,
+                amount: so.amount,
+                date: so.begin,
+                postingType: so.postingType,
+                category: so.category,
+                accountName: so.account?.title,
+                standingOrder: so,
+                isStandingOrder: true,
+              );
 
-            AllData.postings.add(p);
-            await DBHelper.insert('Posting', p.toMap());
+              AllData.postings.add(p);
+              await DBHelper.insert('Posting', p.toMap());
 
-            //update AccountAmount
-            Account ac = AllData.accounts
-                .firstWhere((element) => element.id == p.account!.id);
-            if (p.postingType == PostingType.income)
+              //update AccountAmount
+              Account ac = AllData.accounts
+                  .firstWhere((element) => element.id == p.account!.id);
+              if (p.postingType == PostingType.income)
+                AllData
+                    .accounts[AllData.accounts
+                        .indexWhere((element) => element.id == ac.id)]
+                    .bankBalance = ac.bankBalance! + p.amount!;
+              else
+                AllData
+                    .accounts[AllData.accounts
+                        .indexWhere((element) => element.id == ac.id)]
+                    .bankBalance = ac.bankBalance! - p.amount!;
+
+              await DBHelper.update('Account', ac.toMap(),
+                  where: "ID = '${ac.id}'");
+            } else {
+              Transfer t = Transfer(
+                id: Uuid().v1(),
+                description: so.description,
+                accountFrom: so.account,
+                accountFromName: so.account?.title,
+                accountTo: so.accountTo,
+                accountToName: so.accountTo?.title,
+                amount: so.amount,
+                date: so.begin,
+                standingOrder: so,
+                isStandingOrder: true,
+              );
+
+              AllData.transfers.add(t);
+              await DBHelper.insert('Transfer', t.toMap());
+
+              //update AccountAmount
+              Account acFrom = AllData.accounts
+                  .firstWhere((element) => element.id == t.accountFrom!.id);
+              Account acTo = AllData.accounts
+                  .firstWhere((element) => element.id == t.accountTo!.id);
+
               AllData
                   .accounts[AllData.accounts
-                      .indexWhere((element) => element.id == ac.id)]
-                  .bankBalance = ac.bankBalance! + p.amount!;
-            else
+                      .indexWhere((element) => element.id == acFrom.id)]
+                  .bankBalance = acFrom.bankBalance! - t.amount!;
               AllData
                   .accounts[AllData.accounts
-                      .indexWhere((element) => element.id == ac.id)]
-                  .bankBalance = ac.bankBalance! - p.amount!;
+                      .indexWhere((element) => element.id == acTo.id)]
+                  .bankBalance = acTo.bankBalance! + t.amount!;
 
-            await DBHelper.update('Account', ac.toMap(),
-                where: "ID = '${ac.id}'");
+              await DBHelper.update('Account', acTo.toMap(),
+                  where: "ID = '${acTo.id}'");
+              await DBHelper.update('Account', acFrom.toMap(),
+                  where: "ID = '${acFrom.id}'");
+            }
           }
         } else {
           await DBHelper.update('Standingorder', so.toMap(),

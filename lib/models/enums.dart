@@ -1,6 +1,7 @@
 enum PostingType {
   income,
   expense,
+  transfer,
 }
 
 enum Repetition {

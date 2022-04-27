@@ -3,6 +3,7 @@ import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
+import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
@@ -33,6 +34,8 @@ class _TransferScreenState extends State<TransferScreen> {
   Account? _oldAccountFrom;
   Account? _oldAccountTo;
   double? _oldAmount;
+  StandingOrder? _transferSO;
+  bool _transferIsSO = false;
 
   void _getAccountDropDownItems() {
     if (AllData.accounts.length != 0) {
@@ -43,7 +46,7 @@ class _TransferScreenState extends State<TransferScreen> {
     }
   }
 
-  void _getPostingsData() {
+  void _getTransfersData() {
     Transfer transfer =
         AllData.transfers.firstWhere((element) => element.id == widget.id);
 
@@ -54,9 +57,13 @@ class _TransferScreenState extends State<TransferScreen> {
       _selectedAccountTo = _accountDropDownItems
           .firstWhere((element) => element.id == transfer.accountTo!.id);
 
+    if (transfer.standingOrder != null) _transferSO = transfer.standingOrder!;
+    if (transfer.isStandingOrder != null)
+      _transferIsSO = transfer.isStandingOrder!;
+
     _dateTime = transfer.date!;
     _amountController.text =
-        NumberFormat("###.00", "de").format(transfer.amount!);
+        NumberFormat("##0.00", "de").format(transfer.amount!);
     _descriptionController.text = '${transfer.description}';
 
     _oldAccountFrom = transfer.accountFrom;
@@ -69,7 +76,7 @@ class _TransferScreenState extends State<TransferScreen> {
     _getAccountDropDownItems();
 
     if (widget.id != '') {
-      _getPostingsData();
+      _getTransfersData();
     }
     super.initState();
   }
@@ -272,6 +279,8 @@ class _TransferScreenState extends State<TransferScreen> {
           accountToName: AllData.accounts
               .firstWhere((element) => element.id == _selectedAccountTo!.id)
               .title,
+          standingOrder: _transferSO,
+          isStandingOrder: _transferIsSO,
         );
 
         if (widget.id == '') {
@@ -317,7 +326,11 @@ class _TransferScreenState extends State<TransferScreen> {
             where: "ID = '${acTo.id}'");
 
         AllData.transfers.add(transfer);
-        Navigator.pop(context);
+
+        if (widget.id == '')
+          Navigator.pop(context);
+        else
+          Navigator.of(context).pop(true);
       } catch (ex) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(

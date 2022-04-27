@@ -226,12 +226,21 @@ class _LineChartState extends State<LineChart> {
                   tooltipBehavior: TooltipBehavior(enable: true),
                   primaryXAxis: DateTimeAxis(
                     autoScrollingMode: AutoScrollingMode.end,
-                    minimum: getMondayOfWeek(_dateRange.start),
+                    minimum: !_oneMonthIsDisabled &&
+                            !_sixMonthsIsDisabled &&
+                            !_threeMonthsIsDisabled &&
+                            !_oneYearIsDisabled
+                        ? _dateRange.start
+                        : getMondayOfWeek(_dateRange.start),
                     maximum: _dateRange.end,
                     intervalType: _dateRange.duration > Duration(days: 60)
                         ? DateTimeIntervalType.months
                         : DateTimeIntervalType.days,
-                    interval: _dateRange.duration > Duration(days: 60) ? 1 : 7,
+                    interval: _dateRange.duration > Duration(days: 60)
+                        ? 1
+                        : _dateRange.duration > Duration(days: 13)
+                            ? 7
+                            : 1,
                     dateFormat: _dateRange.duration > Duration(days: 60)
                         ? DateFormat("MMM yy", "de")
                         : DateFormat("dd.MMM yy", "de"),

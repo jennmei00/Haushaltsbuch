@@ -1,5 +1,6 @@
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/standing_order.dart';
 
 class Transfer {
   String? id;
@@ -10,6 +11,8 @@ class Transfer {
   String? accountToName;
   Account? accountFrom;
   Account? accountTo;
+  bool? isStandingOrder;
+  StandingOrder? standingOrder;
 
   Transfer({
     this.id,
@@ -20,6 +23,8 @@ class Transfer {
     this.accountToName,
     this.accountFrom,
     this.accountTo,
+    this.isStandingOrder,
+    this.standingOrder,
   });
 
   Map<String, dynamic> toMap() {
@@ -33,6 +38,13 @@ class Transfer {
     map['AccountToID'] = this.accountTo == null ? null : this.accountTo!.id;
     map['AccountFromName'] = this.accountFromName;
     map['AccountToName'] = this.accountToName;
+    map['IsStandingOrder'] = this.isStandingOrder == null
+        ? false
+        : this.isStandingOrder == true
+            ? 1
+            : 0;
+    map['StandingOrderID'] =
+        this.standingOrder == null ? '' : this.standingOrder?.id;
     return map;
   }
 
@@ -61,6 +73,15 @@ class Transfer {
               .firstWhere((element) => element.id == data['AccountToID']),
       accountFromName: data['AccountFromName'],
       accountToName: data['AccountToName'],
+      isStandingOrder: data['IsStandingOrder'] == null
+          ? false
+          : data['IsStandingOrder'] == 0
+              ? false
+              : true,
+      standingOrder: data['StandingOrderID'] == ''
+          ? null
+          : AllData.standingOrders
+              .firstWhere((element) => element.id == data['StandingOrderID']),
     );
     return transfer;
   }

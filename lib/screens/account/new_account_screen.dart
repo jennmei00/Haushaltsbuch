@@ -63,7 +63,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     _initialBankBalance = ac.initialBankBalance!;
     _titleController.text = ac.title!;
     _bankBalanceController.text =
-        NumberFormat("###.00", "de").format(ac.bankBalance!);
+        NumberFormat("##0.00", "de").format(ac.bankBalance!);
     _descriptionController.text = ac.description!;
     _selectedItem = _accountTypeDropDownItems
         .firstWhere((element) => element.id == ac.accountType!.id);
