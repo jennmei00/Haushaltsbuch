@@ -85,7 +85,7 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
     AllData.transfers =
         Transfer().listFromDB(await DBHelper.getData('Transfer'));
 
-    updateStandingOrderPostings(context, false);
+    updateStandingOrders(context, false);
 
     precacheImage(AssetImage("assets/images/einnahme.jpg"), context);
     precacheImage(AssetImage("assets/images/ausgabe2.jpg"), context);
@@ -96,6 +96,7 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
 
   @override
   void initState() {
+    // DBHelper.deleteDatabse();
     _loadData = _getAllData();
     _getThemeMode();
     super.initState();

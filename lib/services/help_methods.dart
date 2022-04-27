@@ -5,6 +5,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
+import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:intl/intl.dart';
@@ -147,11 +148,37 @@ DateTime getMondayOfWeek(DateTime date) {
   return monday;
 }
 
-void updateStandingOrderPostings(BuildContext context, bool appResumed) {
+void updateStandingOrders(BuildContext context, bool appResumed) {
   AllData.postings.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
-  bool isUpdated = false;
+  AllData.transfers.sort((obj, obj2) => obj.date!.compareTo(obj2.date!));
 
-  AllData.standingOrders.forEach((element) {
+  bool isUpdatedPostings = false;
+  bool isUpdatedTransfers = false;
+
+  isUpdatedPostings = _updatePostings(isUpdatedPostings, appResumed);
+  isUpdatedTransfers = _updateTransfers(isUpdatedTransfers, appResumed);
+
+  if (appResumed && (isUpdatedPostings || isUpdatedTransfers))
+    Phoenix.rebirth(context);
+  else if (!appResumed && (isUpdatedPostings || isUpdatedTransfers)) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Buchungen aktualisiert'),
+            content: Text(
+                'Es wurden neue Buchungen zu deinen Daueraufträgen hinzugefügt.'),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context), child: Text('OK'))
+            ],
+          );
+        });
+  }
+}
+
+bool _updatePostings(bool isUpdated, bool appResumed) {
+  AllData.standingOrders.where((element) => element.postingType != PostingType.transfer).forEach((element) {
     if (element.end != null) {
       if (element.end!.isBefore(DateTime.now())) return;
     }
@@ -257,23 +284,118 @@ void updateStandingOrderPostings(BuildContext context, bool appResumed) {
       }
     }
   });
-  if (appResumed && isUpdated)
-    Phoenix.rebirth(context);
-  else if (!appResumed && isUpdated) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Buchungen aktualisiert'),
-            content: Text(
-                'Es wurden neue Buchungen zu deinen Daueraufträgen hinzugefügt.'),
-            actions: [
-              TextButton(
-                  onPressed: () => Navigator.pop(context), child: Text('OK'))
-            ],
-          );
-        });
-  }
+  return isUpdated;
+}
+
+bool _updateTransfers(bool isUpdated, bool appResumed) {
+  AllData.standingOrders.where((element) => element.postingType == PostingType.transfer).forEach((element) {
+    if (element.end != null) {
+      if (element.end!.isBefore(DateTime.now())) return;
+    }
+
+    Transfer? lastTransfer;
+
+    try {
+
+      lastTransfer = AllData.transfers.length == 0
+          ? null
+          : AllData.transfers.lastWhere(((elementTransfer) =>
+              elementTransfer.standingOrder == null
+                  ? false
+                  : elementTransfer.standingOrder?.id == element.id));
+    } catch (ex) {}
+
+    if (element.repetition == Repetition.weekly) {
+      DateTime? date;
+      if (lastTransfer != null && lastTransfer != Transfer())
+        date = lastTransfer.date as DateTime;
+      else
+        date = element.begin!.subtract(Duration(days: 7));
+      Duration difference = DateTime.now().difference(date);
+      if (difference.inDays / 7 >= 1) {
+        int missing = (difference.inDays / 7).floor();
+
+        for (var i = 0; i < missing; i++) {
+          date = date!.add(Duration(days: 7));
+          isUpdated = true;
+          if (!appResumed) _addTransfer(element, date);
+        }
+      }
+    } else if (element.repetition == Repetition.monthly) {
+      DateTime? date;
+      if (lastTransfer != null && lastTransfer != Transfer())
+        date = lastTransfer.date;
+      else {
+        if (element.begin!.isBefore(DateTime.now())) {
+          if (!appResumed) _addTransfer(element, element.begin!);
+          isUpdated = true;
+        }
+        date = element.begin!;
+      }
+      int i = 1;
+      while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
+        if (!appResumed)
+          _addTransfer(element, Jiffy(date).add(months: i).dateTime);
+        isUpdated = true;
+        i++;
+      }
+    } else if (element.repetition == Repetition.quarterly) {
+      DateTime? date;
+      if (lastTransfer != null && lastTransfer != Transfer())
+        date = lastTransfer.date;
+      else {
+        if (element.begin!.isBefore(DateTime.now())) {
+          if (!appResumed) _addTransfer(element, element.begin!);
+          isUpdated = true;
+        }
+        date = element.begin!;
+      }
+      int i = 3;
+      while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
+        if (!appResumed)
+          _addTransfer(element, Jiffy(date).add(months: i).dateTime);
+        isUpdated = true;
+        i += 3;
+      }
+    } else if (element.repetition == Repetition.halfYearly) {
+      DateTime? date;
+      if (lastTransfer != null && lastTransfer != Transfer())
+        date = lastTransfer.date;
+      else {
+        if (element.begin!.isBefore(DateTime.now())) {
+          if (!appResumed) _addTransfer(element, element.begin!);
+          isUpdated = true;
+        }
+        date = element.begin!;
+      }
+      int i = 6;
+      while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
+        if (!appResumed)
+          _addTransfer(element, Jiffy(date).add(months: i).dateTime);
+        isUpdated = true;
+        i += 6;
+      }
+    } else if (element.repetition == Repetition.yearly) {
+      DateTime? date;
+      if (lastTransfer != null && lastTransfer != Transfer())
+        date = lastTransfer.date;
+      else {
+        if (element.begin!.isBefore(DateTime.now())) {
+          if (!appResumed) _addTransfer(element, element.begin!);
+          isUpdated = true;
+        }
+        date = element.begin!;
+      }
+      int i = 1;
+      while (Jiffy(date).add(years: i).dateTime.isBefore(DateTime.now())) {
+        if (!appResumed)
+          _addTransfer(element, Jiffy(date).add(years: i).dateTime);
+        isUpdated = true;
+        i++;
+      }
+    }
+  });
+  return isUpdated;
 }
 
 void _addPosting(StandingOrder element, DateTime date) {
@@ -307,4 +429,39 @@ void _addPosting(StandingOrder element, DateTime date) {
         .bankBalance = ac.bankBalance! - p.amount!;
 
   DBHelper.update('Account', ac.toMap(), where: "ID = '${ac.id}'");
+}
+
+void _addTransfer(StandingOrder element, DateTime date) {
+  Transfer t = Transfer(
+    id: Uuid().v1(),
+    description: element.description,
+    accountFrom: element.account,
+    accountFromName: element.account!.title,
+    accountTo: element.accountTo,
+    accountToName: element.accountTo!.title,
+    amount: element.amount,
+    date: date,
+    standingOrder: element,
+    isStandingOrder: true,
+  );
+
+  AllData.transfers.add(t);
+  DBHelper.insert('Transfer', t.toMap());
+
+  //update AccountAmount
+  Account acFrom =
+      AllData.accounts.firstWhere((element) => element.id == t.accountFrom!.id);
+  Account acTo =
+      AllData.accounts.firstWhere((element) => element.id == t.accountTo!.id);
+
+  AllData
+      .accounts[
+          AllData.accounts.indexWhere((element) => element.id == acFrom.id)]
+      .bankBalance = acFrom.bankBalance! - t.amount!;
+  AllData
+      .accounts[AllData.accounts.indexWhere((element) => element.id == acTo.id)]
+      .bankBalance = acTo.bankBalance! + t.amount!;
+
+  DBHelper.update('Account', acFrom.toMap(), where: "ID = '${acFrom.id}'");
+  DBHelper.update('Account', acTo.toMap(), where: "ID = '${acTo.id}'");
 }

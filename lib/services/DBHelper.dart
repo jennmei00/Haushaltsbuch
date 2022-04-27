@@ -9,11 +9,11 @@ class DBHelper {
   //Open Database
   static Future<sql.Database> openDatabase() async {
     final dbPath = await sql.getDatabasesPath();
-    return _database ??=
-        await sql.openDatabase(path.join(dbPath, 'Haushaltsbuch.db'),
-            onCreate: _createTables,
-            // onUpgrade: _upgradeTables,
-            version: 1);
+    return _database ??= await sql.openDatabase(
+        path.join(dbPath, 'Haushaltsbuch.db'),
+        onCreate: _createTables,
+        onUpgrade: _upgradeTables,
+        version: 2);
   }
 
 //Delete Database
@@ -197,7 +197,7 @@ class DBHelper {
     await db.execute(
         "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Sonstiges Konto')");
     await db.execute(
-        "INSERT INTO Category VALUES('default', 'Sonstiges', 'assets/icons/category_icons/money-2.png', ${Color(0xff00695c).value.toString()})");//${Color(0xff00695c).value.toString()})");
+        "INSERT INTO Category VALUES('default', 'Sonstiges', 'assets/icons/category_icons/money-2.png', ${Color(0xff00695c).value.toString()})"); //${Color(0xff00695c).value.toString()})");
     await db.execute(
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Handyvertrag', 'assets/icons/category_icons/smartphone.png', ${Color(0xff616161).value.toString()})");
     await db.execute(
@@ -222,25 +222,20 @@ class DBHelper {
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Lohn', 'assets/icons/category_icons/salary.png', ${Color(0xff9e9d24).value.toString()})");
   }
 
-  /////////////COPY - PASTE ---- Verstehe ich nicht ganz (wenn ich Tabelle Upgrade, Lösche ich Database und create Tabellen neu 'O')
   // Upgrade Tables
-  // static Future<void> _upgradeTables(
-  //     sql.Database db, int oldVersion, int newVersion) async {
-  //   // //ab Version 2
-  //   print(newVersion);
-  //   print(oldVersion);
-  //   if(oldVersion < 2 && newVersion == 2) {
-  //     try{
-
-  //     //    Category _setCategory = Category(
-  //     // id: 'default',
-  //     // symbol: 'assets/icons/category_icons/food.png',
-  //     // color: Colors.blue,
-  //     // title: 'Defaultkat');
-  //     }
-  //     catch(e) {
-  //       print(e);
-  //     }
-  //   }
-  // }
+  static Future<void> _upgradeTables(
+      sql.Database db, int oldVersion, int newVersion) async {
+    //ab Version 2
+    if (oldVersion < 2 && newVersion == 2) {
+      try {
+        await db.execute('ALTER TABLE StandingOrder ADD AccountToID TEXT');
+        await db.execute('ALTER TABLE Transfer ADD StandingOrderID TEXT');
+        await db
+            .execute('ALTER TABLE Transfer ADD IsStandingOrder BOOLEAN');
+        // await db.execute('ALTER TABLE StandingOrder ADD FOREIGN KEY(AccountToID) REFERENCES Account(ID)');
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
 }
