@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
@@ -327,6 +328,10 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       }
 
       AllData.accounts.add(ac);
+      //Add Account to Accountvisibility.txt
+      FileHelper().writeMapAppend({ac.id!: true});
+      Globals.accountVisibility.addAll({ac.id!: true});
+
       Navigator.popAndPushNamed(context, AccountScreen.routeName);
     } catch (ex) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

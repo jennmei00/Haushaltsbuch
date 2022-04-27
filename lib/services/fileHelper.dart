@@ -52,4 +52,17 @@ class FileHelper {
     // Write the file
     return file.writeAsString('$mapString');
   }
+
+  Future<File> writeMapAppend(Map<String, bool> map) async {
+    final file = await _localFile;
+
+    String mapString = '';
+
+    map.forEach((key, value) {
+      mapString += '$key:$value\n';
+    });
+
+    // Write the file
+    return file.writeAsString('$mapString', mode: FileMode.append);
+  }
 }
