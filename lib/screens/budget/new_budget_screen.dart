@@ -29,12 +29,12 @@ class _BudgetScreenState extends State<NewBudgetScreen> {
   late Category _selectedCategory;
   String _selectedCategoryID = '';
   TextEditingController _amountController = TextEditingController(text: '');
-  int _groupValue_budgetTime = 0;
-  int _groupValue_budgetRepetition = 0;
+  int _groupValueBudgetTime = 0;
+  int _groupValueBudgetRepetition = 0;
   List<String> monthList = [];
   List<int> weekList = new List<int>.generate(52, (i) => i + 1);
   DateTime currentDate = new DateTime.now();
-  int currentCalendarWeek = 0; 
+  int currentCalendarWeek = 0;
 
   void _fillMonthList() {
     Month.values.forEach((element) {
@@ -51,7 +51,6 @@ class _BudgetScreenState extends State<NewBudgetScreen> {
   void initState() {
     _fillMonthList();
     currentCalendarWeek = weekNumber(currentDate);
-    print(currentCalendarWeek);
     super.initState();
   }
 
@@ -206,10 +205,10 @@ class _BudgetScreenState extends State<NewBudgetScreen> {
                     onValueChanged: (val) {
                       FocusScope.of(context).requestFocus(new FocusNode());
                       setState(() {
-                        _groupValue_budgetTime = val as int;
+                        _groupValueBudgetTime = val as int;
                       });
                     },
-                    groupValue: _groupValue_budgetTime,
+                    groupValue: _groupValueBudgetTime,
                   ),
                 ),
                 SizedBox(
@@ -225,25 +224,29 @@ class _BudgetScreenState extends State<NewBudgetScreen> {
                     onValueChanged: (val) {
                       FocusScope.of(context).requestFocus(new FocusNode());
                       setState(() {
-                        _groupValue_budgetRepetition = val as int;
+                        _groupValueBudgetRepetition = val as int;
                       });
                     },
-                    groupValue: _groupValue_budgetRepetition,
+                    groupValue: _groupValueBudgetRepetition,
                   ),
                 ),
                 SizedBox(
                   height: 30,
                 ),
-                _groupValue_budgetTime == 0
+                _groupValueBudgetTime == 0
                     ? Column(
-                      children: [
-                        Row(
+                        children: [
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text('Kalenderwoche'),
+                              Text(
+                                'Kalenderwoche',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
                               SizedBox(
-                                width: 200,
-                                height: 200,
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.2,
                                 child: CupertinoPicker(
                                   itemExtent: 40,
                                   children: weekList
@@ -261,16 +264,29 @@ class _BudgetScreenState extends State<NewBudgetScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20,),
-                          Text('Aktuelle Kalenderwoche ist ' + currentCalendarWeek.toString() + '.',style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),),
-                      ],
-                    )
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'Aktuelle Kalenderwoche ist ' +
+                                currentCalendarWeek.toString() +
+                                '.',
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.grey),
+                          ),
+                        ],
+                      )
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text('Monat'),
+                          Text(
+                            'Monat',
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
                           SizedBox(
-                            width: 150,
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            height: MediaQuery.of(context).size.height * 0.2,
                             child: CupertinoPicker(
                               itemExtent: 40,
                               children: monthList
@@ -279,7 +295,7 @@ class _BudgetScreenState extends State<NewBudgetScreen> {
                                         e,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyText1,
+                                            .headline6,
                                       )))
                                   .toList(),
                               onSelectedItemChanged: (index) {},

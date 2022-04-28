@@ -29,17 +29,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
       ),
       drawer: AppDrawer(selectedMenuItem: 'budget'),
       body: Container(
-        child: Center(
-          child: CupertinoPicker(
-            itemExtent: 100,
-            onSelectedItemChanged: (item) {},
-            children: [
-            Text('item 1'),
-            Text('item 2'),
-            Text('item 3'),
-            Text('item 4')
-          ]),
-        ),
+        
       ),
     );
   }
