@@ -35,6 +35,7 @@ class FileHelper {
 
       return map;
     } catch (e) {
+      print(e);
       // If encountering an error, return empty map
       return {};
     }

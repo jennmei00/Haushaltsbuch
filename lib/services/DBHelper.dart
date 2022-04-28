@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 
 class DBHelper {
   static sql.Database? _database;
+  static int versionNumber = 2;
 
   //Open Database
   static Future<sql.Database> openDatabase() async {
@@ -13,7 +14,7 @@ class DBHelper {
         path.join(dbPath, 'Haushaltsbuch.db'),
         onCreate: _createTables,
         onUpgrade: _upgradeTables,
-        version: 2);
+        version: versionNumber);
   }
 
 //Delete Database
@@ -220,18 +221,19 @@ class DBHelper {
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Miete', 'assets/icons/category_icons/contract.png', ${Color(0xff00838f).value.toString()})");
     await db.execute(
         "INSERT INTO Category VALUES('${Uuid().v1()}', 'Lohn', 'assets/icons/category_icons/salary.png', ${Color(0xff9e9d24).value.toString()})");
+
+    await _upgradeTables(db, 1, versionNumber);
   }
 
   // Upgrade Tables
   static Future<void> _upgradeTables(
       sql.Database db, int oldVersion, int newVersion) async {
-    //ab Version 2
-    if (oldVersion < 2 && newVersion == 2) {
+    // ab Version 2
+    if (oldVersion < 2) {
       try {
         await db.execute('ALTER TABLE StandingOrder ADD AccountToID TEXT');
         await db.execute('ALTER TABLE Transfer ADD StandingOrderID TEXT');
-        await db
-            .execute('ALTER TABLE Transfer ADD IsStandingOrder BOOLEAN');
+        await db.execute('ALTER TABLE Transfer ADD IsStandingOrder BOOLEAN');
         // await db.execute('ALTER TABLE StandingOrder ADD FOREIGN KEY(AccountToID) REFERENCES Account(ID)');
       } catch (e) {
         print(e);

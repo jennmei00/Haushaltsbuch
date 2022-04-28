@@ -211,6 +211,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
           ));
         }
       } catch (ex) {
+        print(ex);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             'Das Speichern in die Datenbank ist \n schiefgelaufen :(',

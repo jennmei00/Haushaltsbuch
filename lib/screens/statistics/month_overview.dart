@@ -43,8 +43,8 @@ class _CircularChartState extends State<CircularChart>
             labelColor: Globals.isDarkmode ? null : Colors.black,
             indicatorColor: Theme.of(context).primaryColor,
             tabs: [
-              Tab(text: 'Einnahme'),
               Tab(text: 'Ausgabe'),
+              Tab(text: 'Einnahme'),
             ],
             controller: _tabController,
           ),
@@ -52,8 +52,8 @@ class _CircularChartState extends State<CircularChart>
         Expanded(
           child: TabBarView(
             children: [
-              IncomeCircularChart(),
               ExpenseCircularChart(),
+              IncomeCircularChart(),
             ],
             controller: _tabController,
           ),

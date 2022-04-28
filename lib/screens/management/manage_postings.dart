@@ -190,7 +190,9 @@ class _ManagePostingsState extends State<ManagePostings> {
                                 (element) => element.id == posting.id);
                             await DBHelper.delete('Posting',
                                 where: "ID = '${posting.id}'");
-                          } catch (ex) {}
+                          } catch (ex) {
+                            print(ex);
+                          }
 
                           Navigator.of(context).pop(true);
                           this.setState(() {});

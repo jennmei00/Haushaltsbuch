@@ -79,6 +79,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                       actions: <Widget>[
                                         TextButton(
                                             onPressed: () {
+                                              if (item.id == 'default') {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            'Kategorie kann nicht gelöscht werden')));
+                                                Navigator.of(context).pop();
+                                                return;
+                                              }
+
                                               AllData.postings
                                                   .forEach((element) async {
                                                 if (element.category!.id ==

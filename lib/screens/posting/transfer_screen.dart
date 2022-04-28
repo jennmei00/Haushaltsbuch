@@ -332,6 +332,7 @@ class _TransferScreenState extends State<TransferScreen> {
         else
           Navigator.of(context).pop(true);
       } catch (ex) {
+        print(ex);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             'Das Speichern in die Datenbank ist \n schiefgelaufen :(',

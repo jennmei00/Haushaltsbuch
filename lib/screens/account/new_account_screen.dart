@@ -334,6 +334,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
 
       Navigator.popAndPushNamed(context, AccountScreen.routeName);
     } catch (ex) {
+      print(ex);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           'Das Speichern in die Datenbank ist \n schiefgelaufen :(',

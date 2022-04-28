@@ -178,7 +178,9 @@ void updateStandingOrders(BuildContext context, bool appResumed) {
 }
 
 bool _updatePostings(bool isUpdated, bool appResumed) {
-  AllData.standingOrders.where((element) => element.postingType != PostingType.transfer).forEach((element) {
+  AllData.standingOrders
+      .where((element) => element.postingType != PostingType.transfer)
+      .forEach((element) {
     if (element.end != null) {
       if (element.end!.isBefore(DateTime.now())) return;
     }
@@ -192,7 +194,9 @@ bool _updatePostings(bool isUpdated, bool appResumed) {
               elementPosting.standingOrder == null
                   ? false
                   : elementPosting.standingOrder?.id == element.id));
-    } catch (ex) {}
+    } catch (ex) {
+      print(ex);
+    }
 
     if (element.repetition == Repetition.weekly) {
       DateTime? date;
@@ -288,7 +292,9 @@ bool _updatePostings(bool isUpdated, bool appResumed) {
 }
 
 bool _updateTransfers(bool isUpdated, bool appResumed) {
-  AllData.standingOrders.where((element) => element.postingType == PostingType.transfer).forEach((element) {
+  AllData.standingOrders
+      .where((element) => element.postingType == PostingType.transfer)
+      .forEach((element) {
     if (element.end != null) {
       if (element.end!.isBefore(DateTime.now())) return;
     }
@@ -296,14 +302,15 @@ bool _updateTransfers(bool isUpdated, bool appResumed) {
     Transfer? lastTransfer;
 
     try {
-
       lastTransfer = AllData.transfers.length == 0
           ? null
           : AllData.transfers.lastWhere(((elementTransfer) =>
               elementTransfer.standingOrder == null
                   ? false
                   : elementTransfer.standingOrder?.id == element.id));
-    } catch (ex) {}
+    } catch (ex) {
+      print(ex);
+    }
 
     if (element.repetition == Repetition.weekly) {
       DateTime? date;

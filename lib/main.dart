@@ -8,6 +8,7 @@ import 'package:haushaltsbuch/screens/budget/new_budget_screen.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
 import 'package:haushaltsbuch/screens/credits_screen.dart';
+import 'package:haushaltsbuch/screens/excel_export.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/imprint_screen.dart';
 import 'package:haushaltsbuch/screens/management/filter_management_screen.dart';
@@ -102,6 +103,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         PostingScreen.routeName: (context) => PostingScreen(),
         ManagementScreen.routeName: (context) => ManagementScreen(),
         BudgetScreen.routeName: (context) => BudgetScreen(),
+        ExcelExport.routeName: (context) => ExcelExport(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == IncomeExpenseScreen.routeName) {

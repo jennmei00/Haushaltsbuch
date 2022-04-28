@@ -8,6 +8,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 // import 'package:haushaltsbuch/models/transfer.dart';
 // import 'package:uuid/uuid.dart';
 import 'package:haushaltsbuch/screens/credits_screen.dart';
+import 'package:haushaltsbuch/screens/excel_export.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/theme.dart';
@@ -56,6 +57,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onThemeChanged(val, themeNotifier);
             },
           ),
+          //Excel Export
+          // GestureDetector(
+          //   child: ListTile(
+          //     leading: Icon(Icons.table_chart_outlined),
+          //     title: Text('Ecel Export'),
+          //   ),
+          //   onTap: () {
+          //     Navigator.of(context).pushNamed(ExcelExport.routeName);
+          //   },
+          // ), 
           // GestureDetector(
           //   child: ListTile(
           //     leading: Icon(Icons.slideshow),

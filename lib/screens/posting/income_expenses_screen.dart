@@ -451,6 +451,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             ..pop()
             ..popAndPushNamed(ManagementScreen.routeName);
       } catch (ex) {
+        print(ex);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             'Das Speichern in die Datenbank ist \n schiefgelaufen :(',

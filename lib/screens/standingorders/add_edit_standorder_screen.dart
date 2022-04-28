@@ -538,7 +538,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     String stringAmount = _amountController.text.replaceAll('.', '');
     stringAmount = stringAmount.replaceAll(',', '.');
     if (_formKey.currentState!.validate()) {
-      try {
+      // try {
         StandingOrder so = StandingOrder(
             id: widget.id != '' ? widget.id : Uuid().v1(),
             title: _titleController.text,
@@ -546,7 +546,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
             amount: double.parse(stringAmount),
             account: AllData.accounts
                 .firstWhere((element) => element.id == _selectedItem!.id),
-            accountTo: AllData.accounts
+            accountTo: _selectedItemTo == null ? null : AllData.accounts
                 .firstWhere((element) => element.id == _selectedItemTo!.id),
             category: _setCategory,
             begin: DateTime(_dateTime.year, _dateTime.month, _dateTime.day),
@@ -643,14 +643,15 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         Navigator.of(context)
           ..pop()
           ..popAndPushNamed(StandingOrdersScreen.routeName);
-      } catch (ex) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-            'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
-            textAlign: TextAlign.center,
-          ),
-        ));
-      }
+      // } catch (ex) {
+      //   print(ex);
+      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //     content: Text(
+      //       'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+      //       textAlign: TextAlign.center,
+      //     ),
+      //   ));
+      // }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(

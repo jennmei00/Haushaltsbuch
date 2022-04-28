@@ -78,12 +78,12 @@ class AppDrawer extends StatelessWidget {
                 onTap: () => selectedItem(context, 'statistic'),
                 selected: selectedMenuItem == 'statistic' ? true : false,
               ),
-              ListTile(
-                leading: Icon(Icons.savings_rounded, size: 36),
-                title: Text('Budget', style: TextStyle(fontSize: 18)),
-                onTap: () => selectedItem(context, 'budget'),
-                selected: selectedMenuItem == 'budget' ? true : false,
-              ),
+              // ListTile(
+              //   leading: Icon(Icons.savings_rounded, size: 36),
+              //   title: Text('Budget', style: TextStyle(fontSize: 18)),
+              //   onTap: () => selectedItem(context, 'budget'),
+              //   selected: selectedMenuItem == 'budget' ? true : false,
+              // ),
               ListTile(
                 leading: Icon(Icons.settings, size: 36),
                 title: Text('Einstellungen', style: TextStyle(fontSize: 18)),
