@@ -81,41 +81,53 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                             onPressed: () {
                                               AllData.postings
                                                   .forEach((element) async {
-                                                Posting newPosting = element;
-                                                newPosting.category = AllData
-                                                    .categories
-                                                    .firstWhere((element) =>
-                                                        element.id ==
-                                                        'default');
-                                                await DBHelper.update('Posting',
-                                                    newPosting.toMap(),
-                                                    where:
-                                                        "ID = '${element.id}'");
-                                                AllData.postings[AllData
-                                                        .postings
-                                                        .indexWhere((posting) =>
-                                                            posting.id ==
-                                                            element.id)] =
-                                                    newPosting;
+                                                if (element.category!.id ==
+                                                    item.id) {
+                                                  Posting newPosting = element;
+                                                  newPosting.category = AllData
+                                                      .categories
+                                                      .firstWhere((element) =>
+                                                          element.id ==
+                                                          'default');
+                                                  await DBHelper.update(
+                                                      'Posting',
+                                                      newPosting.toMap(),
+                                                      where:
+                                                          "ID = '${element.id}'");
+                                                  AllData.postings[AllData
+                                                          .postings
+                                                          .indexWhere(
+                                                              (posting) =>
+                                                                  posting.id ==
+                                                                  element.id)] =
+                                                      newPosting;
+                                                }
                                               });
                                               AllData.standingOrders
                                                   .forEach((element) async {
-                                                StandingOrder newSO = element;
-                                                newSO.category = AllData
-                                                    .categories
-                                                    .firstWhere((element) =>
-                                                        element.id ==
-                                                        'default');
-                                                await DBHelper.update(
-                                                    'StandingOrder',
-                                                    newSO.toMap(),
-                                                    where:
-                                                        "ID = '${element.id}'");
-                                                AllData.standingOrders[AllData
-                                                    .standingOrders
-                                                    .indexWhere((so) =>
-                                                        so.id ==
-                                                        element.id)] = newSO;
+                                                if (element.category != null) {
+                                                  if (element.category!.id ==
+                                                      item.id) {
+                                                    StandingOrder newSO =
+                                                        element;
+                                                    newSO.category = AllData
+                                                        .categories
+                                                        .firstWhere((element) =>
+                                                            element.id ==
+                                                            'default');
+                                                    await DBHelper.update(
+                                                        'StandingOrder',
+                                                        newSO.toMap(),
+                                                        where:
+                                                            "ID = '${element.id}'");
+                                                    AllData.standingOrders[AllData
+                                                            .standingOrders
+                                                            .indexWhere((so) =>
+                                                                so.id ==
+                                                                element.id)] =
+                                                        newSO;
+                                                  }
+                                                }
                                               });
                                               AllData.categories.removeWhere(
                                                   (element) =>
