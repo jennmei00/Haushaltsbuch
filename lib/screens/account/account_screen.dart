@@ -59,7 +59,7 @@ class _AccountScreenState extends State<AccountScreen> {
     double total = 0;
     accountData.forEach((ac) {
       if (ac.accountType!.title == acType) {
-        if (Globals.accountVisibility[ac.id] == true) total += ac.bankBalance!;
+        total += ac.bankBalance!;
       }
     });
     return total;
