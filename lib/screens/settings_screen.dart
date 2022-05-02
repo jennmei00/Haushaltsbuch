@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:haushaltsbuch/models/applog.dart';
 // import 'package:haushaltsbuch/models/account.dart';
 // import 'package:haushaltsbuch/models/all_data.dart';
 // import 'package:haushaltsbuch/models/enums.dart';
@@ -10,10 +14,12 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:haushaltsbuch/screens/credits_screen.dart';
 import 'package:haushaltsbuch/screens/excel_export.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/theme.dart';
 import 'package:haushaltsbuch/services/theme_notifier.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -66,7 +72,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           //   onTap: () {
           //     Navigator.of(context).pushNamed(ExcelExport.routeName);
           //   },
-          // ), 
+          // ),
           // GestureDetector(
           //   child: ListTile(
           //     leading: Icon(Icons.slideshow),
@@ -76,6 +82,72 @@ class _SettingsScreenState extends State<SettingsScreen> {
           //     // showTutorial();
           //   },
           // ),
+          GestureDetector(
+            child: ListTile(
+              leading: Icon(Icons.support_agent),
+              title: Text(
+                'Fehler an den Support schicken',
+              ),
+            ),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Fehler senden"),
+                    content: const Text(
+                        "Willst du einen Fehlerreport an den Support senden?"),
+                    actions: <Widget>[
+                      TextButton(
+                          onPressed: () async {
+                            final directory =
+                                await getApplicationSupportDirectory();
+
+                            // FileHelper().writeAppLog(
+                            //     AppLog('Test', 'Upgrade Tables Version 2'));
+                            if (File('${directory.path}/AppLog.log')
+                                .existsSync()) {
+                              if (File('${directory.path}/AppLog.log')
+                                      .readAsStringSync() !=
+                                  '') {
+                                final Email email = Email(
+                                  body:
+                                      'Im Anhang die entsprechende AppLog Datei.',
+                                  subject: 'AppLog',
+                                  recipients: ['jstudios0096@gmail.com'],
+                                  attachmentPaths: [
+                                    '${directory.path}/AppLog.log'
+                                  ],
+                                  isHTML: false,
+                                );
+                                try {
+                                  await FlutterEmailSender.send(email);
+                                } catch (ex) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Email konnte nicht gesendet werden!')));
+                                }
+                              } else {
+                                //File is empty
+                              }
+                            } else {
+                              //File dousnt exist
+                            }
+
+                            Navigator.of(context).pop(true);
+                          },
+                          child: const Text("Senden")),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: const Text("Abbrechen"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
           GestureDetector(
             child: ListTile(
               leading: Icon(Icons.my_library_books),

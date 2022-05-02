@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/applog.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
@@ -11,6 +12,7 @@ import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
@@ -538,7 +540,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     String stringAmount = _amountController.text.replaceAll('.', '');
     stringAmount = stringAmount.replaceAll(',', '.');
     if (_formKey.currentState!.validate()) {
-      // try {
+      try {
         StandingOrder so = StandingOrder(
             id: widget.id != '' ? widget.id : Uuid().v1(),
             title: _titleController.text,
@@ -546,8 +548,10 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
             amount: double.parse(stringAmount),
             account: AllData.accounts
                 .firstWhere((element) => element.id == _selectedItem!.id),
-            accountTo: _selectedItemTo == null ? null : AllData.accounts
-                .firstWhere((element) => element.id == _selectedItemTo!.id),
+            accountTo: _selectedItemTo == null
+                ? null
+                : AllData.accounts
+                    .firstWhere((element) => element.id == _selectedItemTo!.id),
             category: _setCategory,
             begin: DateTime(_dateTime.year, _dateTime.month, _dateTime.day),
             end: _dateTimeEnd == null
@@ -643,15 +647,17 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         Navigator.of(context)
           ..pop()
           ..popAndPushNamed(StandingOrdersScreen.routeName);
-      // } catch (ex) {
-      //   print(ex);
-      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //     content: Text(
-      //       'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
-      //       textAlign: TextAlign.center,
-      //     ),
-      //   ));
-      // }
+      } catch (ex) {
+        print(ex);
+        FileHelper().writeAppLog(AppLog(ex.toString(), 'Save StandingOrder'));
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+            textAlign: TextAlign.center,
+          ),
+        ));
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(

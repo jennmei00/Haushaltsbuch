@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/applog.dart';
+import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
@@ -235,8 +237,11 @@ class DBHelper {
         await db.execute('ALTER TABLE Transfer ADD StandingOrderID TEXT');
         await db.execute('ALTER TABLE Transfer ADD IsStandingOrder BOOLEAN');
         // await db.execute('ALTER TABLE StandingOrder ADD FOREIGN KEY(AccountToID) REFERENCES Account(ID)');
-      } catch (e) {
-        print(e);
+      } catch (ex) {
+        FileHelper()
+            .writeAppLog(AppLog(ex.toString(), 'Upgrade Tables Version 2'));
+
+        print(ex);
       }
     }
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/applog.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/account/account_overview_screen.dart';
@@ -15,6 +16,7 @@ import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
 import 'package:intl/intl.dart';
+import 'package:localization/localization.dart';
 
 class AccountScreen extends StatefulWidget {
   static final routeName = '/account_screen';
@@ -94,6 +96,7 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
         appBar: AppBar(
           title: Text('Konten'),
+          // title: Text('welcome-text'.i18n()),
           centerTitle: true,
           actions: [
             IconButton(

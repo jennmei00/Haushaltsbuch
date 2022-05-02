@@ -1,5 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.haushaltsbuch">
+    <!-- <uses-permission android:name="android.permission.INTERNET"/> -->
+     <!-- <uses-permission> -->
+      <!-- <queries> 
+        <intent> 
+          <action android:name="android.intent.action.SENDTO" /> <data android:scheme="mailto" /> 
+        </intent> 
+      </queries> -->
+     <!-- </uses-permission> -->
+     
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.SENDTO" />
+      <data android:scheme="mailto" />
+    </intent>
+  </queries>
    <application
         android:label="Haushaltsbuch"
         android:icon="@mipmap/ic_launcher">

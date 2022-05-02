@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/applog.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
@@ -333,6 +335,8 @@ class _TransferScreenState extends State<TransferScreen> {
           Navigator.of(context).pop(true);
       } catch (ex) {
         print(ex);
+        FileHelper().writeAppLog(AppLog(ex.toString(), 'Save Transfer'));
+
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             'Das Speichern in die Datenbank ist \n schiefgelaufen :(',

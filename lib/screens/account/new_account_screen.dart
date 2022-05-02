@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/applog.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
@@ -335,6 +336,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       Navigator.popAndPushNamed(context, AccountScreen.routeName);
     } catch (ex) {
       print(ex);
+      FileHelper().writeAppLog(AppLog(ex.toString(), 'Save Account'));
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           'Das Speichern in die Datenbank ist \n schiefgelaufen :(',

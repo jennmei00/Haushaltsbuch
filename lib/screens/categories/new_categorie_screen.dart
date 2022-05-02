@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/applog.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
@@ -212,6 +214,8 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
         }
       } catch (ex) {
         print(ex);
+        FileHelper().writeAppLog(AppLog(ex.toString(), 'Save Category'));
+
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             'Das Speichern in die Datenbank ist \n schiefgelaufen :(',

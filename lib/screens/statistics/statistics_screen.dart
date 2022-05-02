@@ -22,29 +22,31 @@ class _StatisticsScreenState extends State<StatisticsScreen>
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: Text('Statistik'),
-        centerTitle: true,
-        bottom: TabBar(
-          isScrollable: true,
-          tabs: [
-            Tab(text: 'Vermögensübersicht'),
-            Tab(text: 'Monatsübersicht'),
-            Tab(text: 'Jahresübersicht'),
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Statistik'),
+          centerTitle: true,
+          bottom: TabBar(
+            isScrollable: true,
+            tabs: [
+              Tab(text: 'Vermögensübersicht'),
+              Tab(text: 'Monatsübersicht'),
+              Tab(text: 'Jahresübersicht'),
+            ],
+            controller: _tabController,
+          ),
+        ),
+        drawer: AppDrawer(
+          selectedMenuItem: 'statistic',
+        ),
+        body: TabBarView(
+          children: [
+            LineChart(),
+            CircularChart(),
+            YearOverviewTable(),
           ],
           controller: _tabController,
-        ),
-      ),
-      drawer: AppDrawer(
-        selectedMenuItem: 'statistic',
-      ),
-      body: TabBarView(
-        children: [
-          LineChart(),
-          CircularChart(),
-          YearOverviewTable(),
-        ],
-        controller: _tabController,
-      ));
+        ));
+  }
 }

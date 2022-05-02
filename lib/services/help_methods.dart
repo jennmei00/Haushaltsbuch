@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/applog.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -195,6 +197,8 @@ bool _updatePostings(bool isUpdated, bool appResumed) {
                   ? false
                   : elementPosting.standingOrder?.id == element.id));
     } catch (ex) {
+      FileHelper().writeAppLog(AppLog(ex.toString(), 'Update Postings'));
+
       print(ex);
     }
 
@@ -309,6 +313,7 @@ bool _updateTransfers(bool isUpdated, bool appResumed) {
                   ? false
                   : elementTransfer.standingOrder?.id == element.id));
     } catch (ex) {
+      FileHelper().writeAppLog(AppLog(ex.toString(), 'Update Transfers'));
       print(ex);
     }
 

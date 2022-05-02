@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:haushaltsbuch/models/applog.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FileHelper {
@@ -12,6 +13,25 @@ class FileHelper {
   Future<File> get _localFile async {
     final path = await _localPath;
     return File('$path/AccountVisibility.txt');
+  }
+
+  Future<File> get _appLogFile async {
+    final directory = await getApplicationSupportDirectory();
+    return File('${directory.path}/AppLog.log');
+  }
+
+  Future<void> writeAppLog(AppLog appLog) async {
+    File file = await _appLogFile;
+    String text = appLog.datetime!.toIso8601String() + '|';
+    text += appLog.exception! + '|';
+    text += appLog.explanation! + '|';
+    text += appLog.appVersion! + '\n';
+    file.writeAsStringSync('$text', mode: FileMode.append);
+  }
+
+  Future<void> clearAppLog() async {
+    File file = await _appLogFile;
+    file.writeAsStringSync('', mode: FileMode.writeOnly);
   }
 
   Future<bool> fileExists() async {
@@ -34,8 +54,11 @@ class FileHelper {
       });
 
       return map;
-    } catch (e) {
-      print(e);
+    } catch (ex) {
+      print(ex);
+      FileHelper()
+          .writeAppLog(AppLog(ex.toString(), 'Read Map AccountVisibility'));
+
       // If encountering an error, return empty map
       return {};
     }

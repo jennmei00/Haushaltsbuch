@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/applog.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
@@ -10,6 +11,7 @@ import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/screens/management/management_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
@@ -72,7 +74,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
 
     if (posting.standingOrder != null) _postingSO = posting.standingOrder!;
     if (posting.isStandingOrder != null)
-      _postingIsSO = posting.isStandingOrder!; 
+      _postingIsSO = posting.isStandingOrder!;
     _incomeDateTime = posting.date!;
     _amountController.text =
         NumberFormat("##0.00", "de").format(posting.amount!);
@@ -452,6 +454,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             ..popAndPushNamed(ManagementScreen.routeName);
       } catch (ex) {
         print(ex);
+        FileHelper().writeAppLog(AppLog(ex.toString(), 'Save Posting'));
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             'Das Speichern in die Datenbank ist \n schiefgelaufen :(',

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
+import 'package:haushaltsbuch/models/applog.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
+import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:intl/intl.dart';
@@ -235,15 +237,14 @@ class _LineChartState extends State<LineChart> {
                     maximum: _dateRange.duration == Duration(days: 0)
                         ? _dateRange.end.add(Duration(days: 1))
                         : _dateRange.end,
-                    intervalType:
-                        _dateRange.duration > Duration(days: 60)
-                            ? DateTimeIntervalType.months
-                            : DateTimeIntervalType.days,
+                    intervalType: _dateRange.duration > Duration(days: 60)
+                        ? DateTimeIntervalType.months
+                        : DateTimeIntervalType.days,
                     interval: _dateRange.duration > Duration(days: 60)
-                            ? 1
-                            : _dateRange.duration > Duration(days: 9)
-                                ? 7
-                                : 1,
+                        ? 1
+                        : _dateRange.duration > Duration(days: 9)
+                            ? 7
+                            : 1,
                     dateFormat: _dateRange.duration > Duration(days: 60)
                         ? DateFormat("MMM yy", "de")
                         : DateFormat("dd.MMM yy", "de"),
