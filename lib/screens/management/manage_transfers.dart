@@ -9,6 +9,7 @@ import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
+import 'package:localization/localization.dart';
 
 class ManageTransfers extends StatefulWidget {
   final List<Object?> filters;
@@ -143,7 +144,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
     }
 
     return AllData.transfers.length == 0
-        ? NothingThere(textScreen: 'Du hast noch keine Umbuchung erstellt :(')
+        ? NothingThere(textScreen: 'no-transfers'.i18n())
         : ListView(
             children: _listofListViewWidgets.map((e) => e).toList(),
           );
@@ -157,16 +158,16 @@ class _ManageTransfersState extends State<ManageTransfers> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text("Buchung löschen"),
-                content: const Text(
-                    "Bist du sicher, dass die Buchung löschen willst?"),
+                title:  Text("delete-transfer".i18n()),
+                content:  Text(
+                    "delete-transfer-text".i18n()),
                 actions: <Widget>[
                   TextButton(
                       onPressed: () => _deleteTransfer(context, transfer),
-                      child: const Text("Löschen")),
+                      child:  Text("delete".i18n())),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
-                    child: const Text("Abbrechen"),
+                    child:  Text("cancel".i18n()),
                   ),
                 ],
               );
@@ -195,7 +196,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Icon(Icons.edit, color: Colors.white),
-              Text('Bearbeiten', style: TextStyle(color: Colors.white)),
+              Text('edit'.i18n(), style: TextStyle(color: Colors.white)),
             ],
           ),
         ),
@@ -210,7 +211,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Icon(Icons.delete, color: Colors.white),
-              Text('Löschen', style: TextStyle(color: Colors.white)),
+              Text('delete'.i18n(), style: TextStyle(color: Colors.white)),
             ],
           ),
         ),
@@ -288,7 +289,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
                     softWrap: false,
                   )
                 : Text(
-                    'Keine Beschreibung...',
+                    'no-description'.i18n(),
                     style: TextStyle(
                       fontStyle: FontStyle.italic,
                     ),

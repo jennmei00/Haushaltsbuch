@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
+import 'package:localization/localization.dart';
 
 class YearOverviewTable extends StatefulWidget {
   YearOverviewTable({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class YearOverviewTable extends StatefulWidget {
 
 class _YearOverviewTableState extends State<YearOverviewTable> {
   final int currentYear = DateTime.now().year;
-  String _selectedAccounts = 'Keine Konten ausgewählt';
+  String _selectedAccounts = 'no-accounts-selected'.i18n();
   List<Account> _filterAccounts = [];
   double incomeValue = 0;
   double expenseValue = 0;
@@ -97,7 +98,7 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
                       Padding(
                         padding: EdgeInsets.all(cellPadding),
                         child: Text(
-                          'Einnahmen',
+                          'incomes'.i18n(),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -115,7 +116,7 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
                       Padding(
                         padding: EdgeInsets.all(cellPadding),
                         child: Text(
-                          'Ausgaben',
+                          'expenses'.i18n(),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -133,7 +134,7 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
                       Padding(
                         padding: EdgeInsets.all(cellPadding),
                         child: Text(
-                          'Rest',
+                          'rest'.i18n(),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -157,7 +158,7 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
               color: Globals.isDarkmode ? null : Color(0xffeeeeee),
               child: ExpansionTile(
                 title: Text(
-                  'Auswahl der Konten',
+                  'pick-account'.i18n(),
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(_selectedAccounts),
@@ -174,7 +175,7 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
                                     _filterAccounts.remove(e);
                                   }
                                   if (_filterAccounts.length == 0)
-                                    _selectedAccounts = 'Keine Konten ausgewählt';
+                                    _selectedAccounts = 'no-accounts-selected'.i18n();
                                   else
                                     _selectedAccounts = '';
     

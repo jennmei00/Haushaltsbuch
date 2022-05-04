@@ -19,6 +19,7 @@ import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/theme.dart';
 import 'package:haushaltsbuch/services/theme_notifier.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
+import 'package:localization/localization.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,7 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Einstellungen'),
+        title: Text('settings'.i18n()),
         centerTitle: true,
       ),
       body: ListView(
@@ -57,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: <Widget>[
           SwitchListTile(
             secondary: Icon(Icons.lightbulb),
-            title: Text('Darkmode'),
+            title: Text('darkmode'.i18n()),
             value: _darkTheme,
             onChanged: (val) {
               onThemeChanged(val, themeNotifier);
@@ -86,7 +87,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: ListTile(
               leading: Icon(Icons.support_agent),
               title: Text(
-                'Fehler an den Support schicken',
+                'send-to-support'.i18n(),
               ),
             ),
             onTap: () {
@@ -94,9 +95,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text("Fehler senden"),
-                    content: const Text(
-                        "Willst du einen Fehlerreport an den Support senden?"),
+                    title:  Text("send-mail".i18n()),
+                    content:  Text(
+                        "send-mail-text".i18n()),
                     actions: <Widget>[
                       TextButton(
                           onPressed: () async {
@@ -126,7 +127,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content: Text(
-                                              'Email konnte nicht gesendet werden!')));
+                                              'couldnt-sent-mail'.i18n())));
                                 }
                               } else {
                                 //File is empty
@@ -137,10 +138,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                             Navigator.of(context).pop(true);
                           },
-                          child: const Text("Senden")),
+                          child:  Text("send".i18n())),
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(false),
-                        child: const Text("Abbrechen"),
+                        child:  Text("cancel".i18n()),
                       ),
                     ],
                   );
@@ -152,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: ListTile(
               leading: Icon(Icons.my_library_books),
               title: Text(
-                'Credits',
+                'credits'.i18n(),
               ),
             ),
             onTap: () {
@@ -164,7 +165,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 leading: Icon(
                   Icons.description,
                 ),
-                title: Text('Licenses'),
+                title: Text('licenses'.i18n()),
               ),
               onTap: () => showLicensePage(
                   context: context,
@@ -197,7 +198,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               color: Colors.red,
             ),
             title: TextButton(
-              child: Text('Alle Daten Löschen'),
+              child: Text('delete-data'.i18n()),
               style: ButtonStyle(
                 alignment: Alignment.centerLeft,
                 padding: MaterialStateProperty.all(EdgeInsets.zero),
@@ -208,9 +209,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: const Text("Alle Daten löschen"),
-                      content: const Text(
-                          "Bist du WIRKLICH sicher, dass du ALLE Daten löschen willst?"),
+                      title:  Text("delete-all-data".i18n()),
+                      content:  Text(
+                          "delete-all-data-text".i18n()),
                       actions: <Widget>[
                         TextButton(
                             onPressed: () async {
@@ -219,10 +220,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               Navigator.of(context).pop(true);
                               Phoenix.rebirth(context);
                             },
-                            child: const Text("Löschen")),
+                            child:  Text("delete".i18n())),
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(false),
-                          child: const Text("Abbrechen"),
+                          child:  Text("cancel".i18n()),
                         ),
                       ],
                     );

@@ -12,6 +12,7 @@ import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
 import 'package:intl/intl.dart';
+import 'package:localization/localization.dart';
 import 'package:uuid/uuid.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 
@@ -89,7 +90,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.id == '' ? 'Neues Konto' : 'Konto bearbeiten'),
+        title: Text(widget.id == '' ? 'new-account'.i18n() : 'edit-account'.i18n()),
         centerTitle: true,
         actions: [
           IconButton(
@@ -112,8 +113,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                 height: 10,
               ),
               CustomTextField(
-                labelText: 'Konto',
-                hintText: 'Kontoname',
+                labelText: 'account'.i18n(),
+                hintText: 'account-name'.i18n(),
                 controller: _titleController,
                 mandatory: true,
                 fieldname: 'account',
@@ -123,8 +124,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                 height: 20,
               ),
               CustomTextField(
-                  labelText: 'Kontostand',
-                  hintText: 'Aktueller Kontostand',
+                  labelText: 'bank-balance'.i18n(),
+                  hintText: 'current-bank-balance'.i18n(),
                   controller: _bankBalanceController,
                   keyboardType: TextInputType.number,
                   mandatory: true,
@@ -134,8 +135,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                 height: 20,
               ),
               CustomTextField(
-                labelText: 'Beschreibung',
-                hintText: 'Kontobeschreibung',
+                labelText: 'description'.i18n(),
+                hintText: 'account-description'.i18n(),
                 controller: _descriptionController,
                 mandatory: false,
                 fieldname: 'description',
@@ -153,14 +154,14 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
                 },
                 dropdownItems: _accountTypeDropDownItems,
                 listItemValue: _selectedItem == null ? null : _selectedItem!.id,
-                dropdownHintText: 'Kontoart',
+                dropdownHintText: 'account-type'.i18n(),
               ),
               SizedBox(height: 10),
               SizedBox(height: 10),
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Iconfarbe',
+                  'icon-color'.i18n(),
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -271,21 +272,21 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                  title: const Text("Kontostandänderung"),
-                  content: const Text(
-                      "Bist du sicher, dass du deinen Kontostand manuell ändern und nicht stattdessen eine Buchung anlegen willst? \n\n (Manuelle Kontostandsänderungen werden im zeitlichen Verlaufs des Kontostands im Statistikbereich nicht berücksichtigt.)"),
+                  title:  Text("bank-balance-cahnge".i18n()),
+                  content:  Text(
+                      "bank-balance-change-text".i18n()),
                   actions: <Widget>[
                     TextButton(
                         onPressed: () {
                           _saveToDatabase();
                           Navigator.of(context).pop(false);
                         },
-                        child: const Text("Ja")),
+                        child:  Text("yes".i18n())),
                     TextButton(
                         onPressed: () {
                           Navigator.of(context).pop(false);
                         },
-                        child: const Text("Abbrechen")),
+                        child:  Text("cancel".i18n())),
                   ]);
             });
       }
@@ -293,7 +294,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
-          'Ups, da passt etwas noch nicht :(',
+          'snachbar-textfield'.i18n(),
           textAlign: TextAlign.center,
         ),
       ));
@@ -339,7 +340,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
       FileHelper().writeAppLog(AppLog(ex.toString(), 'Save Account'));
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
-          'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+          'snackbar-database'.i18n(),
           textAlign: TextAlign.center,
         ),
       ));

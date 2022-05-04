@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/account_type.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
-import 'package:haushaltsbuch/models/applog.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/account/account_overview_screen.dart';
@@ -95,7 +94,7 @@ class _AccountScreenState extends State<AccountScreen> {
           },
         ),
         appBar: AppBar(
-          title: Text('Konten'),
+          title: Text('accounts'.i18n()),
           // title: Text('welcome-text'.i18n()),
           centerTitle: true,
           actions: [
@@ -113,7 +112,7 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
         drawer: AppDrawer(selectedMenuItem: 'accounts'),
         body: AllData.accounts.length == 0
-            ? NothingThere(textScreen: 'Noch keine Konten vorhanden :(')
+            ? NothingThere(textScreen: 'no-accounts'.i18n())
             : Padding(
                 padding: const EdgeInsets.all(0),
                 child: Column(
@@ -123,7 +122,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       child: Column(
                         children: [
                           Text(
-                            'Alle Konten',
+                            'all-accounts'.i18n(),
                             style: Theme.of(context).textTheme.headline6,
                             textAlign: TextAlign.center,
                           ),
@@ -178,9 +177,10 @@ class _AccountScreenState extends State<AccountScreen> {
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            title: const Text("Konto löschen"),
-                                            content: const Text(
-                                                "Bist du sicher, dass du das Konto löschen willst?"),
+                                            title:
+                                                Text("delete-account".i18n()),
+                                            content: Text(
+                                                "delete-account-text".i18n()),
                                             actions: <Widget>[
                                               TextButton(
                                                   onPressed: () {
@@ -188,36 +188,40 @@ class _AccountScreenState extends State<AccountScreen> {
                                                         context: context,
                                                         builder: (context) {
                                                           return AlertDialog(
-                                                            title: const Text(
-                                                                "Verknüpfung löschen"),
-                                                            content: const Text(
-                                                                "Willst du die Buchungen zu diesem Konto löschen?\n(Daueraufträge werden automatisch gelöscht)"),
+                                                            title: Text(
+                                                                "delete-link"
+                                                                    .i18n()),
+                                                            content: Text(
+                                                                "delete-link-text"
+                                                                    .i18n()),
                                                             actions: <Widget>[
                                                               TextButton(
                                                                   onPressed: () =>
                                                                       _deleteAccount(
                                                                           true,
                                                                           e),
-                                                                  child: const Text(
-                                                                      "Löschen")),
+                                                                  child: Text(
+                                                                      "delete"
+                                                                          .i18n())),
                                                               TextButton(
                                                                 onPressed: () =>
                                                                     _deleteAccount(
                                                                         false,
                                                                         e),
-                                                                child: const Text(
-                                                                    "Nur Konto"),
+                                                                child: Text(
+                                                                    "only-account"
+                                                                        .i18n()),
                                                               ),
                                                             ],
                                                           );
                                                         });
                                                   },
-                                                  child: const Text("Löschen")),
+                                                  child:  Text("delete".i18n())),
                                               TextButton(
                                                 onPressed: () =>
                                                     Navigator.of(context)
                                                         .pop(false),
-                                                child: const Text("Abbrechen"),
+                                                child:  Text("cancel".i18n()),
                                               ),
                                             ],
                                           );
@@ -245,7 +249,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                             Icons.edit,
                                             color: Colors.white,
                                           ),
-                                          Text('Bearbeiten',
+                                          Text('edit'.i18n(),
                                               style: TextStyle(
                                                 color: Colors.white,
                                               )),
@@ -267,7 +271,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                             Icons.delete,
                                             color: Colors.white,
                                           ),
-                                          Text('Löschen',
+                                          Text('delete'.i18n(),
                                               style: TextStyle(
                                                 color: Colors.white,
                                               )),

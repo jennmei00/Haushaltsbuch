@@ -12,6 +12,7 @@ import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:intl/intl.dart';
+import 'package:localization/localization.dart';
 import 'package:uuid/uuid.dart';
 
 class TransferScreen extends StatefulWidget {
@@ -87,7 +88,7 @@ class _TransferScreenState extends State<TransferScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Umbuchung'),
+        title: Text('transfer'.i18n()),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -116,11 +117,11 @@ class _TransferScreenState extends State<TransferScreen> {
                   _selectedAccountFrom = newValue as ListItem;
                   setState(() {});
                 },
-                dropdownHintText: 'Von Konto',
+                dropdownHintText: 'from-account'.i18n(),
               ),
               _selectedAccountFrom == null && widget.id != ''
                   ? Text(
-                      'Das eigentliche Konto wurde gelöscht',
+                      'actual-account-deleted'.i18n(),
                       style: TextStyle(color: Colors.red),
                     )
                   : SizedBox(),
@@ -142,11 +143,11 @@ class _TransferScreenState extends State<TransferScreen> {
                   _selectedAccountTo = newValue as ListItem;
                   setState(() {});
                 },
-                dropdownHintText: 'Zu Konto',
+                dropdownHintText: 'to-account'.i18n(),
               ),
               _selectedAccountTo == null && widget.id != ''
                   ? Text(
-                      'Das eigentliche Konto wurde gelöscht',
+                      'actual-account-deleted'.i18n(),
                       style: TextStyle(color: Colors.red),
                     )
                   : SizedBox(),
@@ -154,7 +155,7 @@ class _TransferScreenState extends State<TransferScreen> {
               Row(children: [
                 Expanded(
                   child: CustomTextField(
-                    labelText: 'Betrag',
+                    labelText: 'amount'.i18n(),
                     hintText: 'in €',
                     keyboardType: TextInputType.number,
                     controller: _amountController,
@@ -194,7 +195,7 @@ class _TransferScreenState extends State<TransferScreen> {
               ]),
               SizedBox(height: 20),
               CustomTextField(
-                labelText: 'Beschreibung',
+                labelText: 'description'.i18n(),
                 hintText: '',
                 controller: _descriptionController,
                 mandatory: false,
@@ -209,7 +210,7 @@ class _TransferScreenState extends State<TransferScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text('Datum:'),
+                  Text("${'date'.i18n()}:"),
                   Row(
                     children: [
                       GestureDetector(
@@ -339,7 +340,7 @@ class _TransferScreenState extends State<TransferScreen> {
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+            'snackbar-database'.i18n(),
             textAlign: TextAlign.center,
           ),
         ));
@@ -350,14 +351,14 @@ class _TransferScreenState extends State<TransferScreen> {
           _selectedAccountFrom != null) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            'Die Konton müssen unterschiedlich sein :O',
+            'different-accounts'.i18n(),
             textAlign: TextAlign.center,
           ),
         ));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            'Ups, da passt etwas noch nicht :(',
+            'snackbar-textfield'.i18n(),
             textAlign: TextAlign.center,
           ),
         ));

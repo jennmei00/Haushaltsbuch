@@ -19,6 +19,7 @@ import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
 import 'package:intl/intl.dart';
+import 'package:localization/localization.dart';
 import 'package:uuid/uuid.dart';
 
 class AddEditStandingOrder extends StatefulWidget {
@@ -101,8 +102,8 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.id == ''
-            ? 'Dauerauftrag hinzufügen'
-            : 'Dauerauftrag bearbeiten'),
+            ? 'add-standingorder'.i18n()
+            : 'edit-standingorder'.i18n()),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -127,9 +128,9 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 widthFactor: 0.9,
                 child: CupertinoSlidingSegmentedControl(
                   children: <Object, Widget>{
-                    0: Text('Einnahme'),
-                    1: Text('Ausgabe'),
-                    2: Text('Umbuchung'),
+                    0: Text('income'.i18n()),
+                    1: Text('expense'.i18n()),
+                    2: Text('transfer'.i18n()),
                   },
                   onValueChanged: (val) {
                     FocusScope.of(context).requestFocus(new FocusNode());
@@ -152,7 +153,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 },
                 dropdownItems: _accountDropDownItems,
                 listItemValue: _selectedItem == null ? null : _selectedItem!.id,
-                dropdownHintText: _isTransfer ? 'Von Konto' : 'Konto',
+                dropdownHintText: _isTransfer ? 'from-account'.i18n() : 'account'.i18n(),
               ),
               _isTransfer
                   ? Column(
@@ -177,7 +178,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                           listItemValue: _selectedItemTo == null
                               ? null
                               : _selectedItemTo!.id,
-                          dropdownHintText: 'Zu Konto',
+                          dropdownHintText: 'to-account'.i18n(),
                         )
                       ],
                     )
@@ -187,7 +188,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 children: [
                   Expanded(
                     child: CustomTextField(
-                      labelText: 'Betrag',
+                      labelText: 'amount'.i18n(),
                       hintText: 'in €',
                       keyboardType: TextInputType.number,
                       controller: _amountController,
@@ -231,7 +232,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
               _isTransfer
                   ? SizedBox()
                   : CustomTextField(
-                      labelText: 'Bezeichnung',
+                      labelText: 'title'.i18n(),
                       hintText: '',
                       controller: _titleController,
                       mandatory: true,
@@ -240,7 +241,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                     ),
               SizedBox(height: 20),
               CustomTextField(
-                labelText: 'Beschreibung',
+                labelText: 'description'.i18n(),
                 hintText: '',
                 controller: _descriptionController,
                 mandatory: false,
@@ -262,7 +263,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                           ),
                         ),
                         ElevatedButton(
-                          child: Text('Kategorie ändern'),
+                          child: Text('change-category'.i18n()),
                           onPressed: () {
                             FocusScope.of(context)
                                 .requestFocus(new FocusNode());
@@ -272,7 +273,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                                   return StatefulBuilder(
                                       builder: (context, setState) {
                                     return Popup(
-                                      title: 'Kategorien',
+                                      title: 'category'.i18n(),
                                       body: Container(
                                         padding:
                                             EdgeInsets.only(left: 5, right: 5),
@@ -336,7 +337,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Beginn:'),
+                    Text("${'begin'.i18n()}:"),
                     Row(
                       children: [
                         GestureDetector(
@@ -386,12 +387,12 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Ende:'),
+                    Text("${'end'.i18n()}:"),
                     Row(
                       children: [
                         GestureDetector(
                           child: _dateTimeEnd == null
-                              ? Text('Datum wählen')
+                              ? Text('choose-date'.i18n())
                               : Text(formatDate(_dateTimeEnd!)),
                           onTap: () {
                             FocusScope.of(context)
@@ -442,7 +443,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Wiederholung:'),
+                    Text("${'repetition'.i18n()}:"),
                     TextButton(
                       onPressed: () {
                         FocusScope.of(context).requestFocus(new FocusNode());
@@ -465,12 +466,12 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
         context: context,
         builder: (BuildContext context) {
           return Popup(
-            title: 'Wiederholung',
+            title: 'repetition'.i18n(),
             body: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(children: [
                 RadioListTile<Repetition>(
-                  title: Text('Wöchentlich'),
+                  title: Text('weekly'.i18n()),
                   value: Repetition.weekly,
                   groupValue: _repeatValue,
                   onChanged: (val) {
@@ -482,7 +483,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ),
                 Divider(),
                 RadioListTile<Repetition>(
-                  title: Text('Monatlich'),
+                  title: Text('monthly'.i18n()),
                   value: Repetition.monthly,
                   groupValue: _repeatValue,
                   onChanged: (val) {
@@ -494,7 +495,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ),
                 Divider(),
                 RadioListTile<Repetition>(
-                  title: Text('Vierteljährlich'),
+                  title: Text('quarterly'.i18n()),
                   value: Repetition.quarterly,
                   groupValue: _repeatValue,
                   onChanged: (val) {
@@ -506,7 +507,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ),
                 Divider(),
                 RadioListTile<Repetition>(
-                  title: Text('Halbjährlich'),
+                  title: Text('half-yearly'.i18n()),
                   value: Repetition.halfYearly,
                   groupValue: _repeatValue,
                   onChanged: (val) {
@@ -518,7 +519,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                 ),
                 Divider(),
                 RadioListTile<Repetition>(
-                  title: Text('Jährlich'),
+                  title: Text('yearly'.i18n()),
                   value: Repetition.yearly,
                   groupValue: _repeatValue,
                   onChanged: (val) {
@@ -653,7 +654,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+            'snackbar-database'.i18n(),
             textAlign: TextAlign.center,
           ),
         ));
@@ -661,7 +662,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
-          'Ups, da passt etwas noch nicht :(',
+          'snackbar-textfield'.i18n(),
           textAlign: TextAlign.center,
         ),
       ));

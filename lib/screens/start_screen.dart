@@ -15,6 +15,7 @@ import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
+import 'package:localization/localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StartScreen extends StatefulWidget {
@@ -112,7 +113,7 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
         else if (snapshot.hasError)
           return Center(
             child: Text(
-                'Sorry, something went wrong :(\nPlease contact the Support.'),
+                'error-text'.i18n()),
           );
         else
           return Scaffold(

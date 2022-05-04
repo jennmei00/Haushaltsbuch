@@ -12,6 +12,7 @@ class DBHelper {
   //Open Database
   static Future<sql.Database> openDatabase() async {
     final dbPath = await sql.getDatabasesPath();
+    print(dbPath);
     return _database ??= await sql.openDatabase(
         path.join(dbPath, 'Haushaltsbuch.db'),
         onCreate: _createTables,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
+import 'package:localization/localization.dart';
 
 // ignore: must_be_immutable
 class DropDown extends StatelessWidget {
@@ -12,7 +13,7 @@ class DropDown extends StatelessWidget {
       {required this.dropdownItems,
       this.listItemValue,
       required this.onChanged,
-      this.dropdownHintText = 'Bitte auswählen'});
+      required this.dropdownHintText});
 
   List<DropdownMenuItem<ListItem>> _dropdownMenuItems = [];
 
@@ -38,7 +39,7 @@ class DropDown extends StatelessWidget {
         hint: Text(dropdownHintText),
         validator: (value) {
           if (value == null) {
-            return 'Das ist ein Pflichtfeld';
+            return 'mandatory-field'.i18n();
           } else {
             return null;
           }

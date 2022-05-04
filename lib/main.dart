@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       title: 'Haushaltsapp',
       theme: themeNotifier.getTheme(),
       builder: (BuildContext context, Widget? widget) {
-        Widget error = Text(':(\nEin Fehler ist aufgetreten\nBitte kontaktiere den Support');
+        Widget error = Text('error-text'.i18n());
         if (widget is Scaffold || widget is Navigator)
           error = Scaffold(body: Center(child: error));
         ErrorWidget.builder = (FlutterErrorDetails errorDetails) => error;

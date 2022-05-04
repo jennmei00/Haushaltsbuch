@@ -3,6 +3,7 @@ import 'package:haushaltsbuch/screens/management/filter_management_screen.dart';
 import 'package:haushaltsbuch/screens/management/manage_postings.dart';
 import 'package:haushaltsbuch/screens/management/manage_transfers.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
+import 'package:localization/localization.dart';
 
 class ManagementScreen extends StatefulWidget {
   static final routeName = '/management_screen';
@@ -29,7 +30,7 @@ class _ManagementScreenState extends State<ManagementScreen>
       appBar: AppBar(
         title: !_search
             ? Text(
-                'Verwaltung',
+                'management-filter'.i18n(),
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               )
             : TextField(
@@ -39,7 +40,7 @@ class _ManagementScreenState extends State<ManagementScreen>
                 autofocus: true,
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: 'Suche',
+                  hintText: 'serach'.i18n(),
                   hintStyle: TextStyle(color: Colors.white30),
                   border: UnderlineInputBorder(borderSide: BorderSide.none),
                 ),
@@ -82,9 +83,9 @@ class _ManagementScreenState extends State<ManagementScreen>
         bottom: TabBar(
           tabs: [
             Tab(
-              text: 'Buchungen',
+              text: 'posting'.i18n(),
             ),
-            Tab(text: 'Umbuchungen')
+            Tab(text: 'transfer'.i18n())
           ],
           controller: _tabController,
         ),

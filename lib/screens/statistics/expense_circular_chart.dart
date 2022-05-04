@@ -5,6 +5,7 @@ import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:intl/intl.dart';
+import 'package:localization/localization.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart' as slider;
 
@@ -50,7 +51,7 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
                 top: 15, right: 8.0, left: 8.0, bottom: 15.0),
             child: Column(children: [
               Text(
-                'Jahr',
+                'year'.i18n(),
                 style: Theme.of(context).textTheme.headline6,
               ),
               slider.SfSlider(
@@ -75,7 +76,7 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
                 height: 30,
               ),
               Text(
-                'Monat',
+                'month'.i18n(),
                 style: Theme.of(context).textTheme.headline6,
               ),
               slider.SfSlider(
@@ -118,11 +119,11 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
               color: Globals.isDarkmode ? null : Color(0xffeeeeee),
               child: ExpansionTile(
                 title: Text(
-                  'Auswahl der Konten',
+                  'pick-account'.i18n(),
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: _selectedAccounts == ''
-                    ? Text('Keine Konten ausgewählt')
+                    ? Text('no-accounts-selected'.i18n())
                     : Text(_selectedAccounts),
                 children: AllData.accounts
                     .map((e) => ListTile(
@@ -138,7 +139,7 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
                                   }
                                   if (_filterAccounts.length == 0)
                                     _selectedAccounts =
-                                        'Keine Konten ausgewählt';
+                                        'no-accounts-selected'.i18n();
                                   else
                                     _selectedAccounts = '';
 

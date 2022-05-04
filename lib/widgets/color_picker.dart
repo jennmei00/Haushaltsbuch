@@ -20,7 +20,7 @@ class ColorPickerClass extends StatelessWidget {
         ColorPickerType.custom: true,
         ColorPickerType.wheel: false,
       },
-      subheading: Text('Farbschattierung'),
+      // subheading: Text('Farbschattierung'),
       wheelWidth: 16,
       columnSpacing: 10,
       enableOpacity: false,

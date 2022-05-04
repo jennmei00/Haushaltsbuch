@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/screens/posting/transfer_screen.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
+import 'package:localization/localization.dart';
 
 class PostingScreen extends StatelessWidget {
   static final routeName = '/posting_screen';
@@ -14,7 +15,7 @@ class PostingScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Buchen'),
+        title: Text('posting'.i18n()),
         centerTitle: true,
       ),
       drawer: AppDrawer(
@@ -48,7 +49,7 @@ class PostingScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Text(
-                        'Einnahme',
+                        'income'.i18n(),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 30,
@@ -83,7 +84,7 @@ class PostingScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Text(
-                        'Ausgabe',
+                        'expense'.i18n(),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 30,
@@ -118,7 +119,7 @@ class PostingScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Text(
-                        'Umbuchung',
+                        'transfer'.i18n(),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 30,

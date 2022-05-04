@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:localization/localization.dart';
 import 'package:validators/validators.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -35,10 +36,10 @@ class CustomTextField extends StatelessWidget {
             ],
       validator: (value) {
         if ((value == null || value.isEmpty) && mandatory) {
-          return 'Das ist ein Pflichtfeld!';
+          return 'mandatory-field'.i18n();
         } else if (this.keyboardType == TextInputType.number) {
           if (!(isFloat(value!.replaceAll(',', '.')))) {
-            return 'Nur Zahlen sind erlaubt (Punkt statt Komma)';
+            return 'only-numbers-allowed'.i18n();
           }
         }
 

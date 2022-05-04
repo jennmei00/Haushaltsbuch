@@ -8,6 +8,7 @@ import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
+import 'package:localization/localization.dart';
 
 class StandingOrdersScreen extends StatefulWidget {
   static final routeName = '/standing_orders_screen';
@@ -60,7 +61,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daueraufträge'),
+        title: Text('standingorders'.i18n()),
         centerTitle: true,
       ),
       drawer: AppDrawer(
@@ -75,7 +76,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: AllData.standingOrders.length == 0
-          ? NothingThere(textScreen: 'Noch keine Daueraufträge vorhanden :(')
+          ? NothingThere(textScreen: 'no-standingorder'.i18n())
           : ListView(children: [
               _soWeekly.length == 0
                   ? SizedBox()
@@ -84,7 +85,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                         padding: const EdgeInsets.only(
                             right: 4.0, top: 6.0, bottom: 4.0, left: 12),
                         child: Text(
-                          'Wöchentlich',
+                          'weekly'.i18n(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.onPrimary),
@@ -100,7 +101,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                         padding: const EdgeInsets.only(
                             right: 4.0, top: 6.0, bottom: 4.0, left: 12),
                         child: Text(
-                          'Monatlich',
+                          'monthly'.i18n(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.onPrimary),
@@ -116,7 +117,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                         padding: const EdgeInsets.only(
                             right: 4.0, top: 6.0, bottom: 4.0, left: 12),
                         child: Text(
-                          'Vierteljährlich',
+                          'quarterly'.i18n(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.onPrimary),
@@ -132,7 +133,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                         padding: const EdgeInsets.only(
                             right: 4.0, top: 6.0, bottom: 4.0, left: 12),
                         child: Text(
-                          'Halbjährlich',
+                          'half-yearly'.i18n(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.onPrimary),
@@ -148,7 +149,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                         padding: const EdgeInsets.only(
                             right: 4.0, top: 6.0, bottom: 4.0, left: 12),
                         child: Text(
-                          'Jährlich',
+                          'yearly'.i18n(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.onPrimary),
@@ -173,9 +174,9 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: const Text("Dauerauftrag löschen"),
-                  content: const Text(
-                      "Bist du sicher, dass du den Dauerauftrag löschen willst?"),
+                  title:  Text("delete-standingorder".i18n()),
+                  content:  Text(
+                      "delete-standingorder-text".i18n()),
                   actions: <Widget>[
                     TextButton(
                         onPressed: () async {
@@ -200,10 +201,10 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                               where: "ID = '${item.id}'");
                           Navigator.of(context).pop(true);
                         },
-                        child: const Text("Löschen")),
+                        child:  Text("delete".i18n())),
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(false),
-                      child: const Text("Abbrechen"),
+                      child:  Text("cancel".i18n()),
                     ),
                   ],
                 );
@@ -223,7 +224,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Icon(Icons.edit, color: Colors.white),
-                Text('Bearbeiten', style: TextStyle(color: Colors.white)),
+                Text('edit'.i18n(), style: TextStyle(color: Colors.white)),
               ],
             ),
           ),
@@ -238,7 +239,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Icon(Icons.delete, color: Colors.white),
-                Text('Löschen', style: TextStyle(color: Colors.white)),
+                Text('delete'.i18n(), style: TextStyle(color: Colors.white)),
               ],
             ),
           ),
@@ -342,33 +343,33 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                   if (item.postingType != PostingType.transfer)
                     TableRow(
                       children: [
-                        Text('Kategorie:'),
+                        Text("${'category'.i18n()}:"),
                         Text('${item.category!.title}'),
                       ],
                     ),
                   TableRow(
                     children: [
-                      Text('Beginn:'),
+                      Text("${'begin'.i18n()}:"),
                       Text(formatDate(item.begin!)),
                     ],
                   ),
                   if (item.end != null)
                     TableRow(
                       children: [
-                        Text('Ende:'),
+                        Text("${'end'.i18n()}:"),
                         Text(formatDate(item.end!)),
                       ],
                     ),
                   TableRow(
                     children: [
-                      Text('Wiederholung:'),
+                      Text("${'repetition'.i18n()}:"),
                       Text(formatRepetition(item.repetition!)),
                     ],
                   ),
                   if (item.description != '')
                     TableRow(
                       children: [
-                        Text('Beschreibung:'),
+                        Text("${'description'.i18n()}:"),
                         Text(
                           '${item.description}',
                           overflow: TextOverflow.ellipsis,

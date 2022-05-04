@@ -8,6 +8,7 @@ import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
+import 'package:localization/localization.dart';
 
 class CategoriesScreen extends StatefulWidget {
   static final routeName = '/categories_screen';
@@ -32,14 +33,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kategorien'),
+        title: Text('categories'.i18n()),
         centerTitle: true,
       ),
       drawer: AppDrawer(
         selectedMenuItem: 'categories',
       ),
       body: AllData.categories.length == 0
-          ? NothingThere(textScreen: 'Noch keine Kategorien vorhanden :(')
+          ? NothingThere(textScreen: 'no-categories'.i18n())
           : GridView.count(
               scrollDirection: Axis.vertical,
               childAspectRatio: 0.8,
@@ -73,9 +74,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: const Text("Kategorie löschen"),
-                                      content: const Text(
-                                          "Bist du sicher, dass du die Kategorie löschen willst?"),
+                                      title:  Text("delete-category".i18n()),
+                                      content:  Text(
+                                          "delete-category-text".i18n()),
                                       actions: <Widget>[
                                         TextButton(
                                             onPressed: () {
@@ -83,7 +84,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
                                                         content: Text(
-                                                            'Kategorie kann nicht gelöscht werden')));
+                                                            'couldnt-delete-category'.i18n())));
                                                 Navigator.of(context).pop();
                                                 return;
                                               }
@@ -147,18 +148,18 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(SnackBar(
                                                       content: Text(
-                                                          'Kategorie wurde gelöscht')));
+                                                          'deleted-category'.i18n())));
 
                                               Navigator.of(context)
                                                 ..pop()
                                                 ..popAndPushNamed(
                                                     CategoriesScreen.routeName);
                                             },
-                                            child: const Text("Löschen")),
+                                            child:  Text("delete".i18n())),
                                         TextButton(
                                           onPressed: () =>
                                               Navigator.of(context).pop(false),
-                                          child: const Text("Abbrechen"),
+                                          child:  Text("cancel".i18n()),
                                         ),
                                       ],
                                     );

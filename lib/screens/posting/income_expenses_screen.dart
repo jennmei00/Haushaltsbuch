@@ -18,6 +18,7 @@ import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
 import 'package:intl/intl.dart';
+import 'package:localization/localization.dart';
 import 'package:uuid/uuid.dart';
 
 class IncomeExpenseScreen extends StatefulWidget {
@@ -82,7 +83,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     _descriptionController.text = '${posting.description}';
     _setCategory = posting.category!;
     postingType =
-        posting.postingType == PostingType.expense ? 'Ausgabe' : 'Einnahme';
+        posting.postingType == PostingType.expense ? 'expense'.i18n() : 'income'.i18n();
     groupValueBuchungsart = posting.postingType!.index;
     if (posting.postingType == PostingType.expense)
       _postingSwitch = true;
@@ -111,7 +112,10 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            postingType != null ? '$postingType bearbeiten' : '${widget.type}'),
+            postingType != null ? 
+            postingType! == 'Einnahme' ? "${'income'.i18n()} ${'edit'.i18n()}" : "${'expense'.i18n()} ${'edit'.i18n()}" 
+            : widget.type == 'Einnahme' ? 'income'.i18n()
+            : 'expense'.i18n()),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -140,8 +144,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                       widthFactor: 0.9,
                       child: CupertinoSlidingSegmentedControl(
                         children: <Object, Widget>{
-                          0: Text('Einnahme'),
-                          1: Text('Ausgabe')
+                          0: Text('income'.i18n()),
+                          1: Text('expense'.i18n())
                         },
                         onValueChanged: (val) {
                           setState(() {
@@ -165,16 +169,16 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                 },
                 dropdownItems: _accountDropDownItems,
                 listItemValue: _selectedItem == null ? null : _selectedItem!.id,
-                dropdownHintText: 'Konto',
+                dropdownHintText: 'account'.i18n(),
               ),
               _selectedItem == null && widget.id != ''
-                  ? Text('Das eigentliche Konto wurde gelöscht')
+                  ? Text('actual-account-deleted'.i18n())
                   : SizedBox(),
               SizedBox(height: 20),
               Row(children: [
                 Expanded(
                   child: CustomTextField(
-                    labelText: 'Betrag',
+                    labelText: 'amount'.i18n(),
                     hintText: 'in €',
                     keyboardType: TextInputType.number,
                     controller: _amountController,
@@ -213,7 +217,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               ]),
               SizedBox(height: 20),
               CustomTextField(
-                labelText: 'Bezeichnung',
+                labelText: 'title'.i18n(),
                 hintText: '',
                 controller: _titleController,
                 mandatory: true,
@@ -221,7 +225,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               ),
               SizedBox(height: 20),
               CustomTextField(
-                labelText: 'Beschreibung',
+                labelText: 'description'.i18n(),
                 hintText: '',
                 controller: _descriptionController,
                 mandatory: false,
@@ -243,7 +247,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                     ),
                   ),
                   ElevatedButton(
-                    child: Text('Kategorie ändern'),
+                    child: Text('change-category'.i18n()),
                     onPressed: () {
                       FocusScope.of(context).requestFocus(new FocusNode());
                       showDialog(
@@ -252,7 +256,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                             return StatefulBuilder(
                                 builder: (context, setState) {
                               return Popup(
-                                title: 'Kategorien',
+                                title: 'categories'.i18n(),
                                 body: Container(
                                   padding: EdgeInsets.only(left: 5, right: 5),
                                   height:
@@ -305,7 +309,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text('Datum:'),
+                  Text("${'date'.i18n()}':"),
                   Row(
                     children: [
                       GestureDetector(
@@ -457,7 +461,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
         FileHelper().writeAppLog(AppLog(ex.toString(), 'Save Posting'));
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+            'snackbar-database'.i18n(),
             textAlign: TextAlign.center,
           ),
         ));
@@ -465,7 +469,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
-          'Ups, da passt etwas noch nicht :(',
+          'snackbar-textfield'.i18n(),
           textAlign: TextAlign.center,
         ),
       ));

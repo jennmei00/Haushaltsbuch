@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
+import 'package:localization/localization.dart';
 
 class FilterManagementScreen extends StatefulWidget {
   static final routeName = '/filter_management_screen';
@@ -21,7 +22,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
   List<Category> _filterCategories = [];
   bool _filterSO = false;
   DateTimeRange? _filterDate;
-  String _selectedAccounts = 'Keine Konten ausgewählt';
+  String _selectedAccounts = 'no-accounts-selected'.i18n();
 
   @override
   void initState() {
@@ -52,7 +53,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
     double bottomSheetSize = MediaQuery.of(context).size.height * 0.1;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Verwaltungsfilter'),
+        title: Text('management-filter'.i18n()),
       ),
       bottomSheet: BottomSheet(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -65,7 +66,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
             children: [
               ElevatedButton(
                 onPressed: () => Navigator.pop(context, []),
-                child: Text('Zurücksetzen'),
+                child: Text('reset'.i18n()),
                 style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).colorScheme.primary),
               ),
@@ -78,7 +79,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                     _filterSO
                   ]);
                 },
-                child: Text('Übernehmen'),
+                child: Text('take'.i18n()),
               )
             ],
           ),
@@ -101,7 +102,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                       Container(
                         padding: EdgeInsets.only(left: 8),
                         child: Text(
-                          'Datum',
+                          'date'.i18n(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                           textAlign: TextAlign.left,
@@ -111,7 +112,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                         child: GestureDetector(
                           child: Text(
                             _filterDate == null
-                                ? 'Zum Auswählen klicken'
+                                ? 'click-to-select'.i18n()
                                 : '${formatDate(_filterDate!.start)} - ' +
                                     '\n ${formatDate(_filterDate!.end)}',
                             overflow: TextOverflow.ellipsis,
@@ -163,7 +164,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                 child: SwitchListTile(
                   activeColor: Theme.of(context).colorScheme.primary,
                   title: Text(
-                    'Dauerauftrag',
+                    'standingorder'.i18n(),
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   value: _filterSO,
@@ -178,7 +179,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                       padding: EdgeInsets.only(left: 16, top: 18),
                       width: double.infinity,
                       child: Text(
-                        'Kategorien',
+                        'categories'.i18n(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16),
                         textAlign: TextAlign.left,
@@ -221,7 +222,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                 elevation: 5,
                 child: ExpansionTile(
                   title: Text(
-                    'Konten',
+                    'accounts'.i18n(),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(_selectedAccounts),
@@ -239,7 +240,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
 
                                   if (_filterAccounts.length == 0)
                                     _selectedAccounts =
-                                        'Keine Konten ausgewählt';
+                                        'no-accounts-selected'.i18n();
                                   else
                                     _selectedAccounts = '';
 

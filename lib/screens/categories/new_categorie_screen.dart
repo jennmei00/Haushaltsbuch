@@ -10,6 +10,7 @@ import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/color_picker.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
+import 'package:localization/localization.dart';
 import 'package:uuid/uuid.dart';
 
 class NewCategorieScreen extends StatefulWidget {
@@ -55,7 +56,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
     return Scaffold(
       appBar: AppBar(
         title:
-            Text(widget.id == '' ? 'Neue Kategorie' : 'Kategorie bearbeiten'),
+            Text(widget.id == '' ? 'new-category'.i18n() : 'edit-category'.i18n()),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -75,7 +76,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
               children: [
                 SizedBox(height: 10),
                 CustomTextField(
-                  labelText: 'Kategoriename',
+                  labelText: 'category-name'.i18n(),
                   hintText: '',
                   controller: _titleController,
                   mandatory: true,
@@ -85,7 +86,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                 Divider(),
                 SizedBox(height: 10),
                 Text(
-                  'Iconfarbe',
+                  'icon-color'.i18n(),
                   style: TextStyle(fontSize: 20),
                 ),
                 SizedBox(
@@ -207,7 +208,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
-              'Bitte wähle noch ein Symbol aus :)',
+              'choose-symbol'.i18n(),
               textAlign: TextAlign.center,
             ),
           ));
@@ -218,7 +219,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            'Das Speichern in die Datenbank ist \n schiefgelaufen :(',
+            'snackbar-database'.i18n(),
             textAlign: TextAlign.center,
           ),
         ));

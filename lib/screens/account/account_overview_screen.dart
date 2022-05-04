@@ -7,6 +7,7 @@ import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/services/theme.dart';
+import 'package:localization/localization.dart';
 
 class AccountOverviewScreen extends StatefulWidget {
   static final routeName = '/account_overview_screen';
@@ -88,7 +89,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
             : DateTime(2020).compareTo(DateTime(2020)));
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kontoübersicht'),
+        title: Text('account_overview'.i18n()),
         centerTitle: true,
       ),
       body: Padding(
@@ -191,7 +192,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
             if (_listPostingsTransfers.length != 0)
               Center(
                 child: Text(
-                  'Umsätze',
+                  'sales'.i18n(),
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: getColor(_accountColor)),

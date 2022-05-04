@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localization/localization.dart';
 
 class Popup extends StatefulWidget {
   final String? title;
@@ -48,7 +49,7 @@ class _PopupState extends State<Popup> {
                       TextButton(
                         onPressed: () => widget.saveFunction!(),
                         child: Text(
-                          'Speichern',
+                          'save'.i18n(),
                         ),
                       ),
                     if (widget.saveButton && widget.cancelButton)
@@ -59,7 +60,7 @@ class _PopupState extends State<Popup> {
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(),
                         child: Text(
-                          'Abbrechen',
+                          'cancel'.i18n(),
                         ),
                       ),
                   ],

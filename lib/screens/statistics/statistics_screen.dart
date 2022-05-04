@@ -3,6 +3,7 @@ import 'package:haushaltsbuch/screens/statistics/month_overview.dart';
 import 'package:haushaltsbuch/screens/statistics/line_chart.dart';
 import 'package:haushaltsbuch/screens/statistics/year_overview_table.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
+import 'package:localization/localization.dart';
 
 class StatisticsScreen extends StatefulWidget {
   static final routeName = '/statistics_screen';
@@ -25,14 +26,14 @@ class _StatisticsScreenState extends State<StatisticsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Statistik'),
+          title: Text('statistic'.i18n()),
           centerTitle: true,
           bottom: TabBar(
             isScrollable: true,
             tabs: [
-              Tab(text: 'Vermögensübersicht'),
-              Tab(text: 'Monatsübersicht'),
-              Tab(text: 'Jahresübersicht'),
+              Tab(text: 'asset-overview'.i18n()),
+              Tab(text: 'month-overview'.i18n()),
+              Tab(text: 'year-overview'.i18n()),
             ],
             controller: _tabController,
           ),

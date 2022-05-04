@@ -11,6 +11,7 @@ import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/nothing_there.dart';
+import 'package:localization/localization.dart';
 
 class ManagePostings extends StatefulWidget {
   final List<Object?> filters;
@@ -151,7 +152,7 @@ class _ManagePostingsState extends State<ManagePostings> {
     }
 
     return AllData.postings.length == 0
-        ? NothingThere(textScreen: 'Du hast noch keine Buchung erstellt :(')
+        ? NothingThere(textScreen: 'no-postings'.i18n())
         : ListView(
             children: _listofListViewWidgets.map((e) => e).toList(),
           );
@@ -165,9 +166,9 @@ class _ManagePostingsState extends State<ManagePostings> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: const Text("Buchung löschen"),
-                  content: const Text(
-                      "Bist du sicher, dass du die Buchung löschen willst?"),
+                  title:  Text("delete-posting".i18n()),
+                  content:  Text(
+                      "delete-posting-text".i18n()),
                   actions: <Widget>[
                     TextButton(
                         onPressed: () async {
@@ -201,10 +202,10 @@ class _ManagePostingsState extends State<ManagePostings> {
                           Navigator.of(context).pop(true);
                           this.setState(() {});
                         },
-                        child: const Text("Löschen")),
+                        child:  Text("delete".i18n())),
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(false),
-                      child: const Text("Abbrechen"),
+                      child:  Text("cancel".i18n()),
                     ),
                   ],
                 );
@@ -229,7 +230,7 @@ class _ManagePostingsState extends State<ManagePostings> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Icon(Icons.edit, color: Colors.white),
-                Text('Bearbeiten', style: TextStyle(color: Colors.white)),
+                Text('edit'.i18n(), style: TextStyle(color: Colors.white)),
               ],
             ),
           ),
@@ -244,7 +245,7 @@ class _ManagePostingsState extends State<ManagePostings> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Icon(Icons.delete, color: Colors.white),
-                Text('Löschen', style: TextStyle(color: Colors.white)),
+                Text('delete'.i18n(), style: TextStyle(color: Colors.white)),
               ],
             ),
           ),
@@ -287,20 +288,20 @@ class _ManagePostingsState extends State<ManagePostings> {
                 children: [
                   TableRow(
                     children: [
-                      Text('Kategorie:'),
+                      Text("${'category'.i18n()}:"),
                       Text('${posting.category!.title}'),
                     ],
                   ),
                   TableRow(
                     children: [
-                      Text('Datum:'),
+                      Text("${'date'.i18n()}:"),
                       Text(formatDate(posting.date!)),
                     ],
                   ),
                   if (posting.description != '')
                     TableRow(
                       children: [
-                        Text('Beschreibung:'),
+                        Text("${'description'.i18n()}:"),
                         Text(
                           '${posting.description}',
                           overflow: TextOverflow.ellipsis,

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
-import 'package:haushaltsbuch/models/applog.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
-import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:localization/localization.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class LineChart extends StatefulWidget {
@@ -137,7 +136,7 @@ class _LineChartState extends State<LineChart> {
                 Container(
                   padding: EdgeInsets.only(left: 20),
                   child: Text(
-                    'Zeitraum',
+                    'date-range'.i18n(),
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     textAlign: TextAlign.left,
                   ),
@@ -276,7 +275,7 @@ class _LineChartState extends State<LineChart> {
                       SizedBox(
                         width: 120,
                         child: ElevatedButton(
-                          child: Text('1 Jahr'),
+                          child: Text('one-year'.i18n()),
                           onPressed: _oneYearIsDisabled
                               ? null
                               : () {
@@ -298,7 +297,7 @@ class _LineChartState extends State<LineChart> {
                       SizedBox(
                         width: 120,
                         child: ElevatedButton(
-                          child: Text('6 Monate'),
+                          child: Text('six-months'.i18n()),
                           onPressed: _sixMonthsIsDisabled
                               ? null
                               : () {
@@ -325,7 +324,7 @@ class _LineChartState extends State<LineChart> {
                       SizedBox(
                         width: 120,
                         child: ElevatedButton(
-                          child: Text('3 Monate'),
+                          child: Text('three-months'.i18n()),
                           onPressed: _threeMonthsIsDisabled
                               ? null
                               : () {
@@ -347,7 +346,7 @@ class _LineChartState extends State<LineChart> {
                       SizedBox(
                         width: 120,
                         child: ElevatedButton(
-                          child: Text('1 Monat'),
+                          child: Text('one-month'.i18n()),
                           onPressed: _oneMonthIsDisabled
                               ? null
                               : () {

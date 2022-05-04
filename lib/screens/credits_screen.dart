@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localization/localization.dart';
 
 class Credits extends StatelessWidget {
   const Credits({Key? key}) : super(key: key);
@@ -8,7 +9,7 @@ class Credits extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Credits'),
+        title: Text('credits'.i18n()),
         centerTitle: true,
       ),
       body: Container(
@@ -26,7 +27,7 @@ class Credits extends StatelessWidget {
             height: 20,
           ),
           Text(
-            'Images:',
+            "${'images'.i18n()}:",
             style: Theme.of(context).textTheme.headline6,
           ),
           Text(
