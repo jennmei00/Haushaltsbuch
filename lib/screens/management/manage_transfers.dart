@@ -92,7 +92,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
           padding: const EdgeInsets.only(
               right: 4.0, top: 6.0, bottom: 4.0, left: 12),
           child: Text(
-            formatDateMY(_listTransfer.first.date!),
+            formatDateMY(_listTransfer.first.date!, context),
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.onPrimary),
@@ -113,7 +113,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
               padding: const EdgeInsets.only(
                   right: 4.0, top: 6.0, bottom: 4.0, left: 12),
               child: Text(
-                formatDateMY(_listTransfer[i].date!),
+                formatDateMY(_listTransfer[i].date!, context),
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.onPrimary),
@@ -273,7 +273,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
             ],
           ),
           subtitle: Text(
-            formatDate(transfer.date!),
+            formatDate(transfer.date!, context),
             style: TextStyle(color: Colors.grey.shade400),
           ),
           trailing: Text(formatCurrency(transfer.amount!)),

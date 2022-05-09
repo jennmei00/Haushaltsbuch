@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/services/help_methods.dart';
 
 class Category {
   String? id;
@@ -35,7 +36,7 @@ class Category {
   Category fromDB(Map<String, dynamic> data) {
     Category category = Category(
       id: data['ID'],
-      title: data['Title'],
+      title: getDefaultCategoriesInLanguage(data['Title']),
       color: data['Color'] == null
           ? Colors.black
           : Color(int.parse(data['Color'])),

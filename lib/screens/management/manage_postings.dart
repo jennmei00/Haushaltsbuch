@@ -102,7 +102,7 @@ class _ManagePostingsState extends State<ManagePostings> {
             padding: const EdgeInsets.only(
                 right: 4.0, top: 6.0, bottom: 4.0, left: 12),
             child: Text(
-              formatDateMY(_listPosting.first.date!),
+              formatDateMY(_listPosting.first.date!, context),
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onPrimary),
@@ -122,7 +122,7 @@ class _ManagePostingsState extends State<ManagePostings> {
               padding: const EdgeInsets.only(
                   right: 4.0, top: 6.0, bottom: 4.0, left: 12),
               child: Text(
-                formatDateMY(_listPosting[i].date!),
+                formatDateMY(_listPosting[i].date!, context),
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.onPrimary),
@@ -295,7 +295,7 @@ class _ManagePostingsState extends State<ManagePostings> {
                   TableRow(
                     children: [
                       Text("${'date'.i18n()}:"),
-                      Text(formatDate(posting.date!)),
+                      Text(formatDate(posting.date!,context)),
                     ],
                   ),
                   if (posting.description != '')

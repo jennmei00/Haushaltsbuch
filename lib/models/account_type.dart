@@ -1,4 +1,6 @@
 
+import 'package:haushaltsbuch/services/help_methods.dart';
+
 class AccountType {
   String? id;
   String? title;
@@ -27,7 +29,7 @@ class AccountType {
   AccountType fromDB(Map<String, dynamic> data) {
     AccountType accountType = AccountType(
       id: data['ID'],
-      title: data['Title'],
+      title: getAccountTypeInLanguage(data['Title']),
     );
     return accountType;
   }

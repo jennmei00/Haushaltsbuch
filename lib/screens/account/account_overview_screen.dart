@@ -89,7 +89,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
             : DateTime(2020).compareTo(DateTime(2020)));
     return Scaffold(
       appBar: AppBar(
-        title: Text('account_overview'.i18n()),
+        title: Text('account-overview'.i18n()),
         centerTitle: true,
       ),
       body: Padding(
@@ -241,7 +241,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                 softWrap: false,
               ),
               subtitle: Text(
-                '${formatDate(listObj.date!)}',
+                '${formatDate(listObj.date!, context)}',
                 style: TextStyle(color: Colors.grey.shade400),
               ),
               trailing: listObj.postingType == PostingType.income
@@ -268,7 +268,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                     TableRow(
                       children: [
                         Text('Datum:'),
-                        Text(formatDate(listObj.date!)),
+                        Text(formatDate(listObj.date!, context)),
                       ],
                     ),
                     if (listObj.description != '')
@@ -345,7 +345,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                     ],
                   ),
                   subtitle: Text(
-                    formatDate(listObj.date!),
+                    formatDate(listObj.date!, context),
                     style: TextStyle(color: Colors.grey.shade400),
                   ),
                   trailing: Text(formatCurrency(listObj.amount!)),

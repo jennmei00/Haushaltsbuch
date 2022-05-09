@@ -309,11 +309,11 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text("${'date'.i18n()}':"),
+                  Text("${'date'.i18n()}:"),
                   Row(
                     children: [
                       GestureDetector(
-                        child: Text(formatDate(_incomeDateTime)),
+                        child: Text(formatDate(_incomeDateTime, context)),
                         onTap: () {
                           FocusScope.of(context).requestFocus(new FocusNode());
 

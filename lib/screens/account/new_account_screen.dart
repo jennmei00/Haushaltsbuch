@@ -294,7 +294,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
-          'snachbar-textfield'.i18n(),
+          'snackbar-textfield'.i18n(),
           textAlign: TextAlign.center,
         ),
       ));

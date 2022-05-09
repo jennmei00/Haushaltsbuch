@@ -113,8 +113,8 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                           child: Text(
                             _filterDate == null
                                 ? 'click-to-select'.i18n()
-                                : '${formatDate(_filterDate!.start)} - ' +
-                                    '\n ${formatDate(_filterDate!.end)}',
+                                : '${formatDate(_filterDate!.start, context)} - ' +
+                                    '\n ${formatDate(_filterDate!.end, context)}',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             softWrap: false,

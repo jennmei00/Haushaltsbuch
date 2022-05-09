@@ -198,7 +198,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               color: Colors.red,
             ),
             title: TextButton(
-              child: Text('delete-data'.i18n()),
+              child: Text('delete-all-data'.i18n()),
               style: ButtonStyle(
                 alignment: Alignment.centerLeft,
                 padding: MaterialStateProperty.all(EdgeInsets.zero),

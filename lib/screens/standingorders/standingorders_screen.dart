@@ -350,14 +350,14 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                   TableRow(
                     children: [
                       Text("${'begin'.i18n()}:"),
-                      Text(formatDate(item.begin!)),
+                      Text(formatDate(item.begin!, context)),
                     ],
                   ),
                   if (item.end != null)
                     TableRow(
                       children: [
                         Text("${'end'.i18n()}:"),
-                        Text(formatDate(item.end!)),
+                        Text(formatDate(item.end!, context)),
                       ],
                     ),
                   TableRow(

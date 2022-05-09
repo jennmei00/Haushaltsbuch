@@ -341,7 +341,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                     Row(
                       children: [
                         GestureDetector(
-                          child: Text(formatDate(_dateTime)),
+                          child: Text(formatDate(_dateTime, context)),
                           onTap: () {
                             FocusScope.of(context)
                                 .requestFocus(new FocusNode());
@@ -393,7 +393,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                         GestureDetector(
                           child: _dateTimeEnd == null
                               ? Text('choose-date'.i18n())
-                              : Text(formatDate(_dateTimeEnd!)),
+                              : Text(formatDate(_dateTimeEnd!, context)),
                           onTap: () {
                             FocusScope.of(context)
                                 .requestFocus(new FocusNode());

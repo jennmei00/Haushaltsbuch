@@ -30,7 +30,7 @@ class _ManagementScreenState extends State<ManagementScreen>
       appBar: AppBar(
         title: !_search
             ? Text(
-                'management-filter'.i18n(),
+                'management'.i18n(),
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               )
             : TextField(

@@ -214,7 +214,7 @@ class _TransferScreenState extends State<TransferScreen> {
                   Row(
                     children: [
                       GestureDetector(
-                        child: Text(formatDate(_dateTime)),
+                        child: Text(formatDate(_dateTime, context)),
                         onTap: () {
                           FocusScope.of(context).requestFocus(new FocusNode());
                           showDatePicker(

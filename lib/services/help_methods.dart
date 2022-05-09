@@ -13,25 +13,25 @@ import 'package:haushaltsbuch/services/globals.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:localization/localization.dart';
 import 'package:uuid/uuid.dart';
 
-String formatDate(DateTime date) {
+String formatDate(DateTime date, BuildContext context) {
   initializeDateFormatting();
-
-  var formattedDate = DateFormat.yMMMd("de").format(date);
+  var formattedDate = DateFormat.yMMMd(Localizations.localeOf(context).languageCode).format(date);
   return '$formattedDate';
 }
 
-String formatDateMY(DateTime date) {
+String formatDateMY(DateTime date, BuildContext context) {
   initializeDateFormatting();
 
-  var formattedDate = DateFormat.yMMMM("de").format(date);
+  var formattedDate = DateFormat.yMMMM(Localizations.localeOf(context).languageCode).format(date);
   return '$formattedDate';
 }
 
-DateFormat weeklyDateFormat() {
+DateFormat weeklyDateFormat(BuildContext context) {
   initializeDateFormatting();
-  return DateFormat("'Woche vom'\n dd.MMM y", "de");
+  return DateFormat("'${'week-of'.i18n()}'\n dd.MMM y", Localizations.localeOf(context).languageCode);
 }
 
 String formatCurrency(double amount) {
@@ -42,15 +42,15 @@ String formatCurrency(double amount) {
 
 String formatRepetition(Repetition repetition) {
   if (repetition == Repetition.monthly) {
-    return 'Monatlich';
+    return 'monthly'.i18n();
   } else if (repetition == Repetition.weekly) {
-    return 'Wöchentlich';
+    return 'weekly'.i18n();
   } else if (repetition == Repetition.yearly) {
-    return 'Jährlich';
+    return 'yearly'.i18n();
   } else if (repetition == Repetition.quarterly) {
-    return 'Vierteljährlich';
+    return 'quarterly'.i18n();
   } else if (repetition == Repetition.halfYearly) {
-    return 'Halbjährlich';
+    return 'half-yearly'.i18n();
   } else {
     return '';
   }
@@ -64,15 +64,15 @@ Color getAccountColorFromAccountName(String accountName) {
 }
 
 Repetition getRepetitionFromString(String repetition) {
-  if (repetition == 'Monatlich') {
+  if (repetition == 'monthly'.i18n()) {
     return Repetition.monthly;
-  } else if (repetition == 'Wöchentlich') {
+  } else if (repetition == 'weekly'.i18n()) {
     return Repetition.weekly;
-  } else if (repetition == 'Jährlich') {
+  } else if (repetition == 'yearly'.i18n()) {
     return Repetition.yearly;
-  } else if (repetition == 'Vierteljährlich') {
+  } else if (repetition == 'quarterly'.i18n()) {
     return Repetition.quarterly;
-  } else if (repetition == 'Halbjährlich') {
+  } else if (repetition == 'half-yearly'.i18n()) {
     return Repetition.halfYearly;
   } else {
     return Repetition.monthly;
@@ -148,6 +148,81 @@ DateTime getMondayOfWeek(DateTime date) {
   }
 
   return monday;
+}
+
+String getAccountTypeInLanguage(String title) {
+  String text = '';
+  switch (title) {
+    case 'Sparkonto':
+      text = 'saving-account'.i18n();
+      break;
+    case 'Girokonto':
+      text = 'checking-account'.i18n();
+      break;
+    case 'Tagesgeldkonto':
+      text = 'call-money-account'.i18n();
+      break;
+    case 'Festgeldkonto':
+      text = 'fixed-deposit-account'.i18n();
+      break;
+    case 'Kreditkartenkonto':
+      text = 'credit-card-account'.i18n();
+      break;
+    case 'Bargeldkonto':
+      text = 'cash-account'.i18n();
+      break;
+    case 'Sonstiges Konto':
+      text = 'other-account'.i18n();
+      break;
+    default:
+      text = title;
+  }
+  return text;
+}
+
+String getDefaultCategoriesInLanguage(String title) {
+  String text = '';
+  switch (title) {
+    case 'Auto':
+      text = 'category-car'.i18n();
+      break;
+    case 'Drogerie':
+      text = 'category-drugstore'.i18n();
+      break;
+    case 'Freizeit':
+      text = 'category-spare-time'.i18n();
+      break;
+    case 'Handyvertrag':
+      text = 'category-mobile-contract'.i18n();
+      break;
+    case 'Kleidung':
+      text = 'category-clothing'.i18n();
+      break;
+    case 'Lebensmittel':
+      text = 'category-food'.i18n();
+      break;
+    case 'Lohn':
+      text = 'category-salary'.i18n();
+      break;
+    case 'Miete':
+      text = 'category-rent'.i18n();
+      break;
+    case 'Sonstiges':
+      text = 'category-others'.i18n();
+      break;
+    case 'Tanken':
+      text = 'category-fual'.i18n();
+      break;
+    case 'Versicherung':
+      text = 'category-insurance'.i18n();
+      break;
+    case 'Wohnen':
+      text = 'category-living'.i18n();
+      break;
+    default:
+      text = title;
+  }
+  return text;
 }
 
 void updateStandingOrders(BuildContext context, bool appResumed) {

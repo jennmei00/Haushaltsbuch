@@ -85,7 +85,7 @@ class _IncomeCircularChartState extends State<IncomeCircularChart> {
                 showLabels: true,
                 interval: 1,
                 stepDuration: const slider.SliderStepDuration(months: 1),
-                dateFormat: DateFormat.M("de"),
+                dateFormat: DateFormat.M(Localizations.localeOf(context).languageCode),
                 labelPlacement: slider.LabelPlacement.onTicks,
                 dateIntervalType: slider.DateIntervalType.months,
                 showTicks: true,
@@ -98,7 +98,7 @@ class _IncomeCircularChartState extends State<IncomeCircularChart> {
                 enableTooltip: true,
                 tooltipTextFormatterCallback:
                     (dynamic actualLabel, String formattedText) {
-                  return DateFormat.MMMM("de").format(actualLabel);
+                  return DateFormat.MMMM(Localizations.localeOf(context).languageCode).format(actualLabel);
                 },
               ),
             ]),
