@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:currency_picker/currency_picker.dart';
 import 'package:haushaltsbuch/models/applog.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -10,7 +12,7 @@ class FileHelper {
     return directory.path;
   }
 
-  Future<File> get _localFile async {
+  Future<File> get _accountVisibilityFile async {
     final path = await _localPath;
     return File('$path/AccountVisibility.txt');
   }
@@ -18,6 +20,11 @@ class FileHelper {
   Future<File> get _appLogFile async {
     final directory = await getApplicationSupportDirectory();
     return File('${directory.path}/AppLog.log');
+  }
+
+  Future<File> get _currencyFile async {
+    final path = await _localPath;
+    return File('$path/currency.text');
   }
 
   Future<void> writeAppLog(AppLog appLog) async {
@@ -34,16 +41,36 @@ class FileHelper {
     file.writeAsStringSync('', mode: FileMode.writeOnly);
   }
 
-  Future<bool> fileExists() async {
-    final file = await _localFile;
-    // file.deleteSync();
+  Future<void> writeCurrency(Currency currency) async {
+    File file = await _currencyFile;
+    file.writeAsStringSync(json.encode(currency.toJson()));
+  }
 
+  Future<Currency> readCurrency() async {
+    File file = await _currencyFile;
+    return Currency.from(json: json.decode(file.readAsStringSync()));
+  }
+
+  Future<bool> fileExists(String fileName) async {
+    File file;
+    switch (fileName) {
+      case 'AccountVisibility':
+        file = await _accountVisibilityFile;
+        break;
+      case 'Currency':
+        file = await _currencyFile;
+        break;
+      default:
+        return false;
+    }
+
+    // file.deleteSync();
     return file.existsSync();
   }
 
   Future<Map<String, bool>> readMap() async {
     try {
-      final file = await _localFile;
+      final file = await _accountVisibilityFile;
       Map<String, bool> map = {};
       // Read the file
       final List<String> contents = await file.readAsLines();
@@ -65,7 +92,7 @@ class FileHelper {
   }
 
   Future<File> writeMap(Map<String, bool> map) async {
-    final file = await _localFile;
+    final file = await _accountVisibilityFile;
 
     String mapString = '';
 
@@ -78,7 +105,7 @@ class FileHelper {
   }
 
   Future<File> writeMapAppend(Map<String, bool> map) async {
-    final file = await _localFile;
+    final file = await _accountVisibilityFile;
 
     String mapString = '';
 

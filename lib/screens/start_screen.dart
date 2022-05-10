@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:haushaltsbuch/models/account.dart';
@@ -68,7 +69,7 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
     AllData.accounts = Account().listFromDB(await DBHelper.getData('Account'));
 
     //if AccountVisibility.text does not exist, create it and write data
-    if (!await FileHelper().fileExists()) {
+    if (!await FileHelper().fileExists('AccountVisibility')) {
       Map<String, bool> map = {};
       AllData.accounts.forEach((element) {
         map[element.id!] = true;
@@ -76,7 +77,19 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
       await FileHelper().writeMap(map);
     }
 
+    if (!await FileHelper().fileExists('Currency')) {
+      Currency currency = Currency.from(json: json.decode('{"code":"EUR","name":"Euro","symbol":"€","number":978,"flag":"EUR","decimal_digits":2,"name_plural":"Euros","symbol_on_left":false,"decimal_separator":",","thousands_separator":" ","space_between_amount_and_symbol":true}'));
+      // if (Localizations.localeOf(context).languageCode == 'en-GB')
+      //   currency = '£';
+      // else if (Localizations.localeOf(context).languageCode == 'en')
+      //   currency = '\$';
+      print(currency);
+
+      await FileHelper().writeCurrency(currency);
+    }
+
     Globals.accountVisibility = await FileHelper().readMap();
+    Globals.currency = await FileHelper().readCurrency();
 
     AllData.standingOrders =
         StandingOrder().listFromDB(await DBHelper.getData('Standingorder'));
@@ -112,8 +125,7 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
           return AccountScreen();
         else if (snapshot.hasError)
           return Center(
-            child: Text(
-                'error-text'.i18n()),
+            child: Text('error-text'.i18n()),
           );
         else
           return Scaffold(

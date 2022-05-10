@@ -3,7 +3,7 @@ import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/management/management_screen.dart';
-import 'package:haushaltsbuch/screens/settings_screen.dart';
+import 'package:haushaltsbuch/screens/settings/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/budget/budget_screen.dart';
 import 'package:haushaltsbuch/screens/statistics/statistics_screen.dart';

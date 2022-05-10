@@ -134,5 +134,6 @@
     "menu": "Menu",
     "only-numbers-allowed": "Only numbers are allowed",
     "save": "Save",
-    "week-of": "Week of "
+    "week-of": "Week of ",
+    "currency": "Currency"
 }

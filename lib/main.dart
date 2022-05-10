@@ -9,13 +9,13 @@ import 'package:haushaltsbuch/screens/account/account_overview_screen.dart';
 import 'package:haushaltsbuch/screens/budget/new_budget_screen.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/screens/categories/new_categorie_screen.dart';
-import 'package:haushaltsbuch/screens/credits_screen.dart';
-import 'package:haushaltsbuch/screens/excel_export.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
-import 'package:haushaltsbuch/screens/imprint_screen.dart';
 import 'package:haushaltsbuch/screens/management/filter_management_screen.dart';
 import 'package:haushaltsbuch/screens/management/management_screen.dart';
-import 'package:haushaltsbuch/screens/settings_screen.dart';
+import 'package:haushaltsbuch/screens/settings/credits_screen.dart';
+import 'package:haushaltsbuch/screens/settings/excel_export.dart';
+import 'package:haushaltsbuch/screens/settings/imprint_screen.dart';
+import 'package:haushaltsbuch/screens/settings/settings_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/start_screen.dart';
@@ -38,7 +38,8 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 void main() async {
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
-    FileHelper().writeAppLog(AppLog(details.exceptionAsString().toString(), 'FlutterError'));
+    FileHelper().writeAppLog(
+        AppLog(details.exceptionAsString().toString(), 'FlutterError'));
   };
 
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:haushaltsbuch/models/applog.dart';
 // import 'package:haushaltsbuch/models/account.dart';
 // import 'package:haushaltsbuch/models/all_data.dart';
 // import 'package:haushaltsbuch/models/enums.dart';
@@ -11,8 +12,8 @@ import 'package:haushaltsbuch/models/applog.dart';
 // import 'package:haushaltsbuch/models/standing_order.dart';
 // import 'package:haushaltsbuch/models/transfer.dart';
 // import 'package:uuid/uuid.dart';
-import 'package:haushaltsbuch/screens/credits_screen.dart';
-import 'package:haushaltsbuch/screens/excel_export.dart';
+// import 'package:haushaltsbuch/screens/excel_export.dart';
+import 'package:haushaltsbuch/screens/settings/credits_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
@@ -64,6 +65,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onThemeChanged(val, themeNotifier);
             },
           ),
+          GestureDetector(
+            child: ListTile(
+              // leading: Icon(Icons.euro),
+              leading: Text(
+                Globals.currency.symbol,
+                style: TextStyle(fontSize: 30, color: Colors.grey),
+              ),
+              title: Text(
+                'currency'.i18n(),
+              ),
+            ),
+            onTap: () {
+              showCurrencyPicker(
+                context: context,
+                showFlag: true,
+                showCurrencyName: true,
+                showCurrencyCode: true,
+                onSelect: (Currency currency) {
+                  // print(Globals.currency);
+                  // String test = json.encode(currency.toJson());
+                  // // json.decode(test);
+                  // print(test);
+                  // print(json.decode(test));
+                  // print(Currency.from(json: json.decode(test)));
+                  setState(() {
+                    Globals.currency = currency;
+                    FileHelper().writeCurrency(currency);
+                  });
+                },
+              );
+            },
+          ),
           //Excel Export
           // GestureDetector(
           //   child: ListTile(
@@ -95,9 +128,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title:  Text("send-mail".i18n()),
-                    content:  Text(
-                        "send-mail-text".i18n()),
+                    title: Text("send-mail".i18n()),
+                    content: Text("send-mail-text".i18n()),
                     actions: <Widget>[
                       TextButton(
                           onPressed: () async {
@@ -138,10 +170,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                             Navigator.of(context).pop(true);
                           },
-                          child:  Text("send".i18n())),
+                          child: Text("send".i18n())),
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(false),
-                        child:  Text("cancel".i18n()),
+                        child: Text("cancel".i18n()),
                       ),
                     ],
                   );
@@ -209,9 +241,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title:  Text("delete-all-data".i18n()),
-                      content:  Text(
-                          "delete-all-data-text".i18n()),
+                      title: Text("delete-all-data".i18n()),
+                      content: Text("delete-all-data-text".i18n()),
                       actions: <Widget>[
                         TextButton(
                             onPressed: () async {
@@ -220,10 +251,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               Navigator.of(context).pop(true);
                               Phoenix.rebirth(context);
                             },
-                            child:  Text("delete".i18n())),
+                            child: Text("delete".i18n())),
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(false),
-                          child:  Text("cancel".i18n()),
+                          child: Text("cancel".i18n()),
                         ),
                       ],
                     );
