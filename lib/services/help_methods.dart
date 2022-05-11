@@ -18,26 +18,49 @@ import 'package:uuid/uuid.dart';
 
 String formatDate(DateTime date, BuildContext context) {
   initializeDateFormatting();
-  var formattedDate = DateFormat.yMMMd(Localizations.localeOf(context).languageCode).format(date);
+  var formattedDate =
+      DateFormat.yMMMd(Localizations.localeOf(context).languageCode)
+          .format(date);
   return '$formattedDate';
 }
 
 String formatDateMY(DateTime date, BuildContext context) {
   initializeDateFormatting();
 
-  var formattedDate = DateFormat.yMMMM(Localizations.localeOf(context).languageCode).format(date);
+  var formattedDate =
+      DateFormat.yMMMM(Localizations.localeOf(context).languageCode)
+          .format(date);
   return '$formattedDate';
 }
 
 DateFormat weeklyDateFormat(BuildContext context) {
   initializeDateFormatting();
-  return DateFormat("'${'week-of'.i18n()}'\n dd.MMM y", Localizations.localeOf(context).languageCode);
+  return DateFormat("'${'week-of'.i18n()}'\n dd.MMM y",
+      Localizations.localeOf(context).languageCode);
 }
 
 String formatCurrency(double amount) {
   var formattedCurrency =
-      NumberFormat.currency(locale: "de", symbol: "€").format(amount);
+      NumberFormat.currency(locale: "de", symbol: "${Globals.currency.symbol}")
+          .format(amount);
   return '$formattedCurrency';
+}
+
+NumberFormat currencyNumberFormat() {
+  return NumberFormat.currency(
+      locale: "de", symbol: "${Globals.currency.symbol}");
+}
+
+String formatTextFieldCurrency(double amount) {
+  String locale;
+  // if (Globals.currency.decimalSeparator == '.')
+  //   locale = 'en';
+  // else
+    locale = 'de';
+  return NumberFormat("##0.00", locale).format(amount);
+  // return NumberFormat("##0${Globals.currency.decimalSeparator}00",
+  //         Localizations.localeOf(context).languageCode)
+  //     .format(amount);
 }
 
 String formatRepetition(Repetition repetition) {

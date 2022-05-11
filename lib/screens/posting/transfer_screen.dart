@@ -65,8 +65,8 @@ class _TransferScreenState extends State<TransferScreen> {
       _transferIsSO = transfer.isStandingOrder!;
 
     _dateTime = transfer.date!;
-    _amountController.text =
-        NumberFormat("##0.00", "de").format(transfer.amount!);
+    _amountController.text = formatTextFieldCurrency(transfer.amount!);
+    // NumberFormat("##0.00", "de").format(transfer.amount!);
     _descriptionController.text = '${transfer.description}';
 
     _oldAccountFrom = transfer.accountFrom;

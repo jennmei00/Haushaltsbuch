@@ -130,7 +130,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             height: 10,
                           ),
                           Text(
-                            '${NumberFormat.currency(locale: "de", symbol: "€").format(totalBankBalance)}',
+                            '${formatCurrency(totalBankBalance)}',
                             style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -161,7 +161,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 children: [
                                   Text('${itemAccountType.title}'),
                                   Text(
-                                      '${NumberFormat.currency(locale: "de", symbol: "€").format(accountTypeList[index][1])}'),
+                                      '${formatCurrency(accountTypeList[index][1] as double)}'),
                                 ],
                               ),
                               children: AllData.accounts
@@ -320,7 +320,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text(
-                                              '${NumberFormat.currency(locale: "de", symbol: "€").format(e.bankBalance)}',
+                                              '${formatCurrency(e.bankBalance!)}',
                                               style: TextStyle(
                                                   color: _getColorBalance(
                                                       e.bankBalance!)),

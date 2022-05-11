@@ -145,7 +145,7 @@ class _LineChartState extends State<LineChart> {
                   child: GestureDetector(
                     child: Text(
                       '${formatDate(_dateRange.start, context)} - ' +
-                          '\n ${formatDate(_dateRange.end,context)}',
+                          '\n ${formatDate(_dateRange.end, context)}',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       softWrap: false,
@@ -245,8 +245,10 @@ class _LineChartState extends State<LineChart> {
                             ? 7
                             : 1,
                     dateFormat: _dateRange.duration > Duration(days: 60)
-                        ? DateFormat("MMM yy", Localizations.localeOf(context).languageCode)
-                        : DateFormat("dd.MMM yy", Localizations.localeOf(context).languageCode),
+                        ? DateFormat("MMM yy",
+                            Localizations.localeOf(context).languageCode)
+                        : DateFormat("dd.MMM yy",
+                            Localizations.localeOf(context).languageCode),
                     labelRotation: 50,
                     majorTickLines:
                         const MajorTickLines(color: Colors.transparent),
@@ -256,7 +258,7 @@ class _LineChartState extends State<LineChart> {
                         const MajorTickLines(color: Colors.transparent),
                     axisLine: const AxisLine(width: 0),
                     numberFormat:
-                        NumberFormat.currency(locale: "de", symbol: "€"),
+                        currencyNumberFormat()
                   ),
                   series: _getDefaultLineSeries(),
                 ),

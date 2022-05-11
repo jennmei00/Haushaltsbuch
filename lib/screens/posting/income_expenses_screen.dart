@@ -77,13 +77,14 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
     if (posting.isStandingOrder != null)
       _postingIsSO = posting.isStandingOrder!;
     _incomeDateTime = posting.date!;
-    _amountController.text =
-        NumberFormat("##0.00", "de").format(posting.amount!);
+    _amountController.text = formatTextFieldCurrency(posting.amount!);
+    // NumberFormat("##0.00", "de").format(posting.amount!);
     _titleController.text = '${posting.title}';
     _descriptionController.text = '${posting.description}';
     _setCategory = posting.category!;
-    postingType =
-        posting.postingType == PostingType.expense ? 'expense'.i18n() : 'income'.i18n();
+    postingType = posting.postingType == PostingType.expense
+        ? 'expense'.i18n()
+        : 'income'.i18n();
     groupValueBuchungsart = posting.postingType!.index;
     if (posting.postingType == PostingType.expense)
       _postingSwitch = true;
@@ -111,11 +112,13 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            postingType != null ? 
-            postingType! == 'Einnahme' ? "${'income'.i18n()} ${'edit'.i18n()}" : "${'expense'.i18n()} ${'edit'.i18n()}" 
-            : widget.type == 'Einnahme' ? 'income'.i18n()
-            : 'expense'.i18n()),
+        title: Text(postingType != null
+            ? postingType! == 'Einnahme'
+                ? "${'income'.i18n()} ${'edit'.i18n()}"
+                : "${'expense'.i18n()} ${'edit'.i18n()}"
+            : widget.type == 'Einnahme'
+                ? 'income'.i18n()
+                : 'expense'.i18n()),
         actions: [
           IconButton(
             icon: Icon(Icons.save),

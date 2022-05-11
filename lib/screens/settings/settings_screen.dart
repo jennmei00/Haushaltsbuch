@@ -83,12 +83,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 showCurrencyName: true,
                 showCurrencyCode: true,
                 onSelect: (Currency currency) {
-                  // print(Globals.currency);
-                  // String test = json.encode(currency.toJson());
-                  // // json.decode(test);
-                  // print(test);
-                  // print(json.decode(test));
-                  // print(Currency.from(json: json.decode(test)));
                   setState(() {
                     Globals.currency = currency;
                     FileHelper().writeCurrency(currency);

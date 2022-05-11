@@ -79,7 +79,8 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
             .firstWhere((element) => element.id == so.accountTo!.id);
     _setCategory =
         so.category == null ? AllData.categories.first : so.category!;
-    _amountController.text = NumberFormat("##0.00", "de").format(so.amount!);
+    _amountController.text = formatTextFieldCurrency(so.amount!);
+    // NumberFormat("##0.00", "de").format(so.amount!);
     _titleController.text = so.title == null ? '' : so.title!;
     _descriptionController.text = so.description!;
     _isTransfer = so.postingType == PostingType.transfer ? true : false;

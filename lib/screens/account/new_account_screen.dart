@@ -60,13 +60,16 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   }
 
   void _getAccountData() {
+    // print(Localizations.localeOf(context));
+    //??????? Fehler
     Account ac =
         AllData.accounts.firstWhere((element) => element.id == widget.id);
     _creationDate = ac.creationDate!;
     _initialBankBalance = ac.initialBankBalance!;
     _titleController.text = ac.title!;
     _bankBalanceController.text =
-        NumberFormat("##0.00", "de").format(ac.bankBalance!);
+    formatTextFieldCurrency(ac.bankBalance!);
+        // NumberFormat("##0.00", "de").format(ac.bankBalance!);
     _descriptionController.text = ac.description!;
     _selectedItem = _accountTypeDropDownItems
         .firstWhere((element) => element.id == ac.accountType!.id);
