@@ -83,9 +83,9 @@ class _ManagementScreenState extends State<ManagementScreen>
         bottom: TabBar(
           tabs: [
             Tab(
-              text: 'posting'.i18n(),
+              text: 'postings'.i18n(),
             ),
-            Tab(text: 'transfer'.i18n())
+            Tab(text: 'transfers'.i18n())
           ],
           controller: _tabController,
         ),

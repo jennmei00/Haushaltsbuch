@@ -44,8 +44,8 @@ class _CircularChartState extends State<CircularChart>
             labelColor: Globals.isDarkmode ? null : Colors.black,
             indicatorColor: Theme.of(context).primaryColor,
             tabs: [
-              Tab(text: 'expense'.i18n()),
-              Tab(text: 'income'.i18n()),
+              Tab(text: 'expenses'.i18n()),
+              Tab(text: 'incomes'.i18n()),
             ],
             controller: _tabController,
           ),
