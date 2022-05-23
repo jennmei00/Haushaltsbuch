@@ -192,7 +192,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
             if (_listPostingsTransfers.length != 0)
               Center(
                 child: Text(
-                  'sales'.i18n(),
+                  'transactions'.i18n(),
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: getColor(_accountColor)),
