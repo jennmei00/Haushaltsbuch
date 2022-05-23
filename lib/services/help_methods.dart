@@ -56,7 +56,7 @@ String formatTextFieldCurrency(double amount) {
   // if (Globals.currency.decimalSeparator == '.')
   //   locale = 'en';
   // else
-    locale = 'de';
+  locale = 'de';
   return NumberFormat("##0.00", locale).format(amount);
   // return NumberFormat("##0${Globals.currency.decimalSeparator}00",
   //         Localizations.localeOf(context).languageCode)
@@ -80,8 +80,9 @@ String formatRepetition(Repetition repetition) {
 }
 
 Color getAccountColorFromAccountName(String accountName) {
-  Account ac =
-      AllData.accounts.firstWhere((element) => element.title == accountName);
+  Account ac = AllData.accounts.firstWhere(
+      (element) => element.title == accountName,
+      orElse: () => Account(color: Color(0xffe0e0e0)));
   Color accountColor = ac.color!;
   return accountColor;
 }

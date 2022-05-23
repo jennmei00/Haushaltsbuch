@@ -388,6 +388,7 @@ class _AccountScreenState extends State<AccountScreen> {
             .account = null;
 
         posting.account = null;
+        posting.standingOrder = null;
 
         await DBHelper.update('Posting', posting.toMap(),
             where: "ID = '${posting.id}'");
@@ -415,7 +416,10 @@ class _AccountScreenState extends State<AccountScreen> {
           .accountFrom = null;
 
       if (transfer.accountFrom != null) {
-        if (transfer.accountFrom!.id == account.id) transfer.accountFrom = null;
+        if (transfer.accountFrom!.id == account.id) {
+          transfer.accountFrom = null;
+          transfer.standingOrder = null;
+        }
       }
 
       await DBHelper.update('Transfer', transfer.toMap(),
@@ -431,7 +435,10 @@ class _AccountScreenState extends State<AccountScreen> {
           .accountTo = null;
 
       if (transfer.accountTo != null) {
-        if (transfer.accountTo!.id == account.id) transfer.accountTo = null;
+        if (transfer.accountTo!.id == account.id) {
+          transfer.accountTo = null;
+          transfer.standingOrder = null;
+        }
       }
 
       await DBHelper.update('Transfer', transfer.toMap(),
