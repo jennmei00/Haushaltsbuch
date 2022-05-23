@@ -136,5 +136,7 @@
     "only-numbers-allowed": "Nur Zahlen sind erlaubt",
     "save": "Speichern",
     "week-of": "Woche vom ",
-    "currency": "Währung"
+    "currency": "Währung",
+    "total-expenses": "Gesamtausgabe",
+    "total-incomes": "Gesamteinnahme"
 }

@@ -136,5 +136,7 @@
     "only-numbers-allowed": "Only numbers are allowed",
     "save": "Save",
     "week-of": "Week of ",
-    "currency": "Currency"
+    "currency": "Currency",
+    "total-expenses": "Total Expenses",
+    "total-incomes": "Total Incomes"
 }

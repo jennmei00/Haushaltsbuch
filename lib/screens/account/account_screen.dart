@@ -216,12 +216,12 @@ class _AccountScreenState extends State<AccountScreen> {
                                                           );
                                                         });
                                                   },
-                                                  child:  Text("delete".i18n())),
+                                                  child: Text("delete".i18n())),
                                               TextButton(
                                                 onPressed: () =>
                                                     Navigator.of(context)
                                                         .pop(false),
-                                                child:  Text("cancel".i18n()),
+                                                child: Text("cancel".i18n()),
                                               ),
                                             ],
                                           );
@@ -446,10 +446,16 @@ class _AccountScreenState extends State<AccountScreen> {
     });
 
     //Delete StandingOrders
+    //Postings
     AllData.standingOrders.removeWhere((element) =>
         element.account == null ? false : element.account!.id == account.id);
     await DBHelper.delete('StandingOrder',
         where: "AccountID = '${account.id}'");
+    //Transfers
+    AllData.standingOrders.removeWhere((element) =>
+        element.account == null ? false : element.accountTo!.id == account.id);
+    await DBHelper.delete('StandingOrder',
+        where: "AccountToID = '${account.id}'");
 
     //Delete AccountVisibility
     Globals.accountVisibility.remove(account.id);

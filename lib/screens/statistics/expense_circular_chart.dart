@@ -21,6 +21,7 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
   DateTime _monthValue = DateTime(2000, DateTime.now().month, 01);
   String _selectedAccounts = '';
   List<Account> _filterAccounts = [];
+  double _totalExpenses = 0;
 
   void selectAllAccounts() {
     AllData.accounts.forEach((element) {
@@ -43,6 +44,11 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
 
   @override
   Widget build(BuildContext context) {
+    _totalExpenses = 0;
+    _getDatasource().forEach((element) {
+      _totalExpenses += element.y;
+    });
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -85,7 +91,8 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
                 showLabels: true,
                 interval: 1,
                 stepDuration: const slider.SliderStepDuration(months: 1),
-                dateFormat: DateFormat.M(Localizations.localeOf(context).languageCode),
+                dateFormat:
+                    DateFormat.M(Localizations.localeOf(context).languageCode),
                 labelPlacement: slider.LabelPlacement.onTicks,
                 dateIntervalType: slider.DateIntervalType.months,
                 showTicks: true,
@@ -98,7 +105,9 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
                 enableTooltip: true,
                 tooltipTextFormatterCallback:
                     (dynamic actualLabel, String formattedText) {
-                  return DateFormat.MMMM(Localizations.localeOf(context).languageCode).format(actualLabel);
+                  return DateFormat.MMMM(
+                          Localizations.localeOf(context).languageCode)
+                      .format(actualLabel);
                 },
               ),
             ]),
@@ -112,6 +121,7 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
                   ),
                   series: _getPieSeries(),
                 ),
+          Text("${'total-expenses'.i18n()}: ${formatCurrency(_totalExpenses)}"),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
