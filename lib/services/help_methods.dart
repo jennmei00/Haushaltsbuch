@@ -82,7 +82,7 @@ String formatRepetition(Repetition repetition) {
 Color getAccountColorFromAccountName(String accountName) {
   Account ac = AllData.accounts.firstWhere(
       (element) => element.title == accountName,
-      orElse: () => Account(color: Color(0xffe0e0e0)));
+      orElse: () => Account(color: Color(0xff616161)));
   Color accountColor = ac.color!;
   return accountColor;
 }

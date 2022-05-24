@@ -78,7 +78,7 @@ class Transfer {
           : data['IsStandingOrder'] == 0
               ? false
               : true,
-      standingOrder: data['StandingOrderID'] == ''
+      standingOrder: data['StandingOrderID'] == '' || data['StandingOrderID'] == null
           ? null
           : AllData.standingOrders
               .firstWhere((element) => element.id == data['StandingOrderID']),

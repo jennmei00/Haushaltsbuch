@@ -361,7 +361,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                             softWrap: false,
                           )
                         : Text(
-                            'Keine Beschreibung...',
+                            'no-description'.i18n(),
                             style: TextStyle(
                               fontStyle: FontStyle.italic,
                             ),
