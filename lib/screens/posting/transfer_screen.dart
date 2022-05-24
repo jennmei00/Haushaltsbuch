@@ -66,12 +66,22 @@ class _TransferScreenState extends State<TransferScreen> {
 
     _dateTime = transfer.date!;
     _amountController.text = formatTextFieldCurrency(transfer.amount!);
-    // NumberFormat("##0.00", "de").format(transfer.amount!);
     _descriptionController.text = '${transfer.description}';
 
     _oldAccountFrom = transfer.accountFrom;
     _oldAccountTo = transfer.accountTo;
     _oldAmount = transfer.amount;
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (widget.id != '') {
+    Transfer transfer =
+        AllData.transfers.firstWhere((element) => element.id == widget.id);
+      _amountController.text = formatTextFieldCurrency(transfer.amount!,
+          locale: Localizations.localeOf(this.context).languageCode);
+    }
+    super.didChangeDependencies();
   }
 
   @override

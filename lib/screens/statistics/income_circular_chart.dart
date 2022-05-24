@@ -120,7 +120,7 @@ class _IncomeCircularChartState extends State<IncomeCircularChart> {
                   ),
                   series: _getPieSeries(),
                 ),
-          Text("${'total-incomes'.i18n()}: ${formatCurrency(_totalIncomes)}"),
+          Text("${'total-incomes'.i18n()}: ${formatCurrency(_totalIncomes,locale: Localizations.localeOf(context).languageCode)}"),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
@@ -190,7 +190,7 @@ class _IncomeCircularChartState extends State<IncomeCircularChart> {
       });
       if (amount != 0)
         source.add(_ChartData(element.title!, amount,
-            '${element.title}\n${formatCurrency(amount)}'));
+            '${element.title}\n${formatCurrency(amount,locale: Localizations.localeOf(context).languageCode)}'));
     });
 
     return source;

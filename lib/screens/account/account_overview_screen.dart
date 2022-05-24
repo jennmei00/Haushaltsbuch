@@ -158,7 +158,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                 padding: EdgeInsets.all(15),
                 child: Center(
                   child: Text(
-                    formatCurrency(_accountBalance),
+                    formatCurrency(_accountBalance,locale: Localizations.localeOf(context).languageCode),
                     style: TextStyle(
                       color: _accountBalance < 0
                           ? Colors.red
@@ -246,11 +246,11 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
               ),
               trailing: listObj.postingType == PostingType.income
                   ? Text(
-                      '+ ' + formatCurrency(listObj.amount!),
+                      '+ ' + formatCurrency(listObj.amount!, locale: Localizations.localeOf(context).languageCode),
                       style: TextStyle(color: Colors.green),
                     )
                   : Text(
-                      '- ' + formatCurrency(listObj.amount!),
+                      '- ' + formatCurrency(listObj.amount!, locale: Localizations.localeOf(context).languageCode),
                       style: TextStyle(color: Colors.red),
                     ),
               childrenPadding:
@@ -348,7 +348,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                     formatDate(listObj.date!, context),
                     style: TextStyle(color: Colors.grey.shade400),
                   ),
-                  trailing: Text(formatCurrency(listObj.amount!)),
+                  trailing: Text(formatCurrency(listObj.amount!, locale: Localizations.localeOf(context).languageCode)),
                   childrenPadding:
                       EdgeInsets.only(left: 10, bottom: 10, right: 10, top: 5),
                   expandedAlignment: Alignment.topLeft,

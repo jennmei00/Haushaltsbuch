@@ -45,10 +45,14 @@ class _ManageTransfersState extends State<ManageTransfers> {
       AllData.transfers.forEach((element) {
         if ((_filterAccounts.length == 0
                 ? true
-                : _filterAccounts
-                        .any((val) => val.id == element.accountFrom!.id) ||
-                    _filterAccounts
-                        .any((val) => val.id == element.accountTo!.id)) &&
+                : (element.accountFrom == null
+                        ? false
+                        : _filterAccounts
+                            .any((val) => val.id == element.accountFrom!.id)) ||
+                    (element.accountTo == null
+                        ? false
+                        : _filterAccounts
+                            .any((val) => val.id == element.accountTo!.id))) &&
             (_filterDate == null
                 ? true
                 : (element.date!
@@ -158,16 +162,15 @@ class _ManageTransfersState extends State<ManageTransfers> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title:  Text("delete-transfer".i18n()),
-                content:  Text(
-                    "delete-transfer-text".i18n()),
+                title: Text("delete-transfer".i18n()),
+                content: Text("delete-transfer-text".i18n()),
                 actions: <Widget>[
                   TextButton(
                       onPressed: () => _deleteTransfer(context, transfer),
-                      child:  Text("delete".i18n())),
+                      child: Text("delete".i18n())),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
-                    child:  Text("cancel".i18n()),
+                    child: Text("cancel".i18n()),
                   ),
                 ],
               );
@@ -276,7 +279,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
             formatDate(transfer.date!, context),
             style: TextStyle(color: Colors.grey.shade400),
           ),
-          trailing: Text(formatCurrency(transfer.amount!)),
+          trailing: Text(formatCurrency(transfer.amount!,locale: Localizations.localeOf(context).languageCode)),
           childrenPadding:
               EdgeInsets.only(left: 10, bottom: 10, right: 10, top: 5),
           expandedAlignment: Alignment.topLeft,

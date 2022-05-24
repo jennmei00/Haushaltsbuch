@@ -49,7 +49,7 @@ class _ManagePostingsState extends State<ManagePostings> {
       AllData.postings.forEach((element) {
         if ((_filterAccounts.length == 0
                 ? true
-                : _filterAccounts
+                :  element .account == null ? false : _filterAccounts
                     .any((val) => val.id == element.account!.id)) &&
             (_filterCategories.length == 0
                 ? true

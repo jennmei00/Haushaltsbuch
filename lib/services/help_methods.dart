@@ -39,9 +39,9 @@ DateFormat weeklyDateFormat(BuildContext context) {
       Localizations.localeOf(context).languageCode);
 }
 
-String formatCurrency(double amount) {
+String formatCurrency(double amount, {String locale = "de"}) {
   var formattedCurrency =
-      NumberFormat.currency(locale: "de", symbol: "${Globals.currency.symbol}")
+      NumberFormat.currency(locale: locale, symbol: "${Globals.currency.symbol}")
           .format(amount);
   return '$formattedCurrency';
 }
@@ -51,16 +51,8 @@ NumberFormat currencyNumberFormat() {
       locale: "de", symbol: "${Globals.currency.symbol}");
 }
 
-String formatTextFieldCurrency(double amount) {
-  String locale;
-  // if (Globals.currency.decimalSeparator == '.')
-  //   locale = 'en';
-  // else
-  locale = 'de';
+String formatTextFieldCurrency(double amount, {locale = "de"}) {
   return NumberFormat("##0.00", locale).format(amount);
-  // return NumberFormat("##0${Globals.currency.decimalSeparator}00",
-  //         Localizations.localeOf(context).languageCode)
-  //     .format(amount);
 }
 
 String formatRepetition(Repetition repetition) {

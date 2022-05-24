@@ -81,8 +81,11 @@ class Transfer {
       standingOrder: data['StandingOrderID'] == '' || data['StandingOrderID'] == null
           ? null
           : AllData.standingOrders
-              .firstWhere((element) => element.id == data['StandingOrderID']),
+              .firstWhere((element) => element.id == data['StandingOrderID'], orElse: () => StandingOrder(id: 'NULL')),
     );
+    if(transfer.standingOrder != null)
+      if(transfer.standingOrder!.id == 'NULL')
+        transfer.standingOrder = null;
     return transfer;
   }
 }

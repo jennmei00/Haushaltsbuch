@@ -79,12 +79,8 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
 
     if (!await FileHelper().fileExists('Currency')) {
       Currency currency = Currency.from(json: json.decode('{"code":"EUR","name":"Euro","symbol":"€","number":978,"flag":"EUR","decimal_digits":2,"name_plural":"Euros","symbol_on_left":false,"decimal_separator":",","thousands_separator":" ","space_between_amount_and_symbol":true}'));
-      // if (Localizations.localeOf(context).languageCode == 'en-GB')
-      //   currency = '£';
-      // else if (Localizations.localeOf(context).languageCode == 'en')
-      //   currency = '\$';
-      print(currency);
-
+      if (Localizations.localeOf(context).countryCode == 'US')
+        currency = Currency.from(json: json.decode('{code: USD, name: United States Dollar, symbol: \$, number: 840, flag: USD, decimal_digits: 2, name_plural: US dollars, symbol_on_left: true, decimal_separator: ., thousands_separator: ,, space_between_amount_and_symbol: false}'));
       await FileHelper().writeCurrency(currency);
     }
 

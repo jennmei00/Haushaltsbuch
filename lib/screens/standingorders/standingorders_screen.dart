@@ -323,16 +323,16 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                 : Text(''),
             trailing: item.postingType == PostingType.income
                 ? Text(
-                    '+ ' + formatCurrency(item.amount!),
+                    '+ ' + formatCurrency(item.amount!,locale: Localizations.localeOf(context).languageCode),
                     style: TextStyle(color: Colors.green),
                   )
                 : item.postingType == PostingType.expense
                     ? Text(
-                        '- ' + formatCurrency(item.amount!),
+                        '- ' + formatCurrency(item.amount!,locale: Localizations.localeOf(context).languageCode),
                         style: TextStyle(color: Colors.red),
                       )
                     : Text(
-                        formatCurrency(item.amount!),
+                        formatCurrency(item.amount!,locale: Localizations.localeOf(context).languageCode),
                       ),
             childrenPadding:
                 EdgeInsets.only(left: 20, bottom: 10, right: 10, top: 10),

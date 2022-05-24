@@ -60,22 +60,29 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   }
 
   void _getAccountData() {
-    // print(Localizations.localeOf(context));
-    //??????? Fehler
     Account ac =
         AllData.accounts.firstWhere((element) => element.id == widget.id);
     _creationDate = ac.creationDate!;
     _initialBankBalance = ac.initialBankBalance!;
     _titleController.text = ac.title!;
-    _bankBalanceController.text =
-    formatTextFieldCurrency(ac.bankBalance!);
-        // NumberFormat("##0.00", "de").format(ac.bankBalance!);
+    _bankBalanceController.text = formatTextFieldCurrency(ac.bankBalance!);
     _descriptionController.text = ac.description!;
     _selectedItem = _accountTypeDropDownItems
         .firstWhere((element) => element.id == ac.accountType!.id);
     _iconcolor =
         Globals.isDarkmode ? getDarkColorFromLightColor(ac.color!) : ac.color!;
     _selectedIcon = ac.symbol!;
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (widget.id != '') {
+      Account ac =
+          AllData.accounts.firstWhere((element) => element.id == widget.id);
+      _bankBalanceController.text = formatTextFieldCurrency(ac.bankBalance!,
+          locale: Localizations.localeOf(this.context).languageCode);
+    }
+    super.didChangeDependencies();
   }
 
   @override
@@ -93,7 +100,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.id == '' ? 'new-account'.i18n() : 'edit-account'.i18n()),
+        title: Text(
+            widget.id == '' ? 'new-account'.i18n() : 'edit-account'.i18n()),
         centerTitle: true,
         actions: [
           IconButton(
@@ -259,8 +267,8 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   }
 
   void _saveAccount() async {
-    String stringBankBalance = _bankBalanceController.text.replaceAll('.', '');
-    stringBankBalance = stringBankBalance.replaceAll(',', '.');
+    // String stringBankBalance = _bankBalanceController.text.replaceAll('.', '');
+    String stringBankBalance = _bankBalanceController.text.replaceAll(',', '.');
     if (_formKey.currentState!.validate()) {
       final timeDifferenceToCreation =
           DateTime.now().difference(_creationDate).inHours;
@@ -275,21 +283,20 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                  title:  Text("bank-balance-cahnge".i18n()),
-                  content:  Text(
-                      "bank-balance-change-text".i18n()),
+                  title: Text("bank-balance-change".i18n()),
+                  content: Text("bank-balance-change-text".i18n()),
                   actions: <Widget>[
                     TextButton(
                         onPressed: () {
                           _saveToDatabase();
                           Navigator.of(context).pop(false);
                         },
-                        child:  Text("yes".i18n())),
+                        child: Text("yes".i18n())),
                     TextButton(
                         onPressed: () {
                           Navigator.of(context).pop(false);
                         },
-                        child:  Text("cancel".i18n())),
+                        child: Text("cancel".i18n())),
                   ]);
             });
       }
@@ -305,8 +312,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
   }
 
   void _saveToDatabase() async {
-    String stringBankBalance = _bankBalanceController.text.replaceAll('.', '');
-    stringBankBalance = stringBankBalance.replaceAll(',', '.');
+    String stringBankBalance = _bankBalanceController.text.replaceAll(',', '.');
     try {
       if (widget.id == '') {
         _initialBankBalance = double.parse(stringBankBalance);

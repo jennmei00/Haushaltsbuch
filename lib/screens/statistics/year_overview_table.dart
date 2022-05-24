@@ -105,7 +105,7 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
                       Padding(
                         padding: EdgeInsets.all(cellPadding),
                         child: Text(
-                          '${formatCurrency(incomeValue)}',
+                          '${formatCurrency(incomeValue,locale: Localizations.localeOf(context).languageCode)}',
                           textAlign: TextAlign.center,
                         ),
                       )
@@ -123,7 +123,7 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
                       Padding(
                         padding: EdgeInsets.all(cellPadding),
                         child: Text(
-                          '${formatCurrency(expenseValue)}',
+                          '${formatCurrency(expenseValue,locale: Localizations.localeOf(context).languageCode)}',
                           textAlign: TextAlign.center,
                         ),
                       )
@@ -141,7 +141,7 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
                       Padding(
                         padding: EdgeInsets.all(cellPadding),
                         child: Text(
-                          '${formatCurrency(rest)}',
+                          '${formatCurrency(rest,locale: Localizations.localeOf(context).languageCode)}',
                           style: TextStyle(
                             color: _getRestValColor(rest),
                           ),

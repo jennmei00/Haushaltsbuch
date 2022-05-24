@@ -87,6 +87,17 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
   }
 
   @override
+  void didChangeDependencies() {
+    if (widget.id != '') {
+    StandingOrder so =
+        AllData.standingOrders.firstWhere((element) => element.id == widget.id);
+      _amountController.text = formatTextFieldCurrency(so.amount!,
+          locale: Localizations.localeOf(this.context).languageCode);
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
   void initState() {
     AllData.categories.sort((a, b) {
       return a.title!.toLowerCase().compareTo(b.title!.toLowerCase());

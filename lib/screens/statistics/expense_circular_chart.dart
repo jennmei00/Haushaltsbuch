@@ -121,7 +121,7 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
                   ),
                   series: _getPieSeries(),
                 ),
-          Text("${'total-expenses'.i18n()}: ${formatCurrency(_totalExpenses)}"),
+          Text("${'total-expenses'.i18n()}: ${formatCurrency(_totalExpenses,locale: Localizations.localeOf(context).languageCode)}"),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
@@ -191,7 +191,7 @@ class _ExpenseCircularChartState extends State<ExpenseCircularChart> {
       });
       if (amount != 0)
         source.add(_ChartData(element.title!, amount,
-            '${element.title}\n${formatCurrency(amount)}'));
+            '${element.title}\n${formatCurrency(amount,locale: Localizations.localeOf(context).languageCode)}'));
     });
 
     return source;

@@ -32,7 +32,8 @@ class CustomTextField extends StatelessWidget {
           ? null
           : [
               FilteringTextInputFormatter.allow(RegExp(
-                  r'^(?:-?(?:[0-9]+))?(?:\,[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?'))
+                Localizations.localeOf(context).countryCode == 'US' ? r'^(?:-?(?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?' :
+                  r'^(?:-?(?:[0-9]+))?(?:\,[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?')),
             ],
       validator: (value) {
         if ((value == null || value.isEmpty) && mandatory) {

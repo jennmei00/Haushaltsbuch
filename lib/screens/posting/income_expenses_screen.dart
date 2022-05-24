@@ -78,7 +78,6 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
       _postingIsSO = posting.isStandingOrder!;
     _incomeDateTime = posting.date!;
     _amountController.text = formatTextFieldCurrency(posting.amount!);
-    // NumberFormat("##0.00", "de").format(posting.amount!);
     _titleController.text = '${posting.title}';
     _descriptionController.text = '${posting.description}';
     _setCategory = posting.category!;
@@ -93,6 +92,18 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
 
     _oldAccount = posting.account;
     _oldAmount = posting.amount;
+  }
+
+
+  @override
+  void didChangeDependencies() {
+    if (widget.id != '') {
+    Posting posting =
+        AllData.postings.firstWhere((element) => element.id == widget.id);
+      _amountController.text = formatTextFieldCurrency(posting.amount!,
+          locale: Localizations.localeOf(this.context).languageCode);
+    }
+    super.didChangeDependencies();
   }
 
   @override
