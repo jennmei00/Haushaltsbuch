@@ -11,7 +11,6 @@ import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
-import 'package:intl/intl.dart';
 import 'package:localization/localization.dart';
 import 'package:uuid/uuid.dart';
 

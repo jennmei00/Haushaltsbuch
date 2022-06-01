@@ -59,7 +59,7 @@ void main() async {
   Globals.buildNumber = packageInfo.buildNumber;
 
   SharedPreferences.getInstance().then((prefs) {
-    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+    var brightness = SchedulerBinding.instance.window.platformBrightness;
     var darkModeOn = prefs.getBool('darkMode') ?? brightness == Brightness.dark;
     runApp(Phoenix(
       child: ChangeNotifierProvider(
@@ -78,7 +78,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -91,7 +91,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     super.initState();
   }
