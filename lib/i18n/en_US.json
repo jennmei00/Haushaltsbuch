@@ -138,5 +138,12 @@
     "week-of": "Week of ",
     "currency": "Currency",
     "total-expenses": "Total Expenses",
-    "total-incomes": "Total Incomes"
+    "total-incomes": "Total Incomes",
+    "invalid-file": "Invalid File",
+    "saved-database": "Saved database in Downloads",
+    "couldnt-save-database": "Database could not be saved",
+    "export": "Export",
+    "import": "Import",
+    "export-import-data": "Export/Import Data",
+    "export-import-data-text": "Export or import data?"
 }

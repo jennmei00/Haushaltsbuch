@@ -138,5 +138,12 @@
     "week-of": "Woche vom ",
     "currency": "Währung",
     "total-expenses": "Gesamtausgabe",
-    "total-incomes": "Gesamteinnahme"
+    "total-incomes": "Gesamteinnahme",
+    "invalid-file": "Ungültige Datei",
+    "saved-database": "Datenbank in Downloads gespeichert",
+    "couldnt-save-database": "Datenbank konnte nicht gespeichert werden",
+    "export": "Exportieren",
+    "import": "Importieren",
+    "export-import-data": "Daten exportieren/importieren",
+    "export-import-data-text": "Daten exportieren oder importieren?"
 }
