@@ -44,6 +44,12 @@ class AppDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
+                leading: Icon(Icons.home, size: 36),
+                title: Text('home'.i18n(), style: TextStyle(fontSize: 18)),
+                onTap: () => selectedItem(context, 'home'),
+                selected: selectedMenuItem == 'home' ? true : false,
+              ),
+              ListTile(
                 leading: Icon(Icons.switch_account, size: 36),
                 title: Text('accounts'.i18n(), style: TextStyle(fontSize: 18)),
                 onTap: () => selectedItem(context, 'accounts'),
@@ -51,7 +57,8 @@ class AppDrawer extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(Icons.category, size: 36),
-                title: Text('categories'.i18n(), style: TextStyle(fontSize: 18)),
+                title:
+                    Text('categories'.i18n(), style: TextStyle(fontSize: 18)),
                 onTap: () => selectedItem(context, 'categories'),
                 selected: selectedMenuItem == 'categories' ? true : false,
               ),
@@ -63,13 +70,15 @@ class AppDrawer extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(Icons.assignment, size: 36),
-                title: Text('standingorders'.i18n(), style: TextStyle(fontSize: 18)),
+                title: Text('standingorders'.i18n(),
+                    style: TextStyle(fontSize: 18)),
                 onTap: () => selectedItem(context, 'standingorders'),
                 selected: selectedMenuItem == 'standingorders' ? true : false,
               ),
               ListTile(
                 leading: Icon(Icons.request_page, size: 36),
-                title: Text('management'.i18n(), style: TextStyle(fontSize: 18)),
+                title:
+                    Text('management'.i18n(), style: TextStyle(fontSize: 18)),
                 onTap: () => selectedItem(context, 'management'),
                 selected: selectedMenuItem == 'management' ? true : false,
               ),

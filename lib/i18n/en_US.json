@@ -145,5 +145,6 @@
     "export": "Export",
     "import": "Import",
     "export-import-data": "Export/Import Data",
-    "export-import-data-text": "Export or import data?"
+    "export-import-data-text": "Export or import data?",
+    "home": "Home"
 }
