@@ -12,6 +12,7 @@ import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
+import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
@@ -118,7 +119,8 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
       future: _loadData,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.done)
-          return AccountScreen();
+          // return AccountScreen();
+          return HomeScreen();
         else if (snapshot.hasError)
           return Center(
             child: Text('error-text'.i18n()),

@@ -47,6 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  Color _getColorBalance(double balance) {
+    if (balance < 0) {
+      return Colors.red;
+    } else {
+      return Theme.of(context).colorScheme.onSurface;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               child: Text(
                 '${formatCurrency(totalBankBalance)}',
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                  color: _getColorBalance(totalBankBalance),
+                ),
               ),
               alignment: Alignment.center,
               padding: EdgeInsets.all(20),
