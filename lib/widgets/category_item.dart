@@ -8,6 +8,7 @@ class CategoryItem extends StatelessWidget {
   final String? selectedCatID;
   final bool multiSelection;
   final List<Category>? selectedCatList;
+  final bool disabled;
 
   CategoryItem({
     required this.categoryItem,
@@ -15,6 +16,7 @@ class CategoryItem extends StatelessWidget {
     this.selectedCatID,
     this.multiSelection: false,
     this.selectedCatList,
+    this.disabled: false,
   });
 
   @override
@@ -30,25 +32,28 @@ class CategoryItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: multiSelection
-                    ? (selectedCatList!.contains(categoryItem)
-                        ? getColor(categoryItem.color!)
-                        : Colors.transparent)
-                    : (selectedCatID == '${categoryItem.id}'
-                        ? getColor(categoryItem.color!)
-                        : Colors.transparent),
+                      ? (selectedCatList!.contains(categoryItem)
+                          ? getColor(categoryItem.color!)
+                          : Colors.transparent)
+                      : (selectedCatID == '${categoryItem.id}'
+                          ? getColor(categoryItem.color!)
+                          : Colors.transparent),
                 ),
-                color: multiSelection
-                    ? (selectedCatList!.contains(categoryItem)
-                        ? getColor(categoryItem.color!).withOpacity(0.25)
-                        : getColor(categoryItem.color!).withOpacity(0.08))
-                    : (selectedCatID == '${categoryItem.id}'
-                        ? getColor(categoryItem.color!).withOpacity(0.25)
-                        : getColor(categoryItem.color!).withOpacity(0.08)),
+                color: disabled
+                    ? Colors.transparent
+                    : multiSelection
+                        ? (selectedCatList!.contains(categoryItem)
+                            ? getColor(categoryItem.color!).withOpacity(0.25)
+                            : getColor(categoryItem.color!).withOpacity(0.08))
+                        : (selectedCatID == '${categoryItem.id}'
+                            ? getColor(categoryItem.color!).withOpacity(0.25)
+                            : getColor(categoryItem.color!).withOpacity(0.08)),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Image.asset(categoryItem.symbol!,
-                    color: getColor(categoryItem.color!)),
+                    color:
+                        disabled ? Colors.grey : getColor(categoryItem.color!)),
               ),
             ),
           ),
@@ -62,7 +67,7 @@ class CategoryItem extends StatelessWidget {
             style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: getColor(categoryItem.color!)),
+                color: disabled ? Colors.grey : getColor(categoryItem.color!)),
             textAlign: TextAlign.center,
           ),
         ),

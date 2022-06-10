@@ -13,8 +13,8 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 // import 'package:haushaltsbuch/models/standing_order.dart';
 // import 'package:haushaltsbuch/models/transfer.dart';
 // import 'package:uuid/uuid.dart';
-// import 'package:haushaltsbuch/screens/excel_export.dart';
 import 'package:haushaltsbuch/screens/settings/credits_screen.dart';
+import 'package:haushaltsbuch/screens/settings/excel_export.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
@@ -132,16 +132,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               );
             },
           ),
-          //Excel Export
-          // GestureDetector(
-          //   child: ListTile(
-          //     leading: Icon(Icons.table_chart_outlined),
-          //     title: Text('Ecel Export'),
-          //   ),
-          //   onTap: () {
-          //     Navigator.of(context).pushNamed(ExcelExport.routeName);
-          //   },
-          // ),
+          // Excel Export
+          GestureDetector(
+            child: ListTile(
+              leading: Icon(Icons.table_chart_outlined),
+              title: Text('Excel Export'),
+            ),
+            onTap: () {
+              Navigator.of(context).pushNamed(ExcelExport.routeName);
+            },
+          ),
           // GestureDetector(
           //   child: ListTile(
           //     leading: Icon(Icons.slideshow),

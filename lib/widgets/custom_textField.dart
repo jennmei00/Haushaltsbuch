@@ -24,17 +24,26 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(this.keyboardType);
     return TextFormField(
       keyboardType: this.keyboardType,
       textInputAction: this.textInputAction,
       controller: this.controller,
-      inputFormatters: this.keyboardType != TextInputType.number
-          ? null
-          : [
-              FilteringTextInputFormatter.allow(RegExp(
-                Localizations.localeOf(context).countryCode == 'US' ? r'^(?:-?(?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?' :
-                  r'^(?:-?(?:[0-9]+))?(?:\,[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?')),
-            ],
+      inputFormatters: this.keyboardType == TextInputType.number &&
+              keyboardType.decimal == false
+          ? [
+              FilteringTextInputFormatter.allow(RegExp(r'^([0-9]*)?')),
+            ]
+          : this.keyboardType == TextInputType.number
+              ? [
+                  FilteringTextInputFormatter.allow(RegExp(Localizations
+                                  .localeOf(context)
+                              .countryCode ==
+                          'US'
+                      ? r'^(?:-?(?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?'
+                      : r'^(?:-?(?:[0-9]+))?(?:\,[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?')),
+                ]
+              : null,
       validator: (value) {
         if ((value == null || value.isEmpty) && mandatory) {
           return 'mandatory-field'.i18n();
