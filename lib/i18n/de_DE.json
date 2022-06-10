@@ -146,5 +146,11 @@
     "import": "Importieren",
     "export-import-data": "Daten exportieren/importieren",
     "export-import-data-text": "Daten exportieren oder importieren?",
-    "home": "Home"
+    "home": "Home",
+    "variable-categories": "Variable Kategorien",
+    "freetime-categories": "Freizeit Kategorien",
+    "big-expenses": "Großausgaben",
+    "big-expenses-amount": "ab Betrag",
+    "preview": "Vorschau",
+    "categories-selected": "Kategorien ausgewählt"
 }

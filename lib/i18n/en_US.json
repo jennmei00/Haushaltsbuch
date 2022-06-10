@@ -146,5 +146,11 @@
     "import": "Import",
     "export-import-data": "Export/Import Data",
     "export-import-data-text": "Export or import data?",
-    "home": "Home"
+    "home": "Home",
+    "variable-categories": "Variable Categories",
+    "freetime-categories": "Freetime Categories",
+    "big-expenses": "Big Expenses",
+    "big-expenses-amount": "From Amount",
+    "preview": "Preview",
+    "categories-selected": "Categories selected"
 }

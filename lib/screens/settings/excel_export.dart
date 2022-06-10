@@ -27,8 +27,8 @@ class _ExcelExportState extends State<ExcelExport> {
   List<Category> _variableExpenses = [];
   List<Category> _freetimeExpenses = [];
   bool _bigExpenses = false;
-  TextEditingController _bigExpenseAmountController = TextEditingController(text: '1000');
-  double _bigExpenseAmount = 1000;
+  TextEditingController _bigExpenseAmountController =
+      TextEditingController(text: '1000');
   String _selectedAccountsText = 'no-accounts-selected'.i18n();
 
   @override
@@ -161,6 +161,8 @@ class _ExcelExportState extends State<ExcelExport> {
                 textAlign: TextAlign.left,
                 // ),
               ),
+              subtitle: Text(
+                  '${_variableExpenses.length} ${"categories-selected".i18n()}'),
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -212,6 +214,9 @@ class _ExcelExportState extends State<ExcelExport> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 textAlign: TextAlign.left,
               ),
+              subtitle: Text(
+                  '${_freetimeExpenses.length} ${"categories-selected".i18n()}'),
+
               // ),
               children: [
                 Padding(
@@ -273,11 +278,12 @@ class _ExcelExportState extends State<ExcelExport> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     title: CustomTextField(
-                        controller: _bigExpenseAmountController,
-                        mandatory: true,
-                        fieldname: 'amount'.i18n(),
-                        keyboardType: TextInputType.numberWithOptions(decimal: false),
-                        ),
+                      controller: _bigExpenseAmountController,
+                      mandatory: true,
+                      fieldname: 'amount'.i18n(),
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: false),
+                    ),
                   ),
                 ),
         ],
@@ -287,6 +293,13 @@ class _ExcelExportState extends State<ExcelExport> {
       //     child: ElevatedButton(child: Text('Export'), onPressed: createExcel),
       //   ),
       // ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ElevatedButton(onPressed: () {}, child: Text('preview'.i18n())),
+          ElevatedButton(onPressed: () {}, child: Text('export'.i18n()))
+        ],
+      ),
     );
   }
 
