@@ -1,8 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:currency_picker/currency_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 // import 'package:haushaltsbuch/models/account.dart';
@@ -12,8 +13,8 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 // import 'package:haushaltsbuch/models/standing_order.dart';
 // import 'package:haushaltsbuch/models/transfer.dart';
 // import 'package:uuid/uuid.dart';
-// import 'package:haushaltsbuch/screens/excel_export.dart';
 import 'package:haushaltsbuch/screens/settings/credits_screen.dart';
+import 'package:haushaltsbuch/screens/settings/excel_export.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
@@ -22,8 +23,10 @@ import 'package:haushaltsbuch/services/theme_notifier.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:localization/localization.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SettingsScreen extends StatefulWidget {
   static final routeName = '/settings_screen';
@@ -42,6 +45,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
     var prefs = await SharedPreferences.getInstance();
     prefs.setBool('darkMode', value);
     Globals.isDarkmode = value;
+  }
+
+  Future<File> _writeDBFileToDownloadFolder() async {
+    String dbName = "Haushaltsbuch.db";
+    String? downloadPath = await FileHelper().getDownloadPath();
+    final dbPath = await getDatabasesPath();
+
+    var dbFile = File('$dbPath/$dbName');
+    var filePath = downloadPath! + '/$dbName';
+    var dbFileBytes = dbFile.readAsBytesSync();
+    var bytes = ByteData.view(dbFileBytes.buffer);
+    final buffer = bytes.buffer;
+
+    return File(filePath).writeAsBytes(buffer.asUint8List(
+        dbFileBytes.offsetInBytes, dbFileBytes.lengthInBytes));
+  }
+
+  Future<void> _writeExternFileToDBFolder() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      if (file.path.endsWith('Haushaltsbuch.db')) {
+        final dbPath = await getDatabasesPath() + '/Haushaltsbuch.db';
+        var dbFileBytes = file.readAsBytesSync();
+        var bytes = ByteData.view(dbFileBytes.buffer);
+        final buffer = bytes.buffer;
+        File(dbPath).writeAsBytes(buffer.asUint8List(
+            dbFileBytes.offsetInBytes, dbFileBytes.lengthInBytes));
+
+        Phoenix.rebirth(context);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('invalid-file'.i18n())));
+      }
+    } else {
+      //canceld pick
+    }
   }
 
   @override
@@ -91,16 +132,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               );
             },
           ),
-          //Excel Export
-          // GestureDetector(
-          //   child: ListTile(
-          //     leading: Icon(Icons.table_chart_outlined),
-          //     title: Text('Ecel Export'),
-          //   ),
-          //   onTap: () {
-          //     Navigator.of(context).pushNamed(ExcelExport.routeName);
-          //   },
-          // ),
+          // Excel Export
+          GestureDetector(
+            child: ListTile(
+              leading: Icon(Icons.table_chart_outlined),
+              title: Text('Excel Export'),
+            ),
+            onTap: () {
+              Navigator.of(context).pushNamed(ExcelExport.routeName);
+            },
+          ),
           // GestureDetector(
           //   child: ListTile(
           //     leading: Icon(Icons.slideshow),
@@ -110,6 +151,59 @@ class _SettingsScreenState extends State<SettingsScreen> {
           //     // showTutorial();
           //   },
           // ),
+          GestureDetector(
+            child: ListTile(
+              leading: Icon(Icons.download),
+              title: Text('export-import-data'.i18n()),
+            ),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('export-import-data'.i18n()),
+                    content: Text('export-import-data-text'.i18n()),
+                    actions: <Widget>[
+                      TextButton(
+                          onPressed: () async {
+                            var status = await Permission.storage.status;
+                            if (status.isDenied) {
+                              await Permission.storage.request();
+                              return;
+                            }
+
+                            File file = await _writeDBFileToDownloadFolder();
+                            if (await file.length() > 0) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text('save-database'.i18n())));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          'couldnt-save-database'.i18n())));
+                            }
+
+                            Navigator.of(context).pop(true);
+                          },
+                          child: Text('export'.i18n())),
+                      TextButton(
+                          onPressed: () async {
+                            _writeExternFileToDBFolder();
+
+                            Navigator.of(context).pop(true);
+                          },
+                          child: Text('import'.i18n())),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: Text("cancel".i18n()),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
           GestureDetector(
             child: ListTile(
               leading: Icon(Icons.support_agent),

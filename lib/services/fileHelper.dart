@@ -116,4 +116,25 @@ class FileHelper {
     // Write the file
     return file.writeAsString('$mapString', mode: FileMode.append);
   }
+
+  Future<String?> getDownloadPath() async {
+    Directory? directory;
+    try {
+      if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = Directory('/storage/emulated/0/Download');
+        // Put file in global download folder, if for an unknown reason it didn't exist, we fallback
+        // ignore: avoid_slow_async_io
+        if (!await directory.exists())
+          directory = await getExternalStorageDirectory();
+      }
+    } catch (ex) {
+      print("Cannot get download folder path");
+      
+      FileHelper()
+          .writeAppLog(AppLog(ex.toString(), 'getDownloadPath'));
+    }
+    return directory?.path;
+  }
 }

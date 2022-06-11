@@ -17,7 +17,6 @@ import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
 import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/popup.dart';
-import 'package:intl/intl.dart';
 import 'package:localization/localization.dart';
 import 'package:uuid/uuid.dart';
 
