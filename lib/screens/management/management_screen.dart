@@ -40,7 +40,7 @@ class _ManagementScreenState extends State<ManagementScreen>
                 autofocus: true,
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: 'serach'.i18n(),
+                  hintText: 'search'.i18n(),
                   hintStyle: TextStyle(color: Colors.white30),
                   border: UnderlineInputBorder(borderSide: BorderSide.none),
                 ),
