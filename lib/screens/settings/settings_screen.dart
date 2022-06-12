@@ -48,11 +48,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<File> _writeDBFileToDownloadFolder() async {
-    String dbName = "Haushaltsbuch.db";
+    String dbName = "HaushaltsbuchDownload.db";
     String? downloadPath = await FileHelper().getDownloadPath();
     final dbPath = await getDatabasesPath();
 
-    var dbFile = File('$dbPath/$dbName');
+    var dbFile = File('$dbPath/Haushaltsbuch.db');
     var filePath = downloadPath! + '/$dbName';
     var dbFileBytes = dbFile.readAsBytesSync();
     var bytes = ByteData.view(dbFileBytes.buffer);
@@ -67,13 +67,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     if (result != null) {
       File file = File(result.files.single.path!);
-      if (file.path.endsWith('Haushaltsbuch.db')) {
+      if (file.path.endsWith('HaushaltsbuchDownload.db')) {
         final dbPath = await getDatabasesPath() + '/Haushaltsbuch.db';
         var dbFileBytes = file.readAsBytesSync();
         var bytes = ByteData.view(dbFileBytes.buffer);
+        print(bytes);
         final buffer = bytes.buffer;
         File(dbPath).writeAsBytes(buffer.asUint8List(
             dbFileBytes.offsetInBytes, dbFileBytes.lengthInBytes));
+
+        FileHelper().deleteFile('AccountVisibility');
 
         Phoenix.rebirth(context);
       } else {
@@ -82,6 +85,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       }
     } else {
       //canceld pick
+      print('canceld pick');
     }
   }
 
@@ -176,7 +180,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             if (await file.length() > 0) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                      content: Text('save-database'.i18n())));
+                                      content: Text('saved-database'.i18n())));
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

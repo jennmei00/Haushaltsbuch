@@ -68,6 +68,18 @@ class FileHelper {
     return file.existsSync();
   }
 
+  Future<void> deleteFile(String fileName) async {
+    File file;
+    switch(fileName) {
+      case 'AccountVisibility':
+        file = await _accountVisibilityFile;
+        break;
+      default: 
+        return;
+    }
+      file.deleteSync();
+  }
+
   Future<Map<String, bool>> readMap() async {
     try {
       final file = await _accountVisibilityFile;

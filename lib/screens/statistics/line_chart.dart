@@ -36,13 +36,12 @@ class _LineChartState extends State<LineChart> {
     if (element.creationDate!.isBefore(firstAccountCreation))
       firstAccountCreation = element.creationDate!;
 
-    var firstDate;
-
-    firstDate = getMondayOfWeek(element.creationDate!);
+    var firstDate = getMondayOfWeek(element.creationDate!);
+    double firstBankBalance = _getFirstBankBalance(element);
 
     _chartData.add(_ChartData(
       firstDate,
-      element.initialBankBalance!,
+      firstBankBalance,
     ));
 
     if (AllData.postings
@@ -50,10 +49,11 @@ class _LineChartState extends State<LineChart> {
                 val.account == null ? false : val.account!.id == element.id)
             .length ==
         0) {
-      _chartData.add(_ChartData(DateTime.now(), element.initialBankBalance!));
+      _chartData.add(_ChartData(DateTime.now(), firstBankBalance));
     } else {
-      int i = 7;
-      double newAmount = element.initialBankBalance!;
+      int i = 0;
+      double newAmount = firstBankBalance;
+      // if((Jiffy(firstDate).add(days: i).dateTime.isBefore(DateTime.now()))
       while (Jiffy(firstDate).add(days: i).dateTime.isBefore(DateTime.now())) {
         List<Posting> postList = AllData.postings
             .where((post) => post.account == null
@@ -69,16 +69,16 @@ class _LineChartState extends State<LineChart> {
 
         List<Transfer> transList = AllData.transfers
             .where((trans) =>
-                (trans.accountFrom != null
-                    ? trans.accountFrom!.id == element.id
-                    : false) ||
-                (trans.accountTo != null
+                ((trans.accountFrom != null
+                        ? trans.accountFrom!.id == element.id
+                        : false) ||
+                    (trans.accountTo != null
                         ? trans.accountTo!.id == element.id
-                        : false) &&
-                    (trans.date!.isBefore(
-                            Jiffy(firstDate).add(days: i + 7).dateTime) &&
-                        trans.date!
-                            .isAfter(Jiffy(firstDate).add(days: i).dateTime)))
+                        : false)) &&
+                (trans.date!
+                        .isBefore(Jiffy(firstDate).add(days: i + 7).dateTime) &&
+                    trans.date!
+                        .isAfter(Jiffy(firstDate).add(days: i).dateTime)))
             .toList();
 
         transList
@@ -254,12 +254,10 @@ class _LineChartState extends State<LineChart> {
                         const MajorTickLines(color: Colors.transparent),
                   ),
                   primaryYAxis: NumericAxis(
-                    majorTickLines:
-                        const MajorTickLines(color: Colors.transparent),
-                    axisLine: const AxisLine(width: 0),
-                    numberFormat:
-                        currencyNumberFormat()
-                  ),
+                      majorTickLines:
+                          const MajorTickLines(color: Colors.transparent),
+                      axisLine: const AxisLine(width: 0),
+                      numberFormat: currencyNumberFormat()),
                   series: _getDefaultLineSeries(),
                 ),
               ),
@@ -389,6 +387,35 @@ class _LineChartState extends State<LineChart> {
           name: e.title);
     }).toList();
   }
+}
+
+double _getFirstBankBalance(Account ac) {
+  double amount = ac.bankBalance!;
+
+  AllData.postings
+      .where((element) =>
+          element.account == null ? false : element.account!.id == ac.id)
+      .forEach((posting) {
+    if (posting.postingType == PostingType.income) amount -= posting.amount!;
+    if (posting.postingType == PostingType.expense) amount += posting.amount!;
+  });
+
+  AllData.transfers
+      .where((element) => element.accountFrom == null
+          ? false
+          : element.accountFrom!.id == ac.id)
+      .forEach((tr) {
+    amount += tr.amount!;
+  });
+
+  AllData.transfers
+      .where((element) =>
+          element.accountTo == null ? false : element.accountTo!.id == ac.id)
+      .forEach((tr) {
+    amount -= tr.amount!;
+  });
+
+  return amount;
 }
 
 class _ChartData {
