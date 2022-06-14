@@ -38,7 +38,7 @@ class _LineChartState extends State<LineChart> {
 
     var firstDate = getMondayOfWeek(element.creationDate!);
     double firstBankBalance = _getFirstBankBalance(element);
-
+ 
     _chartData.add(_ChartData(
       firstDate,
       firstBankBalance,

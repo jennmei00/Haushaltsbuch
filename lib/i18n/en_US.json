@@ -152,5 +152,21 @@
     "big-expenses": "Big Expenses",
     "big-expenses-amount": "From Amount",
     "preview": "Preview",
-    "categories-selected": "Categories selected"
+    "categories-selected": "Categories selected",
+    "category-selected": "Category selected",
+    "start": "Start",
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December",
+    "select-account": "Please select accounts!",
+    "select-categories": "Please select categories!"
 }

@@ -13,16 +13,16 @@ enum Repetition {
 }
 
 enum Month {
-  Januar,
-  Februar,
-  Maerz,
-  April,
-  Mai,
-  Juni,
-  Juli,
-  August,
-  September,
-  Oktober,
-  November,
-  Dezember,
+  january,
+  february,
+  march,
+  april,
+  may,
+  june,
+  july,
+  august,
+  september,
+  october,
+  november,
+  december,
 }
