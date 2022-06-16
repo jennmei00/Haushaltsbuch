@@ -28,20 +28,20 @@ class CustomTextField extends StatelessWidget {
       keyboardType: this.keyboardType,
       textInputAction: this.textInputAction,
       controller: this.controller,
-      inputFormatters: this.keyboardType == TextInputType.number &&
-              keyboardType.decimal == false
-          ? [
-              FilteringTextInputFormatter.allow(RegExp(r'^([0-9]*)?')),
-            ]
-          : this.keyboardType == TextInputType.number
-              ? [
-                  FilteringTextInputFormatter.allow(RegExp(Localizations
-                                  .localeOf(context)
-                              .countryCode ==
-                          'US'
-                      ? r'^(?:-?(?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?'
-                      : r'^(?:-?(?:[0-9]+))?(?:\,[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?')),
-                ]
+      inputFormatters:
+          this.keyboardType == TextInputType.number
+              // ? this.keyboardType.decimal == true
+                  ? [
+                      FilteringTextInputFormatter.allow(RegExp(Localizations
+                                      .localeOf(context)
+                                  .countryCode ==
+                              'US'
+                          ? r'^(?:-?(?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?'
+                          : r'^(?:-?(?:[0-9]+))?(?:\,[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?')),
+                    ]
+                  // : [
+                  //     FilteringTextInputFormatter.allow(RegExp(r'^([0-9]*)?')),
+                  //   ]
               : null,
       validator: (value) {
         if ((value == null || value.isEmpty) && mandatory) {

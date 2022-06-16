@@ -7,6 +7,7 @@ import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
+import 'package:haushaltsbuch/services/excelHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
@@ -191,8 +192,9 @@ class _ExcelExportState extends State<ExcelExport> {
                   validator: (val) {
                     if (_selectedAccounts.length == 0) {
                       return 'select-account'.i18n();
-                    } else
+                    } else {
                       return null;
+                    }
                   },
                 )),
             Card(
@@ -246,8 +248,9 @@ class _ExcelExportState extends State<ExcelExport> {
                   if (_freetimeExpenses.length == 0 &&
                       _variableExpenses.length == 0) {
                     return 'select-categories'.i18n();
-                  } else
+                  } else {
                     return null;
+                  }
                 },
               ),
             ),
@@ -259,7 +262,7 @@ class _ExcelExportState extends State<ExcelExport> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   textAlign: TextAlign.left,
                 ),
-                subtitle: Text(_variableExpenses.length == 1
+                subtitle: Text(_freetimeExpenses.length == 1
                     ? '1 ${"category-selected".i18n()}'
                     : '${_freetimeExpenses.length} ${"categories-selected".i18n()}'),
                 children: [
@@ -302,8 +305,9 @@ class _ExcelExportState extends State<ExcelExport> {
                   if (_freetimeExpenses.length == 0 &&
                       _variableExpenses.length == 0) {
                     return 'select-categories'.i18n();
-                  } else
+                  } else {
                     return null;
+                  }
                 },
               ),
             ),
@@ -359,27 +363,12 @@ class _ExcelExportState extends State<ExcelExport> {
     );
   }
 
-  Future<void> createExcel() async {
-    final excel.Workbook workbook = excel.Workbook();
-    final excel.Worksheet sheet = workbook.worksheets[0];
-    sheet.getRangeByName('A1').setText('Hello World!');
-    sheet.getRangeByName('A2').setNumber(2);
-    sheet.getRangeByName('A3').setNumber(5);
-    sheet.getRangeByName('A4').setFormula('=A2+A3');
-
-    final List<int> bytes = workbook.saveAsStream();
-    workbook.dispose();
-
-    final String path = (await getApplicationDocumentsDirectory()).path;
-    final String fileName = '$path/Output.xlsx';
-    final File file = File(fileName);
-    await file.writeAsBytes(bytes, flush: true);
-    OpenFile.open(fileName);
-    print(path);
-  }
+  Future<void> createExcel() async {}
 
   void _showPreview() {
+    print(_checkIfSelected());
     if (_checkIfSelected()) {
+      // ExcelHelper().createExcel();
     } else
       return;
   }
@@ -391,18 +380,16 @@ class _ExcelExportState extends State<ExcelExport> {
   }
 
   bool _checkIfSelected() {
-    bool check = true;
     if (_formKey.currentState!.validate()) {
-      check = false;
-    }
-    if (!check) {
+      print(_formKey.currentContext);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           'snackbar-textfield'.i18n(),
           textAlign: TextAlign.center,
         ),
       ));
+      return false;
     }
-    return check;
+    return true;
   }
 }
