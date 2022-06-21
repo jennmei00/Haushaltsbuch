@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool mandatory; //check for mandatory field
   final String fieldname; //substitute for an id
+  final bool noDecimal;
 
   CustomTextField({
     this.labelText: '',
@@ -20,6 +21,7 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     required this.mandatory,
     required this.fieldname,
+    this.noDecimal: false,
   });
 
   @override
@@ -28,20 +30,23 @@ class CustomTextField extends StatelessWidget {
       keyboardType: this.keyboardType,
       textInputAction: this.textInputAction,
       controller: this.controller,
-      inputFormatters:
-          this.keyboardType == TextInputType.number
+      inputFormatters: noDecimal
+          ? [
+              FilteringTextInputFormatter.allow(RegExp(r'^([0-9]*)?')),
+            ]
+          : this.keyboardType == TextInputType.number
               // ? this.keyboardType.decimal == true
-                  ? [
-                      FilteringTextInputFormatter.allow(RegExp(Localizations
-                                      .localeOf(context)
-                                  .countryCode ==
-                              'US'
-                          ? r'^(?:-?(?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?'
-                          : r'^(?:-?(?:[0-9]+))?(?:\,[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?')),
-                    ]
-                  // : [
-                  //     FilteringTextInputFormatter.allow(RegExp(r'^([0-9]*)?')),
-                  //   ]
+              ? [
+                  FilteringTextInputFormatter.allow(RegExp(Localizations
+                                  .localeOf(context)
+                              .countryCode ==
+                          'US'
+                      ? r'^(?:-?(?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?'
+                      : r'^(?:-?(?:[0-9]+))?(?:\,[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?')),
+                ]
+              // : [
+              //     FilteringTextInputFormatter.allow(RegExp(r'^([0-9]*)?')),
+              //   ]
               : null,
       validator: (value) {
         if ((value == null || value.isEmpty) && mandatory) {

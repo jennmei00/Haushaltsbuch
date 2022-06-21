@@ -137,7 +137,8 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                     physics: BouncingScrollPhysics(),
                     shrinkWrap: true,
                     padding: EdgeInsets.all(8),
-                    crossAxisCount: 4,
+                    //TODO
+                    crossAxisCount: 4, //(MediaQuery.of(context).size.width ~/ 90).toInt(),
                     crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
                     mainAxisSpacing: 20,
                     children: Globals.imagePathsCategoryIcons

@@ -283,7 +283,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                                     //     .width /
                                     // (MediaQuery.of(context).size.height / 1.6),
                                     padding: EdgeInsets.all(10),
-                                    crossAxisCount: 3,
+                                    //TODO:
+                                    crossAxisCount: 4, // (MediaQuery.of(context).size.width ~/ 100).toInt(),
                                     crossAxisSpacing:
                                         MediaQuery.of(context).size.width *
                                             0.04,

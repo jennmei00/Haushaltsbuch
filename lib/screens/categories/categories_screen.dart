@@ -31,6 +31,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int test = (MediaQuery.of(context).size.width ~/ 25).toInt();
+    print(test);
     return Scaffold(
       appBar: AppBar(
         title: Text('categories'.i18n()),
@@ -48,7 +50,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     scrollDirection: Axis.vertical,
                     childAspectRatio: 0.8,
                     padding: EdgeInsets.all(20),
-                    crossAxisCount: 3,
+                    //TODO:
+                    crossAxisCount:
+                        3, //(MediaQuery.of(context).size.width ~/ 120).toInt(),
                     crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
                     mainAxisSpacing: 12,
                     children: _categoryList

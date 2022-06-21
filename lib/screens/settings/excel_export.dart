@@ -1,23 +1,17 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/account.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/models/category.dart';
-import 'package:haushaltsbuch/models/dropdown_classes.dart';
 import 'package:haushaltsbuch/models/enums.dart';
 import 'package:haushaltsbuch/services/excelHelper.dart';
-import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:haushaltsbuch/widgets/category_item.dart';
 import 'package:haushaltsbuch/widgets/custom_textField.dart';
-import 'package:haushaltsbuch/widgets/dropdown.dart';
 import 'package:haushaltsbuch/widgets/expanstionTile_formField.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:localization/localization.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel;
+import 'package:validators/sanitizers.dart';
 
 class ExcelExport extends StatefulWidget {
   const ExcelExport({Key? key}) : super(key: key);
@@ -334,6 +328,7 @@ class _ExcelExportState extends State<ExcelExport> {
                             fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       title: CustomTextField(
+                        noDecimal: true,
                         controller: _bigExpenseAmountController,
                         mandatory: true,
                         fieldname: 'amount'.i18n(),
@@ -366,20 +361,66 @@ class _ExcelExportState extends State<ExcelExport> {
   Future<void> createExcel() async {}
 
   void _showPreview() {
-    print(_checkIfSelected());
-    if (_checkIfSelected()) {
-      // ExcelHelper().createExcel();
-    } else
-      return;
+    // print(_checkIfSelected());
+    // if (_checkIfSelected()) {
+    DateTimeRange dateRange = DateTimeRange(
+        start: DateTime(_startYear, _startMonth.index + 1),
+        end: DateTime(_endYear, _endMonth.index + 1));
+    ExcelHelper().createExcel(
+      // startMonth: _startMonth,
+      // startYear: _startYear,
+      // endMonth: _endMonth,
+      // endYear: _endYear,
+      download: false,
+      dateRange: dateRange,
+      selectedAccounts: _selectedAccounts,
+      variableExpenses: _variableExpenses,
+      freetimeExpenses: _freetimeExpenses,
+      bigExpenses: _bigExpenses,
+      bigExpensesAmount: toDouble(_bigExpenseAmountController.text),
+      context: context,
+    );
+    // } else
+    //   return;
   }
 
   void _exportFile() {
-    if (_checkIfSelected()) {
-    } else
-      return;
+    DateTimeRange dateRange = DateTimeRange(
+        start: DateTime(_startYear, _startMonth.index + 1),
+        end: DateTime(_endYear, _endMonth.index + 1));
+    ExcelHelper().createExcel(
+      // startMonth: _startMonth,
+      // startYear: _startYear,
+      // endMonth: _endMonth,
+      // endYear: _endYear,
+      download: true,
+      dateRange: dateRange,
+      selectedAccounts: _selectedAccounts,
+      variableExpenses: _variableExpenses,
+      freetimeExpenses: _freetimeExpenses,
+      bigExpenses: _bigExpenses,
+      bigExpensesAmount: toDouble(_bigExpenseAmountController.text),
+      context: context,
+    );
+    // if (_checkIfSelected()) {
+    // } else
+    // //   return;
+
+  
+    //                         if (await file.length() > 0) {
+    //                           ScaffoldMessenger.of(context).showSnackBar(
+    //                               SnackBar(
+    //                                   content: Text('saved-database'.i18n())));
+    //                         } else {
+    //                           ScaffoldMessenger.of(context).showSnackBar(
+    //                               SnackBar(
+    //                                   content: Text(
+    //                                       'couldnt-save-database'.i18n())));
+    //                         }
   }
 
   bool _checkIfSelected() {
+    //TODO: Check if start is before end
     if (_formKey.currentState!.validate()) {
       print(_formKey.currentContext);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
