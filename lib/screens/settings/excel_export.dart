@@ -193,7 +193,7 @@ class _ExcelExportState extends State<ExcelExport> {
                 )),
             Card(
               elevation: 5,
-              child: ExpansionTileFormField(
+              child: ExpansionTile(
                 title: Text(
                   'variable-categories'.i18n(),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -238,19 +238,19 @@ class _ExcelExportState extends State<ExcelExport> {
                     ),
                   ),
                 ],
-                validator: (val) {
-                  if (_freetimeExpenses.length == 0 &&
-                      _variableExpenses.length == 0) {
-                    return 'select-categories'.i18n();
-                  } else {
-                    return null;
-                  }
-                },
+                // validator: (val) {
+                //   if (_freetimeExpenses.length == 0 &&
+                //       _variableExpenses.length == 0) {
+                //     return 'select-categories'.i18n();
+                //   } else {
+                //     return null;
+                //   }
+                // },
               ),
             ),
             Card(
               elevation: 5,
-              child: ExpansionTileFormField(
+              child: ExpansionTile(
                 title: Text(
                   'freetime-categories'.i18n(),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -295,14 +295,14 @@ class _ExcelExportState extends State<ExcelExport> {
                     ),
                   ),
                 ],
-                validator: (val) {
-                  if (_freetimeExpenses.length == 0 &&
-                      _variableExpenses.length == 0) {
-                    return 'select-categories'.i18n();
-                  } else {
-                    return null;
-                  }
-                },
+                // validator: (val) {
+                //   if (_freetimeExpenses.length == 0 &&
+                //       _variableExpenses.length == 0) {
+                //     return 'select-categories'.i18n();
+                //   } else {
+                //     return null;
+                //   }
+                // },
               ),
             ),
             Card(
@@ -361,68 +361,67 @@ class _ExcelExportState extends State<ExcelExport> {
   Future<void> createExcel() async {}
 
   void _showPreview() {
-    // print(_checkIfSelected());
-    // if (_checkIfSelected()) {
     DateTimeRange dateRange = DateTimeRange(
-        start: DateTime(_startYear, _startMonth.index + 1),
-        end: DateTime(_endYear, _endMonth.index + 1));
-    ExcelHelper().createExcel(
-      // startMonth: _startMonth,
-      // startYear: _startYear,
-      // endMonth: _endMonth,
-      // endYear: _endYear,
-      download: false,
-      dateRange: dateRange,
-      selectedAccounts: _selectedAccounts,
-      variableExpenses: _variableExpenses,
-      freetimeExpenses: _freetimeExpenses,
-      bigExpenses: _bigExpenses,
-      bigExpensesAmount: toDouble(_bigExpenseAmountController.text),
-      context: context,
+      start: Jiffy(DateTime(_startYear, _startMonth.index + 1))
+          .startOf(Units.MONTH)
+          .dateTime,
+      end: Jiffy(DateTime(_endYear, _endMonth.index + 1))
+          .endOf(Units.MONTH)
+          .dateTime,
     );
-    // } else
-    //   return;
+
+    if (_checkIfSelected()) {
+      ExcelHelper().createExcel(
+        download: false,
+        dateRange: dateRange,
+        selectedAccounts: _selectedAccounts,
+        variableExpenses: _variableExpenses,
+        freetimeExpenses: _freetimeExpenses,
+        bigExpenses: _bigExpenses,
+        bigExpensesAmount: toDouble(_bigExpenseAmountController.text),
+        context: context,
+      );
+    } else
+      return;
   }
 
   void _exportFile() {
     DateTimeRange dateRange = DateTimeRange(
-        start: DateTime(_startYear, _startMonth.index + 1),
-        end: DateTime(_endYear, _endMonth.index + 1));
-    ExcelHelper().createExcel(
-      // startMonth: _startMonth,
-      // startYear: _startYear,
-      // endMonth: _endMonth,
-      // endYear: _endYear,
-      download: true,
-      dateRange: dateRange,
-      selectedAccounts: _selectedAccounts,
-      variableExpenses: _variableExpenses,
-      freetimeExpenses: _freetimeExpenses,
-      bigExpenses: _bigExpenses,
-      bigExpensesAmount: toDouble(_bigExpenseAmountController.text),
-      context: context,
+      start: Jiffy(DateTime(_startYear, _startMonth.index + 1))
+          .startOf(Units.MONTH)
+          .dateTime,
+      end: Jiffy(DateTime(_endYear, _endMonth.index + 1))
+          .endOf(Units.MONTH)
+          .dateTime,
     );
-    // if (_checkIfSelected()) {
-    // } else
-    // //   return;
 
-  
-    //                         if (await file.length() > 0) {
-    //                           ScaffoldMessenger.of(context).showSnackBar(
-    //                               SnackBar(
-    //                                   content: Text('saved-database'.i18n())));
-    //                         } else {
-    //                           ScaffoldMessenger.of(context).showSnackBar(
-    //                               SnackBar(
-    //                                   content: Text(
-    //                                       'couldnt-save-database'.i18n())));
-    //                         }
+    if (_checkIfSelected()) {
+      ExcelHelper().createExcel(
+        download: true,
+        dateRange: dateRange,
+        selectedAccounts: _selectedAccounts,
+        variableExpenses: _variableExpenses,
+        freetimeExpenses: _freetimeExpenses,
+        bigExpenses: _bigExpenses,
+        bigExpensesAmount: toDouble(_bigExpenseAmountController.text),
+        context: context,
+      );
+    } else
+      return;
   }
 
   bool _checkIfSelected() {
-    //TODO: Check if start is before end
-    if (_formKey.currentState!.validate()) {
-      print(_formKey.currentContext);
+    if (DateTime(_startYear, _startMonth.index + 1)
+        .isAfter(DateTime(_endYear, _endMonth.index + 1))) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'snackbar-textfield-date-range'.i18n(),
+          textAlign: TextAlign.center,
+        ),
+      ));
+      return false;
+    }
+    if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           'snackbar-textfield'.i18n(),

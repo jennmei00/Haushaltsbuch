@@ -168,5 +168,6 @@
     "november": "November",
     "december": "December",
     "select-account": "Please select accounts!",
-    "select-categories": "Please select categories!"
+    "select-categories": "Please select categories!",
+    "snackbar-textfield-date-range": "The start date must be before the end date!"
 }

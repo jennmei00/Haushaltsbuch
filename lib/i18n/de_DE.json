@@ -168,5 +168,6 @@
     "november": "November",
     "december": "Dezember",
     "select-account": "Bitte Konten auswählen!",
-    "select-categories": "Bitte Kategorien auswählen!"
+    "select-categories": "Bitte Kategorien auswählen!",
+    "snackbar-textfield-date-range": "Das Startdatum muss vor dem Enddatum liegen!"
 }

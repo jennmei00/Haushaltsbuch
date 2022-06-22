@@ -46,12 +46,6 @@ String formatCurrency(double amount, {String locale = "de"}) {
   return '$formattedCurrency';
 }
 
-// double formatAmountExcel(double amount) {
-//   double a = 
-
-//   return a;
-// }
-
 NumberFormat currencyNumberFormat() {
   return NumberFormat.currency(
       locale: "de", symbol: "${Globals.currency.symbol}");

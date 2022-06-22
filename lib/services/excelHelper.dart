@@ -83,7 +83,7 @@ class ExcelHelper {
     List<StandingOrder> expenseStandingOrders = [];
 
     //Fill Lists
-    _fillLists(dateRange, incomeStandingOrderPostings, expenseStandingOrderPostings, bigExpenses, variableExpenses, variableExpensesPostings, freetimeExpenses, freetimeExpensesPosting, bigExpensesAmount, bigExpensesPosting, incomeStandingOrders, expenseStandingOrders);
+    _fillLists(selectedAccounts, dateRange, incomeStandingOrderPostings, expenseStandingOrderPostings, bigExpenses, variableExpenses, variableExpensesPostings, freetimeExpenses, freetimeExpensesPosting, bigExpensesAmount, bigExpensesPosting, incomeStandingOrders, expenseStandingOrders);
 
     //Sort Lists
     incomeStandingOrderPostings
@@ -320,33 +320,35 @@ class ExcelHelper {
     }
   }
 
-  void _fillLists(DateTimeRange dateRange, List<Posting> incomeStandingOrderPostings, List<Posting> expenseStandingOrderPostings, bool bigExpenses, List<Category> variableExpenses, List<Posting> variableExpensesPostings, List<Category> freetimeExpenses, List<Posting> freetimeExpensesPosting, double bigExpensesAmount, List<Posting> bigExpensesPosting, List<StandingOrder> incomeStandingOrders, List<StandingOrder> expenseStandingOrders) {
-     AllData.postings.forEach((element) {
-      if ((element.date!.isAfter(dateRange.start) &&
-              element.date!.isBefore(dateRange.end)) ||
-          element.date!.isAtSameMomentAs(dateRange.start) ||
-          element.date!.isAtSameMomentAs(dateRange.end)) {
-        if (element.postingType == PostingType.income) {
-          if (element.isStandingOrder == true) {
-            incomeStandingOrderPostings.add(element);
-          }
-        } else {
-          if (element.isStandingOrder == true) {
-            expenseStandingOrderPostings.add(element);
-          } else if (!bigExpenses) {
-            if (variableExpenses.contains(element.category)) {
-              variableExpensesPostings.add(element);
-            } else if (freetimeExpenses.contains(element.category)) {
-              freetimeExpensesPosting.add(element);
+  void _fillLists(List<Account> selectedAccounts, DateTimeRange dateRange, List<Posting> incomeStandingOrderPostings, List<Posting> expenseStandingOrderPostings, bool bigExpenses, List<Category> variableExpenses, List<Posting> variableExpensesPostings, List<Category> freetimeExpenses, List<Posting> freetimeExpensesPosting, double bigExpensesAmount, List<Posting> bigExpensesPosting, List<StandingOrder> incomeStandingOrders, List<StandingOrder> expenseStandingOrders) {
+    AllData.postings.forEach((element) {
+      if (selectedAccounts.contains(element.account)) {
+        if ((element.date!.isAfter(dateRange.start) &&
+                element.date!.isBefore(dateRange.end)) ||
+            element.date!.isAtSameMomentAs(dateRange.start) ||
+            element.date!.isAtSameMomentAs(dateRange.end)) {
+          if (element.postingType == PostingType.income) {
+            if (element.isStandingOrder == true) {
+              incomeStandingOrderPostings.add(element);
             }
           } else {
-            if (element.amount! >= bigExpensesAmount) {
-              bigExpensesPosting.add(element);
-            } else {
+            if (element.isStandingOrder == true) {
+              expenseStandingOrderPostings.add(element);
+            } else if (!bigExpenses) {
               if (variableExpenses.contains(element.category)) {
                 variableExpensesPostings.add(element);
               } else if (freetimeExpenses.contains(element.category)) {
                 freetimeExpensesPosting.add(element);
+              }
+            } else {
+              if (element.amount! >= bigExpensesAmount) {
+                bigExpensesPosting.add(element);
+              } else {
+                if (variableExpenses.contains(element.category)) {
+                  variableExpensesPostings.add(element);
+                } else if (freetimeExpenses.contains(element.category)) {
+                  freetimeExpensesPosting.add(element);
+                }
               }
             }
           }
@@ -355,22 +357,24 @@ class ExcelHelper {
     });
     
     AllData.standingOrders.forEach((element) {
-      if (element.begin!.isBefore(dateRange.end)) {
-        if (element.postingType == PostingType.income) {
-          if (element.end != null) {
-            if (element.end!.isBefore(dateRange.end)) {
+      if (selectedAccounts.contains(element.account)) {
+        if (element.begin!.isBefore(dateRange.end)) {
+          if (element.postingType == PostingType.income) {
+            if (element.end != null) {
+              if (element.end!.isBefore(dateRange.end)) {
+                incomeStandingOrders.add(element);
+              }
+            } else {
               incomeStandingOrders.add(element);
             }
-          } else {
-            incomeStandingOrders.add(element);
-          }
-        } else if (element.postingType == PostingType.expense) {
-          if (element.end != null) {
-            if (element.end!.isBefore(dateRange.end)) {
+          } else if (element.postingType == PostingType.expense) {
+            if (element.end != null) {
+              if (element.end!.isBefore(dateRange.end)) {
+                expenseStandingOrders.add(element);
+              }
+            } else {
               expenseStandingOrders.add(element);
             }
-          } else {
-            expenseStandingOrders.add(element);
           }
         }
       }
@@ -717,7 +721,7 @@ class ExcelHelper {
       Range r = sheet.getRangeByIndex(beforeBigExpenses!.lastRow + 1, 1);
       r.setText('Großausgaben');
       r.cellStyle.bold = true;
-      
+
       r = sheet.getRangeByIndex(
           beforeBigExpenses.lastRow + bigExpensesPosting.length + 3, 2);
       r.setText('Gesamt');
