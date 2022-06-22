@@ -39,6 +39,7 @@ class ExcelHelper {
 
     final path = await _localPath;
     OpenFile.open('$path/ExcelExport.xlsx');
+    
   }
 
   Future<bool> downloadExcel(dynamic bytes) async {

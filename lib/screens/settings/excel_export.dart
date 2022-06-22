@@ -405,7 +405,14 @@ class _ExcelExportState extends State<ExcelExport> {
         bigExpenses: _bigExpenses,
         bigExpensesAmount: toDouble(_bigExpenseAmountController.text),
         context: context,
-      );
+      ).then((value) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'saved-excel'.i18n(),
+          textAlign: TextAlign.center,
+        ),
+      ));
+      });
     } else
       return;
   }
