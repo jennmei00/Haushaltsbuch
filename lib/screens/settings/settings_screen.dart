@@ -71,7 +71,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         final dbPath = await getDatabasesPath() + '/Haushaltsbuch.db';
         var dbFileBytes = file.readAsBytesSync();
         var bytes = ByteData.view(dbFileBytes.buffer);
-        print(bytes);
         final buffer = bytes.buffer;
         File(dbPath).writeAsBytes(buffer.asUint8List(
             dbFileBytes.offsetInBytes, dbFileBytes.lengthInBytes));
@@ -137,15 +136,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           // Excel Export
-          GestureDetector(
-            child: ListTile(
-              leading: Icon(Icons.table_chart_outlined),
-              title: Text('Excel Export'),
-            ),
-            onTap: () {
-              Navigator.of(context).pushNamed(ExcelExport.routeName);
-            },
-          ),
+          // GestureDetector(
+          //   child: ListTile(
+          //     leading: Icon(Icons.table_chart_outlined),
+          //     title: Text('Excel Export'),
+          //   ),
+          //   onTap: () {
+          //     Navigator.of(context).pushNamed(ExcelExport.routeName);
+          //   },
+          // ),
           // GestureDetector(
           //   child: ListTile(
           //     leading: Icon(Icons.slideshow),

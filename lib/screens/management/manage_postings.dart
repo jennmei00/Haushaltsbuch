@@ -194,7 +194,7 @@ class _ManagePostingsState extends State<ManagePostings> {
                             await DBHelper.delete('Posting',
                                 where: "ID = '${posting.id}'");
                           } catch (ex) {
-                            print(ex);
+      print('Manage Postings $ex');
                             FileHelper().writeAppLog(
                                 AppLog(ex.toString(), 'Delete Posting'));
                           }

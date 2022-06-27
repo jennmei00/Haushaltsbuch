@@ -286,16 +286,16 @@ bool _updatePostings(bool isUpdated, bool appResumed) {
           : AllData.postings.lastWhere(((elementPosting) =>
               elementPosting.standingOrder == null
                   ? false
-                  : elementPosting.standingOrder?.id == element.id));
+                  : elementPosting.standingOrder?.id == element.id), orElse: () => Posting(id: 'NoPosting'));
     } catch (ex) {
       FileHelper().writeAppLog(AppLog(ex.toString(), 'Update Postings'));
 
-      print(ex);
+      print('Help Methods _updatePostings $ex');
     }
 
     if (element.repetition == Repetition.weekly) {
       DateTime? date;
-      if (lastPosting != null && lastPosting != Posting())
+      if (lastPosting != null && lastPosting != Posting(id: 'NoPosting'))
         date = lastPosting.date as DateTime;
       else
         date = element.begin!.subtract(Duration(days: 7));
@@ -405,7 +405,7 @@ bool _updateTransfers(bool isUpdated, bool appResumed) {
                   : elementTransfer.standingOrder?.id == element.id));
     } catch (ex) {
       FileHelper().writeAppLog(AppLog(ex.toString(), 'Update Transfers'));
-      print(ex);
+      print('Help Methods _updateTransfers $ex');
     }
 
     if (element.repetition == Repetition.weekly) {

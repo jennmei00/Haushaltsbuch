@@ -224,8 +224,11 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                                           .replaceAll(',', '.'))!,
                                   onChanged: (key, value, expression) {
                                     if (key == '=') {
-                                      _amountController.text =
-                                          value.toString().replaceAll('.', ',');
+                                    _amountController.text =
+                                        formatTextFieldCurrency(value!,
+                                            locale: Localizations.localeOf(
+                                                    this.context)
+                                                .languageCode);
                                       Navigator.pop(context);
                                     }
                                   },
@@ -660,7 +663,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
           ..pop()
           ..popAndPushNamed(StandingOrdersScreen.routeName);
       } catch (ex) {
-        print(ex);
+      print('Add Edit Standingorder Screen $ex');
         FileHelper().writeAppLog(AppLog(ex.toString(), 'Save StandingOrder'));
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

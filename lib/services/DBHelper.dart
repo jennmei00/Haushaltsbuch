@@ -241,7 +241,7 @@ class DBHelper {
         FileHelper()
             .writeAppLog(AppLog(ex.toString(), 'Upgrade Tables Version 2'));
 
-        print(ex);
+      print('DBHelper $ex');
       }
     }
   }

@@ -101,7 +101,7 @@
     "no-description": "No Description...",
     "transactions": "Account transactions",
     "bank-balance-change": "Bank Balance Change",
-    "bank-balance-change-text": "Are you sure you want to change your account balance manually and not create a posting instead? \n\n Manual changes to the account balance are not taken into account in the time history of the account balance in the statistics area.",
+    "bank-balance-change-text": "Are you sure you want to change your account balance manually and not create a posting instead?",
     "yes": "Yes",
     "category-car": "Car",
     "category-drugstore": "Drugstore",

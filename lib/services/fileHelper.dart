@@ -94,7 +94,7 @@ class FileHelper {
 
       return map;
     } catch (ex) {
-      print(ex);
+      print('FileHelper Screen $ex');
       FileHelper()
           .writeAppLog(AppLog(ex.toString(), 'Read Map AccountVisibility'));
 

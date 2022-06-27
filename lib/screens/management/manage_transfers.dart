@@ -331,8 +331,7 @@ class _ManageTransfersState extends State<ManageTransfers> {
       AllData.transfers.removeWhere((element) => element.id == transfer.id);
       DBHelper.delete('Transfer', where: "ID = '${transfer.id}'");
     } catch (ex) {
-      print(ex);
-      FileHelper().writeAppLog(AppLog(ex.toString(), 'Delete Transfer'));
+      print('Manage Transfers $ex');
     }
 
     Navigator.of(context).pop(true);

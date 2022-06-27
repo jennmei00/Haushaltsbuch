@@ -101,7 +101,7 @@
     "no-description": "Keine Beschreibung...",
     "transactions": "Umsätze",
     "bank-balance-change": "Kontostandänderung",
-    "bank-balance-change-text": "Bist du sicher, dass du deinen Kontostand manuell ändern und nicht stattdessen eine Buchung anlegen willst? \n\n (Manuelle Kontostandsänderungen werden im zeitlichen Verlaufs des Kontostands im Statistikbereich nicht berücksichtigt.)",
+    "bank-balance-change-text": "Bist du sicher, dass du deinen Kontostand manuell ändern und nicht stattdessen eine Buchung anlegen willst?",
     "yes": "Ja",
     "category-car": "Auto",
     "category-drugstore": "Drogerie",

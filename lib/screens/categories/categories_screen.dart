@@ -31,8 +31,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int test = (MediaQuery.of(context).size.width ~/ 25).toInt();
-    print(test);
+    // int test = (MediaQuery.of(context).size.width ~/ 25).toInt();
     return Scaffold(
       appBar: AppBar(
         title: Text('categories'.i18n()),

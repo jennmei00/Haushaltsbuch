@@ -189,7 +189,10 @@ class _TransferScreenState extends State<TransferScreen> {
                                 onChanged: (key, value, expression) {
                                   if (key == '=') {
                                     _amountController.text =
-                                        value.toString().replaceAll('.', ',');
+                                        formatTextFieldCurrency(value!,
+                                            locale: Localizations.localeOf(
+                                                    this.context)
+                                                .languageCode);
                                     Navigator.pop(context);
                                   }
                                 },
@@ -344,7 +347,7 @@ class _TransferScreenState extends State<TransferScreen> {
         else
           Navigator.of(context).pop(true);
       } catch (ex) {
-        print(ex);
+      print('Transfer Screen $ex');
         FileHelper().writeAppLog(AppLog(ex.toString(), 'Save Transfer'));
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

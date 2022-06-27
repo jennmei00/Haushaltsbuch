@@ -48,6 +48,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
   bool _postingSwitch = false;
   Account? _oldAccount;
   double? _oldAmount;
+  PostingType? _oldType;
   int groupValueBuchungsart = 0;
   StandingOrder? _postingSO;
   bool _postingIsSO = false;
@@ -91,17 +92,17 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
 
     _oldAccount = posting.account;
     _oldAmount = posting.amount;
+    _oldType = posting.postingType;
   }
-
 
   @override
   void didChangeDependencies() {
-    if (widget.id != '') {
-    Posting posting =
-        AllData.postings.firstWhere((element) => element.id == widget.id);
-      _amountController.text = formatTextFieldCurrency(posting.amount!,
-          locale: Localizations.localeOf(this.context).languageCode);
-    }
+    // if (widget.id != '') {
+    //   Posting posting =
+    //       AllData.postings.firstWhere((element) => element.id == widget.id);
+    //   _amountController.text = formatTextFieldCurrency(posting.amount!,
+    //       locale: Localizations.localeOf(this.context).languageCode);
+    // }
     super.didChangeDependencies();
   }
 
@@ -168,6 +169,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                                         PostingType.expense
                                     ? 'Ausgabe'
                                     : 'Einnahme';
+                            _postingSwitch = val == 0 ? false : true;
                           });
                         },
                         groupValue: groupValueBuchungsart,
@@ -215,7 +217,10 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                                 onChanged: (key, value, expression) {
                                   if (key == '=') {
                                     _amountController.text =
-                                        value.toString().replaceAll('.', ',');
+                                        formatTextFieldCurrency(value!,
+                                            locale: Localizations.localeOf(
+                                                    this.context)
+                                                .languageCode);
                                     Navigator.pop(context);
                                   }
                                 },
@@ -284,7 +289,8 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
                                     // (MediaQuery.of(context).size.height / 1.6),
                                     padding: EdgeInsets.all(10),
                                     //TODO:
-                                    crossAxisCount: 4, // (MediaQuery.of(context).size.width ~/ 100).toInt(),
+                                    crossAxisCount:
+                                        4, // (MediaQuery.of(context).size.width ~/ 100).toInt(),
                                     crossAxisSpacing:
                                         MediaQuery.of(context).size.width *
                                             0.04,
@@ -427,11 +433,22 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
           if (_oldAccount == posting.account) {
             //if account didnt change
             if (_postingSwitch) //expense
+            {
+              if (_oldType == PostingType.income) {
+                ac.bankBalance = ac.bankBalance! - _oldAmount!;
+                ac.bankBalance = ac.bankBalance! - posting.amount!;
+              } else {
+                ac.bankBalance =
+                    ac.bankBalance! - (posting.amount! - _oldAmount!);
+              }
+            } else //income
+            if (_oldType == PostingType.expense) {
+              ac.bankBalance = ac.bankBalance! + _oldAmount!;
+              ac.bankBalance = ac.bankBalance! + posting.amount!;
+            } else {
               ac.bankBalance =
-                  ac.bankBalance! + (_oldAmount! - posting.amount!);
-            else //income
-              ac.bankBalance =
-                  ac.bankBalance! - (_oldAmount! - posting.amount!);
+                  ac.bankBalance! + (posting.amount! - _oldAmount!);
+            }
           } else {
             //if account changed
             if (_oldAccount != null) {
@@ -471,7 +488,7 @@ class _IncomeExpenseScreenState extends State<IncomeExpenseScreen> {
             ..pop()
             ..popAndPushNamed(ManagementScreen.routeName);
       } catch (ex) {
-        print(ex);
+        print('New Account Screen $ex');
         FileHelper().writeAppLog(AppLog(ex.toString(), 'Save Posting'));
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(

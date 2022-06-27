@@ -215,7 +215,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
           ));
         }
       } catch (ex) {
-        print(ex);
+      print('New Categorie Screen $ex');
         FileHelper().writeAppLog(AppLog(ex.toString(), 'Save Category'));
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

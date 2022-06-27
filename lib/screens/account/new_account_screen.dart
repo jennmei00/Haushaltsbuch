@@ -75,12 +75,12 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
 
   @override
   void didChangeDependencies() {
-    if (widget.id != '') {
-      Account ac =
-          AllData.accounts.firstWhere((element) => element.id == widget.id);
-      _bankBalanceController.text = formatTextFieldCurrency(ac.bankBalance!,
-          locale: Localizations.localeOf(this.context).languageCode);
-    }
+    // if (widget.id != '') {
+    //   Account ac =
+    //       AllData.accounts.firstWhere((element) => element.id == widget.id);
+    //   _bankBalanceController.text = formatTextFieldCurrency(ac.bankBalance!,
+    //       locale: Localizations.localeOf(this.context).languageCode);
+    // }
     super.didChangeDependencies();
   }
 
@@ -344,7 +344,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
 
       Navigator.popAndPushNamed(context, AccountScreen.routeName);
     } catch (ex) {
-      print(ex);
+      print('New Account Screen $ex');
       FileHelper().writeAppLog(AppLog(ex.toString(), 'Save Account'));
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
