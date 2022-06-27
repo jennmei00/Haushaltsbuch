@@ -39,7 +39,6 @@ class ExcelHelper {
 
     final path = await _localPath;
     OpenFile.open('$path/ExcelExport.xlsx');
-    
   }
 
   Future<bool> downloadExcel(dynamic bytes) async {
@@ -61,12 +60,7 @@ class ExcelHelper {
   }
 
   Future<void> createExcel(
-      {
-      // required Month startMonth,
-      // required int startYear,
-      // required Month endMonth,
-      // required int endYear,
-      required bool download,
+      {required bool download,
       required DateTimeRange dateRange,
       required List<Account> selectedAccounts,
       required List<Category> variableExpenses,
@@ -84,7 +78,20 @@ class ExcelHelper {
     List<StandingOrder> expenseStandingOrders = [];
 
     //Fill Lists
-    _fillLists(selectedAccounts, dateRange, incomeStandingOrderPostings, expenseStandingOrderPostings, bigExpenses, variableExpenses, variableExpensesPostings, freetimeExpenses, freetimeExpensesPosting, bigExpensesAmount, bigExpensesPosting, incomeStandingOrders, expenseStandingOrders);
+    _fillLists(
+        selectedAccounts,
+        dateRange,
+        incomeStandingOrderPostings,
+        expenseStandingOrderPostings,
+        bigExpenses,
+        variableExpenses,
+        variableExpensesPostings,
+        freetimeExpenses,
+        freetimeExpensesPosting,
+        bigExpensesAmount,
+        bigExpensesPosting,
+        incomeStandingOrders,
+        expenseStandingOrders);
 
     //Sort Lists
     incomeStandingOrderPostings
@@ -321,7 +328,20 @@ class ExcelHelper {
     }
   }
 
-  void _fillLists(List<Account> selectedAccounts, DateTimeRange dateRange, List<Posting> incomeStandingOrderPostings, List<Posting> expenseStandingOrderPostings, bool bigExpenses, List<Category> variableExpenses, List<Posting> variableExpensesPostings, List<Category> freetimeExpenses, List<Posting> freetimeExpensesPosting, double bigExpensesAmount, List<Posting> bigExpensesPosting, List<StandingOrder> incomeStandingOrders, List<StandingOrder> expenseStandingOrders) {
+  void _fillLists(
+      List<Account> selectedAccounts,
+      DateTimeRange dateRange,
+      List<Posting> incomeStandingOrderPostings,
+      List<Posting> expenseStandingOrderPostings,
+      bool bigExpenses,
+      List<Category> variableExpenses,
+      List<Posting> variableExpensesPostings,
+      List<Category> freetimeExpenses,
+      List<Posting> freetimeExpensesPosting,
+      double bigExpensesAmount,
+      List<Posting> bigExpensesPosting,
+      List<StandingOrder> incomeStandingOrders,
+      List<StandingOrder> expenseStandingOrders) {
     AllData.postings.forEach((element) {
       if (selectedAccounts.contains(element.account)) {
         if ((element.date!.isAfter(dateRange.start) &&
@@ -356,7 +376,7 @@ class ExcelHelper {
         }
       }
     });
-    
+
     AllData.standingOrders.forEach((element) {
       if (selectedAccounts.contains(element.account)) {
         if (element.begin!.isBefore(dateRange.end)) {
@@ -709,13 +729,13 @@ class ExcelHelper {
                   beforeBigExpenses!.lastRow + 1 + i, 3 + x * 2);
               range.setNumber(p.amount);
               range.cellStyle = styleExpense;
+              sheet
+                  .getRangeByIndex(beforeBigExpenses.lastRow + 1 + i, 2 + x * 2)
+                  .setText('${p.title}');
             }
             x++;
           });
         });
-        sheet
-            .getRangeByIndex(beforeBigExpenses!.lastRow + 1 + i, 4)
-            .setText('${p.title}');
         i++;
       });
 
@@ -759,13 +779,14 @@ class ExcelHelper {
                 beforeFreetimeExpenses.lastRow + 1 + iFE, 3 + x * 2);
             range.setNumber(p.amount);
             range.cellStyle = styleExpense;
+            sheet
+                .getRangeByIndex(
+                    beforeFreetimeExpenses.lastRow + 1 + iFE, 2 + x * 2)
+                .setText('${p.title}');
           }
           x++;
         });
       });
-      sheet
-          .getRangeByIndex(beforeFreetimeExpenses.lastRow + 1 + iFE, 4)
-          .setText('${p.title}');
       iFE++;
     });
     r = sheet.getRangeByIndex(beforeFreetimeExpenses.lastRow + 2, 1);
@@ -807,13 +828,14 @@ class ExcelHelper {
                 beforeVariableExpenses.lastRow + 1 + iVE, 3 + x * 2);
             range.setNumber(p.amount);
             range.cellStyle = styleExpense;
+            sheet
+                .getRangeByIndex(
+                    beforeVariableExpenses.lastRow + 1 + iVE, 2 + x * 2)
+                .setText('${p.title}');
           }
           x++;
         });
       });
-      sheet
-          .getRangeByIndex(beforeVariableExpenses.lastRow + 1 + iVE, 4)
-          .setText('${p.title}');
       iVE++;
     });
 
