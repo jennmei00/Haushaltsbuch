@@ -170,5 +170,6 @@
     "select-account": "Bitte Konten auswählen!",
     "select-categories": "Bitte Kategorien auswählen!",
     "snackbar-textfield-date-range": "Das Startdatum muss vor dem Enddatum liegen!",
-    "saved-excel": "Exceldatei in Downloads gespeichert"
+    "saved-excel": "Exceldatei in Downloads gespeichert",
+    "big-expenses-tooltip": "Tooltip zu den Großausgaben, weiß gerade keinen Text :o"
 }

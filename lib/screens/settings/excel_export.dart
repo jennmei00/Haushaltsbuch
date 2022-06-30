@@ -309,9 +309,18 @@ class _ExcelExportState extends State<ExcelExport> {
               elevation: 5,
               child: SwitchListTile(
                 activeColor: Theme.of(context).colorScheme.primary,
-                title: Text(
-                  'big-expenses'.i18n(),
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                title: Row(
+                  children: [
+                    Text(
+                      'big-expenses'.i18n(),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    SizedBox(width: 10),
+                    MyTooltip(
+                        child: Icon(Icons.info_outline),
+                        message: 'big-expenses-tooltip'.i18n()),
+                  ],
                 ),
                 value: _bigExpenses,
                 onChanged: (val) => setState(() => _bigExpenses = val),
@@ -361,73 +370,87 @@ class _ExcelExportState extends State<ExcelExport> {
   Future<void> createExcel() async {}
 
   void _showPreview() {
-    DateTimeRange dateRange = DateTimeRange(
-      start: Jiffy(DateTime(_startYear, _startMonth.index + 1))
-          .startOf(Units.MONTH)
-          .dateTime,
-      end: Jiffy(DateTime(_endYear, _endMonth.index + 1))
-          .endOf(Units.MONTH)
-          .dateTime,
-    );
-
-    if (_checkIfSelected()) {
-      ExcelHelper().createExcel(
-        download: false,
-        dateRange: dateRange,
-        selectedAccounts: _selectedAccounts,
-        variableExpenses: _variableExpenses,
-        freetimeExpenses: _freetimeExpenses,
-        bigExpenses: _bigExpenses,
-        bigExpensesAmount: toDouble(_bigExpenseAmountController.text),
-        context: context,
-      );
-    } else
-      return;
-  }
-
-  void _exportFile() {
-    DateTimeRange dateRange = DateTimeRange(
-      start: Jiffy(DateTime(_startYear, _startMonth.index + 1))
-          .startOf(Units.MONTH)
-          .dateTime,
-      end: Jiffy(DateTime(_endYear, _endMonth.index + 1))
-          .endOf(Units.MONTH)
-          .dateTime,
-    );
-
-    if (_checkIfSelected()) {
-      ExcelHelper().createExcel(
-        download: true,
-        dateRange: dateRange,
-        selectedAccounts: _selectedAccounts,
-        variableExpenses: _variableExpenses,
-        freetimeExpenses: _freetimeExpenses,
-        bigExpenses: _bigExpenses,
-        bigExpensesAmount: toDouble(_bigExpenseAmountController.text),
-        context: context,
-      ).then((value) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          'saved-excel'.i18n(),
-          textAlign: TextAlign.center,
-        ),
-      ));
-      });
-    } else
-      return;
-  }
-
-  bool _checkIfSelected() {
     if (DateTime(_startYear, _startMonth.index + 1)
         .isAfter(DateTime(_endYear, _endMonth.index + 1))) {
+      _checkIfSelected();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           'snackbar-textfield-date-range'.i18n(),
           textAlign: TextAlign.center,
         ),
       ));
-      return false;
+    } else {
+      DateTimeRange dateRange = DateTimeRange(
+        start: Jiffy(DateTime(_startYear, _startMonth.index + 1))
+            .startOf(Units.MONTH)
+            .dateTime,
+        end: Jiffy(DateTime(_endYear, _endMonth.index + 1))
+            .endOf(Units.MONTH)
+            .dateTime,
+      );
+
+      if (_checkIfSelected()) {
+        ExcelHelper().createExcel(
+          download: false,
+          dateRange: dateRange,
+          selectedAccounts: _selectedAccounts,
+          variableExpenses: _variableExpenses,
+          freetimeExpenses: _freetimeExpenses,
+          bigExpenses: _bigExpenses,
+          bigExpensesAmount: toDouble(_bigExpenseAmountController.text),
+          context: context,
+        );
+      } else
+        return;
     }
+  }
+
+  void _exportFile() {
+    if (DateTime(_startYear, _startMonth.index + 1)
+        .isAfter(DateTime(_endYear, _endMonth.index + 1))) {
+      _checkIfSelected();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'snackbar-textfield-date-range'.i18n(),
+          textAlign: TextAlign.center,
+        ),
+      ));
+    } else {
+      DateTimeRange dateRange = DateTimeRange(
+        start: Jiffy(DateTime(_startYear, _startMonth.index + 1))
+            .startOf(Units.MONTH)
+            .dateTime,
+        end: Jiffy(DateTime(_endYear, _endMonth.index + 1))
+            .endOf(Units.MONTH)
+            .dateTime,
+      );
+
+      if (_checkIfSelected()) {
+        ExcelHelper()
+            .createExcel(
+          download: true,
+          dateRange: dateRange,
+          selectedAccounts: _selectedAccounts,
+          variableExpenses: _variableExpenses,
+          freetimeExpenses: _freetimeExpenses,
+          bigExpenses: _bigExpenses,
+          bigExpensesAmount: toDouble(_bigExpenseAmountController.text),
+          context: context,
+        )
+            .then((value) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              'saved-excel'.i18n(),
+              textAlign: TextAlign.center,
+            ),
+          ));
+        });
+      } else
+        return;
+    }
+  }
+
+  bool _checkIfSelected() {
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
@@ -438,5 +461,33 @@ class _ExcelExportState extends State<ExcelExport> {
       return false;
     }
     return true;
+  }
+}
+
+class MyTooltip extends StatelessWidget {
+  final Widget child;
+  final String message;
+
+  MyTooltip({required this.message, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final key = GlobalKey<State<Tooltip>>();
+    return Tooltip(
+      key: key,
+      message: message,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => _onTap(key),
+        child: child,
+      ),
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.all(10),
+    );
+  }
+
+  void _onTap(GlobalKey key) {
+    final dynamic tooltip = key.currentState;
+    tooltip?.ensureTooltipVisible();
   }
 }
