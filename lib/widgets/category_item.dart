@@ -14,9 +14,9 @@ class CategoryItem extends StatelessWidget {
     required this.categoryItem,
     this.onTapFunction,
     this.selectedCatID,
-    this.multiSelection: false,
+    this.multiSelection = false,
     this.selectedCatList,
-    this.disabled: false,
+    this.disabled= false,
   });
 
   @override

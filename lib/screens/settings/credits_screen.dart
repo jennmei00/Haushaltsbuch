@@ -17,7 +17,7 @@ class Credits extends StatelessWidget {
         child: Column(children: [
           Text(
             'Icons:',
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           Text(
             'Icons made by Freepik, Uniconlabs, Smashicons, Google, rukanicon, andinur, Pixel perfect, Ayub Irawan, fjstudio, amonrat rungreangfangsai, Those Icons, Prosymbols Premium, Gregor Cresnar, kerismaker, dDara, setiawanap, monkik, Eucalyp, smashingstocks, iconixar, azmianshori, srip, bqlqn, Pixelmeetup, Rizki Ahmad Fauzi and kerismaker from www.flaticon.com.',
@@ -28,7 +28,7 @@ class Credits extends StatelessWidget {
           ),
           Text(
             "${'images'.i18n()}:",
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           Text(
             'Photos by Visual Stories || Micheile, Josh Appel and Steve Johnson on Unsplash.',
@@ -39,7 +39,7 @@ class Credits extends StatelessWidget {
           ),
           Text(
             'Applogo:',
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           Text(
             'NIKmigg',

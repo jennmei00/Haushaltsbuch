@@ -122,7 +122,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         children: [
                           Text(
                             'all-accounts'.i18n(),
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.headlineSmall,
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(

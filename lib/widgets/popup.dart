@@ -9,8 +9,8 @@ class Popup extends StatefulWidget {
   final Function? saveFunction;
 
   const Popup({
-    this.title: '',
-    this.body: const Text(''),
+    this.title= '',
+    this.body= const Text(''),
     this.saveButton = true,
     this.cancelButton = true,
     this.saveFunction,
@@ -35,7 +35,7 @@ class _PopupState extends State<Popup> {
                   padding: const EdgeInsets.fromLTRB(15, 25, 15, 15),
                   child: Text(
                     '${widget.title}',
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headlineMedium,
                     textAlign: TextAlign.center,
                   ),
                 ),

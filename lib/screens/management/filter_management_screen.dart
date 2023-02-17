@@ -68,7 +68,7 @@ class _FilterManagementScreenState extends State<FilterManagementScreen> {
                 onPressed: () => Navigator.pop(context, []),
                 child: Text('reset'.i18n()),
                 style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).colorScheme.primary),
+                    backgroundColor: Theme.of(context).colorScheme.primary),
               ),
               ElevatedButton(
                 onPressed: () {

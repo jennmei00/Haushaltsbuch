@@ -14,20 +14,22 @@ class CustomTextField extends StatelessWidget {
   final bool noDecimal;
 
   CustomTextField({
-    this.labelText: '',
-    this.hintText: '',
-    this.keyboardType: TextInputType.text,
-    this.textInputAction: TextInputAction.done,
+    this.labelText = '',
+    this.hintText = '',
+    this.keyboardType = TextInputType.text,
+    this.textInputAction = TextInputAction.done,
     required this.controller,
     required this.mandatory,
     required this.fieldname,
-    this.noDecimal: false,
+    this.noDecimal = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      keyboardType: this.keyboardType,
+      keyboardType: this.keyboardType == TextInputType.number
+          ? TextInputType.text
+          : this.keyboardType,
       textInputAction: this.textInputAction,
       controller: this.controller,
       inputFormatters: noDecimal

@@ -57,7 +57,7 @@ class _IncomeCircularChartState extends State<IncomeCircularChart> {
             child: Column(children: [
               Text(
                 'year'.i18n(),
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               slider.SfSlider(
                 min: DateTime(DateTime.now().year - 4, 01, 01),
@@ -82,7 +82,7 @@ class _IncomeCircularChartState extends State<IncomeCircularChart> {
               ),
               Text(
                 'month'.i18n(),
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               slider.SfSlider(
                 min: DateTime(2000, 01, 01),

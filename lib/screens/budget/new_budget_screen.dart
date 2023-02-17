@@ -239,7 +239,7 @@ class _BudgetScreenState extends State<NewBudgetScreen> {
                             children: [
                               Text(
                                 'Kalenderwoche',
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style: Theme.of(context).textTheme.bodyLarge,
                               ),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.3,
@@ -253,7 +253,7 @@ class _BudgetScreenState extends State<NewBudgetScreen> {
                                             e.toString(),
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline6,
+                                                .headlineSmall,
                                           )))
                                       .toList(),
                                   onSelectedItemChanged: (index) {},
@@ -280,7 +280,7 @@ class _BudgetScreenState extends State<NewBudgetScreen> {
                         children: [
                           Text(
                             'Monat',
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.5,
@@ -293,7 +293,7 @@ class _BudgetScreenState extends State<NewBudgetScreen> {
                                         e,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline6,
+                                            .headlineSmall,
                                       )))
                                   .toList(),
                               onSelectedItemChanged: (index) {},

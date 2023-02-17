@@ -24,7 +24,7 @@ class ExpansionTileFormField extends FormField<bool> {
                             child: Text(
                               '${state.errorText}',
                               style: TextStyle(
-                                  color: Theme.of(context).errorColor),
+                                  color: Theme.of(context).colorScheme.error),
                             ),
                           ),
                         )

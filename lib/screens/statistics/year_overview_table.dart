@@ -81,7 +81,7 @@ class _YearOverviewTableState extends State<YearOverviewTable> {
             ),
             Text(
               '$currentYear',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineLarge,
               textAlign: TextAlign.center,
             ),
             Container(
