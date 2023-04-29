@@ -12,7 +12,7 @@ import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:localization/localization.dart';
-import 'package:open_file/open_file.dart';
+// import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
@@ -38,7 +38,7 @@ class ExcelHelper {
     await file.writeAsBytes(bytes, flush: true);
 
     final path = await _localPath;
-    OpenFile.open('$path/ExcelExport.xlsx');
+    // OpenFile.open('$path/ExcelExport.xlsx');
   }
 
   Future<bool> downloadExcel(dynamic bytes) async {
