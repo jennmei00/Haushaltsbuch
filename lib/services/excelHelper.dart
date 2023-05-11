@@ -11,7 +11,6 @@ import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:localization/localization.dart';
 // import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
@@ -37,7 +36,7 @@ class ExcelHelper {
     File file = await _localFile;
     await file.writeAsBytes(bytes, flush: true);
 
-    final path = await _localPath;
+    // final path = await _localPath;
     // OpenFile.open('$path/ExcelExport.xlsx');
   }
 
@@ -470,7 +469,7 @@ class ExcelHelper {
         }
 
         monthRange2.merge();
-        monthRange2.setText('${element.name}'.i18n());
+        // monthRange2.setText('${element.name}'.i18n());
         monthRange2.cellStyle.vAlign = VAlignType.center;
         monthRange2.cellStyle.hAlign = HAlignType.center;
         monthRange2.cellStyle.bold = true;

@@ -59,7 +59,8 @@ void main() async {
   Globals.buildNumber = packageInfo.buildNumber;
 
   SharedPreferences.getInstance().then((prefs) {
-    var brightness = SchedulerBinding.instance.window.platformBrightness;
+    var brightness =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
     var darkModeOn = prefs.getBool('darkMode') ?? brightness == Brightness.dark;
     runApp(Phoenix(
       child: ChangeNotifierProvider(
@@ -100,7 +101,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
-      title: 'Haushaltsapp',
+      title: 'Haushaltsbuch',
       theme: themeNotifier.getTheme(),
       builder: (BuildContext context, Widget? widget) {
         Widget error = Text('error-text'.i18n());
