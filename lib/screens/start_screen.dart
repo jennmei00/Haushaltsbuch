@@ -48,7 +48,8 @@ Future<void> _getImageList(BuildContext context) async {
 
 Future<void> _getThemeMode() async {
   var prefs = await SharedPreferences.getInstance();
-  var brightness = SchedulerBinding.instance.window.platformBrightness;
+  var brightness =
+      SchedulerBinding.instance.platformDispatcher.platformBrightness;
   Globals.isDarkmode =
       prefs.getBool('darkMode') ?? brightness == Brightness.dark;
 }
