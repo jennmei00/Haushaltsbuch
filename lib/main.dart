@@ -16,6 +16,8 @@ import 'package:haushaltsbuch/screens/settings/credits_screen.dart';
 import 'package:haushaltsbuch/screens/settings/excel_export.dart';
 import 'package:haushaltsbuch/screens/settings/imprint_screen.dart';
 import 'package:haushaltsbuch/screens/settings/settings_screen.dart';
+import 'package:haushaltsbuch/screens/signup/login_screen.dart';
+import 'package:haushaltsbuch/screens/signup/signup_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/start_screen.dart';
@@ -147,6 +149,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ManagementScreen.routeName: (context) => ManagementScreen(),
         BudgetScreen.routeName: (context) => BudgetScreen(),
         ExcelExport.routeName: (context) => ExcelExport(),
+        LoginScreen.routeName: (context) => LoginScreen(),
+        SignupScreen.routeName: (context) => SignupScreen(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == IncomeExpenseScreen.routeName) {
