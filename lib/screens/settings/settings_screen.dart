@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:haushaltsbuch/models/user.dart';
 // import 'package:haushaltsbuch/models/account.dart';
 // import 'package:haushaltsbuch/models/all_data.dart';
 // import 'package:haushaltsbuch/models/enums.dart';
@@ -15,6 +16,8 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 // import 'package:uuid/uuid.dart';
 import 'package:haushaltsbuch/screens/settings/credits_screen.dart';
 import 'package:haushaltsbuch/screens/settings/excel_export.dart';
+import 'package:haushaltsbuch/screens/settings/user_data_screen.dart';
+import 'package:haushaltsbuch/screens/signup/signup_splash_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
@@ -30,6 +33,8 @@ import 'package:sqflite/sqflite.dart';
 
 class SettingsScreen extends StatefulWidget {
   static final routeName = '/settings_screen';
+  final User? user;
+  SettingsScreen({this.user});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -101,6 +106,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: <Widget>[
+          GestureDetector(
+            child: ListTile(
+              leading: Icon(Icons.account_box),
+              title: Text(
+                'user-data'.i18n(),
+              ),
+            ),
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamed(UserDataScreen.routeName, arguments: widget.user);
+            },
+          ),
           SwitchListTile(
             secondary: Icon(Icons.lightbulb),
             title: Text('darkmode'.i18n()),

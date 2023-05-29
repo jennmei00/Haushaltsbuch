@@ -14,15 +14,19 @@ import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/signup/login_screen.dart';
 import 'package:haushaltsbuch/screens/signup/signup_screen.dart';
+import 'package:haushaltsbuch/screens/signup/signup_splash_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
+import 'package:haushaltsbuch/services/auth_provider.dart';
 import 'package:haushaltsbuch/services/fileHelper.dart';
 import 'package:haushaltsbuch/services/globals.dart';
 import 'package:haushaltsbuch/services/help_methods.dart';
 import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({Key? key, this.ctx}) : super(key: key);
+  static final routeName = '/start_screen';
 
   final BuildContext? ctx;
 
@@ -58,6 +62,7 @@ Future<void> _getThemeMode() async {
 
 class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
   late Future<bool> _loadData;
+  late SharedPreferences prefs;
 
   Future<bool> _getAllData() async {
     await _getImageList(widget.ctx as BuildContext);
@@ -108,6 +113,8 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
     precacheImage(AssetImage("assets/images/ausgabe2.jpg"), context);
     precacheImage(AssetImage("assets/images/umbuchung.jpg"), context);
 
+    prefs = await SharedPreferences.getInstance();
+
     return Future.value(true);
   }
 
@@ -124,12 +131,22 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
     return FutureBuilder(
       future: _loadData,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done)
-          return LoginScreen();
-        // return HomeScreen();
-        else if (snapshot.hasError)
-          return Center(
-            child: Text('error-text'.i18n()),
+        if (snapshot.connectionState == ConnectionState.done) {
+          print(prefs.getBool('loginActivated'));
+          // prefs.setBool('loginActivated', false);
+          return ChangeNotifierProvider(
+            create: (context) => AuthProvider(),
+            child: prefs.getBool('loginActivated') ?? false
+                ? SignupSplashScreen(
+                    userName: prefs.getString('userName') ?? '')
+                : HomeScreen(
+                    user: Provider.of<AuthProvider>(context).currentUser),
+          );
+        } else if (snapshot.hasError)
+          return Scaffold(
+            body: Center(
+              child: Text('error-text'.i18n()),
+            ),
           );
         else
           return Scaffold(

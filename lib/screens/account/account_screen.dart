@@ -152,7 +152,6 @@ class _AccountScreenState extends State<AccountScreen> {
                                 Globals.isDarkmode ? null : Color(0xffeeeeee),
                             child: ExpansionTile(
                               key: _expansionTileKey,
-                              // key: GlobalKey(),
                               initiallyExpanded: _initiallyExpanded,
                               title: Row(
                                 mainAxisAlignment:

@@ -12,6 +12,8 @@ class CustomTextField extends StatelessWidget {
   final bool mandatory; //check for mandatory field
   final String fieldname; //substitute for an id
   final bool noDecimal;
+  final Function? validator;
+  final bool enabled;
 
   CustomTextField({
     this.labelText = '',
@@ -22,11 +24,14 @@ class CustomTextField extends StatelessWidget {
     required this.mandatory,
     required this.fieldname,
     this.noDecimal = false,
+    this.validator,
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       keyboardType: this.keyboardType == TextInputType.number
           ? TextInputType.text
           : this.keyboardType,
@@ -46,21 +51,22 @@ class CustomTextField extends StatelessWidget {
                       ? r'^(?:-?(?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?'
                       : r'^(?:-?(?:[0-9]+))?(?:\,[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?')),
                 ]
-              // : [
-              //     FilteringTextInputFormatter.allow(RegExp(r'^([0-9]*)?')),
-              //   ]
               : null,
-      validator: (value) {
-        if ((value == null || value.isEmpty) && mandatory) {
-          return 'mandatory-field'.i18n();
-        } else if (this.keyboardType == TextInputType.number) {
-          if (!(isFloat(value!.replaceAll(',', '.')))) {
-            return 'only-numbers-allowed'.i18n();
-          }
-        }
+      validator: validator == null
+          ? (value) {
+              if ((value == null || value.isEmpty) && mandatory) {
+                return 'mandatory-field'.i18n();
+              } else if (this.keyboardType == TextInputType.number) {
+                if (!(isFloat(value!.replaceAll(',', '.')))) {
+                  return 'only-numbers-allowed'.i18n();
+                }
+              } else if (fieldname == 'userPassword' && value!.length < 5) {
+                return 'password-validator'.i18n();
+              }
 
-        return null;
-      },
+              return null;
+            }
+          : (val) => validator!(val),
       decoration: InputDecoration(
         labelText: this.labelText,
       ),

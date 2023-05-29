@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:haushaltsbuch/widgets/custom_textField.dart';
-import 'package:haushaltsbuch/widgets/signup/forgot_password.dart';
+import 'package:haushaltsbuch/services/auth_provider.dart';
 import 'package:haushaltsbuch/widgets/signup/login.dart';
 import 'package:haushaltsbuch/widgets/signup/security_question.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final String userName;
+
+  const LoginScreen({super.key, required this.userName});
   static final routeName = '/login_screen';
 
   @override
@@ -14,10 +18,25 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController userPasswordController = TextEditingController();
+  final _formKeyLogin = GlobalKey<FormState>();
+  AuthProvider? authProvider;
+
+  _forgotPasswordPressed() {}
+
+  _loginPressed() {
+    if (_formKeyLogin.currentState!.validate()) {
+      authProvider?.loginUser(userPasswordController.text).then((value) =>
+          !value
+              ? ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('wrong-password'.i18n())))
+              : null);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
+    authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
       body: Center(
@@ -27,18 +46,18 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               height: 150,
               width: 150,
-              child: Image.asset('assets/images/logo2.png'),
+              child: SvgPicture.asset('assets/images/logo_signup.svg'),
             ),
             SizedBox(
               height: 50,
             ),
             Text(
-              'Hallo Jenny',
+              '${'hello'.i18n()} ${widget.userName}',
               style: themeData.textTheme.headlineLarge
                   ?.copyWith(color: themeData.primaryColor, letterSpacing: 2),
             ),
             Text(
-              'Bitte melde dich an',
+              'login-text'.i18n(),
               style: themeData.textTheme.bodyMedium
                   ?.copyWith(color: themeData.primaryColor, letterSpacing: 2),
             ),
@@ -55,9 +74,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 4.0,
                         style: BorderStyle.solid)),
                 child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: SecurityQuestion(),
-                ),
+                    padding: EdgeInsets.all(20),
+                    // child: SecurityQuestion(),
+                    child: Login(
+                      userPasswordController: userPasswordController,
+                      loginPressed: _loginPressed,
+                      forgotPasswordPressed: _forgotPasswordPressed,
+                      formKey: _formKeyLogin,
+                    )),
               ),
             ),
           ],

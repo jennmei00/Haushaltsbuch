@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:haushaltsbuch/models/applog.dart';
+import 'package:haushaltsbuch/models/user.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/screens/account/account_overview_screen.dart';
@@ -16,8 +17,10 @@ import 'package:haushaltsbuch/screens/settings/credits_screen.dart';
 import 'package:haushaltsbuch/screens/settings/excel_export.dart';
 import 'package:haushaltsbuch/screens/settings/imprint_screen.dart';
 import 'package:haushaltsbuch/screens/settings/settings_screen.dart';
+import 'package:haushaltsbuch/screens/settings/user_data_screen.dart';
 import 'package:haushaltsbuch/screens/signup/login_screen.dart';
 import 'package:haushaltsbuch/screens/signup/signup_screen.dart';
+import 'package:haushaltsbuch/screens/signup/signup_splash_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/add_edit_standorder_screen.dart';
 import 'package:haushaltsbuch/screens/standingorders/standingorders_screen.dart';
 import 'package:haushaltsbuch/screens/start_screen.dart';
@@ -140,8 +143,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       },
       routes: {
         AccountScreen.routeName: (context) => AccountScreen(),
-        HomeScreen.routeName: (context) => HomeScreen(),
-        SettingsScreen.routeName: (context) => SettingsScreen(),
         StatisticsScreen.routeName: (context) => StatisticsScreen(),
         CategoriesScreen.routeName: (context) => CategoriesScreen(),
         StandingOrdersScreen.routeName: (context) => StandingOrdersScreen(),
@@ -149,7 +150,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ManagementScreen.routeName: (context) => ManagementScreen(),
         BudgetScreen.routeName: (context) => BudgetScreen(),
         ExcelExport.routeName: (context) => ExcelExport(),
-        LoginScreen.routeName: (context) => LoginScreen(),
         SignupScreen.routeName: (context) => SignupScreen(),
       },
       onGenerateRoute: (settings) {
@@ -236,6 +236,25 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             return NewBudgetScreen(
               id: args,
             );
+          });
+        } else if (settings.name == StartScreen.routeName) {
+          return MaterialPageRoute(builder: (context) {
+            return StartScreen(ctx: context);
+          });
+        } else if (settings.name == SettingsScreen.routeName) {
+          final args = settings.arguments as User;
+          return MaterialPageRoute(builder: (context) {
+            return SettingsScreen(user: args);
+          });
+        } else if (settings.name == UserDataScreen.routeName) {
+          final args = settings.arguments as User;
+          return MaterialPageRoute(builder: (context) {
+            return UserDataScreen(user: args);
+          });
+        } else if (settings.name == HomeScreen.routeName) {
+          final args = settings.arguments as User;
+          return MaterialPageRoute(builder: (context) {
+            return HomeScreen(user: args);
           });
         }
         assert(false, 'Need to implement ${settings.name}');

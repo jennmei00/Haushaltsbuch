@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/user.dart';
 import 'package:haushaltsbuch/screens/account/account_screen.dart';
 import 'package:haushaltsbuch/screens/categories/categories_screen.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
@@ -13,9 +14,11 @@ import 'package:localization/localization.dart';
 
 class AppDrawer extends StatelessWidget {
   final String selectedMenuItem;
+  final User? user;
 
   AppDrawer({
     required this.selectedMenuItem,
+    this.user,
   });
 
   @override
@@ -146,7 +149,7 @@ class AppDrawer extends StatelessWidget {
         Navigator.of(context).pushReplacementNamed(BudgetScreen.routeName);
         break;
       case 'settings':
-        Navigator.of(context).pushReplacementNamed(SettingsScreen.routeName);
+        Navigator.of(context).pushReplacementNamed(SettingsScreen.routeName, arguments: user);
         break;
     }
   }

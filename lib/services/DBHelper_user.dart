@@ -2,7 +2,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 
-abstract class DBLocalAuthDatasource {
+abstract class DBHelperUser {
   Future<Database> openDatabase();
   Future<void> deleteDatabase();
   Future<Map<String, dynamic>> getUser();
@@ -11,7 +11,7 @@ abstract class DBLocalAuthDatasource {
   Future<void> deleteUser();
 }
 
-class DBLocalAuthDatasourceImpl implements DBLocalAuthDatasource {
+class DBHelperUserImpl implements DBHelperUser {
   static sql.Database? _database;
   static int _versionNumber = 1;
 
