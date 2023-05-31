@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haushaltsbuch/models/all_data.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
 import 'package:haushaltsbuch/screens/signup/login_screen.dart';
 import 'package:haushaltsbuch/services/auth_provider.dart';
@@ -23,10 +24,11 @@ class _SignupSplashScreenState extends State<SignupSplashScreen> {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    print(authProvider.currentUser);
+
+    AllData.authProvider = authProvider;
 
     return authProvider.currentUser == null
         ? LoginScreen(userName: widget.userName)
-        : HomeScreen(user: authProvider.currentUser);
+        : HomeScreen();
   }
 }

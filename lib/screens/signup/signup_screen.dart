@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:haushaltsbuch/screens/signup/signup_splash_screen.dart';
 import 'package:haushaltsbuch/screens/start_screen.dart';
 import 'package:haushaltsbuch/services/auth_provider.dart';
 import 'package:haushaltsbuch/widgets/signup/security_question.dart';
 import 'package:haushaltsbuch/widgets/signup/signup.dart';
 import 'package:localization/localization.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -104,6 +102,11 @@ class _SignupScreenState extends State<SignupScreen> {
                           formKey: _formKeyRegister,
                         )
                       : SecurityQuestion(
+                          cancelPressed: () {
+                            setState(() {
+                              _showSecurityQuestion = false;
+                            });
+                          },
                           questionChanged: (int val) {
                             setState(() {
                               userSecurityQuestionIdx = val;

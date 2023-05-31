@@ -12,8 +12,6 @@ import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
 import 'package:haushaltsbuch/screens/home_screen.dart';
-import 'package:haushaltsbuch/screens/signup/login_screen.dart';
-import 'package:haushaltsbuch/screens/signup/signup_screen.dart';
 import 'package:haushaltsbuch/screens/signup/signup_splash_screen.dart';
 import 'package:haushaltsbuch/services/DBHelper.dart';
 import 'package:haushaltsbuch/services/auth_provider.dart';
@@ -133,14 +131,12 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           print(prefs.getBool('loginActivated'));
-          // prefs.setBool('loginActivated', false);
           return ChangeNotifierProvider(
             create: (context) => AuthProvider(),
             child: prefs.getBool('loginActivated') ?? false
                 ? SignupSplashScreen(
                     userName: prefs.getString('userName') ?? '')
-                : HomeScreen(
-                    user: Provider.of<AuthProvider>(context).currentUser),
+                : HomeScreen(),
           );
         } else if (snapshot.hasError)
           return Scaffold(

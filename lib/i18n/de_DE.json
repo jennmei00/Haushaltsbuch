@@ -196,5 +196,15 @@
     "login-text": "Bitte melde dich an",
     "login": "Anmelden",
     "forgot-password": "Passwort vergessen",
-    "wrong-password": "Falsches Passwort"
+    "wrong-password": "Falsches Passwort",
+    "changed-password": "Passwort geändert",
+    "changed-name": "Name geändert",
+    "changed-security-question": "Sicherheitsfrage geändert",
+    "changed-bio-auth": "Biometrische Authentifizierung geändert",
+    "local-auth-text": "Authenfifizieren, um biometrische Anmeldungn zu genehmigen",
+    "local-auth-exception-text": "Dein Gerät verfügt nicht über diese Funktion",
+    "deactivate-title": "Anmeldung deaktivieren",
+    "deactivate-content": "Mit der Deaktivierung wird deine Registrierung gelöscht.\nWillst du die Anmeldung wirklich deaktivieren?",
+    "deactivate": "Deaktivieren",
+    "wrong-answer": "Falsche Antwort"
 }

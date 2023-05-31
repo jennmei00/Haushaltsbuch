@@ -4,6 +4,7 @@ import 'package:haushaltsbuch/models/category.dart';
 import 'package:haushaltsbuch/models/posting.dart';
 import 'package:haushaltsbuch/models/standing_order.dart';
 import 'package:haushaltsbuch/models/transfer.dart';
+import 'package:haushaltsbuch/services/auth_provider.dart';
 
 class AllData {
   //If the keyword "late" is used, you have to initialize it later, but before you use it.
@@ -16,4 +17,5 @@ class AllData {
   static late List<Posting> postings;
   static late List<Transfer> transfers;
   static late List<StandingOrder> standingOrders;
+  static AuthProvider? authProvider;
 }

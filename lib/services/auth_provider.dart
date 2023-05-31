@@ -14,6 +14,10 @@ class AuthProvider with ChangeNotifier {
 
   User? get currentUser => _currentUser;
 
+  Future<User> get userData {
+    return _dbHelperUser!.getUser().then((value) => User.fromMap(value));
+  }
+
   Future<void> registerUser(String username, String password,
       int securityQuestionIndex, String securityAnswer) async {
     //register user and safe in database
@@ -45,8 +49,19 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<void> deleteUser() async {
+    await _dbHelperUser!.deleteUser();
+    logoutUser();
+  }
+
+  Future<bool> updateUser(User user) async {
+    _currentUser = user;
+    return await _dbHelperUser!
+        .changeUserData(user.toMap())
+        .then((value) => true, onError: (error) => false);
+  }
+
   Future<void> logoutUser() async {
     _currentUser = null;
-    notifyListeners();
   }
 }

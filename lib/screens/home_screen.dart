@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:haushaltsbuch/models/all_data.dart';
-import 'package:haushaltsbuch/models/user.dart';
 import 'package:haushaltsbuch/screens/account/new_account_screen.dart';
 import 'package:haushaltsbuch/screens/posting/income_expenses_screen.dart';
 import 'package:haushaltsbuch/screens/posting/transfer_screen.dart';
@@ -12,9 +11,6 @@ import 'package:localization/localization.dart';
 
 class HomeScreen extends StatefulWidget {
   static final routeName = '/home_screen';
-  final User? user;
-
-  HomeScreen({required this.user});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -67,7 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: AppDrawer(
         selectedMenuItem: 'home',
-        user: widget.user,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),

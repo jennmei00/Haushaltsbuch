@@ -196,5 +196,15 @@
     "login-text": "Please sign in",
     "login": "Sign in",
     "forgot-password": "Forgot password",
-    "wrong-password": "Wrong Password"
+    "wrong-password": "Wrong password",
+    "changed-password": "Changed password",
+    "changed-name": "Changed name",
+    "changed-security-question": "Changed security question",
+    "changed-bio-auth": "Changed biometrical authentification",
+    "local-auth-text": "Authenticate to approve biometrical sigin",
+    "local-auth-exception-text": "Your device does not have this feature",
+    "deactivate-title": "Deactivate login",
+    "deactivate-content": "With the deactivation your registration will be deleted.\nAre you sure you want to deactivate the login?",
+    "deactivate": "Deactivate",
+    "wrong-answer": "Wrong answer"
 }
