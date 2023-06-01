@@ -206,5 +206,8 @@
     "deactivate-title": "Anmeldung deaktivieren",
     "deactivate-content": "Mit der Deaktivierung wird deine Registrierung gelöscht.\nWillst du die Anmeldung wirklich deaktivieren?",
     "deactivate": "Deaktivieren",
-    "wrong-answer": "Falsche Antwort"
+    "wrong-answer": "Falsche Antwort",
+    "new-login-popup-title": "Neue Anmeldefunktion",
+    "new-login-popup-content": "Ab sofort kannst du in den Einstellungen unter \"Anmeldedaten\" die Anmeldung aktivieren.",
+    "close": "Schließen"
 }

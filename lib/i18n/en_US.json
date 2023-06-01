@@ -206,5 +206,8 @@
     "deactivate-title": "Deactivate login",
     "deactivate-content": "With the deactivation your registration will be deleted.\nAre you sure you want to deactivate the login?",
     "deactivate": "Deactivate",
-    "wrong-answer": "Wrong answer"
+    "wrong-answer": "Wrong answer",
+    "new-login-popup-title": "New login feature",
+    "new-login-popup-content": "You can now activate the login in the settings under \"Login data\".",
+    "close": "Close"
 }

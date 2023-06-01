@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -116,11 +117,42 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
     return Future.value(true);
   }
 
+  void showInfoPopupOnceAfterUpdate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool updated = prefs.getBool('updated') ?? false;
+
+    if (!updated) {
+      // Zeige das Info-Popup an
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            icon: Icon(CommunityMaterialIcons.information),
+            title: Text('new-login-popup-title'.i18n()),
+            content: Text('new-login-popup-content'.i18n()),
+            actions: [
+              TextButton(
+                child: Text('close'.i18n()),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+
+      // Setze den Update-Status auf true
+      await prefs.setBool('updated', true);
+    }
+  }
+
   @override
   void initState() {
     // DBHelper.deleteDatabse();
     _loadData = _getAllData();
     _getThemeMode();
+    showInfoPopupOnceAfterUpdate();
     super.initState();
   }
 

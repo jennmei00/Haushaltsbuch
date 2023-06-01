@@ -104,7 +104,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                 var prefs = await SharedPreferences.getInstance();
                 prefs.setBool('userBioAuth', _userBioAuth);
                 validate = true;
-                text = 'changed-bio-auth';
+                text = 'changed-bio-auth'.i18n();
               }
             });
           } catch (e) {
@@ -123,7 +123,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
           var prefs = await SharedPreferences.getInstance();
           prefs.setBool('userBioAuth', _userBioAuth);
           validate = true;
-          text = 'changed-bio-auth';
+          text = 'changed-bio-auth'.i18n();
         }
 
         break;

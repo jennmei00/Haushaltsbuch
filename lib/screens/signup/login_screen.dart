@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:haushaltsbuch/models/user.dart';
 import 'package:haushaltsbuch/services/auth_provider.dart';
 import 'package:haushaltsbuch/widgets/signup/forgot_password.dart';
 import 'package:haushaltsbuch/widgets/signup/login.dart';
 import 'package:haushaltsbuch/widgets/signup/security_question.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   final String userName;
@@ -32,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   AuthProvider? authProvider;
   bool _forgotPassword = false;
   bool _showSecurityQuestion = false;
+  bool _bioAuthActivated = false;
 
   User? _userData;
 
@@ -87,6 +91,31 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _getUserData() async {
     _userData = await authProvider!.userData;
+    var prefs = await SharedPreferences.getInstance();
+    _bioAuthActivated = prefs.getBool('userBioAuth') ?? false;
+    checkBioAuth(context);
+  }
+
+  Future<void> checkBioAuth(BuildContext context) async {
+    if (_bioAuthActivated) {
+      try {
+        await LocalAuthentication()
+            .authenticate(localizedReason: 'local-auth-text'.i18n())
+            .then((value) async {
+          if (value) {
+            authProvider!.loginUser(_userData!.password!);
+          }
+        });
+      } catch (e) {
+        print(e);
+        if (e is PlatformException) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+            'local-auth-exception-text'.i18n(),
+          )));
+        }
+      }
+    }
   }
 
   @override
@@ -137,13 +166,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: BorderStyle.solid)),
                 child: Padding(
                   padding: EdgeInsets.all(20),
-                  // child: SecurityQuestion(),
                   child: !_forgotPassword && !_showSecurityQuestion
                       ? Login(
                           userPasswordController: _userPasswordController,
                           loginPressed: _loginPressed,
                           forgotPasswordPressed: _forgotPasswordPressed,
                           formKey: _formKeyLogin,
+                          bioAuthActivated: _bioAuthActivated,
+                          fingerprintPressed: checkBioAuth,
                         )
                       : _showSecurityQuestion && _forgotPassword
                           ? SecurityQuestion(
