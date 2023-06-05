@@ -38,6 +38,7 @@ class _SignupScreenState extends State<SignupScreen> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('loginActivated', true);
       await prefs.setString('userName', userNameController.text);
+      await prefs.setBool('userBioAuth', false);
 
       await AuthProvider().registerUser(
         userNameController.text,
@@ -45,7 +46,9 @@ class _SignupScreenState extends State<SignupScreen> {
         userSecurityQuestionIdx,
         userSecurityAnswer.text,
       );
-
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
       Navigator.of(context).pushNamed(StartScreen.routeName);
     }
   }

@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _forgotPassword = false;
   bool _showSecurityQuestion = false;
   bool _bioAuthActivated = false;
-
+  bool _checkedBioAuth = false;
   User? _userData;
 
   _forgotPasswordPressed() {
@@ -93,10 +93,11 @@ class _LoginScreenState extends State<LoginScreen> {
     _userData = await authProvider!.userData;
     var prefs = await SharedPreferences.getInstance();
     _bioAuthActivated = prefs.getBool('userBioAuth') ?? false;
-    checkBioAuth(context);
+    if (!_checkedBioAuth) checkBioAuth(context);
   }
 
   Future<void> checkBioAuth(BuildContext context) async {
+    _checkedBioAuth = true;
     if (_bioAuthActivated) {
       try {
         await LocalAuthentication()
@@ -123,82 +124,94 @@ class _LoginScreenState extends State<LoginScreen> {
     final themeData = Theme.of(context);
     authProvider = Provider.of<AuthProvider>(context);
 
-    _getUserData();
-
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 150,
-              width: 150,
-              child: SvgPicture.asset('assets/images/logo_signup.svg'),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Text(
-              '${'hello'.i18n()} ${widget.userName}',
-              style: themeData.textTheme.headlineLarge
-                  ?.copyWith(color: themeData.primaryColor, letterSpacing: 2),
-            ),
-            Text(
-              _forgotPassword && _showSecurityQuestion
-                  ? 'change-security-question'.i18n()
-                  : _forgotPassword && !_showSecurityQuestion
-                      ? 'change-password'.i18n()
-                      : 'login-text'.i18n(),
-              style: themeData.textTheme.bodyMedium
-                  ?.copyWith(color: themeData.primaryColor, letterSpacing: 2),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            FractionallySizedBox(
-              widthFactor: 0.8,
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                        color: themeData.primaryColor,
-                        width: 4.0,
-                        style: BorderStyle.solid)),
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: !_forgotPassword && !_showSecurityQuestion
-                      ? Login(
-                          userPasswordController: _userPasswordController,
-                          loginPressed: _loginPressed,
-                          forgotPasswordPressed: _forgotPasswordPressed,
-                          formKey: _formKeyLogin,
-                          bioAuthActivated: _bioAuthActivated,
-                          fingerprintPressed: checkBioAuth,
-                        )
-                      : _showSecurityQuestion && _forgotPassword
-                          ? SecurityQuestion(
-                              userSecurityAnswer: _userSecruityAnswerController,
-                              userSecurityQuestionIdx:
-                                  _userData!.securityQuestionIndex,
-                              questionChanged: null,
-                              answerPressed: _answerPressed,
-                              cancelPressed: _cancelPressed,
-                              formKey: _formKeySecurityAnswer,
-                            )
-                          : ForgotPasword(
-                              newPassword: _userNewPasswordController,
-                              repeatNewPassword:
-                                  _userRepeatNewPasswordController,
-                              cancelPressed: _cancelPressed,
-                              resetPressed: _resetPressed,
-                              formKey: _formKeyForgotPassword,
-                            ),
+      body: FutureBuilder(
+          future: _getUserData(),
+          builder: (context, conState) {
+            if (conState.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator.adaptive();
+            } else if (conState.connectionState == ConnectionState.done) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 150,
+                      width: 150,
+                      child: SvgPicture.asset('assets/images/logo_signup.svg'),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      '${'hello'.i18n()} ${widget.userName}',
+                      style: themeData.textTheme.headlineLarge?.copyWith(
+                          color: themeData.primaryColor, letterSpacing: 2),
+                    ),
+                    Text(
+                      _forgotPassword && _showSecurityQuestion
+                          ? 'answer-security-question'.i18n()
+                          : _forgotPassword && !_showSecurityQuestion
+                              ? 'change-password'.i18n()
+                              : 'login-text'.i18n(),
+                      style: themeData.textTheme.bodyMedium?.copyWith(
+                          color: themeData.primaryColor, letterSpacing: 2),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    FractionallySizedBox(
+                      widthFactor: 0.8,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                                color: themeData.primaryColor,
+                                width: 4.0,
+                                style: BorderStyle.solid)),
+                        child: Padding(
+                          padding: EdgeInsets.all(20),
+                          child: !_forgotPassword && !_showSecurityQuestion
+                              ? Login(
+                                  userPasswordController:
+                                      _userPasswordController,
+                                  loginPressed: _loginPressed,
+                                  forgotPasswordPressed: _forgotPasswordPressed,
+                                  formKey: _formKeyLogin,
+                                  bioAuthActivated: _bioAuthActivated,
+                                  fingerprintPressed: checkBioAuth,
+                                )
+                              : _showSecurityQuestion && _forgotPassword
+                                  ? SecurityQuestion(
+                                      userSecurityAnswer:
+                                          _userSecruityAnswerController,
+                                      userSecurityQuestionIdx:
+                                          _userData!.securityQuestionIndex,
+                                      questionChanged: null,
+                                      answerPressed: _answerPressed,
+                                      cancelPressed: _cancelPressed,
+                                      formKey: _formKeySecurityAnswer,
+                                    )
+                                  : ForgotPasword(
+                                      newPassword: _userNewPasswordController,
+                                      repeatNewPassword:
+                                          _userRepeatNewPasswordController,
+                                      cancelPressed: _cancelPressed,
+                                      resetPressed: _resetPressed,
+                                      formKey: _formKeyForgotPassword,
+                                    ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
+              );
+            } else {
+              return Center(
+                child: Text("Something went wrong!"),
+              );
+            }
+          }),
     );
   }
 }

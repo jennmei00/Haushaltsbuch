@@ -327,20 +327,20 @@ class _UserDataScreenState extends State<UserDataScreen> {
                                 EdgeInsets.symmetric(horizontal: 20),
                             children: [
                               DropdownButton<int>(
-                                value: _userSecurityQuestionIdx,
-                                underline: Container(),
-                                isExpanded: true,
-                                items: SecurityQuestionEnum.values
-                                    .map((e) => DropdownMenuItem(
-                                        value: e.index,
-                                        child: Text(
-                                          e.value,
-                                          overflow: TextOverflow.visible,
-                                        )))
-                                    .toList(),
-                                onChanged: (val) =>
-                                    _userSecurityQuestionIdx = val!,
-                              ),
+                                  value: _userSecurityQuestionIdx,
+                                  underline: Container(),
+                                  isExpanded: true,
+                                  items: SecurityQuestionEnum.values
+                                      .map((e) => DropdownMenuItem(
+                                          value: e.index,
+                                          child: Text(
+                                            e.value,
+                                            overflow: TextOverflow.visible,
+                                          )))
+                                      .toList(),
+                                  onChanged: (val) => setState(() {
+                                        _userSecurityQuestionIdx = val!;
+                                      })),
                               SizedBox(height: 20),
                               Form(
                                 key: _formKeySecurityAnswer,

@@ -209,5 +209,6 @@
     "wrong-answer": "Wrong answer",
     "new-login-popup-title": "New login feature",
     "new-login-popup-content": "You can now activate the login in the settings under \"Login data\".",
-    "close": "Close"
+    "close": "Close",
+    "answer-security-question": "Answer security question"
 }

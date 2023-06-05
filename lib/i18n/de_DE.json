@@ -209,5 +209,6 @@
     "wrong-answer": "Falsche Antwort",
     "new-login-popup-title": "Neue Anmeldefunktion",
     "new-login-popup-content": "Ab sofort kannst du in den Einstellungen unter \"Anmeldedaten\" die Anmeldung aktivieren.",
-    "close": "Schließen"
+    "close": "Schließen",
+    "answer-security-question": "Sicherheitsfrage beantworten"
 }
