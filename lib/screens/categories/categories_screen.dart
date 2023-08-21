@@ -49,7 +49,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     scrollDirection: Axis.vertical,
                     childAspectRatio: 0.8,
                     padding: EdgeInsets.all(20),
-                    //TODO:
+                    //TODOCrossAxisCount Anpassen
                     crossAxisCount:
                         3, //(MediaQuery.of(context).size.width ~/ 120).toInt(),
                     crossAxisSpacing: MediaQuery.of(context).size.width * 0.04,
