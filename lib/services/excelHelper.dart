@@ -402,10 +402,13 @@ class ExcelHelper {
   }
 
   int _header(DateTimeRange dateRange, Worksheet sheet) {
-    int titleRange =
-        (Jiffy(dateRange.end).diff(dateRange.start, Units.MONTH).toInt() + 1) *
-                2 +
-            3;
+    int titleRange = (Jiffy.parseFromDateTime(dateRange.end)
+                    .diff(Jiffy.parseFromDateTime(dateRange.start),
+                        unit: Unit.month)
+                    .toInt() +
+                1) *
+            2 +
+        3;
     final Range title = sheet.getRangeByIndex(1, 1, 1, titleRange);
     title.merge();
     title.text = 'Mein Haushaltsbuch';
@@ -426,7 +429,7 @@ class ExcelHelper {
 
     for (DateTime date = dateRange.start;
         date.isBefore(dateRange.end) || date.isAtSameMomentAs(dateRange.end);
-        date = Jiffy(date).add(months: 1).dateTime) {
+        date = Jiffy.parseFromDateTime(date).add(months: 1).dateTime) {
       if (year == date.year) {
         dates[year]?.add(Month.values[date.month - 1]);
       } else {

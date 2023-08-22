@@ -21,7 +21,7 @@ class ExcelExport extends StatefulWidget {
 
 class _ExcelExportState extends State<ExcelExport> {
   Month _startMonth = Month.values[0];
-  // int _startYear = Jiffy(DateTime.now()).subtract(years: 1).year;
+  // int _startYear = Jiffy.parseFromDateTime(DateTime.now()).subtract(years: 1).year;
   int _startYear = DateTime.now().year;
   Month _endMonth = Month.values[DateTime.now().month - 1];
   int _endYear = DateTime.now().year;
@@ -33,11 +33,11 @@ class _ExcelExportState extends State<ExcelExport> {
       TextEditingController(text: '1000');
   String _selectedAccountsText = 'no-accounts-selected'.i18n();
   List<int> _yearList = [
-    Jiffy(DateTime.now()).subtract(years: 5).year,
-    Jiffy(DateTime.now()).subtract(years: 4).year,
-    Jiffy(DateTime.now()).subtract(years: 3).year,
-    Jiffy(DateTime.now()).subtract(years: 2).year,
-    Jiffy(DateTime.now()).subtract(years: 1).year,
+    Jiffy.parseFromDateTime(DateTime.now()).subtract(years: 5).year,
+    Jiffy.parseFromDateTime(DateTime.now()).subtract(years: 4).year,
+    Jiffy.parseFromDateTime(DateTime.now()).subtract(years: 3).year,
+    Jiffy.parseFromDateTime(DateTime.now()).subtract(years: 2).year,
+    Jiffy.parseFromDateTime(DateTime.now()).subtract(years: 1).year,
     DateTime.now().year,
   ];
   final _formKey = GlobalKey<FormState>();
@@ -379,11 +379,12 @@ class _ExcelExportState extends State<ExcelExport> {
       ));
     } else {
       DateTimeRange dateRange = DateTimeRange(
-        start: Jiffy(DateTime(_startYear, _startMonth.index + 1))
-            .startOf(Units.MONTH)
-            .dateTime,
-        end: Jiffy(DateTime(_endYear, _endMonth.index + 1))
-            .endOf(Units.MONTH)
+        start:
+            Jiffy.parseFromDateTime(DateTime(_startYear, _startMonth.index + 1))
+                .startOf(Unit.month)
+                .dateTime,
+        end: Jiffy.parseFromDateTime(DateTime(_endYear, _endMonth.index + 1))
+            .endOf(Unit.month)
             .dateTime,
       );
 
@@ -415,11 +416,12 @@ class _ExcelExportState extends State<ExcelExport> {
       ));
     } else {
       DateTimeRange dateRange = DateTimeRange(
-        start: Jiffy(DateTime(_startYear, _startMonth.index + 1))
-            .startOf(Units.MONTH)
-            .dateTime,
-        end: Jiffy(DateTime(_endYear, _endMonth.index + 1))
-            .endOf(Units.MONTH)
+        start:
+            Jiffy.parseFromDateTime(DateTime(_startYear, _startMonth.index + 1))
+                .startOf(Unit.month)
+                .dateTime,
+        end: Jiffy.parseFromDateTime(DateTime(_endYear, _endMonth.index + 1))
+            .endOf(Unit.month)
             .dateTime,
       );
 

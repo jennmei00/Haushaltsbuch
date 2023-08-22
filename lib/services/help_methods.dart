@@ -40,9 +40,9 @@ DateFormat weeklyDateFormat(BuildContext context) {
 }
 
 String formatCurrency(double amount, {String locale = "de"}) {
-  var formattedCurrency =
-      NumberFormat.currency(locale: locale, symbol: "${Globals.currency.symbol}")
-          .format(amount);
+  var formattedCurrency = NumberFormat.currency(
+          locale: locale, symbol: "${Globals.currency.symbol}")
+      .format(amount);
   return '$formattedCurrency';
 }
 
@@ -137,27 +137,27 @@ Color getColorToSave(Color color) {
 DateTime getMondayOfWeek(DateTime date) {
   DateTime monday;
 
-  switch (Jiffy(date).day) {
+  switch (Jiffy.parseFromDateTime(date).dayOfWeek) {
     case 1:
-      monday = Jiffy(date).subtract(days: 6).dateTime;
+      monday = Jiffy.parseFromDateTime(date).subtract(days: 6).dateTime;
       break;
     case 2:
       monday = date;
       break;
     case 3:
-      monday = Jiffy(date).subtract(days: 1).dateTime;
+      monday = Jiffy.parseFromDateTime(date).subtract(days: 1).dateTime;
       break;
     case 4:
-      monday = Jiffy(date).subtract(days: 2).dateTime;
+      monday = Jiffy.parseFromDateTime(date).subtract(days: 2).dateTime;
       break;
     case 5:
-      monday = Jiffy(date).subtract(days: 3).dateTime;
+      monday = Jiffy.parseFromDateTime(date).subtract(days: 3).dateTime;
       break;
     case 6:
-      monday = Jiffy(date).subtract(days: 4).dateTime;
+      monday = Jiffy.parseFromDateTime(date).subtract(days: 4).dateTime;
       break;
     case 7:
-      monday = Jiffy(date).subtract(days: 5).dateTime;
+      monday = Jiffy.parseFromDateTime(date).subtract(days: 5).dateTime;
       break;
     default:
       monday = date;
@@ -283,10 +283,11 @@ bool _updatePostings(bool isUpdated, bool appResumed) {
     try {
       lastPosting = AllData.postings.length == 0
           ? null
-          : AllData.postings.lastWhere(((elementPosting) =>
-              elementPosting.standingOrder == null
+          : AllData.postings.lastWhere(
+              ((elementPosting) => elementPosting.standingOrder == null
                   ? false
-                  : elementPosting.standingOrder?.id == element.id), orElse: () => Posting(id: 'NoPosting'));
+                  : elementPosting.standingOrder?.id == element.id),
+              orElse: () => Posting(id: 'NoPosting'));
     } catch (ex) {
       FileHelper().writeAppLog(AppLog(ex.toString(), 'Update Postings'));
 
@@ -321,11 +322,17 @@ bool _updatePostings(bool isUpdated, bool appResumed) {
         date = element.begin!;
       }
       int i = 1;
-      while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-        if (!appResumed)
-          _addPosting(element, Jiffy(date).add(months: i).dateTime);
-        isUpdated = true;
-        i++;
+      if (date != null) {
+        while (Jiffy.parseFromDateTime(date)
+            .add(months: i)
+            .dateTime
+            .isBefore(DateTime.now())) {
+          if (!appResumed)
+            _addPosting(
+                element, Jiffy.parseFromDateTime(date).add(months: i).dateTime);
+          isUpdated = true;
+          i++;
+        }
       }
     } else if (element.repetition == Repetition.quarterly) {
       DateTime? date;
@@ -339,11 +346,17 @@ bool _updatePostings(bool isUpdated, bool appResumed) {
         date = element.begin!;
       }
       int i = 3;
-      while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-        if (!appResumed)
-          _addPosting(element, Jiffy(date).add(months: i).dateTime);
-        isUpdated = true;
-        i += 3;
+      if (date != null) {
+        while (Jiffy.parseFromDateTime(date)
+            .add(months: i)
+            .dateTime
+            .isBefore(DateTime.now())) {
+          if (!appResumed)
+            _addPosting(
+                element, Jiffy.parseFromDateTime(date).add(months: i).dateTime);
+          isUpdated = true;
+          i += 3;
+        }
       }
     } else if (element.repetition == Repetition.halfYearly) {
       DateTime? date;
@@ -357,11 +370,17 @@ bool _updatePostings(bool isUpdated, bool appResumed) {
         date = element.begin!;
       }
       int i = 6;
-      while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-        if (!appResumed)
-          _addPosting(element, Jiffy(date).add(months: i).dateTime);
-        isUpdated = true;
-        i += 6;
+      if (date != null) {
+        while (Jiffy.parseFromDateTime(date)
+            .add(months: i)
+            .dateTime
+            .isBefore(DateTime.now())) {
+          if (!appResumed)
+            _addPosting(
+                element, Jiffy.parseFromDateTime(date).add(months: i).dateTime);
+          isUpdated = true;
+          i += 6;
+        }
       }
     } else if (element.repetition == Repetition.yearly) {
       DateTime? date;
@@ -375,11 +394,17 @@ bool _updatePostings(bool isUpdated, bool appResumed) {
         date = element.begin!;
       }
       int i = 1;
-      while (Jiffy(date).add(years: i).dateTime.isBefore(DateTime.now())) {
-        if (!appResumed)
-          _addPosting(element, Jiffy(date).add(years: i).dateTime);
-        isUpdated = true;
-        i++;
+      if (date != null) {
+        while (Jiffy.parseFromDateTime(date)
+            .add(years: i)
+            .dateTime
+            .isBefore(DateTime.now())) {
+          if (!appResumed)
+            _addPosting(
+                element, Jiffy.parseFromDateTime(date).add(years: i).dateTime);
+          isUpdated = true;
+          i++;
+        }
       }
     }
   });
@@ -436,11 +461,17 @@ bool _updateTransfers(bool isUpdated, bool appResumed) {
         date = element.begin!;
       }
       int i = 1;
-      while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-        if (!appResumed)
-          _addTransfer(element, Jiffy(date).add(months: i).dateTime);
-        isUpdated = true;
-        i++;
+      if (date != null) {
+        while (Jiffy.parseFromDateTime(date)
+            .add(months: i)
+            .dateTime
+            .isBefore(DateTime.now())) {
+          if (!appResumed)
+            _addTransfer(
+                element, Jiffy.parseFromDateTime(date).add(months: i).dateTime);
+          isUpdated = true;
+          i++;
+        }
       }
     } else if (element.repetition == Repetition.quarterly) {
       DateTime? date;
@@ -454,11 +485,17 @@ bool _updateTransfers(bool isUpdated, bool appResumed) {
         date = element.begin!;
       }
       int i = 3;
-      while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-        if (!appResumed)
-          _addTransfer(element, Jiffy(date).add(months: i).dateTime);
-        isUpdated = true;
-        i += 3;
+      if (date != null) {
+        while (Jiffy.parseFromDateTime(date)
+            .add(months: i)
+            .dateTime
+            .isBefore(DateTime.now())) {
+          if (!appResumed)
+            _addTransfer(
+                element, Jiffy.parseFromDateTime(date).add(months: i).dateTime);
+          isUpdated = true;
+          i += 3;
+        }
       }
     } else if (element.repetition == Repetition.halfYearly) {
       DateTime? date;
@@ -472,11 +509,17 @@ bool _updateTransfers(bool isUpdated, bool appResumed) {
         date = element.begin!;
       }
       int i = 6;
-      while (Jiffy(date).add(months: i).dateTime.isBefore(DateTime.now())) {
-        if (!appResumed)
-          _addTransfer(element, Jiffy(date).add(months: i).dateTime);
-        isUpdated = true;
-        i += 6;
+      if (date != null) {
+        while (Jiffy.parseFromDateTime(date)
+            .add(months: i)
+            .dateTime
+            .isBefore(DateTime.now())) {
+          if (!appResumed)
+            _addTransfer(
+                element, Jiffy.parseFromDateTime(date).add(months: i).dateTime);
+          isUpdated = true;
+          i += 6;
+        }
       }
     } else if (element.repetition == Repetition.yearly) {
       DateTime? date;
@@ -490,11 +533,17 @@ bool _updateTransfers(bool isUpdated, bool appResumed) {
         date = element.begin!;
       }
       int i = 1;
-      while (Jiffy(date).add(years: i).dateTime.isBefore(DateTime.now())) {
-        if (!appResumed)
-          _addTransfer(element, Jiffy(date).add(years: i).dateTime);
-        isUpdated = true;
-        i++;
+      if (date != null) {
+        while (Jiffy.parseFromDateTime(date)
+            .add(years: i)
+            .dateTime
+            .isBefore(DateTime.now())) {
+          if (!appResumed)
+            _addTransfer(
+                element, Jiffy.parseFromDateTime(date).add(years: i).dateTime);
+          isUpdated = true;
+          i++;
+        }
       }
     }
   });
