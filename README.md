@@ -1,7 +1,7 @@
-# haushaltsbuch
+# Haushaltsbuch
 
 Developed with Flutter/Dart.
-This app is only developed for Android Devices and currently published in the [PlayStore](https://play.google.com/store/apps/details?id=com.haushaltsbuch)
+This app is only developed for Android Devices and currently published in the [PlayStore](https://play.google.com/store/apps/details?id=com.haushaltsbuch).
 
 The database is stored locally on the device using sqflite.
 
