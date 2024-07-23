@@ -25,7 +25,8 @@ class _LineChartState extends State<LineChart> {
   bool _oneMonthIsDisabled = false;
 
   DateTimeRange _dateRange = DateTimeRange(
-      start: Jiffy.parseFromDateTime(DateTime.now()).subtract(months: 3).dateTime,
+      start:
+          Jiffy.parseFromDateTime(DateTime.now()).subtract(months: 3).dateTime,
       end: DateTime.now());
 
   DateTime firstAccountCreation = DateTime.now();
@@ -38,7 +39,7 @@ class _LineChartState extends State<LineChart> {
 
     var firstDate = getMondayOfWeek(element.creationDate!);
     double firstBankBalance = _getFirstBankBalance(element);
- 
+
     _chartData.add(_ChartData(
       firstDate,
       firstBankBalance,
@@ -54,15 +55,20 @@ class _LineChartState extends State<LineChart> {
       int i = 0;
       double newAmount = firstBankBalance;
       // if((Jiffy(firstDate).add(days: i).dateTime.isBefore(DateTime.now()))
-      while (Jiffy.parseFromDateTime(firstDate).add(days: i).dateTime.isBefore(DateTime.now())) {
+      while (Jiffy.parseFromDateTime(firstDate)
+          .add(days: i)
+          .dateTime
+          .isBefore(DateTime.now())) {
         List<Posting> postList = AllData.postings
             .where((post) => post.account == null
                 ? false
                 : (post.account!.id == element.id &&
-                    (post.date!.isBefore(
-                            Jiffy.parseFromDateTime(firstDate).add(days: i + 7).dateTime) &&
-                        post.date!
-                            .isAfter(Jiffy.parseFromDateTime(firstDate).add(days: i).dateTime))))
+                    (post.date!.isBefore(Jiffy.parseFromDateTime(firstDate)
+                            .add(days: i + 7)
+                            .dateTime) &&
+                        post.date!.isAfter(Jiffy.parseFromDateTime(firstDate)
+                            .add(days: i)
+                            .dateTime))))
             .toList();
 
         postList.sort((pos1, pos2) => pos1.date!.compareTo(pos2.date!));
@@ -75,10 +81,12 @@ class _LineChartState extends State<LineChart> {
                     (trans.accountTo != null
                         ? trans.accountTo!.id == element.id
                         : false)) &&
-                (trans.date!
-                        .isBefore(Jiffy.parseFromDateTime(firstDate).add(days: i + 7).dateTime) &&
-                    trans.date!
-                        .isAfter(Jiffy.parseFromDateTime(firstDate).add(days: i).dateTime)))
+                (trans.date!.isBefore(Jiffy.parseFromDateTime(firstDate)
+                        .add(days: i + 7)
+                        .dateTime) &&
+                    trans.date!.isAfter(Jiffy.parseFromDateTime(firstDate)
+                        .add(days: i)
+                        .dateTime)))
             .toList();
 
         transList
@@ -100,8 +108,9 @@ class _LineChartState extends State<LineChart> {
         });
 
         if (transList.length != 0 || postList.length != 0)
-          _chartData.add(
-              _ChartData(Jiffy.parseFromDateTime(firstDate).add(days: i).dateTime, newAmount));
+          _chartData.add(_ChartData(
+              Jiffy.parseFromDateTime(firstDate).add(days: i).dateTime,
+              newAmount));
 
         i += 7;
       }
@@ -115,14 +124,16 @@ class _LineChartState extends State<LineChart> {
   @override
   Widget build(BuildContext context) {
     ButtonStyle buttonStyle = ButtonStyle(
-      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-        (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled))
+      backgroundColor: WidgetStateProperty.resolveWith<Color>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled))
             return Theme.of(context).colorScheme.primary.withOpacity(0.5);
           else
             return Theme.of(context).colorScheme.primary;
         },
       ),
+      foregroundColor:
+          WidgetStateProperty.all(Theme.of(context).colorScheme.surface),
     );
 
     return SingleChildScrollView(
@@ -285,7 +296,8 @@ class _LineChartState extends State<LineChart> {
                                     _threeMonthsIsDisabled = false;
                                     _oneMonthIsDisabled = false;
                                     _dateRange = DateTimeRange(
-                                        start: Jiffy.parseFromDateTime(DateTime.now())
+                                        start: Jiffy.parseFromDateTime(
+                                                DateTime.now())
                                             .subtract(years: 1)
                                             .dateTime,
                                         end: DateTime.now());
@@ -307,7 +319,8 @@ class _LineChartState extends State<LineChart> {
                                     _threeMonthsIsDisabled = false;
                                     _oneMonthIsDisabled = false;
                                     _dateRange = DateTimeRange(
-                                        start: Jiffy.parseFromDateTime(DateTime.now())
+                                        start: Jiffy.parseFromDateTime(
+                                                DateTime.now())
                                             .subtract(months: 6)
                                             .dateTime,
                                         end: DateTime.now());
@@ -334,7 +347,8 @@ class _LineChartState extends State<LineChart> {
                                     _threeMonthsIsDisabled = true;
                                     _oneMonthIsDisabled = false;
                                     _dateRange = DateTimeRange(
-                                        start: Jiffy.parseFromDateTime(DateTime.now())
+                                        start: Jiffy.parseFromDateTime(
+                                                DateTime.now())
                                             .subtract(months: 3)
                                             .dateTime,
                                         end: DateTime.now());
@@ -356,7 +370,8 @@ class _LineChartState extends State<LineChart> {
                                     _threeMonthsIsDisabled = false;
                                     _oneMonthIsDisabled = true;
                                     _dateRange = DateTimeRange(
-                                        start: Jiffy.parseFromDateTime(DateTime.now())
+                                        start: Jiffy.parseFromDateTime(
+                                                DateTime.now())
                                             .subtract(months: 1)
                                             .dateTime,
                                         end: DateTime.now());

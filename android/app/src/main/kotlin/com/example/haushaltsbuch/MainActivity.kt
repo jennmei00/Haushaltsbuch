@@ -1,4 +1,4 @@
-package com.example.haushaltsbuch
+package com.haushaltsbuch
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

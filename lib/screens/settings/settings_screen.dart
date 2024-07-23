@@ -115,7 +115,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           GestureDetector(
             child: ListTile(
-              // leading: Icon(Icons.euro),
               leading: Text(
                 Globals.currency.symbol,
                 style: TextStyle(fontSize: 30, color: Colors.grey),
@@ -328,8 +327,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Text('delete-all-data'.i18n()),
               style: ButtonStyle(
                 alignment: Alignment.centerLeft,
-                padding: MaterialStateProperty.all(EdgeInsets.zero),
-                foregroundColor: MaterialStateProperty.all(Colors.red),
+                padding: WidgetStateProperty.all(EdgeInsets.zero),
+                foregroundColor: WidgetStateProperty.all(Colors.red),
               ),
               onPressed: () {
                 showDialog(

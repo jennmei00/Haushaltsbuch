@@ -84,9 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: GridView.count(
                 crossAxisCount: 3,
-                // child: SingleChildScrollView(
-                //   scrollDirection: Axis.horizontal,
-                //   child: Row(
                 children: [
                   GestureDetector(
                     onTap: () => openScreen('posting-income'),
@@ -99,7 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text('posting'.i18n()),
                     ]),
                   ),
-                  // SizedBox(width: 20),
                   GestureDetector(
                     onTap: () => openScreen('posting-expense'),
                     child: Column(children: [
@@ -111,7 +107,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text('posting'.i18n()),
                     ]),
                   ),
-                  // SizedBox(width: 20),
                   GestureDetector(
                     onTap: () => openScreen('transfer'),
                     child: Column(children: [
@@ -123,7 +118,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text('transfer'.i18n()),
                     ]),
                   ),
-                  // SizedBox(width: 20),
                   GestureDetector(
                     onTap: () => openScreen('account'),
                     child: Column(children: [
@@ -135,7 +129,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text('account'.i18n()),
                     ]),
                   ),
-                  // SizedBox(width: 20),
                   GestureDetector(
                     onTap: () => openScreen('standingorder'),
                     child: Column(children: [
@@ -150,51 +143,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            // ),
           ],
         ),
       ),
-      // Center(
-      //   child: Container(
-      //     decoration: BoxDecoration(
-      //       shape: BoxShape.circle,
-      //       boxShadow: [
-      //         BoxShadow(
-      //           blurRadius: 20,
-      //           color: Theme.of(context).primaryColor,
-      //           spreadRadius: 10,
-      //         )
-      //       ],
-      //     ),
-      //     child: GestureDetector(
-      //       onTap: () {
-      //         if (!showsBalance) {
-      //           setState(() {
-      //             value = totalBankBalance.toString() + ' €';
-      //             showsBalance = true;
-      //           });
-      //         } else {
-      //           setState(() {
-      //             value = 'Dein Vermögen beträgt';
-      //             showsBalance = false;
-      //           });
-      //         }
-      //       },
-      //       child: CircleAvatar(
-      //         radius: 150,
-      //         backgroundColor: Theme.of(context).primaryColor,
-      //         child: Text(
-      //           value,
-      //           textAlign: TextAlign.center,
-      //           style: TextStyle(
-      //               fontFamily: 'Handwritingstyle',
-      //               fontSize: 50,
-      //               fontWeight: FontWeight.bold),
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ),
     );
   }
 
