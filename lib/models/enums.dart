@@ -48,8 +48,6 @@ extension SecurityQuestionExtension on SecurityQuestionEnum {
         return 'Gebe Marke und Model deines Autos an.';
       case SecurityQuestionEnum.Question5:
         return 'In welcher Stadt bzw. welchem Ort haben sich deine Eltern kennengelernt?';
-      default:
-        return '';
     }
   }
 }
