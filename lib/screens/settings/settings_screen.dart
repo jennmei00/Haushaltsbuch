@@ -328,8 +328,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Text('delete-all-data'.i18n()),
               style: ButtonStyle(
                 alignment: Alignment.centerLeft,
-                padding: MaterialStateProperty.all(EdgeInsets.zero),
-                foregroundColor: MaterialStateProperty.all(Colors.red),
+                padding: WidgetStateProperty.all(EdgeInsets.zero),
+                foregroundColor: WidgetStateProperty.all(Colors.red),
               ),
               onPressed: () {
                 showDialog(
