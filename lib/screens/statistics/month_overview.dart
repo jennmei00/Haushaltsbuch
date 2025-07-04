@@ -26,14 +26,14 @@ class _CircularChartState extends State<CircularChart>
     return Column(
       children: [
         Container(
-          //color: Theme.of(context).primaryColor.withOpacity(0.1),
+          //color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
             boxShadow: [
               BoxShadow(
                 color: Globals.isDarkmode
-                    ? Colors.black.withOpacity(0.5)
-                    : Colors.grey.withOpacity(0.5),
+                    ? Colors.black.withValues(alpha: 0.5)
+                    : Colors.grey.withValues(alpha: 0.5),
                 spreadRadius: 2,
                 blurRadius: 5,
                 //offset: Offset(0, 3), // changes position of shadow

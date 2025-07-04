@@ -127,7 +127,7 @@ class _LineChartState extends State<LineChart> {
       backgroundColor: WidgetStateProperty.resolveWith<Color>(
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled))
-            return Theme.of(context).colorScheme.primary.withOpacity(0.5);
+            return Theme.of(context).colorScheme.primary.withValues(alpha: 0.5);
           else
             return Theme.of(context).colorScheme.primary;
         },
@@ -217,8 +217,8 @@ class _LineChartState extends State<LineChart> {
                 boxShadow: [
                   BoxShadow(
                     color: Globals.isDarkmode
-                        ? Colors.black.withOpacity(0.5)
-                        : Colors.grey.withOpacity(0.5),
+                        ? Colors.black.withValues(alpha: 0.5)
+                        : Colors.grey.withValues(alpha: 0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
                     //offset: Offset(0, 3), // changes position of shadow

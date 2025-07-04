@@ -126,7 +126,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                     padding: EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: getColor(_accountColor).withOpacity(0.20),
+                      color: getColor(_accountColor).withValues(alpha: 0.20),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
@@ -148,9 +148,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Colors
-                      .grey 
-                      .withOpacity(0.15),
+                  color: Colors.grey.withValues(alpha: 0.15),
                   border: Border.all(
                     color: getColor(_accountColor),
                   ),
@@ -158,13 +156,12 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                 padding: EdgeInsets.all(15),
                 child: Center(
                   child: Text(
-                    formatCurrency(_accountBalance,locale: Localizations.localeOf(context).languageCode),
+                    formatCurrency(_accountBalance,
+                        locale: Localizations.localeOf(context).languageCode),
                     style: TextStyle(
                       color: _accountBalance < 0
                           ? Colors.red
-                          : Theme.of(context)
-                              .colorScheme
-                              .onSurface,
+                          : Theme.of(context).colorScheme.onSurface,
                       fontSize: 24,
                     ),
                   ),
@@ -224,7 +221,7 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: getColor(listObj.category!.color!).withOpacity(0.20),
+                  color: getColor(listObj.category!.color!).withValues(alpha: 0.20),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
@@ -246,11 +243,17 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
               ),
               trailing: listObj.postingType == PostingType.income
                   ? Text(
-                      '+ ' + formatCurrency(listObj.amount!, locale: Localizations.localeOf(context).languageCode),
+                      '+ ' +
+                          formatCurrency(listObj.amount!,
+                              locale:
+                                  Localizations.localeOf(context).languageCode),
                       style: TextStyle(color: Colors.green),
                     )
                   : Text(
-                      '- ' + formatCurrency(listObj.amount!, locale: Localizations.localeOf(context).languageCode),
+                      '- ' +
+                          formatCurrency(listObj.amount!,
+                              locale:
+                                  Localizations.localeOf(context).languageCode),
                       style: TextStyle(color: Colors.red),
                     ),
               childrenPadding:
@@ -300,10 +303,10 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                         colors: <Color>[
                           getColor(getAccountColorFromAccountName(
                                   listObj.accountFromName!))
-                              .withOpacity(0.35),
+                              .withValues(alpha: 0.35),
                           getColor(getAccountColorFromAccountName(
                                   listObj.accountToName!))
-                              .withOpacity(0.35)
+                              .withValues(alpha: 0.35)
                         ],
                       ),
                     ),
@@ -321,10 +324,10 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                             colors: <Color>[
                               getColor(getAccountColorFromAccountName(
                                       listObj.accountFromName!))
-                                  .withOpacity(0.8),
+                                  .withValues(alpha: 0.8),
                               getColor(getAccountColorFromAccountName(
                                       listObj.accountToName!))
-                                  .withOpacity(0.8)
+                                  .withValues(alpha: 0.8)
                             ],
                           ).createShader(bounds);
                         },
@@ -348,7 +351,8 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
                     formatDate(listObj.date!, context),
                     style: TextStyle(color: Colors.grey.shade400),
                   ),
-                  trailing: Text(formatCurrency(listObj.amount!, locale: Localizations.localeOf(context).languageCode)),
+                  trailing: Text(formatCurrency(listObj.amount!,
+                      locale: Localizations.localeOf(context).languageCode)),
                   childrenPadding:
                       EdgeInsets.only(left: 10, bottom: 10, right: 10, top: 5),
                   expandedAlignment: Alignment.topLeft,

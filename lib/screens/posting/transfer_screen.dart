@@ -139,7 +139,7 @@ class _TransferScreenState extends State<TransferScreen> {
                 height: 65,
                 child: Image.asset(
                   'assets/icons/other_icons/arrow.png',
-                  color: Theme.of(context).primaryColorDark.withOpacity(0.8),
+                  color: Theme.of(context).primaryColorDark.withValues(alpha: 0.8),
                 ),
               ),
               SizedBox(height: 20),

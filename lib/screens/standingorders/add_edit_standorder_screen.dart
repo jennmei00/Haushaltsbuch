@@ -176,7 +176,7 @@ class _AddEditStandingOrderState extends State<AddEditStandingOrder> {
                             'assets/icons/other_icons/arrow.png',
                             color: Theme.of(context)
                                 .primaryColorDark
-                                .withOpacity(0.8),
+                                .withValues(alpha: 0.8),
                           ),
                         ),
                         SizedBox(height: 20),

@@ -254,7 +254,7 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: getColor(item.category!.color!).withOpacity(0.20),
+                      color: getColor(item.category!.color!).withValues(alpha: 0.20),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
@@ -275,10 +275,10 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                         colors: <Color>[
                           getColor(getAccountColorFromAccountName(
                                   item.account!.title!))
-                              .withOpacity(0.35),
+                              .withValues(alpha: 0.35),
                           getColor(getAccountColorFromAccountName(
                                   item.accountTo!.title!))
-                              .withOpacity(0.35)
+                              .withValues(alpha: 0.35)
                         ],
                       ),
                     ),
@@ -296,10 +296,10 @@ class _StandingOrdersScreenState extends State<StandingOrdersScreen> {
                             colors: <Color>[
                               getColor(getAccountColorFromAccountName(
                                       item.account!.title!))
-                                  .withOpacity(0.8),
+                                  .withValues(alpha: 0.8),
                               getColor(getAccountColorFromAccountName(
                                       item.accountTo!.title!))
-                                  .withOpacity(0.8)
+                                  .withValues(alpha: 0.8)
                             ],
                           ).createShader(bounds);
                         },

@@ -230,10 +230,10 @@ class _ManageTransfersState extends State<ManageTransfers> {
                 colors: <Color>[
                   getColor(getAccountColorFromAccountName(
                           transfer.accountFromName!))
-                      .withOpacity(0.35),
+                      .withValues(alpha: 0.35),
                   getColor(getAccountColorFromAccountName(
                           transfer.accountToName!))
-                      .withOpacity(0.35)
+                      .withValues(alpha: 0.35)
                 ],
               ),
             ),
@@ -250,10 +250,10 @@ class _ManageTransfersState extends State<ManageTransfers> {
                     colors: <Color>[
                       getColor(getAccountColorFromAccountName(
                               transfer.accountFromName!))
-                          .withOpacity(0.8),
+                          .withValues(alpha: 0.8),
                       getColor(getAccountColorFromAccountName(
                               transfer.accountToName!))
-                          .withOpacity(0.8)
+                          .withValues(alpha: 0.8)
                     ],
                   ).createShader(bounds);
                 },

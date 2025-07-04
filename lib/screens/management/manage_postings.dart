@@ -256,7 +256,7 @@ class _ManagePostingsState extends State<ManagePostings> {
               padding: EdgeInsets.all(5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: getColor(posting.category!.color!).withOpacity(0.20),
+                color: getColor(posting.category!.color!).withValues(alpha: 0.20),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(4.0),

@@ -153,7 +153,7 @@ class _NewCategorieScreenState extends State<NewCategorieScreen> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   color: _selectedIcon == item
-                                      ? _iconcolor.withOpacity(0.18)
+                                      ? _iconcolor.withValues(alpha: 0.18)
                                       : null,
                                 ),
                                 child: Padding(

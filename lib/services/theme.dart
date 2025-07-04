@@ -40,8 +40,11 @@ final lightTheme = ThemeData(
   primarySwatch: Colors.grey,
   brightness: colorSchemeLight.brightness,
   scaffoldBackgroundColor: colorSchemeLight.surface,
-  indicatorColor: Colors.white,
+  // indicatorColor: Colors.white,
   inputDecorationTheme: InputTheme().theme(colorSchemeLight),
+  tabBarTheme: TabBarThemeData(
+    indicatorColor: Colors.white,
+  ),
 );
 
 final ColorScheme colorSchemeDark = ColorScheme.dark(
@@ -60,4 +63,8 @@ final darkTheme = ThemeData(
     floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: colorSchemeDark.secondary),
     inputDecorationTheme: InputTheme().theme(colorSchemeDark),
-    indicatorColor: colorSchemeDark.secondary);
+    tabBarTheme: TabBarThemeData(
+      indicatorColor: colorSchemeDark.secondary,
+    ),
+    // indicatorColor: colorSchemeDark.secondary
+    );

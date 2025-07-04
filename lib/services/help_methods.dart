@@ -97,7 +97,7 @@ Repetition getRepetitionFromString(String repetition) {
 
 Color getLightColorFromDarkColor(Color color) {
   ColorSwatch<Object> darkColorKey = Globals.customSwatchDarkMode.keys
-      .firstWhere((element) => element.value == color.value);
+      .firstWhere((element) => element.toARGB32() == color.toARGB32());
 
   Color lightColor = Globals.customSwatchLightMode.keys.firstWhere((element) =>
       Globals.customSwatchLightMode[element] ==
@@ -108,7 +108,7 @@ Color getLightColorFromDarkColor(Color color) {
 
 Color getDarkColorFromLightColor(Color color) {
   ColorSwatch<Object> lightColorKey = Globals.customSwatchLightMode.keys
-      .firstWhere((element) => element.value == color.value);
+      .firstWhere((element) => element.toARGB32() == color.toARGB32());
 
   Color darkColor = Globals.customSwatchDarkMode.keys.firstWhere((element) =>
       Globals.customSwatchDarkMode[element] ==

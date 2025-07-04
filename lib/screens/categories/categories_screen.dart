@@ -65,13 +65,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
                                         color: getColor(item.color!)
-                                            .withOpacity(0.18),
+                                            .withValues(alpha: 0.18),
                                         border: Border.all(
                                             color: getColor(item.color!),
                                             width: 0.5)),
                                     child: InkWell(
                                       splashColor: getColor(item.color!)
-                                          .withOpacity(0.2),
+                                          .withValues(alpha: 0.2),
                                       borderRadius: BorderRadius.circular(12),
                                       onTap: () => Navigator.of(context)
                                           .pushNamed(

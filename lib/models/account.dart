@@ -34,7 +34,7 @@ class Account {
     map['InitialBankBalance'] = this.initialBankBalance;
     map['CreationDate'] = this.creationDate!.toIso8601String();
     map['Color'] =
-        this.color == null ? Colors.black : this.color!.value.toString();
+        this.color == null ? Colors.black : this.color!.toARGB32().toString();
     map['Symbol'] = this.symbol;
     map['AccountTypeID'] =
         this.accountType == null ? '99' : this.accountType!.id;

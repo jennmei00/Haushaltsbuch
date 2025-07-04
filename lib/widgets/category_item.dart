@@ -43,11 +43,11 @@ class CategoryItem extends StatelessWidget {
                     ? Colors.transparent
                     : multiSelection
                         ? (selectedCatList!.contains(categoryItem)
-                            ? getColor(categoryItem.color!).withOpacity(0.25)
-                            : getColor(categoryItem.color!).withOpacity(0.08))
+                            ? getColor(categoryItem.color!).withValues(alpha: 0.25)
+                            : getColor(categoryItem.color!).withValues(alpha: 0.08))
                         : (selectedCatID == '${categoryItem.id}'
-                            ? getColor(categoryItem.color!).withOpacity(0.25)
-                            : getColor(categoryItem.color!).withOpacity(0.08)),
+                            ? getColor(categoryItem.color!).withValues(alpha: 0.25)
+                            : getColor(categoryItem.color!).withValues(alpha: 0.08)),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),

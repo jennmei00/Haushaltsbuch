@@ -299,7 +299,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(12),
                                               color: getColor(e.color!)
-                                                  .withOpacity(0.20),
+                                                  .withValues(alpha: 0.20),
                                             ),
                                             child: Padding(
                                               padding:

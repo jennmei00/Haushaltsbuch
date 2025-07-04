@@ -200,29 +200,29 @@ class DBHelper {
     await db.execute(
         "INSERT INTO AccountType VALUES('${Uuid().v1()}', 'Sonstiges Konto')");
     await db.execute(
-        "INSERT INTO Category VALUES('default', 'Sonstiges', 'assets/icons/category_icons/money-2.png', ${Color(0xff00695c).value.toString()})"); //${Color(0xff00695c).value.toString()})");
+        "INSERT INTO Category VALUES('default', 'Sonstiges', 'assets/icons/category_icons/money-2.png', ${Color(0xff00695c).toARGB32().toString()})"); //${Color(0xff00695c).toARGB32().toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Handyvertrag', 'assets/icons/category_icons/smartphone.png', ${Color(0xff616161).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Handyvertrag', 'assets/icons/category_icons/smartphone.png', ${Color(0xff616161).toARGB32().toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Versicherung', 'assets/icons/category_icons/insurance.png', ${Color(0xff00838f).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Versicherung', 'assets/icons/category_icons/insurance.png', ${Color(0xff00838f).toARGB32().toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Lebensmittel', 'assets/icons/category_icons/diet.png', ${Color(0xff558b2f).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Lebensmittel', 'assets/icons/category_icons/diet.png', ${Color(0xff558b2f).toARGB32().toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Drogerie', 'assets/icons/category_icons/shampoo.png', ${Color(0xFFad1457).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Drogerie', 'assets/icons/category_icons/shampoo.png', ${Color(0xFFad1457).toARGB32().toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Tanken', 'assets/icons/category_icons/gas-station.png', ${Color(0xff616161).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Tanken', 'assets/icons/category_icons/gas-station.png', ${Color(0xff616161).toARGB32().toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Kleidung', 'assets/icons/category_icons/wardrobe.png', ${Color(0xFFad1457).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Kleidung', 'assets/icons/category_icons/wardrobe.png', ${Color(0xFFad1457).toARGB32().toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Auto', 'assets/icons/category_icons/car.png', ${Color(0xff1565c0).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Auto', 'assets/icons/category_icons/car.png', ${Color(0xff1565c0).toARGB32().toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Wohnen', 'assets/icons/category_icons/living-room.png', ${Color(0xffff8f00).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Wohnen', 'assets/icons/category_icons/living-room.png', ${Color(0xffff8f00).toARGB32().toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Freizeit', 'assets/icons/category_icons/park.png', ${Color(0xff2e7d32).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Freizeit', 'assets/icons/category_icons/park.png', ${Color(0xff2e7d32).toARGB32().toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Miete', 'assets/icons/category_icons/contract.png', ${Color(0xff00838f).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Miete', 'assets/icons/category_icons/contract.png', ${Color(0xff00838f).toARGB32().toString()})");
     await db.execute(
-        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Lohn', 'assets/icons/category_icons/salary.png', ${Color(0xff9e9d24).value.toString()})");
+        "INSERT INTO Category VALUES('${Uuid().v1()}', 'Lohn', 'assets/icons/category_icons/salary.png', ${Color(0xff9e9d24).toARGB32().toString()})");
 
     await _upgradeTables(db, 1, versionNumber);
   }

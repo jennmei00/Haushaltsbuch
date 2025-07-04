@@ -19,7 +19,7 @@ class Category {
     map['ID'] = this.id;
     map['Title'] = this.title;
     map['Color'] =
-        this.color == null ? Colors.black : this.color!.value.toString();
+        this.color == null ? Colors.black : this.color!.toARGB32().toString();
     map['Symbol'] = this.symbol;
     return map;
   }
