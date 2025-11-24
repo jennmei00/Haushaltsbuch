@@ -16,7 +16,6 @@ import 'package:haushaltsbuch/services/theme_notifier.dart';
 import 'package:haushaltsbuch/widgets/app_drawer.dart';
 import 'package:localization/localization.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
@@ -40,19 +39,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Globals.isDarkmode = value;
   }
 
-  Future<File> _writeDBFileToDownloadFolder() async {
+  Future<String?> _writeDBFileToDownloadFolder() async {
     String dbName = "HaushaltsbuchDownload.db";
     String? downloadPath = await FileHelper().getDownloadPath();
     final dbPath = await getDatabasesPath();
 
     var dbFile = File('$dbPath/Haushaltsbuch.db');
-    var filePath = downloadPath! + '/$dbName';
     var dbFileBytes = dbFile.readAsBytesSync();
-    var bytes = ByteData.view(dbFileBytes.buffer);
-    final buffer = bytes.buffer;
 
-    return File(filePath).writeAsBytes(buffer.asUint8List(
-        dbFileBytes.offsetInBytes, dbFileBytes.lengthInBytes));
+    final path = await FilePicker.platform.saveFile(
+      bytes: dbFileBytes,
+      dialogTitle: 'Datenbankdatei speichern',
+      fileName: dbName,
+      initialDirectory: downloadPath,
+    );
+
+    return path;
   }
 
   Future<void> _writeExternFileToDBFolder() async {
@@ -60,7 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     if (result != null) {
       File file = File(result.files.single.path!);
-      if (file.path.endsWith('HaushaltsbuchDownload.db')) {
+      if (file.path.contains('Haushaltsbuch') ) {
         final dbPath = await getDatabasesPath() + '/Haushaltsbuch.db';
         var dbFileBytes = file.readAsBytesSync();
         var bytes = ByteData.view(dbFileBytes.buffer);
@@ -172,14 +174,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     actions: <Widget>[
                       TextButton(
                           onPressed: () async {
-                            var status = await Permission.storage.status;
-                            if (status.isDenied) {
-                              await Permission.storage.request();
-                              return;
-                            }
-
-                            File file = await _writeDBFileToDownloadFolder();
-                            if (await file.length() > 0) {
+                            String? filePath =
+                                await _writeDBFileToDownloadFolder();
+                            if (filePath != null) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                       content: Text('saved-database'.i18n())));
